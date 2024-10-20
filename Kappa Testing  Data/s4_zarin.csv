@@ -1,0 +1,1909 @@
+,QId,QTitle,QBody,Text,Why,What,How
+1576,48687812,ReactJS - jest test error 'unexpected token ...',"<p>I am trying to run jest tests after switching to laptop. Before, on computer every test was launching and no syntax/runtime errors were returned, but now when I try to run them on laptop, they return me error:</p>
+
+<pre><code>C:\PROJECT_DIR\foo.test.js
+      ...initialState,
+      ^^^
+
+SyntaxError: Unexpected token ...
+
+  at ScriptTransformer._transformAndBuildScript (node_modules/jest-runtime/build/script_transformer.js:318:17)
+</code></pre>
+
+<p>What could cause this? I did <code>npm install</code>, everything is installed, and yet I keep getting this error even though it did not occur on previous machine.</p>
+
+<p>This is the test:</p>
+
+<pre><code>import increments from '../increments'
+
+const initialState = {
+  goldBase: 0,
+  goldMulti: 1,
+  goldIncr: 0,
+  coalBase: 0,
+  coalMulti: 1,
+  coalIncr: 0,
+  ironBase: 0,
+  ironMulti: 1,
+  ironIncr: 0,
+  stoneBase: 0,
+  stoneMulti: 1,
+  stoneIncr: 0,
+  woodBase: 0,
+  woodMulti: 1,
+  woodIncr: 0,
+  foodBase: 0,
+  foodMulti: 1,
+  foodIncr: 0
+}
+
+describe('increments', () =&gt; {
+  it('should properly increment values of base increments', () =&gt;  {
+    const action = {
+      type: 'INCREMENT',
+      goldBase: 1,
+      coalBase: 0.2,
+      ironBase: 0.8,
+      stoneBase: NaN,
+      woodBase: undefined,
+      foodBase: null
+    };
+
+    const testState = {
+      ...initialState,
+      coalBase: 0.1
+    };
+
+    const expectedState = {
+      ...initialState,
+      goldBase: 1,
+      coalBase: 0.3,
+      ironBase: 0.8,
+    };
+    expect(increments(testState, action)).toEqual(expectedState);
+  });
+</code></pre>
+
+<p>And here is <code>package.json</code>:</p>
+
+<pre><code> {
+  ""name"": ""foo"",
+  ""version"": ""0.1.0"",
+  ""description"": """",
+  ""private"": true,
+  ""dependencies"": {
+    ""react"": ""^16.2.0"",
+    ""react-dom"": ""^16.2.0"",
+    ""react-redux"": ""^5.0.6"",
+    ""react-scripts"": ""1.1.0"",
+    ""redux"": ""^3.7.2""
+  },
+  ""scripts"": {
+    ""start"": ""react-scripts start"",
+    ""build"": ""react-scripts build"",
+    ""test"": ""jest"",
+    ""test:watch"": ""npm test -- --watch"",
+    ""eject"": ""react-scripts eject""
+  },
+  ""author"": """",
+  ""license"": ""MIT"",
+  ""homepage"": """",
+  ""devDependencies"": {
+    ""babel-jest"": ""^22.1.0"",
+    ""babel-preset-es2015"": ""^6.24.1"",
+    ""jest"": ""^22.1.4""
+  },
+  ""babel"": {
+    ""presets"": [
+      ""es2015""
+    ]
+  }
+}
+</code></pre>
+","['I am trying to run jest tests after switching to laptop. Before, on computer every test was launching and no syntax/runtime errors were returned, but now when I try to run them on laptop, they return me error:', 'What could cause this? I did <code>npm install</code>, everything is installed, and yet I keep getting this error even though it did not occur on previous machine.', 'This is the test:', 'And here is <code>package.json</code>:']",0,1,0
+1381,70996906,why the style scope make Error: TypeScript emitted no output error,"<p>When I added <code>scoped</code> in the vue 3 component style block like this:</p>
+<pre><code>&lt;style lang=&quot;scss&quot; scoped&gt;
+
+#translate-btn {
+    //display: none;
+    position: absolute;
+    z-index: 9999999999;
+    left: 0;
+    top: 0;
+}
+
+#translate-btn .reddwarf-btn-icon{
+  width: 18px;
+  height: 28px;
+  background-image: url('chrome-extension://__MSG_@@extension_id__/resource/image/lo.jpg');
+  background-color: transparent;
+
+}
+
+.translate-pop-button{
+  width: 28px;
+  height: 28px;
+  background:transparent;
+  background-image: url('chrome-extension://__MSG_@@extension_id__/resource/image/lo.jpg');
+  background-color:transparent;
+}
+
+&lt;/style&gt;
+</code></pre>
+<p>shows compile error:</p>
+<pre><code>ERROR in ./src/public/widget/translator/TranslatorPop.vue?vue&amp;type=template&amp;id=6bc385e0&amp;scoped=true&amp;ts=true (./node_modules/ts-loader/index.js??clonedRuleSet-1!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[11].use[0]!./src/public/widget/translator/TranslatorPop.vue?vue&amp;type=template&amp;id=6bc385e0&amp;scoped=true&amp;ts=true)
+Module build failed (from ./node_modules/ts-loader/index.js):
+Error: TypeScript emitted no output for /Users/xiaoqiangjiang/source/reddwarf/frontend/reddwarf-translate-plugin/src/public/widget/translator/TranslatorPop.vue.ts.
+    at makeSourceMapAndFinish (/Users/xiaoqiangjiang/source/reddwarf/frontend/reddwarf-translate-plugin/node_modules/ts-loader/dist/index.js:52:18)
+    at successLoader (/Users/xiaoqiangjiang/source/reddwarf/frontend/reddwarf-translate-plugin/node_modules/ts-loader/dist/index.js:39:5)
+    at Object.loader (/Users/xiaoqiangjiang/source/reddwarf/frontend/reddwarf-translate-plugin/node_modules/ts-loader/dist/index.js:22:5)
+ @ ./src/public/widget/translator/TranslatorPop.vue?vue&amp;type=template&amp;id=6bc385e0&amp;scoped=true&amp;ts=true 1:0-307 1:0-307
+ @ ./src/public/widget/translator/TranslatorPop.vue 1:0-94 8:68-74
+ @ ./src/content/handler/PageEvent.ts 1:0-73 44:30-43
+ @ ./src/content/index.ts 1:0-79 4:36-48 7:8-26
+
+webpack 5.67.0 compiled with 1 error in 124 ms
+</code></pre>
+<p>why the scoped limit cause the error? when I removed the scoped, the compiler works fine, when added the scope, the compiler build faild and shows the error.This is the webpack config:</p>
+<pre><code>  const path = require('path');
+  const webpack = require( 'webpack' );
+  const MiniCssExtractPlugin = require( 'mini-css-extract-plugin');
+  const HtmlWebpackPlugin = require( 'html-webpack-plugin');
+  const CopyPlugin = require(&quot;copy-webpack-plugin&quot;);
+  const { VueLoaderPlugin } = require(&quot;vue-loader&quot;);
+
+  module.exports = {
+    entry : {
+      'popup/popup' : './src/popup/',
+      'background/background': './src/background',
+      'content/content': './src/content' 
+    } ,
+    resolve: {
+      extensions: ['.tsx', '.ts', '.js'],
+      alias: {
+          vue: 'vue/dist/vue.esm-bundler.js',
+          process: 'process/browser',
+          '@': path.resolve(__dirname, '../../../src'),
+      },
+    },
+    output : {
+      path : path.resolve(__dirname, '../../bundle') ,
+      filename : '[name].js'
+    },
+    module : {
+      rules : [
+        {
+          test: /\.ts$/,
+          loader: 'ts-loader',
+          options: {
+            appendTsSuffixTo: [/\.vue$/]
+          },
+          exclude: /node_modules|\.d\.ts$/
+        },
+        {
+          test: /\.d\.ts$/,
+          loader: 'ignore-loader'
+        },
+        {
+          test: /\.vue$/,
+          loader: 'vue-loader'
+        },
+        {
+          test : /\.js$/ ,
+          exclude : [ /node_modules(?!(\/|\\?\\)(translation\.js|selection-widget|connect\.io|chrome-env)\1)/ ] ,
+          loader : 'babel-loader'
+        } ,
+        {
+          test: /\.css$/i,
+          use: [MiniCssExtractPlugin.loader, &quot;css-loader&quot;],
+        },
+        {
+          test : /\.(scss)$/ ,
+          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+        }
+      ]
+    },
+    plugins : [
+      new webpack.ProvidePlugin({
+        process: 'process/browser',
+      }),
+      new VueLoaderPlugin(),
+      new CopyPlugin({
+        patterns: [
+          { from: &quot;src/manifest.json&quot;, to: &quot;manifest.json&quot; },
+          { from: &quot;src/resource/image&quot;, to: &quot;resource/image&quot; },
+        ],
+      }),
+      new MiniCssExtractPlugin({
+        filename: &quot;[name].css&quot;,
+        chunkFilename: &quot;[id].css&quot;,
+      }),
+      new HtmlWebpackPlugin({
+        filename: 'popup/popup.html',
+        template: 'src/popup/index.html',
+        inject: false,
+      }),
+      new webpack.DefinePlugin({
+        __VUE_OPTIONS_API__: false,
+        __VUE_PROD_DEVTOOLS__: false,
+      }),
+    ]
+  };
+</code></pre>
+","['When I added <code>scoped</code> in the vue 3 component style block like this:', 'shows compile error:', 'why the scoped limit cause the error? when I removed the scoped, the compiler works fine, when added the scope, the compiler build faild and shows the error.This is the webpack config:']",1,0,0
+682,47630268,'protractor-cucumber-js-reportingFeature'-Unhandled rejection TypeError: registerHandler is not a function,"<p>Please help me:</p>
+
+<p>What is the best way for cuumberHtmlReporting?
+is there any compatible issues?
+For the latest version how to use the reporting feature?</p>
+
+<p>Please help</p>
+
+<p>Thanks </p>
+
+<hr>
+
+<p><strong>config.ts   Main config File:</strong></p>
+
+<pre><code>import{browser,Config} from 'protractor'
+
+export const config:Config ={
+
+allScriptsTimeout: 500000, //This is the overall Timeout
+getPageTimeout: 500000,
+
+seleniumAddress: ""http://127.0.0.1:4444/wd/hub"",
+
+    SELENIUM_PROMISE_MANAGER: false,
+
+    capabilities: {
+        browserName:""chrome""
+    },
+
+
+
+    suites:{
+        ""DefaultBookMark"":[""../features/bCDfeature""],
+       // ""CreateDraft"":[""../features/ABC.feature""]
+
+
+    },
+    framework:""custom"",
+    frameworkPath:require.resolve(""protractor-cucumber-framework""),
+    onPrepare: () =&gt; {
+
+
+        browser.manage().window().maximize();
+
+
+       browser.waitForAngularEnabled();
+
+
+
+    },
+
+
+
+    cucumberOpts: {
+        compiler: ""ts:ts-node/register"",
+        require: [""../Sprint1/steps/ABC.ts"",""../hooks/support.ts""],
+
+        strict: true,
+        tags: ""@smoke"",
+        format:'pretty'
+
+
+
+    },
+
+
+    // onComplete:()=&gt;{
+    //     browser.close();
+    // }
+}
+</code></pre>
+
+<p><strong>hooks.ts  -hooks file:</strong></p>
+
+<pre><code>const Cucumber = require('cucumber');
+import { browser } from 'protractor';
+import * as fs from 'fs';
+import { config } from '../config/config';
+import { defineSupportCode } from ""cucumber"";
+import * as reporter from 'cucumber-html-reporter';
+import { mkdirp } from 'mkdirp';
+import{Md5} from 'ts-md5/dist/md5'
+
+defineSupportCode(function ({ registerHandler, registerListener, After, setDefaultTimeout,Before }) {
+setDefaultTimeout(10 * 4000);
+let jsonReports = process.cwd() + ""/reports/json"";
+let htmlReports = process.cwd() + ""/reports/html"";
+let targetJson = jsonReports + ""/cucumber_report.json"";
+let screenshots = process.cwd() + ""/reports/images/"";
+
+registerHandler('BeforeFeature', async function () {
+    await browser.get(config.baseUrl);
+});
+
+
+
+registerHandler('AfterStep', async(event) =&gt; {
+
+   if (event.name) {
+     let featurename = event.scenario.name
+
+        // if(event.name.toString().le
+        //     {
+        //         var stepname = event.name.replace(""BiGFILENAME"");
+        //     }else
+        //     {
+        //         var stepname = event.name;
+        //     }
+
+
+     if (!fs.existsSync(screenshots)) {
+       mkdirp.sync(screenshots);
+     }
+     let screenShot = await browser.takeScreenshot();
+     var timeInMs = Date.now();
+     var stream = fs.createWriteStream(screenshots + featurename+""_""+timeInMs+"".png"");
+     stream.write(new Buffer(screenShot, 'base64'));
+     stream.end();
+   }
+
+});
+
+After(async (scenarioResult) =&gt; {
+    let world = this;
+    if (scenarioResult.status==""FAILED"") {
+        let screenShot = await browser.takeScreenshot();
+        // screenShot is a base-64 encoded PNG
+        world.attach(screenShot, 'image/png');
+    }
+})
+
+
+let cucumberReporterOptions = {
+    theme: ""bootstrap"",
+    jsonFile: targetJson,
+    output: htmlReports + ""/cucumber_reporter.html"",
+    reportSuiteAsScenarios: true
+};
+
+let logFn = string =&gt; {
+    if (!fs.existsSync(jsonReports)) {
+        mkdirp.sync(jsonReports);
+    }
+    try {
+        fs.writeFileSync(targetJson, string);
+        reporter.generate(cucumberReporterOptions); // invoke cucumber-html-reporter
+    } catch (err) {
+        if (err) {
+            console.log(`Failed to save cucumber test results to json file. 
+                         Failed to create html report.
+                         `);
+            console.log(err);
+        }
+    }
+};
+let jsonformatter = new Cucumber.JsonFormatter({
+    log: logFn
+});
+registerListener(jsonformatter);
+})
+</code></pre>
+
+<p><strong>dev dependencies  packages:</strong></p>
+
+<pre><code>""devDependencies"": {
+"""": ""^4.0.4"",
+"""": ""~0.9.34"",
+"""": ""^2.0.4"",
+"""": ""^2.8.2"",
+"""": ""^6.0.90"",
+""chai"": ""^4.1.2"",
+""chai-as-promised"": ""^7.1.1"",
+""concurrently"": ""2.2.0"",
+""cucumber"": ""^3.0.6"",
+""cucumber-html-reporter"": ""^3.0.4"",
+""jasmine"": ""^2.8.0"",
+""protractor"": ""^5.2.0"",
+""protractor-cucumber-framework"": ""^4.1.1"",
+""ts-md5"": ""^1.2.2"",
+""ts-node"": ""^3.3.0"",
+""typescript"": ""^2.6.1"",
+""update"": ""^0.7.4""
+},
+</code></pre>
+
+<p><strong>Returned error:</strong></p>
+
+<blockquote>
+  <p>Unhandled rejection TypeError: registerHandler is not a function
+  at C:\ABC\hooks\support.ts:67:5
+  at Object.defineSupportCode (C:\ABC\node_modules\cucumber\src\support_code_library_builder\index.js:20:9)
+  at Object. (C:\ABC\hooks\support.ts:60:1)</p>
+</blockquote>
+","['Please help me:', 'What is the best way for cuumberHtmlReporting?\nis there any compatible issues?\nFor the latest version how to use the reporting feature?', 'Please help', 'Thanks ', 'config.ts   Main config File:', 'hooks.ts  -hooks file:', 'dev dependencies  packages:', 'Returned error:', 'Unhandled rejection TypeError: registerHandler is not a function\n  at C:\\ABC\\hooks\\support.ts:67:5\n  at Object.defineSupportCode (C:\\ABC\\node_modules\\cucumber\\src\\support_code_library_builder\\index.js:20:9)\n  at Object. (C:\\ABC\\hooks\\support.ts:60:1)']",0,1,0
+322,53707589,TypeError: test.each is not a function in React test,"<p>I'm reading the documentation here for my create-react-app react app:</p>
+
+<p><a href=""https://jestjs.io/docs/en/api.html"" rel=""nofollow noreferrer"">https://jestjs.io/docs/en/api.html</a></p>
+
+<p><code>In your test files, Jest puts each of these methods and objects into the global environment. You don't have to require or import anything to use them.</code></p>
+
+<p>I have tried copying the Jest <code>test.each</code> example code into my test:</p>
+
+<pre><code>test.each([[1, 1, 2], [1, 2, 3], [2, 1, 3]])(
+  '.add(%i, %i)',
+  (a, b, expected) =&gt; {
+    expect(a + b).toBe(expected);
+  },
+);
+</code></pre>
+
+<p>When I run my test I get this error:</p>
+
+<pre><code>Test suite failed to run
+
+    TypeError: test.each is not a function
+
+      at Object.&lt;anonymous&gt; (sorting.test.js:71:6)
+          at &lt;anonymous&gt;
+</code></pre>
+
+<p>I have the correct version of Jest:</p>
+
+<pre><code>""devDependencies"": {
+    ""jest"": ""^23.6.0""
+  }
+</code></pre>
+
+<p>I thought <code>test</code> was supposed to be a global, just like <code>it</code> - The second test here passes and this is the whole test:</p>
+
+<pre><code>import {isValidNumber} from '../sorting';
+test.each([[1, 1, 2], [1, 2, 3], [2, 1, 3]])(
+    '.add(%i, %i)',
+    (a, b, expected) =&gt; {
+      expect(a + b).toBe(expected);
+    },
+);
+
+it('Should reject no args', () =&gt; {
+  expect(isValidNumber(undefined)).toEqual(false);
+});
+</code></pre>
+
+<p>What is missing?</p>
+","[""I'm reading the documentation here for my create-react-app react app:"", '<a href=""https://jestjs.io/docs/en/api.html"" rel=""nofollow noreferrer"">https://jestjs.io/docs/en/api.html</a>', ""<code>In your test files, Jest puts each of these methods and objects into the global environment. You don't have to require or import anything to use them.</code>"", 'I have tried copying the Jest <code>test.each</code> example code into my test:', 'When I run my test I get this error:', 'I have the correct version of Jest:', 'I thought <code>test</code> was supposed to be a global, just like <code>it</code> - The second test here passes and this is the whole test:', 'What is missing?']",0,1,0
+1380,74668080,Cannot read properties of undefiend (reading 'userApi') using RTKquery,"<p>I am learning a RtkQuery library with React.js. I am learning an official documintation of RtkQuery and start my learning with Quick Start Guide. I have a small database which is running on json-server.And code like this(simmilar to quick start in docs.).</p>
+<p><strong>store.js</strong></p>
+<pre><code>import {configureStore} from &quot;@reduxjs/toolkit&quot;
+
+import { usersApi } from &quot;./index&quot;
+
+
+export const store = configureStore({
+    reducer : {
+        [usersApi.reducerPath] : usersApi.reducer,
+    }, 
+    middleware: (getDefMiddleware) =&gt; getDefMiddleware().concat(usersApi.middleware)
+})
+</code></pre>
+<p><strong>usersApi.js</strong></p>
+<pre><code>import {createApi , fetchBaseQuery} from &quot;@reduxjs/toolkit/query/react&quot; ;
+
+
+export const usersApi = createApi({
+    reducerPath: 'usersApi',
+    baseQuery: fetchBaseQuery({baseUrl: &quot;http://localhost:3001/&quot;}),
+    endpoints: (builder) =&gt; ({
+        getUsers: builder.query({
+            query: () =&gt; `users`,
+
+        })
+    })
+})
+
+
+export const {useGetUsersQuery} = usersApi
+</code></pre>
+<p><strong>And this code in simple jsx component</strong></p>
+<pre><code>import {useGetUsersQuery} from &quot;./redux&quot;
+
+
+const Loading = () =&gt; {
+ return (&lt;h1&gt;isLoading&lt;/h1&gt;)
+}
+
+const ShowData = ({data}) =&gt; {
+  return (
+    &lt;ul&gt;
+      {data.map(user =&gt; {
+        &lt;li key={user.id}&gt;{`name: ${user.name}`}&lt;/li&gt;
+      })}
+    &lt;/ul&gt;
+  )
+}
+
+
+function App() {
+
+  const {data , isLoading} = useGetUsersQuery()
+ 
+  return (
+    &lt;div&gt;
+ {isLoading ? &lt;Loading/&gt; : &lt;ShowData data={data}/&gt;}
+    &lt;/div&gt;
+  );
+}
+
+export default App;
+
+</code></pre>
+<p><strong>This is a text of error in browser console</strong></p>
+<pre><code>index.js:10 Uncaught TypeError: Cannot read properties of undefined (reading 'usersApi')
+    at Module.usersApi (index.js:10:1)
+    at ./src/redux/store.js (store.js:8:1)
+    at options.factory (react refresh:6:1)
+    at __webpack_require__ (bootstrap:24:1)
+    at fn (hot module replacement:62:1)
+    at ./src/redux/index.js (index.js:10:1)
+    at options.factory (react refresh:6:1)
+    at __webpack_require__ (bootstrap:24:1)
+    at fn (hot module replacement:62:1)
+    at ./src/App.js (bundle.js:15:64)
+usersApi @ index.js:10
+./src/redux/store.js @ store.js:8
+options.factory @ react refresh:6
+__webpack_require__ @ bootstrap:24
+fn @ hot module replacement:62
+./src/redux/index.js @ index.js:10
+options.factory @ react refresh:6
+__webpack_require__ @ bootstrap:24
+fn @ hot module replacement:62
+./src/App.js @ bundle.js:15
+options.factory @ react refresh:6
+__webpack_require__ @ bootstrap:24
+fn @ hot module replacement:62
+./src/index.js @ App.js:30
+options.factory @ react refresh:6
+__webpack_require__ @ bootstrap:24
+(anonymous) @ startup:7
+(anonymous) @ startup:7
+</code></pre>
+<p>And for more information i didn`t see nothing in redux devstools extesion.</p>
+","['I am learning a RtkQuery library with React.js. I am learning an official documintation of RtkQuery and start my learning with Quick Start Guide. I have a small database which is running on json-server.And code like this(simmilar to quick start in docs.).', 'store.js', 'usersApi.js', 'And this code in simple jsx component', 'This is a text of error in browser console', 'And for more information i didn`t see nothing in redux devstools extesion.']",1,0,0
+487,45389941,React Js gives error on setState call,"<p>I have been playing around with an error which I am not able to understand. Here is the code i am using for rendering a page. </p>
+
+<pre><code>export class ResourceEdit extends React.Component {
+
+  constructor(props) {
+   super(props);
+  this.state = {""resource"" : """"}
+  }
+
+  getInitialState() {
+    return {successVisible: false};
+  }
+
+  componentDidMount() {
+    this.loadData();
+  }
+
+  componentDidUpdate(prevProps) {
+    console.log(""ResourceEdit: componentDidUpdate"", prevProps.params.id, this.props.params.id);
+    if (this.props.params.id != prevProps.params.id) {
+      this.loadData();
+    }
+  }
+
+  loadData() {
+    $.ajax('/api/resources/' + this.props.params.id) .done(function(resource) {
+      this.setState(resource);
+    }.bind(this));
+
+  }
+
+  onChangeCategory(e) {
+    this.setState({category: e.target.value});
+  }
+  onChangeSubcategory(e) {
+    this.setState({subcategory: e.target.value});
+  }
+  onChangeProduct(e) {
+    this.setState({product: e.target.value});
+  }
+  onChangeSolution(e) {
+    this.setState({solution: e.target.value});
+  }
+  onChangeWeight(e) {
+    this.setState({weight: e.target.value});
+  }
+  onChangeNSOC(e) {
+    this.setState({nsoc: e.target.value});
+  }
+  onChangeStatus(e) {
+    this.setState({status: e.target.value});
+  }
+
+  onChangeDateproductadded(e) {
+    this.setState({date_product_added: e.target.value});
+  }
+  onChangeDesignstatus(e) {
+    this.setState({design_status: e.target.value});
+  }
+  onChangeDesigncombined(e) {
+    this.setState({design_combined: e.target.value});
+  }
+  onChangeImplementstatus(e) {
+    this.setState({implement_status: e.target.value});
+  }
+  onChangeImplementcombined(e) {
+    this.setState({implement_combined: e.target.value});
+  }
+  onChangeOperatestatus(e) {
+    this.setState({operate_status: e.target.value});
+  }
+  onChangeOperatecombined(e) {
+    this.setState({operate_combined: e.target.value});
+  }
+  submit(e) {
+    e.preventDefault();
+    var resource = {
+      subcategory: this.state.subcategory,
+      category: this.state.category,
+      product: this.state.product,
+      solution: this.state.solution,
+      weight: this.state.weight,
+      nsoc: this.state.nsoc,
+      status: this.state.status,
+      date_product_added: this.state.date_product_added,
+      design_status: this.state.design_status,
+      design_combined: this.state.design_combined,
+      implement_status: this.state.implement_status,
+      implement_combined: this.state.implement_combined,
+      operate_status: this.state.operate_status,
+      operate_combined: this.state.operate_combined
+    }
+
+    $.ajax({
+      url: '/api/resources/' + this.props.params.id, type: 'POST', contentType:'application/json',
+      data: JSON.stringify(resource),
+      dataType: 'json',
+      success(resource) {
+        this.setState(resource);
+        this.showSuccess();
+      }
+    });
+  }
+
+  render() {
+    var success = (
+      &lt;Alert bsStyle=""success"" onDismiss={this.dismissSuccess} dismissAfter={5000}&gt;
+        Resource saved to DB successfully.
+      &lt;/Alert&gt;
+    );
+
+    return (
+      &lt;div style={{maxWidth: 600}}&gt;
+        &lt;Panel header={""Edit resource: "" + this.props.params.id}&gt;
+          &lt;form onSubmit={this.submit}&gt;
+            &lt;Input type=""text"" label=""Category"" value={this.state.category} onChange={this.onChangeCategory}/&gt;
+            &lt;Input type=""text"" label=""Sub Category"" value={this.state.subcategory} onChange={this.onChangeSubcategory}/&gt;
+            &lt;Input type=""text"" label=""Product"" value={this.state.product} onChange={this.onChangeProduct}/&gt;
+            &lt;Input type=""text"" label=""Solution"" value={this.state.solution} onChange={this.onChangeSolution}/&gt;
+            &lt;Input type=""text"" label=""Weight"" value={this.state.weight} onChange={this.onChangeWeight}/&gt;
+            &lt;Input type=""text"" label=""NSOC"" value={this.state.nsoc} onChange={this.onChangeNSOC}/&gt;
+            &lt;Input type=""text"" label=""Status"" value={this.state.status} onChange={this.onChangeStatus}/&gt;
+            &lt;Input type=""text"" label=""Date"" value={this.state.date_product_added} onChange={this.onChangeDateproductadded}/&gt;
+            &lt;Input type=""text"" label=""Design Status"" value={this.state.design_status} onChange={this.onChangeDesignstatus}/&gt;
+            &lt;Input type=""text"" label=""Design Players"" value={this.state.design_combined} onChange={this.onChangeDesigncombined}/&gt;
+            &lt;Input type=""text"" label=""Implement Status"" value={this.state.implement_status} onChange={this.onChangeImplementstatus}/&gt;
+            &lt;Input type=""text"" label=""Implement Players"" value={this.state.implement_combined} onChange={this.onChangeImplementcombined}/&gt;
+            &lt;Input type=""text"" label=""Operate Status"" value={this.state.operate_status} onChange={this.onChangeOperatestatus}/&gt;
+            &lt;Input type=""text"" label=""Operate Players"" value={this.state.operate_combined} onChange={this.onChangeOperatecombined}/&gt;
+          &lt;ButtonToolbar&gt;
+              &lt;Button type=""submit"" bsStyle=""primary""&gt;Submit&lt;/Button&gt;
+              &lt;Link className=""btn btn-link"" to=""/home""&gt;Back&lt;/Link&gt;
+            &lt;/ButtonToolbar&gt;
+          &lt;/form&gt;
+        &lt;/Panel&gt;
+        {this.state.successVisible ? success : null}
+      &lt;/div&gt;
+    );
+  }
+}
+</code></pre>
+
+<p>I am getting an error on page load which says 
+Uncaught Error: setState(...): takes an object of state variables to update or a function which returns an object of state variables.
+    at invariant (eval at  </p>
+
+<p>Please someone help me figure out what is wrong in this code. Thanks in advance..</p>
+","['I have been playing around with an error which I am not able to understand. Here is the code i am using for rendering a page. ', 'I am getting an error on page load which says \nUncaught Error: setState(...): takes an object of state variables to update or a function which returns an object of state variables.\n    at invariant (eval at  ', 'Please someone help me figure out what is wrong in this code. Thanks in advance..']",0,1,0
+1411,54567846,ng build --prod throwing exception,"<p>While creating the build for production getting below error</p>
+
+<pre><code>ERROR in common.162374785956ac8f24a6.js from Terser
+TypeError: Cannot read property 'minify' of undefined
+    at minify (C:\path\node_modules\terser-webpack-plugin\dist\minify.js:162:59)
+    at module.exports (C:\path\node_modules\terser-webpack-plugin\dist\worker.js:16:41)
+    at handle (C:\path\node_modules\worker-farm\lib\child\index.js:44:8)
+    at process. (C:\path\node_modules\worker-farm\lib\child\index.js:51:3)
+    at process.emit (events.js:182:13)
+    at emit (internal/child_process.js:812:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19)
+</code></pre>
+
+<p>Below Angular-CLI version details:</p>
+
+<pre><code>$ ng --version
+
+Angular CLI: 7.1.4
+Node: 10.13.0
+OS: win32 x64
+Angular: 7.1.4
+
+Package                           Version
+-----------------------------------------------------------
+@angular-devkit/architect         0.11.4
+@angular-devkit/build-angular     0.11.4
+@angular-devkit/build-optimizer   0.11.4
+@angular-devkit/build-webpack     0.11.4
+@angular-devkit/core              7.1.4
+@angular-devkit/schematics        7.1.4
+@ngtools/webpack                  7.1.4
+@schematics/angular               7.1.4
+@schematics/update                0.11.4
+rxjs                              6.3.3
+typescript                        3.1.6
+webpack                           4.23.1
+</code></pre>
+
+<p>Please help. thanks in advance.</p>
+","['While creating the build for production getting below error', 'Below Angular-CLI version details:', 'Please help. thanks in advance.']",0,0,1
+256,75503704,Azure Linux container running react app fails to start,"<p>While starting a react app on azure Linux container following error is thrown. The image runs successfully on docker container in local machine.</p>
+<p>[34m?[39m [90m?wds?[39m: Project is running at http://192.168.0.13/
+[34m?[39m [90m?wds?[39m: webpack output is served from
+[34m?[39m [90m?wds?[39m: Content not from webpack is served from /react-assignment1/public
+[34m?[39m [90m?wds?[39m: 404s will fallback to /
+Starting the development server...</p>
+<p>node:events:491
+throw er; // Unhandled 'error' event
+^</p>
+<p>Error: spawn /mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe ENOENT
+at ChildProcess._handle.onexit (node:internal/child_process:283:19)
+at onErrorNT (node:internal/child_process:476:16)
+at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+Emitted 'error' event on ChildProcess instance at:
+at ChildProcess._handle.onexit (node:internal/child_process:289:12)
+at onErrorNT (node:internal/child_process:476:16)
+at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+errno: -2,
+code: 'ENOENT',
+syscall: 'spawn /mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe',
+path: '/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe',
+spawnargs: [
+'-NoProfile',
+'-NonInteractive',
+'–ExecutionPolicy',
+'Bypass',
+'-EncodedCommand',
+'UwB0AGEAcgB0ACAAIgBoAHQAdABwADoALwAvAGwAbwBjAGEAbABoAG8AcwB0ADoAMwAwADAAMAAiAA=='
+]
+}</p>
+<p>Node.js v18.14.1</p>
+","['While starting a react app on azure Linux container following error is thrown. The image runs successfully on docker container in local machine.', '[34m?[39m [90m?wds?[39m: Project is running at http://192.168.0.13/\n[34m?[39m [90m?wds?[39m: webpack output is served from\n[34m?[39m [90m?wds?[39m: Content not from webpack is served from /react-assignment1/public\n[34m?[39m [90m?wds?[39m: 404s will fallback to /\nStarting the development server...', ""node:events:491\nthrow er; // Unhandled 'error' event\n^"", ""Error: spawn /mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe ENOENT\nat ChildProcess._handle.onexit (node:internal/child_process:283:19)\nat onErrorNT (node:internal/child_process:476:16)\nat process.processTicksAndRejections (node:internal/process/task_queues:82:21)\nEmitted 'error' event on ChildProcess instance at:\nat ChildProcess._handle.onexit (node:internal/child_process:289:12)\nat onErrorNT (node:internal/child_process:476:16)\nat process.processTicksAndRejections (node:internal/process/task_queues:82:21) {\nerrno: -2,\ncode: 'ENOENT',\nsyscall: 'spawn /mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe',\npath: '/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe',\nspawnargs: [\n'-NoProfile',\n'-NonInteractive',\n'–ExecutionPolicy',\n'Bypass',\n'-EncodedCommand',\n'UwB0AGEAcgB0ACAAIgBoAHQAdABwADoALwAvAGwAbwBjAGEAbABoAG8AcwB0ADoAMwAwADAAMAAiAA=='\n]\n}"", 'Node.js v18.14.1']",1,0,0
+7,46142717,"css-loader, postcss-loader: Module build failed: Error: No configuration provided for","<p>I got a new computer and tried to open an older project but I keep getting this error whenever I run development and I just don't understand why. The project fully works on my old pc. </p>
+
+<p>I tried updating all devdependencies or just the css-loaders but neither worked. And I do have a postcss config file, tried to update stylelint too.</p>
+
+<p><a href=""https://github.com/hoyhymho/ma3_spekken"" rel=""nofollow noreferrer"">this is the github</a></p>
+
+<pre><code>ERROR in ./~/css-loader?{""importLoaders"":1}!./~/postcss-loader!./src/css/style.css
+Module build failed: Error: No configuration provided for /Users/hoyhym/Desktop/test/src/css/style.css
+    at module.exports (/Users/hoyhym/Desktop/test/node_modules/stylelint/lib/utils/configurationError.js:8:27)
+    at stylelint._fullExplorer.load.then.then.config (/Users/hoyhym/Desktop/test/node_modules/stylelint/lib/getConfigForFile.js:39:13)
+ @ ./src/css/style.css 4:14-142 13:2-17:4 14:20-148
+ @ multi (webpack)-dev-server/client?http://localhost:3000 webpack/hot/dev-server ./~/react-dev-utils/webpackHotDevClient.js ./src/css/style.css ./src/js/script.js
+</code></pre>
+","[""I got a new computer and tried to open an older project but I keep getting this error whenever I run development and I just don't understand why. The project fully works on my old pc. "", 'I tried updating all devdependencies or just the css-loaders but neither worked. And I do have a postcss config file, tried to update stylelint too.', '<a href=""https://github.com/hoyhymho/ma3_spekken"" rel=""nofollow noreferrer"">this is the github</a>']",1,0,0
+1456,65070591,typescript application routes,"<p>I make simple instagram api application and I have problem with my routes, export and import. i get error <em><strong>TypeError: Router.use() requires a middleware function but got a undefined
+at Function.use (C:\Documents\Desktop\digi.me\node_modules\express\lib\router\index.js:458:13)<br />
+at Object. (C:\Documents\Desktop\digi.me\lib\routes\routes.js:12:8)</strong></em></p>
+<p>I have two routes userRouter that go on localhost:3000
+and mediaRouter that go on localhost:3000/media</p>
+<p>my userRouter.ts</p>
+<pre><code> import request, { post } from &quot;request&quot;
+import express from &quot;express&quot;
+import { Router } from 'express';
+const app = express()
+const token: any = process.env.INSTAGRAM_TOKEN
+export const userRouter = Router()
+userRouter.get(&quot;/&quot;, (req: any, res: any) =&gt; {
+    
+    const url = 'https://graph.instagram.com/17841403377847296/?access_token='+token+'&amp;fields=account_type,media_count,username'
+    request({ url: url, json: true }, (error: string, response: any) =&gt; {
+       if(error){
+           res.send(&quot;unable to connect to service&quot;)
+       }else{
+        res.send(&quot;USER &quot; + response.body.username + &quot; HAVE &quot; + response.body.media_count + &quot; POSTS&quot;)
+       }
+       
+
+    })
+    
+})
+</code></pre>
+<p>my mediaRouter</p>
+<pre><code>import request, { post } from &quot;request&quot;
+import express from &quot;express&quot;
+import {Post} from &quot;../models/Post&quot;
+import { Router } from 'express';
+const token: any = process.env.INSTAGRAM_TOKEN
+export const mediaRouter = Router()
+
+mediaRouter.get(&quot;/media&quot;, (req: any, res: any) =&gt; {
+    console.log(0);
+    
+    const url = 'https://graph.instagram.com/17841403377847296/media?fields=id,media_url,timestamp&amp;access_token='+token+''
+
+    request({ url: url, json: true }, (error:string, response: any) =&gt; {
+        if(error){
+            console.log('error');
+            
+            res.send(&quot;unable to connect to service&quot;)
+        } else {
+
+            const array = response.body.data
+
+             var Posts: Post[] = [];
+
+            array.forEach(function (obj: any) {
+                Posts.push(new Post(obj.media_url, obj.timestamp))    
+              });
+              
+        res.send(Posts);
+
+        }
+        
+    })
+
+})
+</code></pre>
+<p>my routes.ts</p>
+<pre><code>import { Router } from 'express';
+import userRouter from &quot;./routes&quot;
+import mediaRouter from &quot;./routes&quot;
+import  express from 'express';
+
+const app = express();
+const routes = Router();
+
+
+
+routes.use('/', userRouter);
+routes.use('/media', mediaRouter);
+
+
+
+export default routes
+</code></pre>
+<p>and my main app.ts</p>
+<pre><code>import express from &quot;express&quot;
+import * as dotenv from &quot;dotenv&quot;
+import routes from  &quot;./routes/routes&quot;
+
+
+const app = express()
+dotenv.config();
+
+//envirements variable for port
+const port: any = process.env.PORT
+
+app.use(routes);
+app.use(express.json());
+
+
+//Adding server to port
+app.listen(port, () =&gt; {
+    console.log(&quot;server is listen on port 3000&quot;)
+})
+</code></pre>
+","['I make simple instagram api application and I have problem with my routes, export and import. i get error <em>TypeError: Router.use() requires a middleware function but got a undefined\nat Function.use (C:\\Documents\\Desktop\\digi.me\\node_modules\\express\\lib\\router\\index.js:458:13)<br />\nat Object. (C:\\Documents\\Desktop\\digi.me\\lib\\routes\\routes.js:12:8)</em>', 'I have two routes userRouter that go on localhost:3000\nand mediaRouter that go on localhost:3000/media', 'my userRouter.ts', 'my mediaRouter', 'my routes.ts', 'and my main app.ts']",1,0,0
+1567,50273059,calling API works fine through postman but posting via axios does not work,"<p>I am making an react native app, 
+I registered a headlessJS which makes an API call. The API works fine through postman but when making an request through app, there's an error
+  This is my code in the app for the request</p>
+
+<pre><code>axios({
+  method: 'post',
+  url: '13.126.71.152:3000/checkin',
+  data: {
+      location,
+      name: naming
+  }
+}).then((res) =&gt; {
+  return res;
+}).then((resp) =&gt; {
+  console.log(resp);
+}).catch((error) =&gt; {
+  console.log(error);
+});
+</code></pre>
+
+<p>I get the following error</p>
+
+<pre><code>Error: Network Error
+at createError (20ecc2c2-cb5e-4e50-9…-5e92abf47ba8:80610)
+at XMLHttpRequest.handleError (20ecc2c2-cb5e-4e50- 
+9…-5e92abf47ba8:80518)
+at XMLHttpRequest.dispatchEvent (20ecc2c2-cb5e-4e50-9…-5e92abf47ba8:17922)
+at XMLHttpRequest.setReadyState (20ecc2c2-cb5e-4e50-9…-5e92abf47ba8:17677)
+at XMLHttpRequest.__didCompleteResponse (20ecc2c2-cb5e-4e50-9…-5e92abf47ba8:17504)
+at 20ecc2c2-cb5e-4e50-9…-5e92abf47ba8:17614
+at RCTDeviceEventEmitter.emit (20ecc2c2-cb5e-4e50-9…f-5e92abf47ba8:3478)
+at MessageQueue.__callFunction (20ecc2c2-cb5e-4e50-9…f-5e92abf47ba8:2384)
+at 20ecc2c2-cb5e-4e50-9…f-5e92abf47ba8:2154
+at MessageQueue.__guardSafe (20ecc2c2-cb5e-4e50-9…f-5e92abf47ba8:2346)
+</code></pre>
+
+<p>My server code on node js
+My server.js code</p>
+
+<pre><code>    var express = require('express');
+    app = express();
+    const cors = require('cors');
+    const path = require('path');
+    port = process.env.PORT || 3000,
+    bodyParser = require('body-parser');
+
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
+    // Set public folder
+    app.use(express.static(path.join(__dirname, 'public')));
+    app.use(function(req, res, next) {
+       res.header(""Access-Control-Allow-Origin"", ""*"");
+       res.header('Access-Control-Allow-Methods', 'DELETE, PUT');
+       res.header(""Access-Control-Allow-Headers"", ""Origin, X-Requested-With, Content-Type, Accept,x-auth"");
+       res.header('Access-Control-Expose-Headers', 'x-auth');
+       next();
+    });
+
+    var routes = require('./api/routes/MetroRoutes'); //importing 
+route
+    routes(app); //register the route
+
+    app.listen(port);
+
+    app.use(function(req, res) {
+      res.status(404).send({url: req.originalUrl + ' not found'})
+    });
+    console.log('metro RESTful API server started on: ' + port);
+</code></pre>
+
+<p>My controller code: <code>./api/controllers/MetroController</code></p>
+
+<pre><code>    exports.checkInDetected = function(req,res) {
+      console.log(req.body);
+      pusher.trigger( 'ieacon-calc', 'checkInDetected', {
+      ""name"": req.body.name,
+      ""location"": req.body.location
+      });
+      res.json({ message: 'checkInDetected' });
+
+    }
+
+    exports.checkOutDetected = function(req,res) {
+      pusher.trigger( 'ieacon-calc', 'checkOutDetected', {
+      ""name"": req.body.name,
+      ""location"": req.body.location
+      });
+      res.json({ message: 'checkOutDetected' });
+    }
+</code></pre>
+
+<p>Here is my routes file: <code>./api/routes/MetroRoutes</code></p>
+
+<pre><code>module.exports = function(app) {
+      var todoList = require('../controllers/MetroController');
+
+      // todoList Routes
+      app.route('/checkin')
+        .post(todoList.checkInDetected)
+
+      app.route('/checkout')
+        .post(todoList.checkOutDetected);
+    };
+</code></pre>
+","[""I am making an react native app, \nI registered a headlessJS which makes an API call. The API works fine through postman but when making an request through app, there's an error\n  This is my code in the app for the request"", 'I get the following error', 'My server code on node js\nMy server.js code', 'My controller code: <code>./api/controllers/MetroController</code>', 'Here is my routes file: <code>./api/routes/MetroRoutes</code>']",1,0,0
+815,62435847,"nmp install error, wanted to creat-react-app and got errror so i did","<p>I get :</p>
+
+<pre><code>throw err;
+  ^
+
+Error: Cannot find module 'C:\Users\zur99\AppData\Roaming\npm\node_modules\create-react-app\index.js'
+    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:966:15)
+    at Function.Module._load (internal/modules/cjs/loader.js:842:27)
+    at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:71:12)   
+    at internal/main/run_main_module.js:17:47 {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: []
+
+**after doing npm install:**
+npm WARN enoent ENOENT: no such file or directory, open 'C:\js\package.json'
+npm WARN js No description
+npm WARN js No repository field.
+npm WARN js No README data
+npm WARN js No license field.
+PS C:\js&gt; 
+</code></pre>
+
+<p>also, I don't have package.json anymore.</p>
+","['I get :', ""also, I don't have package.json anymore.""]",1,0,0
+284,70102955,ionic-angular tabs module not found,"<p>I updated my angular libraries and for some strange reasons my ionic angular project is now broken. the error i see on running the app in the console is</p>
+<pre><code>ERROR Error: Uncaught (in promise): Error: Cannot find module './tabs/tabs.module'
+Error: Cannot find module './tabs/tabs.module'
+    at main.js:1
+    at e.invoke (polyfills.js:1)
+    at Object.onInvoke (main.js:1)
+    at e.invoke (polyfills.js:1)
+    at t.run (polyfills.js:1)
+    at polyfills.js:1
+    at e.invokeTask (polyfills.js:1)
+    at Object.onInvokeTask (main.js:1)
+    at e.invokeTask (polyfills.js:1)
+    at t.runTask (polyfills.js:1)
+    at w (polyfills.js:1)
+    at w (polyfills.js:1)
+    at polyfills.js:1
+    at e.invokeTask (polyfills.js:1)
+    at Object.onInvokeTask (main.js:1)
+    at e.invokeTask (polyfills.js:1)
+    at t.runTask (polyfills.js:1)
+    at _ (polyfills.js:1)
+</code></pre>
+<p>I have tried nuking nodes_module and doing fresh npm i. but no luck. I created a new test project with tabs template and tried to compare and dont see anything different.</p>
+<p>i did check specifically tabs.module.ts . what else i should i look to debug this issue?</p>
+","['I updated my angular libraries and for some strange reasons my ionic angular project is now broken. the error i see on running the app in the console is', 'I have tried nuking nodes_module and doing fresh npm i. but no luck. I created a new test project with tabs template and tried to compare and dont see anything different.', 'i did check specifically tabs.module.ts . what else i should i look to debug this issue?']",0,1,0
+1707,69885409,How to import a graphql file to typescript?,"<p>I want to import a graphql file but I get an error</p>
+<p>import typeDefs from &quot;./schema/schema.graphql&quot;;</p>
+<pre><code>10 import typeDefs from &quot;./schema/schema.graphql&quot;;
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    at createTSError (C:\Users\darkc\Desktop\New folder (2)\server\node_modules\ts-node\src\index.ts:750:12)
+    at reportTSError (C:\Users\darkc\Desktop\New folder (2)\server\node_modules\ts-node\src\index.ts:754:19)
+    at getOutput (C:\Users\darkc\Desktop\New folder (2)\server\node_modules\ts-node\src\index.ts:941:36)
+</code></pre>
+<p>How to import a graphql file to typescript ?</p>
+","['I want to import a graphql file but I get an error', 'import typeDefs from &quot;./schema/schema.graphql&quot;;', 'How to import a graphql file to typescript ?']",0,0,1
+1447,70040382,request ends up in 404 not found mern project,"<p>When making a request from my react application to my express application the request fails and says 404 not found. What I am doing is running my express application on <code>5000</code> and my react app on <code>3000</code>.</p>
+<p>I put a <code>proxy</code> in <code>package.json</code> in my react app <code>&quot;proxy&quot;: &quot;http://localhost:5000&quot;</code></p>
+<pre><code>export const signup = (email, password) =&gt; async (dispatch) =&gt; {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  const body = JSON.stringify({ email, password });
+
+  try {
+    const { data } = await axios.post('/auth/signup', body, config);
+    dispatch({ type: REGISTER_SUCCESS, payload: data });
+  } catch (err) {
+    console.log(err);
+    dispatch({ type: AUTH_ERROR });
+  }
+};
+</code></pre>
+<p>then in my react app in my <code>actions</code> I try to register a user. This is where my error occurs. I see that I do get the right data passed into this function and if I run my express app and make my request through postman instead of my react app it all works fine. I am not at home and I am working on wifi from Starbucks not sure if this makes a difference at all.</p>
+<p>Here is the error I am receiving...</p>
+<pre><code>POST http://localhost:3000/auth/signup 404 (Not Found)
+Error: Request failed with status code 404
+    at createError (createError.js:16)
+    at settle (settle.js:17)
+    at XMLHttpRequest.onloadend (xhr.js:66)
+</code></pre>
+","['When making a request from my react application to my express application the request fails and says 404 not found. What I am doing is running my express application on <code>5000</code> and my react app on <code>3000</code>.', 'I put a <code>proxy</code> in <code>package.json</code> in my react app <code>&quot;proxy&quot;: &quot;http://localhost:5000&quot;</code>', 'then in my react app in my <code>actions</code> I try to register a user. This is where my error occurs. I see that I do get the right data passed into this function and if I run my express app and make my request through postman instead of my react app it all works fine. I am not at home and I am working on wifi from Starbucks not sure if this makes a difference at all.', 'Here is the error I am receiving...']",1,0,0
+611,47925530,I have the package downgrade issues at angular 4,"<p>I am new to angular. I got the previously developed angular project from my company. I tried to start that after npm install. I got the following error. And I have here mentioned my package details. Please checkout and please gave me some instruction to solve this issues. </p>
+
+<p>Error:</p>
+
+<blockquote>
+  <p>ERROR in Error: Metadata version mismatch for module
+  E:/new-arog-V3.0/arogui-v.3.0/node_modules/angular-datatables/index.d.ts,
+  found version 4, expected 3, reso
+      lving symbol PagesModule in E:/new-arog-V3.0/arogui-v.3.0/src/app/arog/pages/pages.module.ts,
+  resolving symbol PagesModule in E:/new-arog-V3.0/arogui-v.3.0/src/
+      app/arog/pages/pages.module.ts
+          at syntaxError (E:\new-arog-V3.0\arogui-v.3.0\node_modules\@angular\compiler\bundles\compiler.umd.js:1729:34)
+          at simplifyInContext (E:\new-arog-V3.0\arogui-v.3.0\node_modules\@angular\compiler\bundles\compiler.umd.js:24979:23)
+          at StaticReflector.simplify (E:\new-arog-V3.0\arogui-v.3.0\node_modules\@angular\compiler\bundles\compiler.umd.js:24991:13)
+          at StaticReflector.annotations (E:\new-arog-V3.0\arogui-v.3.0\node_modules\@angular\compiler\bundles\compiler.umd.js:24418:41)
+          at _getNgModuleMetadata (E:\new-arog-V3.0\arogui-v.3.0\node_modules\@angular\compiler-cli\src\ngtools_impl.js:138:31)
+          at _extractLazyRoutesFromStaticModule (E:\new-arog-V3.0\arogui-v.3.0\node_modules\@angular\compiler-cli\src\ngtools_impl.js:109:26)
+          at E:\new-arog-V3.0\arogui-v.3.0\node_modules\@angular\compiler-cli\src\ngtools_impl.js:129:27
+          at Array.reduce (native)
+          at _extractLazyRoutesFromStaticModule (E:\new-arog-V3.0\arogui-v.3.0\node_modules\@angular\compiler-cli\src\ngtools_impl.js:128:10)
+          at E:\new-arog-V3.0\arogui-v.3.0\node_modules\@angular\compiler-cli\src\ngtools_impl.js:129:27
+          at Array.reduce (native)
+          at _extractLazyRoutesFromStaticModule (E:\new-arog-V3.0\arogui-v.3.0\node_modules\@angular\compiler-cli\src\ngtools_impl.js:128:10)
+          at Object.listLazyRoutesOfModule (E:\new-arog-V3.0\arogui-v.3.0\node_modules\@angular\compiler-cli\src\ngtools_impl.js:53:22)
+          at Function.NgTools_InternalApi_NG_2.listLazyRoutes (E:\new-arog-V3.0\arogui-v.3.0\node_modules\@angular\compiler-cli\src\ngtools_api.js:91:39)
+          at AotPlugin._getLazyRoutesFromNgtools (E:\new-arog-V3.0\arogui-v.3.0\node_modules\@ngtools\webpack\src\plugin.js:212:44)
+          at _donePromise.Promise.resolve.then.then.then.then.then (E:\new-arog-V3.0\arogui-v.3.0\node_modules\@ngtools\webpack\src\plugin.js:448:24)</p>
+</blockquote>
+
+<p>My  package.json file details:</p>
+
+<pre><code> {
+
+  ""dependencies"": {
+    ""@angular/animations"": ""^4.2.4"",
+    ""@angular/common"": ""^4.2.4"",
+    ""@angular/compiler"": ""^4.2.4"",
+    ""@angular/core"": ""^4.2.4"",
+    ""@angular/forms"": ""^4.2.4"",
+    ""@angular/http"": ""^4.2.4"",
+    ""@angular/platform-browser"": ""^4.2.4"",
+    ""@angular/platform-browser-dynamic"": ""^4.2.4"",
+    ""@angular/router"": ""^4.2.4"",
+    ""@ngui/auto-complete"": ""^0.16.0"",
+    ""@types/c3"": ""^0.4.48"",
+    ""@types/datatables.net"": ""^1.10.8"",
+    ""@types/underscore"": ""^1.8.5"",
+    ""angular-datatables"": ""^5.0.0"",
+    ""angular-file-saver"": ""^1.1.3"",
+    ""angular-font-awesome"": ""^2.1.3"",
+    ""angular2-ui-switch"": ""^1.2.0"",
+    ""bootstrap"": ""^3.3.7"",
+    ""core-js"": ""^2.4.1"",
+    ""datatables.net"": ""^1.10.16"",
+    ""datatables.net-dt"": ""^1.10.16"",
+    ""font-awesome"": ""^4.7.0"",
+    ""jquery"": ""^3.2.1"",
+    ""jwt-decode"": ""^2.2.0"",
+    ""ng2-auto-complete"": ""^0.12.0"",
+    ""ng2-ckeditor"": ""^1.1.9"",
+    ""ng2-date-picker"": ""^2.6.2"",
+    ""ng2-datepicker-bootstrap"": ""^1.0.0"",
+    ""ng2-dragula"": ""^1.5.0"",
+    ""ng2-redux"": ""^5.1.2"",
+    ""ng2-search-filter"": ""^0.3.1"",
+    ""ng2-simple-autocomplete"": ""^0.6.0"",
+    ""ng2-simple-dropdown"": ""^1.0.4"",
+    ""ng2-toastr"": ""^4.1.2"",
+    ""ngx-bootstrap"": ""^2.0.0-beta.9"",
+    ""ngx-cookie-service"": ""^1.0.9"",
+    ""ngx-gallery"": ""^4.1.1"",
+    ""primeng"": ""^4.2.1"",
+    ""redux"": ""^3.7.2"",
+    ""rxjs"": ""^5.4.2"",
+    ""tassign"": ""^1.0.0"",
+    ""typings"": ""^2.1.1"",
+    ""underscore"": ""^1.8.3"",
+    ""zone.js"": ""^0.8.14""
+  },
+  ""devDependencies"": {
+    ""@angular/cli"": ""1.4.9"",
+    ""@angular/compiler-cli"": ""^4.4.2"",
+    ""@angular/language-service"": ""^4.4.2"",       
+    ""typescript"": ""~2.3.3""
+  }
+}
+</code></pre>
+
+<p>I have downgrade the version. Still did not start the app. </p>
+","['I am new to angular. I got the previously developed angular project from my company. I tried to start that after npm install. I got the following error. And I have here mentioned my package details. Please checkout and please gave me some instruction to solve this issues. ', 'Error:', 'ERROR in Error: Metadata version mismatch for module\n  E:/new-arog-V3.0/arogui-v.3.0/node_modules/angular-datatables/index.d.ts,\n  found version 4, expected 3, reso\n      lving symbol PagesModule in E:/new-arog-V3.0/arogui-v.3.0/src/app/arog/pages/pages.module.ts,\n  resolving symbol PagesModule in E:/new-arog-V3.0/arogui-v.3.0/src/\n      app/arog/pages/pages.module.ts\n          at syntaxError (E:\\new-arog-V3.0\\arogui-v.3.0\\node_modules\\@angular\\compiler\\bundles\\compiler.umd.js:1729:34)\n          at simplifyInContext (E:\\new-arog-V3.0\\arogui-v.3.0\\node_modules\\@angular\\compiler\\bundles\\compiler.umd.js:24979:23)\n          at StaticReflector.simplify (E:\\new-arog-V3.0\\arogui-v.3.0\\node_modules\\@angular\\compiler\\bundles\\compiler.umd.js:24991:13)\n          at StaticReflector.annotations (E:\\new-arog-V3.0\\arogui-v.3.0\\node_modules\\@angular\\compiler\\bundles\\compiler.umd.js:24418:41)\n          at _getNgModuleMetadata (E:\\new-arog-V3.0\\arogui-v.3.0\\node_modules\\@angular\\compiler-cli\\src\\ngtools_impl.js:138:31)\n          at _extractLazyRoutesFromStaticModule (E:\\new-arog-V3.0\\arogui-v.3.0\\node_modules\\@angular\\compiler-cli\\src\\ngtools_impl.js:109:26)\n          at E:\\new-arog-V3.0\\arogui-v.3.0\\node_modules\\@angular\\compiler-cli\\src\\ngtools_impl.js:129:27\n          at Array.reduce (native)\n          at _extractLazyRoutesFromStaticModule (E:\\new-arog-V3.0\\arogui-v.3.0\\node_modules\\@angular\\compiler-cli\\src\\ngtools_impl.js:128:10)\n          at E:\\new-arog-V3.0\\arogui-v.3.0\\node_modules\\@angular\\compiler-cli\\src\\ngtools_impl.js:129:27\n          at Array.reduce (native)\n          at _extractLazyRoutesFromStaticModule (E:\\new-arog-V3.0\\arogui-v.3.0\\node_modules\\@angular\\compiler-cli\\src\\ngtools_impl.js:128:10)\n          at Object.listLazyRoutesOfModule (E:\\new-arog-V3.0\\arogui-v.3.0\\node_modules\\@angular\\compiler-cli\\src\\ngtools_impl.js:53:22)\n          at Function.NgTools_InternalApi_NG_2.listLazyRoutes (E:\\new-arog-V3.0\\arogui-v.3.0\\node_modules\\@angular\\compiler-cli\\src\\ngtools_api.js:91:39)\n          at AotPlugin._getLazyRoutesFromNgtools (E:\\new-arog-V3.0\\arogui-v.3.0\\node_modules\\@ngtools\\webpack\\src\\plugin.js:212:44)\n          at _donePromise.Promise.resolve.then.then.then.then.then (E:\\new-arog-V3.0\\arogui-v.3.0\\node_modules\\@ngtools\\webpack\\src\\plugin.js:448:24)', 'My  package.json file details:', 'I have downgrade the version. Still did not start the app. ']",0,0,1
+1200,53372009,enable to use reactstrap library in client side spfx,"<p>I am creating a client-side web part in SharePoint using react and I am getting an error for using reactstrap in it.</p>
+
+<p><a href=""https://i.stack.imgur.com/B9elO.png"" rel=""nofollow noreferrer""><img src=""https://i.stack.imgur.com/B9elO.png"" alt=""enter image description here""></a></p>
+
+<p>[SPLoaderError.loadComponentError]:
+***Failed to load component ""e85e1482-17da-4af0-968f-3f63def88702"" (ReactSpfxWebPartWebPart).
+Original error: ***Failed to load entry point from component ""e85e1482-17da-4af0-968f-3f63def88702"" (ReactSpfxWebPartWebPart).
+Original error: Error loading <a href=""https://component-id.invalid/e85e1482-17da-4af0-968f-3f63def88702_0.0.1"" rel=""nofollow noreferrer"">https://component-id.invalid/e85e1482-17da-4af0-968f-3f63def88702_0.0.1</a>
+    Cannot read property 'placements' of undefined</p>
+
+<p>***INNERERROR:
+***Failed to load entry point from component ""e85e1482-17da-4af0-968f-3f63def88702"" (ReactSpfxWebPartWebPart).
+Original error: Error loading <a href=""https://component-id.invalid/e85e1482-17da-4af0-968f-3f63def88702_0.0.1"" rel=""nofollow noreferrer"">https://component-id.invalid/e85e1482-17da-4af0-968f-3f63def88702_0.0.1</a>
+    Cannot read property 'placements' of undefined
+***CALLSTACK:
+Error
+    at SPLoaderError.SPError [as constructor] (<a href=""https://localhost:4321/temp/workbench-packages/@microsoft_sp-loader/dist/sp-loader-assembly_default.js:8668:24"" rel=""nofollow noreferrer"">https://localhost:4321/temp/workbench-packages/@microsoft_sp-loader/dist/sp-loader-assembly_default.js:8668:24</a>)
+    at new SPLoaderError (<a href=""https://localhost:4321/temp/workbench-packages/@microsoft_sp-loader/dist/sp-loader-assembly_default.js:4124:28"" rel=""nofollow noreferrer"">https://localhost:4321/temp/workbench-packages/@microsoft_sp-loader/dist/sp-loader-assembly_default.js:4124:28</a>)
+    at Function.ErrorBuilder.buildErrorWithVerboseLog (<a href=""https://localhost:4321/temp/workbench-packages/@microsoft_sp-loader/dist/sp-loader-assembly_default.js:3783:21"" rel=""nofollow noreferrer"">https://localhost:4321/temp/workbench-packages/@microsoft_sp-loader/dist/sp-loader-assembly_default.js:3783:21</a>)
+    at Function.ErrorBuilder.buildLoadComponentError (<a href=""https://localhost:4321/temp/workbench-packages/@microsoft_sp-loader/dist/sp-loader-assembly_default.js:3691:21"" rel=""nofollow noreferrer"">https://localhost:4321/temp/workbench-packages/@microsoft_sp-loader/dist/sp-loader-assembly_default.js:3691:21</a>)
+    at <a href=""https://localhost:4321/temp/workbench-packages/@microsoft_sp-loader/dist/sp-loader-assembly_default.js:6936:47"" rel=""nofollow noreferrer"">https://localhost:4321/temp/workbench-packages/@microsoft_sp-loader/dist/sp-loader-assembly_default.js:6936:47</a></p>
+","['I am creating a client-side web part in SharePoint using react and I am getting an error for using reactstrap in it.', '<a href=""https://i.stack.imgur.com/B9elO.png"" rel=""nofollow noreferrer""><img src=""https://i.stack.imgur.com/B9elO.png"" alt=""enter image description here""></a>', '[SPLoaderError.loadComponentError]:\n***Failed to load component ""e85e1482-17da-4af0-968f-3f63def88702"" (ReactSpfxWebPartWebPart).\nOriginal error: ***Failed to load entry point from component ""e85e1482-17da-4af0-968f-3f63def88702"" (ReactSpfxWebPartWebPart).\nOriginal error: Error loading <a href=""https://component-id.invalid/e85e1482-17da-4af0-968f-3f63def88702_0.0.1"" rel=""nofollow noreferrer"">https://component-id.invalid/e85e1482-17da-4af0-968f-3f63def88702_0.0.1</a>\n    Cannot read property \'placements\' of undefined', '***INNERERROR:\n***Failed to load entry point from component ""e85e1482-17da-4af0-968f-3f63def88702"" (ReactSpfxWebPartWebPart).\nOriginal error: Error loading <a href=""https://component-id.invalid/e85e1482-17da-4af0-968f-3f63def88702_0.0.1"" rel=""nofollow noreferrer"">https://component-id.invalid/e85e1482-17da-4af0-968f-3f63def88702_0.0.1</a>\n    Cannot read property \'placements\' of undefined\n***CALLSTACK:\nError\n    at SPLoaderError.SPError [as constructor] (<a href=""https://localhost:4321/temp/workbench-packages/@microsoft_sp-loader/dist/sp-loader-assembly_default.js:8668:24"" rel=""nofollow noreferrer"">https://localhost:4321/temp/workbench-packages/@microsoft_sp-loader/dist/sp-loader-assembly_default.js:8668:24</a>)\n    at new SPLoaderError (<a href=""https://localhost:4321/temp/workbench-packages/@microsoft_sp-loader/dist/sp-loader-assembly_default.js:4124:28"" rel=""nofollow noreferrer"">https://localhost:4321/temp/workbench-packages/@microsoft_sp-loader/dist/sp-loader-assembly_default.js:4124:28</a>)\n    at Function.ErrorBuilder.buildErrorWithVerboseLog (<a href=""https://localhost:4321/temp/workbench-packages/@microsoft_sp-loader/dist/sp-loader-assembly_default.js:3783:21"" rel=""nofollow noreferrer"">https://localhost:4321/temp/workbench-packages/@microsoft_sp-loader/dist/sp-loader-assembly_default.js:3783:21</a>)\n    at Function.ErrorBuilder.buildLoadComponentError (<a href=""https://localhost:4321/temp/workbench-packages/@microsoft_sp-loader/dist/sp-loader-assembly_default.js:3691:21"" rel=""nofollow noreferrer"">https://localhost:4321/temp/workbench-packages/@microsoft_sp-loader/dist/sp-loader-assembly_default.js:3691:21</a>)\n    at <a href=""https://localhost:4321/temp/workbench-packages/@microsoft_sp-loader/dist/sp-loader-assembly_default.js:6936:47"" rel=""nofollow noreferrer"">https://localhost:4321/temp/workbench-packages/@microsoft_sp-loader/dist/sp-loader-assembly_default.js:6936:47</a>']",1,0,0
+9,58858173,"Could not find version matches com.google.android.gms:play-services-base:[15.0.1,16.0.0)","<p>I am using expo - expokit( react-native) to develop my app. Don't know why it failed when build app.
+I have checked the the same error on Stack overflow but none of them is solved my problem</p>
+
+<p>Here is the error.</p>
+
+<pre><code>org.gradle.initialization.ReportedException: org.gradle.internal.exceptions.LocationAwareException: Could not determine the dependencies of task ':app:compileDebugJavaWithJavac'.
+    at org.gradle.initialization.DefaultGradleLauncher.doBuildStages(DefaultGradleLauncher.java:154)
+org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:55)
+    at java.lang.Thread.run(Thread.java:748)
+Caused by: org.gradle.internal.exceptions.LocationAwareException: Could not determine the dependencies of task ':app:compileDebugJavaWithJavac'.
+    at org.gradle.initialization.DefaultExceptionAnalyser.transform(DefaultExceptionAnalyser.java:74)
+Caused by: org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve com.google.android.gms:play-services-basement:[15.0.0, 16.0.0).
+Required by:
+    project :app &gt; com.facebook.android:audience-network-sdk:5.1.1
+    at org.gradle.api.internal.artifacts.ivyservice.ivyresolve.DynamicVersionResolver.resolve(DynamicVersionResolver.java:122)
+    at org.gradle.api.internal.artifacts.ivyservice.ivyresolve.RepositoryChainDependencyToComponentIdResolver.resolve(RepositoryChainDependencyToComponentIdResolver.java:72)
+    at org.gradle.api.internal.artifacts.ivyservice.resolveengine.ComponentResolversChain$DependencyToComponentIdResolverChain.resolve(ComponentResolversChain.java:150)
+    at org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.builder.SelectorState.resolve(SelectorState.java:170)
+    at org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.selectors.SelectorStateResolver.buildResolveResults(SelectorStateResolver.java:103)
+    at org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.selectors.SelectorStateResolver.resolveSelectors(SelectorStateResolver.java:79)
+    at org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.selectors.SelectorStateResolver.selectBest(SelectorStateResolver.java:53)
+    at org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.builder.DependencyGraphBuilder.performSelection(DependencyGraphBuilder.java:232)
+    at org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.builder.DependencyGraphBuilder.performSelectionSerially(DependencyGraphBuilder.java:213)
+    at org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.builder.DependencyGraphBuilder.resolveEdges(DependencyGraphBuilder.java:200)
+    at org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.builder.DependencyGraphBuilder.traverseGraph(DependencyGraphBuilder.java:155)
+    at org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.builder.DependencyGraphBuilder.resolve(DependencyGraphBuilder.java:126)
+    at org.gradle.api.internal.artifacts.ivyservice.resolveengine.DefaultArtifactDependencyResolver.resolve(DefaultArtifactDependencyResolver.java:123)
+    at org.gradle.api.internal.artifacts.ivyservice.DefaultConfigurationResolver.resolveGraph(DefaultConfigurationResolver.java:167)
+    at org.gradle.api.internal.artifacts.ivyservice.ShortCircuitEmptyConfigurationResolver.resolveGraph(ShortCircuitEmptyConfigurationResolver.java:89)
+    at org.gradle.api.internal.artifacts.ivyservice.ErrorHandlingConfigurationResolver.resolveGraph(ErrorHandlingConfigurationResolver.java:73)
+    at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$5.run(DefaultConfiguration.java:533)
+    at org.gradle.internal.operations.DefaultBuildOperationExecutor$RunnableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:300)
+    at org.gradle.internal.operations.DefaultBuildOperationExecutor$RunnableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:292)
+    at org.gradle.internal.operations.DefaultBuildOperationExecutor.execute(DefaultBuildOperationExecutor.java:174)
+    at org.gradle.internal.operations.DefaultBuildOperationExecutor.run(DefaultBuildOperationExecutor.java:90)
+    at org.gradle.internal.operations.DelegatingBuildOperationExecutor.run(DelegatingBuildOperationExecutor.java:31)
+    at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.resolveGraphIfRequired(DefaultConfiguration.java:524)
+    at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.resolveToStateOrLater(DefaultConfiguration.java:509)
+    at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.access$1800(DefaultConfiguration.java:123)
+    at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$ConfigurationTaskDependency.visitDependencies(DefaultConfiguration.java:1514)
+    ... 96 more
+Caused by: org.gradle.internal.resolve.ModuleVersionResolveException: Failed to list versions for com.google.android.gms:play-services-basement.
+    at org.gradle.api.internal.artifacts.ivyservice.ivyresolve.ErrorHandlingModuleComponentRepository$ErrorHandlingModuleComponentRepositoryAccess.listModuleVersions(ErrorHandlingModuleComponentRepository.java:126)
+    at org.gradle.api.internal.artifacts.ivyservice.ivyresolve.DynamicVersionResolver$VersionListResult.process(DynamicVersionResolver.java:536)
+    at org.gradle.api.internal.artifacts.ivyservice.ivyresolve.DynamicVersionResolver$VersionListResult.resolve(DynamicVersionResolver.java:521)
+    at org.gradle.api.internal.artifacts.ivyservice.ivyresolve.DynamicVersionResolver$RepositoryResolveState.resolve(DynamicVersionResolver.java:290)
+    at org.gradle.api.internal.artifacts.ivyservice.ivyresolve.DynamicVersionResolver.findLatestModule(DynamicVersionResolver.java:177)
+    at org.gradle.api.internal.artifacts.ivyservice.ivyresolve.DynamicVersionResolver.findLatestModule(DynamicVersionResolver.java:169)
+    at org.gradle.api.internal.artifacts.ivyservice.ivyresolve.DynamicVersionResolver.resolve(DynamicVersionResolver.java:111)
+    ... 121 more
+Caused by: org.gradle.api.resources.ResourceException: Unable to load Maven meta-data from https://jcenter.bintray.com/com/google/android/gms/play-services-basement/maven-metadata.xml.
+    at org.gradle.api.internal.artifacts.repositories.maven.MavenMetadataLoader.load(MavenMetadataLoader.java:54)
+    at org.gradle.api.internal.artifacts.repositories.maven.MavenVersionLister.listVersions(MavenVersionLister.java:48)
+    at org.gradle.api.internal.artifacts.repositories.metadata.DefaultMavenPomMetadataSource.listModuleVersions(DefaultMavenPomMetadataSource.java:73)
+    at org.gradle.api.internal.artifacts.repositories.resolver.ExternalResourceResolver.doListModuleVersions(ExternalResourceResolver.java:210)
+    at org.gradle.api.internal.artifacts.repositories.resolver.ExternalResourceResolver.access$200(ExternalResourceResolver.java:90)
+    at org.gradle.api.internal.artifacts.repositories.resolver.ExternalResourceResolver$RemoteRepositoryAccess.listModuleVersions(ExternalResourceResolver.java:440)
+    at org.gradle.api.internal.artifacts.ivyservice.ivyresolve.CachingModuleComponentRepository$ResolveAndCacheRepositoryAccess.listModuleVersions(CachingModuleComponentRepository.java:360)
+    at org.gradle.api.internal.artifacts.ivyservice.ivyresolve.ErrorHandlingModuleComponentRepository$ErrorHandlingModuleComponentRepositoryAccess.listModuleVersions(ErrorHandlingModuleComponentRepository.java:121)
+    ... 127 more
+Caused by: org.gradle.api.resources.ResourceException: Could not get resource 'https://jcenter.bintray.com/com/google/android/gms/play-services-basement/maven-metadata.xml'.
+    at org.gradle.internal.resource.ResourceExceptions.failure(ResourceExceptions.java:74)
+    at org.gradle.internal.resource.ResourceExceptions.getFailed(ResourceExceptions.java:57)
+    at org.gradle.internal.resource.transfer.DefaultCacheAwareExternalResourceAccessor.copyToCache(DefaultCacheAwareExternalResourceAccessor.java:201)
+Caused by: org.gradle.internal.resource.transport.http.HttpRequestException: Could not GET 'https://jcenter.bintray.com/com/google/android/gms/play-services-basement/maven-metadata.xml'.
+    at org.gradle.internal.resource.transport.http.HttpClientHelper.performRequest(HttpClientHelper.java:96)
+    ... 157 more
+</code></pre>
+
+<p>Here is the app/build.gradle</p>
+
+<pre><code>buildscript {
+  repositories {
+    google()
+    maven { url 'https://maven.fabric.io/public' }
+    maven { url 'https://plugins.gradle.org/m2/' } // Gradle Plugin Portal
+    maven { url 'https://maven.google.com'}
+  }
+
+  dependencies {
+    classpath 'io.fabric.tools:gradle:1.26.1'
+    classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.12.1, 0.99.99]'
+  }
+
+defaultConfig {
+    applicationId 'com.youmed.info'
+    minSdkVersion safeExtGet(""minSdkVersion"", 21)
+    targetSdkVersion safeExtGet(""targetSdkVersion"", 28)
+    versionCode 13
+    versionName '1.2.2'
+    multiDexEnabled true
+  }
+dependencies {
+
+  implementation 'com.android.support:multidex:1.0.1'
+  implementation ""androidx.annotation:annotation:1.1.0""
+}
+.....
+// This has to be down here for some reason
+apply plugin: 'com.google.gms.google-services'
+}
+</code></pre>
+
+<p>Here is the project/build.gradle</p>
+
+<pre><code>buildscript {
+  ext {
+    minSdkVersion = 21
+    targetSdkVersion = 28
+    compileSdkVersion = 28
+    buildToolsVersion = '28.0.0'
+    supportLibVersion = '28.0.0'
+    kotlinVersion = '1.3.21'
+  }
+  repositories {
+    google()
+    jcenter()
+  }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:3.3.2'
+    classpath 'com.google.gms:google-services:3.2.1'
+  }
+}
+allprojects {
+  repositories {
+google()
+    jcenter()
+    maven { url ""https://jitpack.io"" }
+    maven { url 'https://maven.google.com'}
+}
+}
+</code></pre>
+
+<p>Anyone know How to solve this problem</p>
+","[""I am using expo - expokit( react-native) to develop my app. Don't know why it failed when build app.\nI have checked the the same error on Stack overflow but none of them is solved my problem"", 'Here is the error.', 'Here is the app/build.gradle', 'Here is the project/build.gradle', 'Anyone know How to solve this problem']",0,0,1
+1378,38625389,Mocking navigator in RN for unit tests,"<p>For my tests, Am using <code>mocha</code>, <code>enzyme</code>, <code>sinon</code> for stubing and <code>chai</code> for assertions, <code>mockery</code> for mocking modules.</p>
+
+<p>Now whats the best possible mechanism to mock navigator for geolocation. I tried <code>rewire</code> from <code>https://github.com/jhnns/rewire</code> to inject my sinon stubed navigator. This will work for me, but just feels cumbersome to setup the stub.
+I like <a href=""https://github.com/2gis/mock-geolocation"" rel=""nofollow"">https://github.com/2gis/mock-geolocation</a> as it feels more natural way of mocking. But unfortunately am not able to use it because it uses <code>window</code> variable. </p>
+
+<p>I tried to use <code>mocha-jsdom</code> like </p>
+
+<pre><code>import jsdom from 'mocha-jsdom';
+jsdom();
+const geolocate = require('mock-geolocation');
+</code></pre>
+
+<p>But I get an error like</p>
+
+<pre><code>/..../node_modules/mock-geolocation/src/geolocate.js:225
+})(window, navigator);
+   ^
+
+ReferenceError: window is not defined
+    at Object.&lt;anonymous&gt; (/like
+
+/..../node_modules/mock-geolocation/src/geolocate.js:225:4)
+    at Module._compile (module.js:409:26)
+</code></pre>
+
+<p>I run my tests like this <code>mocha --require react-native-mock/mock --compilers js:babel-register --recursive</code> </p>
+","['For my tests, Am using <code>mocha</code>, <code>enzyme</code>, <code>sinon</code> for stubing and <code>chai</code> for assertions, <code>mockery</code> for mocking modules.', 'Now whats the best possible mechanism to mock navigator for geolocation. I tried <code>rewire</code> from <code>https://github.com/jhnns/rewire</code> to inject my sinon stubed navigator. This will work for me, but just feels cumbersome to setup the stub.\nI like <a href=""https://github.com/2gis/mock-geolocation"" rel=""nofollow"">https://github.com/2gis/mock-geolocation</a> as it feels more natural way of mocking. But unfortunately am not able to use it because it uses <code>window</code> variable. ', 'I tried to use <code>mocha-jsdom</code> like ', 'But I get an error like', 'I run my tests like this <code>mocha --require react-native-mock/mock --compilers js:babel-register --recursive</code> ']",0,1,0
+1468,57310638,react-native unlink library error. 'Cannot read property 'find' of undefined,"<p>I am playing with an ejected Android - React Native app and I was trying to achieve firebase on the platform. So I installed <code>react-native-firebase</code> package and it linked iOS successfully but I've got some error then on linking. So now I want to unlink the library but I got some errors like below.</p>
+
+<pre><code>rnpm-install info Unlinking react-native-firebase ios dependency 
+rnpm-install ERR! It seems something went wrong while unlinking. Error: Cannot read property 'find' of undefined
+
+
+Cannot read property 'find' of undefined
+
+TypeError: Cannot read property 'find' of undefined
+    at removeFromProjectReferences (/Users/fiyuu/riders-react-native/node_modules/react-native/local-cli/link/ios/removeFromProjectReferences.js:23:47)
+    at removeProjectFromProject (/Users/fiyuu/riders-react-native/node_modules/react-native/local-cli/link/ios/removeProjectFromProject.js:26:16)
+    at unregisterNativeModule (/Users/fiyuu/riders-react-native/node_modules/react-native/local-cli/link/ios/unregisterNativeModule.js:44:10)
+    at Object.unregisterNativeModule [as unregister] (/Users/fiyuu/riders-react-native/node_modules/react-native/local-cli/link/ios/common/unregisterNativeModule.js:19:1)
+    at /Users/fiyuu/riders-react-native/node_modules/react-native/local-cli/link/unlink.js:57:12
+    at Array.forEach (&lt;anonymous&gt;)
+    at unlinkDependency (/Users/fiyuu/riders-react-native/node_modules/react-native/local-cli/link/unlink.js:31:28)
+    at tasks (/Users/fiyuu/riders-react-native/node_modules/react-native/local-cli/link/unlink.js:115:1)
+</code></pre>
+
+<p>I've not figured out what is going on with the library. 
+I can share any manifest or gradle file if it help to solve problem.</p>
+
+<p>Thanks,</p>
+","[""I am playing with an ejected Android - React Native app and I was trying to achieve firebase on the platform. So I installed <code>react-native-firebase</code> package and it linked iOS successfully but I've got some error then on linking. So now I want to unlink the library but I got some errors like below."", ""I've not figured out what is going on with the library. \nI can share any manifest or gradle file if it help to solve problem."", 'Thanks,']",0,1,0
+1886,37502866,Trying to use mongoose in nodejs app using Webpack as module Bundler,"<p>I am trying to integrate mongoDB in my nodejs-react application. I'm using mongoose as orm.<br>
+It started with the folowing errors</p>
+
+<pre><code>WARNING in ./~/mongoose/~/mongodb/~/mongodb-core/~/bson/~/bson-ext/ext/index.js
+Module not found: Error: Cannot resolve 'file' or 'directory' ./win32/x64/bson in /Users/Johannes/Documents/Development/holmes/node_modules/mongoose/node_modules/mongodb/node_modules/mongodb-core/node_modules/bson/node_modules/bson-ext/ext
+ @ ./~/mongoose/~/mongodb/~/mongodb-core/~/bson/~/bson-ext/ext/index.js 6:10-37
+</code></pre>
+
+<p>I came across as similar question on stackoverflow, and made the required changes in my webpack config file</p>
+
+<ul>
+<li><p>Added node and json loader.  </p>
+
+<p>{ test: /.json$/, loader: 'json-loader' },</p>
+
+<p>{
+                test: /.node$/,
+                loader: 'node-loader'
+}</p></li>
+<li><p>Added resolve and node object.</p>
+
+<p>resolve: {</p>
+
+<p>extensions: [ '', '.js', '.json', '.jsx', '.es6', '.babel', '.node'],</p>
+
+<p>modulesDirectories: [ 'node_modules', 'app' ]
+},</p>
+
+<p>node: {</p>
+
+<p>console: true,</p>
+
+<p>fs: 'empty',</p>
+
+<p>net: 'empty',</p>
+
+<p>tls: 'empty'
+},</p></li>
+</ul>
+
+<p>npm install json-loader
+npm install node-loader</p>
+
+<p>Here's how my webpack config file looks like now.</p>
+
+<pre><code>var path = require('path')
+var webpack = require('webpack')
+var autoprefixer = require('autoprefixer')
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
+
+var assetPath = '/assets/'
+var absolutePath = path.join(__dirname, 'build', assetPath)
+
+module.exports = {
+  devtool: 'cheap-module-eval-source-map',
+  entry: [
+    'webpack-hot-middleware/client',
+    './src/index'
+  ],
+  target: 'node-webkit',
+  output: {
+    path: absolutePath,
+    filename: 'bundle.js',
+    publicPath: assetPath
+  },
+  plugins: [
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
+    new ExtractTextPlugin(""bundle.css"")
+  ],
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        loaders: [ 'babel' ],
+        exclude: /node_modules/,
+        include: path.join(__dirname, 'src')
+      },
+      // fonts and svg
+      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: ""url?limit=10000&amp;mimetype=application/font-woff"" },
+      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: ""url?limit=10000&amp;mimetype=application/font-woff"" },
+      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: ""url?limit=10000&amp;mimetype=application/octet-stream"" },
+      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: ""file"" },
+      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: ""url?limit=10000&amp;mimetype=image/svg+xml"" },
+      {
+        // images
+        test: /\.(ico|jpe?g|png|gif)$/,
+        loader: ""file""
+      },
+      {
+        // for some modules like foundation
+        test: /\.scss$/,
+        exclude: [/node_modules/], // sassLoader will include node_modules explicitly
+        loader: ExtractTextPlugin.extract(""style"", ""css!postcss!sass?outputStyle=expanded"")
+      },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract(""style"", ""css!postcss"")
+      },
+      { test: /\.json$/, loader: 'json-loader' },
+      {
+                test: /\.node$/,
+                loader: 'node-loader'
+      }
+    ]
+  },
+  resolve: {
+      extensions: [ '', '.js', '.json', '.jsx', '.es6', '.babel', '.node'],
+      modulesDirectories: [ 'node_modules', 'app' ]
+  },
+  node: {
+    console: true,
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
+  },
+  postcss: function(webpack) {
+    return [
+      autoprefixer({browsers: ['last 2 versions', 'ie &gt;= 9', 'and_chr &gt;= 2.3']})
+    ]
+  },
+  sassLoader: {
+    includePaths: [path.resolve(__dirname, ""node_modules"")]
+  }
+}
+</code></pre>
+
+<p>All the errors are gone but i’m still getting the following warnings and bundle is not getting generated.</p>
+
+<pre><code>WARNING in ./~/mongoose/~/mongodb/~/mongodb-core/~/bson/~/bson-ext/ext/index.js
+Module not found: Error: Cannot resolve 'file' or 'directory' ./win32/ia32/bson in /Users/Johannes/Documents/Development/holmes/node_modules/mongoose/node_modules/mongodb/node_modules/mongodb-core/node_modules/bson/node_modules/bson-ext/ext
+ @ ./~/mongoose/~/mongodb/~/mongodb-core/~/bson/~/bson-ext/ext/index.js 8:10-38
+
+
+
+  WARNING in ./~/mongoose/lib/drivers/index.js
+    Critical dependencies:
+    8:11-74 the request of a dependency is an expression
+     @ ./~/mongoose/lib/drivers/index.js 8:11-74
+
+
+WARNING in ./~/mongoose/lib/drivers/SPEC.md
+Module parse failed: /Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/mongoose/lib/drivers/SPEC.md Unexpected character '#' (2:0)
+You may need an appropriate loader to handle this file type.
+SyntaxError: Unexpected character '#' (2:0)
+    at Parser.pp.raise (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/acorn/dist/acorn.js:920:13)
+    at Parser.pp.getTokenFromCode (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/acorn/dist/acorn.js:2813:8)
+    at Parser.pp.readToken (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/acorn/dist/acorn.js:2508:15)
+    at Parser.pp.nextToken (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/acorn/dist/acorn.js:2500:71)
+    at Parser.parse (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/acorn/dist/acorn.js:1615:10)
+    at Object.parse (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/acorn/dist/acorn.js:882:44)
+    at Parser.parse (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/lib/Parser.js:902:15)
+    at DependenciesBlock.&lt;anonymous&gt; (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/lib/NormalModule.js:104:16)
+    at DependenciesBlock.onModuleBuild (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/webpack-core/lib/NormalModuleMixin.js:310:10)
+    at nextLoader (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/webpack-core/lib/NormalModuleMixin.js:275:25)
+ @ ./~/mongoose/lib/drivers ^\.\/.*$
+
+WARNING in ./~/mongoose/~/mongodb/~/es6-promise/dist/es6-promise.js
+Module not found: Error: Cannot resolve module 'vertx' in /Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/mongoose/node_modules/mongodb/node_modules/es6-promise/dist
+ @ ./~/mongoose/~/mongodb/~/es6-promise/dist/es6-promise.js 132:20-30
+
+WARNING in ./~/mongoose/~/bson/lib/bson/index.js
+Critical dependencies:
+20:16-29 the request of a dependency is an expression
+44:18-31 the request of a dependency is an expression
+71:19-32 the request of a dependency is an expression
+ @ ./~/mongoose/~/bson/lib/bson/index.js 20:16-29 44:18-31 71:19-32
+
+WARNING in ./~/mongoose/~/mongodb/~/mongodb-core/~/require_optional/index.js
+Critical dependencies:
+63:18-42 the request of a dependency is an expression
+71:20-44 the request of a dependency is an expression
+78:35-67 the request of a dependency is an expression
+ @ ./~/mongoose/~/mongodb/~/mongodb-core/~/require_optional/index.js 63:18-42 71:20-44 78:35-67
+
+WARNING in ./~/mongoose/~/mongodb/~/mongodb-core/~/require_optional/LICENSE
+Module parse failed: /Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/mongoose/node_modules/mongodb/node_modules/mongodb-core/node_modules/require_optional/LICENSE Unexpected token (1:40)
+You may need an appropriate loader to handle this file type.
+SyntaxError: Unexpected token (1:40)
+    at Parser.pp.raise (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/acorn/dist/acorn.js:920:13)
+    at Parser.pp.unexpected (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/acorn/dist/acorn.js:1483:8)
+    at Parser.pp.semicolon (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/acorn/dist/acorn.js:1462:73)
+    at Parser.pp.parseExpressionStatement (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/acorn/dist/acorn.js:1976:8)
+    at Parser.pp.parseStatement (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/acorn/dist/acorn.js:1754:188)
+    at Parser.pp.parseTopLevel (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/acorn/dist/acorn.js:1648:21)
+    at Parser.parse (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/acorn/dist/acorn.js:1616:17)
+    at Object.parse (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/acorn/dist/acorn.js:882:44)
+    at Parser.parse (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/lib/Parser.js:902:15)
+    at DependenciesBlock.&lt;anonymous&gt; (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/lib/NormalModule.js:104:16)
+ @ ./~/mongoose/~/mongodb/~/mongodb-core/~/require_optional ^\.\/.*$
+
+WARNING in ./~/mongoose/~/mongodb/~/mongodb-core/~/require_optional/README.md
+Module parse failed: /Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/mongoose/node_modules/mongodb/node_modules/mongodb-core/node_modules/require_optional/README.md Unexpected character '#' (1:0)
+You may need an appropriate loader to handle this file type.
+SyntaxError: Unexpected character '#' (1:0)
+    at Parser.pp.raise (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/acorn/dist/acorn.js:920:13)
+    at Parser.pp.getTokenFromCode (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/acorn/dist/acorn.js:2813:8)
+    at Parser.pp.readToken (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/acorn/dist/acorn.js:2508:15)
+    at Parser.pp.nextToken (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/acorn/dist/acorn.js:2500:71)
+    at Parser.parse (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/acorn/dist/acorn.js:1615:10)
+    at Object.parse (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/acorn/dist/acorn.js:882:44)
+    at Parser.parse (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/lib/Parser.js:902:15)
+    at DependenciesBlock.&lt;anonymous&gt; (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/lib/NormalModule.js:104:16)
+    at DependenciesBlock.onModuleBuild (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/webpack-core/lib/NormalModuleMixin.js:310:10)
+    at nextLoader (/Users/nitesh/Documents/learnReact/day1/r3-foundation-boilerplate/node_modules/webpack/node_modules/webpack-core/lib/NormalModuleMixin.js:275:25)
+ @ ./~/mongoose/~/mongodb/~/mongodb-core/~/require_optional ^\.\/.*$
+Child extract-text-webpack-plugin:
+    chunk    {0} extract-text-webpack-plugin-output-filename 221 kB [rendered]
+        [0] ./~/css-loader!./~/postcss-loader!./src/styles/app.css 219 kB {0} [built]
+        [1] ./~/css-loader/lib/css-base.js 1.51 kB {0} [built]
+Child extract-text-webpack-plugin:
+    chunk    {0} extract-text-webpack-plugin-output-filename 8.56 kB [rendered]
+        [0] ./~/css-loader!./~/postcss-loader!./src/styles/styles.css 7.06 kB {0} [built]
+        [1] ./~/css-loader/lib/css-base.js 1.51 kB {0} [built]
+Child extract-text-webpack-plugin:
+    chunk    {0} extract-text-webpack-plugin-output-filename 7.92 kB [rendered]
+        [0] ./~/css-loader!./~/postcss-loader!./src/styles/slider.css 6.42 kB {0} [built]
+        [1] ./~/css-loader/lib/css-base.js 1.51 kB {0} [built]
+Child extract-text-webpack-plugin:
+    chunk    {0} extract-text-webpack-plugin-output-filename 234 kB [rendered]
+        [0] ./~/css-loader!./~/postcss-loader!./src/styles/app_override.css 232 kB {0} [built]
+        [1] ./~/css-loader/lib/css-base.js 1.51 kB {0} [built]
+Child extract-text-webpack-plugin:
+                                     Asset     Size  Chunks       Chunk Names
+      404a525502f8e5ba7e93b9f02d9e83a9.eot  75.2 kB               
+    926c93d201fe51c8f351e858468980c3.woff2  70.7 kB               
+     891e3f340c1126b4c7c142e5f6e86816.woff  89.1 kB               
+      fb650aaf10736ffb9c4173079616bf01.ttf   151 kB               
+      bae4a87c1e5dff40baa3f49d52f5347a.svg   386 kB               
+    chunk    {0} extract-text-webpack-plugin-output-filename 41.4 kB [rendered]
+        [0] ./~/css-loader!./~/postcss-loader!./src/styles/index.css 264 bytes {0} [built]
+        [1] ./~/css-loader/lib/css-base.js 1.51 kB {0} [built]
+        [2] ./~/css-loader!./~/font-awesome/css/font-awesome.css 39.1 kB {0} [built]
+        [3] ./~/font-awesome/fonts/fontawesome-webfont.eot 82 bytes {0} [built]
+        [4] ./~/font-awesome/fonts/fontawesome-webfont.eot?v=4.6.1 82 bytes {0} [built]
+        [5] ./~/font-awesome/fonts/fontawesome-webfont.woff2?v=4.6.1 84 bytes {0} [built]
+        [6] ./~/font-awesome/fonts/fontawesome-webfont.woff?v=4.6.1 83 bytes {0} [built]
+        [7] ./~/font-awesome/fonts/fontawesome-webfont.ttf?v=4.6.1 82 bytes {0} [built]
+        [8] ./~/font-awesome/fonts/fontawesome-webfont.svg?v=4.6.1 82 bytes {0} [built]
+Child extract-text-webpack-plugin:
+    chunk    {0} extract-text-webpack-plugin-output-filename 88.8 kB [rendered]
+        [0] ./~/css-loader!./~/postcss-loader!./~/sass-loader?outputStyle=expanded!./src/styles/foundation.scss 87.3 kB {0} [built]
+        [1] ./~/css-loader/lib/css-base.js 1.51 kB {0} [built]
+</code></pre>
+","[""I am trying to integrate mongoDB in my nodejs-react application. I'm using mongoose as orm.\nIt started with the folowing errors"", 'I came across as similar question on stackoverflow, and made the required changes in my webpack config file', ""\nAdded node and json loader.  \n\n{ test: /.json$/, loader: 'json-loader' },\n\n{\n                test: /.node$/,\n                loader: 'node-loader'\n}\nAdded resolve and node object.\n\nresolve: {\n\nextensions: [ '', '.js', '.json', '.jsx', '.es6', '.babel', '.node'],\n\nmodulesDirectories: [ 'node_modules', 'app' ]\n},\n\nnode: {\n\nconsole: true,\n\nfs: 'empty',\n\nnet: 'empty',\n\ntls: 'empty'\n},\n"", 'npm install json-loader\nnpm install node-loader', ""Here's how my webpack config file looks like now."", 'All the errors are gone but i’m still getting the following warnings and bundle is not getting generated.']",1,0,0
+1481,54519821,Trouble linking libraries,"<p>I am trying to link this library called react-native-text-detector. 
+However, I consistently get an error saying Command failed: gradlew.bat installDebug</p>
+
+<p>I have tried changing the '\' in settings.gradle to '/'. However, the same error still pops up</p>
+
+<p>All I have been doing is this</p>
+
+<ol>
+<li>react-native init textDetectorTesting</li>
+<li>npm install --save react-native-text-detector</li>
+<li>react-native link</li>
+</ol>
+
+<p>This is the error I received</p>
+
+<pre><code>BUILD FAILED in 41s
+42 actionable tasks: 42 executed
+Could not install the app on the device, read the error above for details.
+Make sure you have an Android emulator running or a device connected and have
+set up your Android development environment:
+https://facebook.github.io/react-native/docs/getting-started.html
+
+Command failed: gradlew.bat installDebug
+
+Error: Command failed: gradlew.bat installDebug
+    at checkExecSyncError (child_process.js:622:11)
+    at Object.execFileSync (child_process.js:640:13)
+    at runOnAllDevices (C:\Users\tanch\textdetector4\node_modules\react-native\local-cli\runAndroid\runAndroid.js:299:19)
+    at buildAndRun (C:\Users\tanch\textdetector4\node_modules\react-native\local-cli\runAndroid\runAndroid.js:135:12)
+    at isPackagerRunning.then.result (C:\Users\tanch\textdetector4\node_modules\react-native\local-cli\runAndroid\runAndroid.js:65:12)
+    at process.internalTickCallback (internal/process/next_tick.js:77:7)
+</code></pre>
+","['I am trying to link this library called react-native-text-detector. \nHowever, I consistently get an error saying Command failed: gradlew.bat installDebug', ""I have tried changing the '\\' in settings.gradle to '/'. However, the same error still pops up"", 'All I have been doing is this', '\nreact-native init textDetectorTesting\nnpm install --save react-native-text-detector\nreact-native link\n', 'This is the error I received']",1,0,0
+1688,49270438,Error TypeError: i28.?d is not a constructor in angular 5,"<p>I get the follow error while running the angular application (hitting application url in browser) in AOT mode using <strong>ng serve --aot</strong> command. Please not that I get no error while building application in aot mode. I get this error in browser when i hit application url.</p>
+
+<pre><code>`ERROR TypeError: i28.?d is not a constructor
+    at eval (app.module.ngfactory.js:94)
+    at _callFactory (core.js:10955)
+    at _createProviderInstance$1 (core.js:10897)
+    at resolveNgModuleDep (core.js:10879)
+    at _callFactory (core.js:10947)
+    at _createProviderInstance$1 (core.js:10897)
+    at resolveNgModuleDep (core.js:10879)
+    at _createClass (core.js:10920)
+    at _createProviderInstance$1 (core.js:10894)
+    at resolveNgModuleDep (core.js:10879)`
+</code></pre>
+
+<p>Any solutions for this problem will be helpful. </p>
+","['I get the follow error while running the angular application (hitting application url in browser) in AOT mode using ng serve --aot command. Please not that I get no error while building application in aot mode. I get this error in browser when i hit application url.', 'Any solutions for this problem will be helpful. ']",0,0,1
+864,49183240,Detox test hanging in hybrid app at detox.init,"<h1>Description</h1>
+
+<p>While running detox in my hybrid app, detox gets stuck on init before timing out. [last log is <code>detox verb ws send: {""type"":""isReady"",""params"":{},""messageId"":-1000}</code>]</p>
+
+<p>The hybrid app has native login, but most of the app is in react native. If I rush through login and get to the react native part of the app then Detox runs smoothly.</p>
+
+<h1>Setup</h1>
+
+<p>Setup the same as described in <a href=""https://github.com/wix/detox/blob/master/docs/Introduction.GettingStarted.md"" rel=""nofollow noreferrer"">https://github.com/wix/detox/blob/master/docs/Introduction.GettingStarted.md</a></p>
+
+<h3>init.js</h3>
+
+<pre><code>onst detox = require('detox');
+const config = require('../package.json').detox;
+
+before(async () =&gt; {
+  console.log(""************************* CONSOLE LOG ASYNC BEFORE *************************"");
+  await detox.init(config);
+  console.log(""************************* CONSOLE LOG ASYNC END BEFORE *************************"");
+});
+
+after(async () =&gt; {
+  await detox.cleanup();
+});
+</code></pre>
+
+<p>As you can see in the log, it never reaches 'CONSOLE LOG ASYNC END BEFORE' (unless I skip through the ios section of the app quickly)</p>
+
+<h3>Package.json</h3>
+
+<pre><code>  ""dependencies"": {
+    ...
+    ""mocha"": ""5.0.4"",
+    ""detox"": ""7.1.0"",
+    ...
+  },
+  ""detox"": {
+    ""configurations"": {
+      ""ios.sim.debug"": {
+        ""binaryPath"": ""member/ios/build/Build/Products/Debug-iphonesimulator/MyappMember.app"",
+        ""build"": ""xcodebuild -workspace member/ios/MyappMember.xcworkspace -scheme MyappMember -configuration Debug  -sdk iphonesimulator -derivedDataPath member/ios/build"",
+        ""type"": ""ios.simulator"",
+        ""name"": ""iPhone 7""
+      }
+    }
+  },
+</code></pre>
+
+<h1>Detox, Node, Device, Xcode and macOS Versions</h1>
+
+<ul>
+<li>Detox: 7.1.0</li>
+<li>Node: 8.9.4</li>
+<li>Device: Iphone 7 simulator</li>
+<li>Xcode: 9.2</li>
+<li>macOS: 10.12.6</li>
+</ul>
+
+<h1>Device and verbose Detox logs</h1>
+
+<h3>verbose Detox Logs</h3>
+
+<pre><code>Bug Crusher:mobile etai$ detox test -l verbose
+node_modules/.bin/mocha e2e --opts e2e/mocha.opts  --loglevel verbose
+
+
+************************* CONSOLE LOG ASYNC BEFORE *************************
+detox-server info 16:50:24: server listening on localhost:57324...
+detox verb ws onOpen [object Object]
+detox verb ws send: {""type"":""login"",""params"":{""sessionId"":""417aebb8-870c-5798-827c-de0301e7cf17"",""role"":""tester""},""messageId"":0}
+detox verb ws onMessage: {""type"":""loginSuccess"",""params"":{""sessionId"":""417aebb8-870c-5798-827c-de0301e7cf17"",""role"":""tester""},""messageId"":0}
+detox verb ws
+detox verb 1: applesimutils --list ""iPhone 7"" --maxResults=1
+detox info 1: Searching for device matching iPhone 7...
+detox verb 1: stdout: [
+detox verb 1: stdout:   {
+detox verb 1: stdout:     ""state"" : ""Booted"",
+detox verb 1: stdout:     ""availability"" : ""(available)"",
+detox verb 1: stdout:     ""name"" : ""iPhone 7"",
+detox verb 1: stdout:     ""udid"" : ""ABE6CC96-22A1-4FB3-A62E-017033848CD7"",
+detox verb 1: stdout:     ""os"" : {
+detox verb 1: stdout:       ""version"" : ""11.2"",
+detox verb 1: stdout:       ""availability"" : ""(available)"",
+detox verb 1: stdout:       ""name"" : ""iOS 11.2"",
+detox verb 1: stdout:       ""identifier"" : ""com.apple.CoreSimulator.SimRuntime.iOS-11-2"",
+detox verb 1: stdout:       ""buildversion"" : ""15C107""
+detox verb 1: stdout:     }
+detox verb 1: stdout:   }
+detox verb 1: stdout: ]
+detox verb 1: stdout:
+detox verb 2: detox verb 2: applesimutils --list
+...
+detox verb 3: /usr/bin/xcrun simctl uninstall ABE6CC96-22A1-4FB3-A62E-017033848CD7 com.myapp.MyappMemberDebug
+detox info 3: Uninstalling com.myapp.MyappMemberDebug...
+detox info 3: com.myapp.MyappMemberDebug uninstalled
+detox verb 4: /usr/bin/xcrun simctl install ABE6CC96-22A1-4FB3-A62E-017033848CD7 /Users/etai/Code/data/mobile/member/ios/build/Build/Products/Debug-iphonesimulator/MyappMember.app
+detox info 4: Installing /Users/etai/Code/data/mobile/member/ios/build/Build/Products/Debug-iphonesimulator/MyappMember.app...
+detox info 4: /Users/etai/Code/data/mobile/member/ios/build/Build/Products/Debug-iphonesimulator/MyappMember.app installed
+detox verb 5: /usr/bin/xcrun simctl terminate ABE6CC96-22A1-4FB3-A62E-017033848CD7 com.myapp.MyappMemberDebug
+detox info 5: Terminating com.myapp.MyappMemberDebug...
+detox info 5: com.myapp.MyappMemberDebug terminated
+detox verb 6: /bin/cat /dev/null &gt;$HOME/Library/Developer/CoreSimulator/Devices/ABE6CC96-22A1-4FB3-A62E-017033848CD7/data/tmp/detox.last_launch_app_log.out 2&gt;$HOME/Library/Developer/CoreSimulator/Devices/ABE6CC96-22A1-4FB3-A62E-017033848CD7/data/tmp/detox.last_launch_app_log.err &amp;&amp; SIMCTL_CHILD_DYLD_INSERT_LIBRARIES=""/Users/etai/Library/Detox/ios/fc3bb123b36c426327a2ab12f6d5185aa779ec37/Detox.framework/Detox"" /usr/bin/xcrun simctl launch --stdout=/tmp/detox.last_launch_app_log.out --stderr=/tmp/detox.last_launch_app_log.err ABE6CC96-22A1-4FB3-A62E-017033848CD7 com.myapp.MyappMemberDebug --args -detoxServer ws://localhost:57324 -detoxSessionId 417aebb8-870c-5798-827c-de0301e7cf17
+detox info 6: Launching com.myapp.MyappMemberDebug...
+detox verb 6: stdout: com.myapp.MyappMemberDebug: 6445
+detox verb 6: stdout:
+detox info 6: com.myapp.MyappMemberDebug launched. The stdout and stderr logs were recreated, you can watch them with:
+        tail -F $HOME/Library/Developer/CoreSimulator/Devices/ABE6CC96-22A1-4FB3-A62E-017033848CD7/data/tmp/detox.last_launch_app_log.{out,err}
+detox verb ws send: {""type"":""isReady"",""params"":{},""messageId"":-1000}
+  1) ""before all"" hook
+
+  0 passing (2m)
+  1 failing
+
+  1) ""before all"" hook:
+     Error: Timeout of 120000ms exceeded. For async tests and hooks, ensure ""done()"" is called; if returning a Promise, ensure it resolves.
+
+
+
+
+child_process.js:644
+    throw err;
+    ^
+
+Error: Command failed: node_modules/.bin/mocha e2e --opts e2e/mocha.opts  --loglevel verbose
+    at checkExecSyncError (child_process.js:601:13)
+    at Object.execSync (child_process.js:641:13)
+    at runMocha (/Users/etai/Code/data/mobile/node_modules/detox/local-cli/detox-test.js:72:6)
+    at Object.&lt;anonymous&gt; (/Users/etai/Code/data/mobile/node_modules/detox/local-cli/detox-test.js:50:5)
+    at Module._compile (module.js:643:30)
+    at Object.Module._extensions..js (module.js:654:10)
+    at Module.load (module.js:556:32)
+    at tryModuleLoad (module.js:499:12)
+    at Function.Module._load (module.js:491:3)
+    at Function.Module.runMain (module.js:684:10)
+Bug Crusher:mobile etai$
+</code></pre>
+
+<h3>Device Logs</h3>
+
+<pre><code>2018-03-08 16:50:29.645 MyappMember[6445:1612042] Crash handler setup started.
+2018-03-08 16:50:29.645 MyappMember[6445:1612042] Crash handler setup completed.
+2018-03-08 16:50:29.646 MyappMember[6445:1612042] Enabling accessibility for automation on Simulator.
+2018-03-08 16:50:30.447 MyappMember[6445:1612042] You've implemented -[&lt;UIApplicationDelegate&gt; application:didReceiveRemoteNotification:fetchCompletionHandler:], but you still need to add ""remote-notification"" to the list of your supported UIBackgroundModes in your Info.plist.
+2018-03-08 16:50:30:452 MyappMember[6445:1612042] INFO: App did finish launching. Running v4.8.0.
+2018-03-08 16:50:30:469 MyappMember[6445:1612042] INFO: First time app has been run. Clearing session token from keychain.
+2018-03-08 16:50:30.519 MyappMember[6445:1612042] Simulator user has requested new graphics quality: 10
+2018-03-08 16:50:30.567 MyappMember[6445:1612042] [Crashlytics] Version 3.8.6 (124)
+2018-03-08 16:50:30:577 MyappMember[6445:1612042] INFO: App did become active
+2018-03-08 16:50:30:583 MyappMember[6445:1612042] DBG: Device registered 0 | Alerts enabled 0
+2018-03-08 16:50:30:584 MyappMember[6445:1612042] INFO: Checking if healthkit data available in background
+2018-03-08 16:50:30:584 MyappMember[6445:1612042] INFO: Allocated new OIHealthKitService &lt;OIHealthKitService: 0x6040002a5ac0&gt;
+2018-03-08 16:50:30:584 MyappMember[6445:1612042] INFO: Allocated steps data source
+2018-03-08 16:50:30:584 MyappMember[6445:1612042] INFO: Allocated new steps data source &lt;OIStepsDataSource: 0x6040000dc230&gt;
+2018-03-08 16:50:30.664 MyappMember[6445:1612042] Unknown class UIview in Interface Builder file.
+2018-03-08 16:50:30:676 MyappMember[6445:1612042] INFO: [OIKeychainService searchKeychainCopyMatchingIdentifier:] Error -25300. Identifier com.myapp.keychain.session_token
+2018-03-08 16:50:30:678 MyappMember[6445:1612042] INFO: View will appear for Logged Out Home Screen
+2018-03-08 16:50:30:756 MyappMember[6445:1612042] INFO: Healthkit data available: 1
+2018-03-08 16:50:30:779 MyappMember[6445:1612042] INFO: OIQuickLoginAuthManager: Prompt not shown this run
+2018-03-08 16:50:30:780 MyappMember[6445:1612042] INFO: [OIKeychainService searchKeychainCopyMatchingIdentifier:] Error -25300. Identifier touchID
+2018-03-08 16:50:30:781 MyappMember[6445:1612042] INFO: [OIKeychainService searchKeychainCopyMatchingIdentifier:] Error -25300. Identifier passcode
+2018-03-08 16:50:30:781 MyappMember[6445:1612042] INFO: OIQuickLoginAuthManager: Neither touch id nor passcode enabled so nothing to do
+2018-03-08 16:50:30:797 MyappMember[6445:1612042] INFO: View will appear for (null)
+2018-03-08 16:50:30:797 MyappMember[6445:1612042] INFO: OIViewController session is nil!
+2018-03-08 16:50:32.772 MyappMember[6445:1612042] [Crashlytics:Crash] Warning: NSUncaughtExceptionHandler is 'grey_uncaughtExceptionHandler' in '/Users/etai/Library/Detox/ios/fc3bb123b36c426327a2ab12f6d5185aa779ec37/Detox.framework/Frameworks/EarlGrey.framework/EarlGrey'
+[Crashlytics] The signal SIGABRT has a non-Crashlytics handler (CLSLookupFunctionPointer).  This will interfere with reporting.
+[Crashlytics] The signal SIGBUS has a non-Crashlytics handler (CLSLookupFunctionPointer).  This will interfere with reporting.
+[Crashlytics] The signal SIGFPE has a non-Crashlytics handler (CLSLookupFunctionPointer).  This will interfere with reporting.
+[Crashlytics] The signal SIGILL has a non-Crashlytics handler (CLSLookupFunctionPointer).  This will interfere with reporting.
+[Crashlytics] The signal SIGSEGV has a non-Crashlytics handler (CLSLookupFunctionPointer).  This will interfere with reporting.
+[Crashlytics] The signal SIGSYS has a non-Crashlytics handler (CLSLookupFunctionPointer).  This will interfere with reporting.
+[Crashlytics] The signal SIGTRAP has a non-Crashlytics handler (CLSLookupFunctionPointer).  This will interfere with reporting.
+</code></pre>
+","['While running detox in my hybrid app, detox gets stuck on init before timing out. [last log is <code>detox verb ws send: {""type"":""isReady"",""params"":{},""messageId"":-1000}</code>]', 'The hybrid app has native login, but most of the app is in react native. If I rush through login and get to the react native part of the app then Detox runs smoothly.', 'Setup the same as described in <a href=""https://github.com/wix/detox/blob/master/docs/Introduction.GettingStarted.md"" rel=""nofollow noreferrer"">https://github.com/wix/detox/blob/master/docs/Introduction.GettingStarted.md</a>', ""As you can see in the log, it never reaches 'CONSOLE LOG ASYNC END BEFORE' (unless I skip through the ios section of the app quickly)"", '\nDetox: 7.1.0\nNode: 8.9.4\nDevice: Iphone 7 simulator\nXcode: 9.2\nmacOS: 10.12.6\n']",1,0,0
+1249,73252697,"My button has a click handler, but clicking it throws an error instead of executing the function","<p>I have a component and an HTML template. Here's the HTML:</p>
+<pre class=""lang-html prettyprint-override""><code>    &lt;button (click)=&quot;upload()&quot;&gt; Upload File&lt;/button&gt;
+    &lt;upload-dialog #upload&gt;&lt;/upload-dialog&gt;
+</code></pre>
+<p>When the button is clicked I expect it to call the <code>upload()</code> function in my component:</p>
+<pre><code>import { Component, ViewChild } from '@angular/core';
+import { UploadComponent } from './upload/upload.component';
+
+@Component({
+  selector: 'app-something',
+  templateUrl: './something.component.html'
+})
+export class SomethingComponent {
+  @ViewChild('upload', { static: false }) uploadDialog: UploadComponent;
+
+  upload(): void {
+    this.uploadDialog.showUpload = true;
+  }
+}
+</code></pre>
+<p>(The function just calls a method in the <code>UploadComponent</code>.)</p>
+<p>But instead of calling the <code>upload()</code> function it returns a meaningless error:</p>
+<pre><code>ERROR TypeError: _angular_core__WEBPACK_IMPORTED_MODULE_1__.?nov(...) is not a function
+    at Object.handleEvent (something.component.html:8:25)
+    at handleEvent (core.js:46249:77)
+    at callWithDebugContext (core.js:47906:1)
+    at Object.debugHandleEvent [as handleEvent] (core.js:47515:1)
+    at dispatchEvent (core.js:31567:1)
+    at core.js:45171:1
+    at HTMLButtonElement.&lt;anonymous&gt; (platform-browser.js:976:1)
+    at ZoneDelegate.invokeTask (zone-evergreen.js:399:1)
+    at Object.onInvokeTask (core.js:41686:1)
+    at ZoneDelegate.invokeTask (zone-evergreen.js:398:1)
+</code></pre>
+<p>What am I doing wrong?</p>
+","[""I have a component and an HTML template. Here's the HTML:"", 'When the button is clicked I expect it to call the <code>upload()</code> function in my component:', '(The function just calls a method in the <code>UploadComponent</code>.)', 'But instead of calling the <code>upload()</code> function it returns a meaningless error:', 'What am I doing wrong?']",0,1,0

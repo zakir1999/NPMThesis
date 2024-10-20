@@ -1,0 +1,2354 @@
+,QId,QTitle,QBody,Text,Why,What,How
+283,73381592,i have a problem on including hooks to a morpion game on React tutorial,"<p>i'am trying to resolve tutorial of react using states and hooks ,but i'am sure that i'am missing something , i can't obtain content , need your help , I am beginner
+i'll join my code</p>
+<pre><code>function Game () {
+  const [history,setHistory]= useState[{squares:Array(9).fill(null)}]
+  const [xIsNext,setXIsNext]= useState('true')
+  const [stepNumber,setStepNumber]= useState(0)
+  const [current,setCurrent]=useState(null)
+  const [winner,setWinner]=useState(null)
+          const handleClick = (i) =&gt;{
+         history = history.slice(setStepNumber(stepNumber +1));
+         current = history[history.length - 1];
+        const squares = current.squares.slice();
+        if (calculateWinner(squares) || squares[i]){
+            return;
+        }
+        squares[i]= xIsNext ? 'X':'O';
+        setHistory(history.concat([{squares:squares}]));
+        setStepNumber(history.length);
+        setXIsNext(!xIsNext);
+        
+        }
+    const jumpTo = (step) =&gt; {
+            return( setStepNumber(step) &amp;&amp;
+            setXIsNext(step % 2) === 0
+        )};
+    const moves = history.map((step,move) =&gt; {
+        const desc= move ?
+        'revenir au tour numero'+ move:
+        'revenir au début de la partie';
+        return(
+            &lt;li key={move}&gt;
+                &lt;button onClick={() =&gt; jumpTo(move)}&gt; {desc}
+                &lt;/button&gt;
+            &lt;/li&gt;
+        );
+    });
+    useEffect(() =&gt; {
+        const history = history;
+        const current = history[stepNumber];
+       setWinner(calculateWinner(current.squares));
+      });  
+      let status = null;
+      if (winner){
+          status = winner +'a gagné'
+        }
+        else {
+          status = 'Prochain joueur:' + (xIsNext ? 'X':'O')
+        }
+      return (
+        &lt;div className=&quot;game&quot;&gt;
+          &lt;div className=&quot;game-board&quot;&gt;
+            &lt;Board 
+            squares={current.squares}
+            onClick={(i) =&gt; handleClick(i)}/&gt;
+          &lt;/div&gt;
+          &lt;div className=&quot;game-info&quot;&gt;
+            &lt;div&gt;{status}&lt;/div&gt;
+            &lt;ol&gt;{moves}&lt;/ol&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      );
+      }
+</code></pre>
+<p>i have this error message<br />
+Uncaught TypeError: undefined is not iterable (cannot read property Symbol(Symbol.iterator))
+at Game (index.js:54:1)</p>
+","[""i'am trying to resolve tutorial of react using states and hooks ,but i'am sure that i'am missing something , i can't obtain content , need your help , I am beginner\ni'll join my code"", 'i have this error message<br />\nUncaught TypeError: undefined is not iterable (cannot read property Symbol(Symbol.iterator))\nat Game (index.js:54:1)']",0,0,1
+1856,48194412,Angular 2 reselect with @ngrx/store causes undefined error,"<p>I'm quite new to Angular, im Following <a href=""https://kimsereyblog.blogspot.co.il/2017/07/managing-global-state-with-ngrx-store.html"" rel=""nofollow noreferrer"">this tutorial</a> on  managing global state with ngrx store.
+Angular 5.1.1 /Typescript 2.4.2</p>
+
+<p>admin/networks is a lazy loaded module.
+im trying to display a selector with an inline form based on the EDIT_FIELD state value (changed from within the form )
+im getting this error in the browser console upon page load.</p>
+
+<p><strong>""TypeError: Cannot read property 'editedField' of undefined
+    at getEditedField (_reducers/network.ts:43)""</strong></p>
+
+<p>for some reason its not recognizing the ""state"" declared at the beginning of the file.
+Any idea why ? Thanks !</p>
+
+<p>Structure</p>
+
+<pre><code>```
+app
+¦
++---_actions
+          ¦
+          network.ts
+¦
++---_reducers
+          ¦
+          index.ts
+          network.ts
+¦
++---_models
+¦        ¦
+|         network.ts
++---theme
+¦   +---pages
+¦         +---admin
+¦              +---networks
+|                    ¦
+|                 networks.module.ts
+|                 networks.component.ts
+|                 networks.component.html
+¦                   +---network
+|                             ¦
+|                          network.ts
+|                          network.html
+|                          network-name.ts
+|                          network-name.html
+```
+</code></pre>
+
+<p><strong>_actions/network.ts</strong></p>
+
+<pre><code>import { Network } from '../_models/network';
+
+
+export const EDIT_FIELD = '[Network] Edit Field';
+
+
+export class EditFieldAction implements Action {
+  readonly type = EDIT_FIELD;
+
+      constructor(public payload: string) {
+      }
+}
+
+
+export type Actions = EditFieldAction;
+</code></pre>
+
+<p><strong>_reducers/network.ts</strong></p>
+
+<pre><code>import { Network } from '../_models/network';
+import { ActionReducer, Action } from '@ngrx/store';
+import * as networkAction from '../_actions/network';
+
+
+export interface State {
+  editedField: string;
+}
+
+export const initialState: State = {
+
+  editedField: null,
+
+};
+
+
+
+export function reducer(state = initialState, action: networkAction.Actions) {
+
+
+  switch (action.type) {
+
+        case networkAction.EDIT_FIELD: {
+
+          return Object.assign({}, state, {
+            editedField: action.payload
+          });  
+
+        }   
+
+    default: {
+      return state;
+    }
+  }
+}
+
+*** this line is giving me the error **
+export const getEditedField = (state: State) =&gt; state.editedField;
+</code></pre>
+
+<p><strong>_reducers/index.ts</strong></p>
+
+<pre><code>import { compose } from '@ngrx/core/compose';
+import { createSelector } from 'reselect';
+import { combineReducers } from '@ngrx/store';
+import { ActionReducer } from '@ngrx/store';
+import * as fromNetwork from './network';
+
+
+export interface State {
+  network: fromNetwork.State;
+
+} 
+
+const globalReducers = {
+  network: fromNetwork.reducer,
+};
+
+const globalState: ActionReducer&lt;State&gt; = combineReducers(globalReducers);
+
+export function reducer(state: any, action: any) {
+      return globalState(state, action);
+}
+
+export const getNetworkState = (state: State) =&gt; state.network;
+
+export const getNetworkEditedField = createSelector(getNetworkState, fromNetwork.getEditedField);
+</code></pre>
+
+<p><strong>_models/network.ts</strong></p>
+
+<pre><code>export interface Network {
+  nid: string;
+  networkName: string;
+  startAddress: string;
+  endAddress: string;
+  groups: string[];
+}
+
+export interface NetworkName {
+  networkName: string;
+}
+</code></pre>
+
+<p><strong>theme/pages/admin/networks/networks.component.ts</strong></p>
+
+<pre><code>import { Component, OnInit, ViewEncapsulation, AfterViewInit, Input, EventEmitter, Output } from '@angular/core';
+import { Helpers } from '../../../../helpers';
+import { ScriptLoaderService } from '../../../../_services/script-loader.service';
+import { AuthComponent} from ""../../../../auth/auth.component"";
+import { NetworksService} from ""../../../../auth/_services/networks.service"";
+import { Network, NetworkName  } from ""../../../../_models/network"";
+
+import { Observable } from ""rxjs/Observable"";
+import { Store, StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import * as _network from ""../../../../_actions/network"";
+import * as fromRoot from ""../../../../_reducers"";
+
+@Component({
+selector: "".m-grid__item.m-grid__item--fluid.m-wrapper"",
+templateUrl: ""./networks.component.html"",
+encapsulation: ViewEncapsulation.None,
+})
+    export class NetworksComponent implements OnInit, AfterViewInit {
+
+    @Input() networkList;
+    editedField$: Observable&lt;string&gt;;
+    loading = false;
+    verifiedAdmin = false;  
+
+    constructor(private _script: ScriptLoaderService,
+                private _auth: AuthComponent,
+                private _networksService: NetworksService,
+                private _store: Store&lt;fromRoot.State&gt;)  {
+
+                ** error starts here **  
+                this.editedField$ = this._store.select(fromRoot.getNetworkEditedField);
+
+    }
+
+    ngOnInit()  {
+        this.getNetworkList(); 
+    }
+
+    changeEditedField(field) {
+      this._store.dispatch(new _network.EditFieldAction(field));
+    }   
+
+    getNetworkList() {
+            this.loading = true;
+            this._networksService.verifyAdmin()
+            .subscribe(result =&gt; {
+                    if (result.status == 'ok' ) {
+
+                        this._networksService.getAll()
+                            .subscribe(networks =&gt; {
+                               this.networkList = networks['data'];
+                               this.loading = false;
+                            }, error =&gt; {
+
+                         });                                
+
+                    }   else {
+
+                        return false;
+                    }       
+                });
+    }       
+
+
+    ngAfterViewInit()  {
+        this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
+        'assets/app/js/dashboard.js');
+
+    }
+
+}
+</code></pre>
+
+<p><strong>theme/pages/admin/networks/networks.component.html</strong></p>
+
+<pre><code>...
+    &lt;div class=""m-content""&gt;
+            &lt;div class=""row""&gt;
+                &lt;div class=""col-xl-4""&gt;
+                &lt;div class=""m-portlet__body""&gt;
+                &lt;app-networks 
+                  [networkList]=""networkList""
+                  [editedField]=""editedField$ | async""
+                  (changeEditedField)=""changeEditedField($event)""&gt;
+                 &lt;/app-networks&gt;
+                &lt;/div&gt;
+             &lt;/div&gt;
+...
+</code></pre>
+","['I\'m quite new to Angular, im Following <a href=""https://kimsereyblog.blogspot.co.il/2017/07/managing-global-state-with-ngrx-store.html"" rel=""nofollow noreferrer"">this tutorial</a> on  managing global state with ngrx store.\nAngular 5.1.1 /Typescript 2.4.2', 'admin/networks is a lazy loaded module.\nim trying to display a selector with an inline form based on the EDIT_FIELD state value (changed from within the form )\nim getting this error in the browser console upon page load.', '""TypeError: Cannot read property \'editedField\' of undefined\n    at getEditedField (_reducers/network.ts:43)""', 'for some reason its not recognizing the ""state"" declared at the beginning of the file.\nAny idea why ? Thanks !', 'Structure', '_actions/network.ts', '_reducers/network.ts', '_reducers/index.ts', '_models/network.ts', 'theme/pages/admin/networks/networks.component.ts', 'theme/pages/admin/networks/networks.component.html']",1,0,0
+1051,68583312,Error when i run this comand in react native project: expo install react-native-maps,"<p>i'm trying to run this comand in react native project: <code>expo install react-native-maps</code> .
+However, it always return this error. I've tried to deleting node_modules and reinstall them, but the error lingers. Help me please, Thanks in advance !</p>
+<pre><code>    C:\Users\ASUS TUFF\Documents\Study\maps-react-native\react-native-maps&gt;expo install react-native-maps
+Installing 1 SDK 42.0.0 compatible native module using npm.
+&gt; npm install
+npm ERR! code ERESOLVE
+npm ERR! ERESOLVE unable to resolve dependency tree
+npm ERR!
+npm ERR! While resolving: undefined@undefined
+npm ERR! Found: react-native-web@0.13.18
+npm ERR! node_modules/react-native-web
+npm ERR!   react-native-web@&quot;~0.13.12&quot; from the root project
+npm ERR!
+npm ERR! Could not resolve dependency:
+npm ERR! peer react-native-web@&quot;^0.11&quot; from react-native-maps@0.28.0
+npm ERR! node_modules/react-native-maps
+npm ERR!   react-native-maps@&quot;0.28.0&quot; from the root project
+npm ERR!
+npm ERR! Fix the upstream dependency conflict, or retry
+npm ERR! this command with --force, or --legacy-peer-deps
+npm ERR! to accept an incorrect (and potentially broken) dependency resolution.
+npm ERR!
+npm ERR! See C:\Users\ASUS TUFF\AppData\Local\npm-cache\eresolve-report.txt for a full report.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     C:\Users\ASUS TUFF\AppData\Local\npm-cache\_logs\2021-07-29T20_29_51_765Z-debug.log
+
+
+
+npm exited with non-zero code: 1
+Error: npm exited with non-zero code: 1
+    at ChildProcess.completionListener (C:\Users\ASUS TUFF\AppData\Roaming\npm\node_modules\expo-cli\node_modules\@expo\spawn-async\src\spawnAsync.ts:65:13)
+    at Object.onceWrapper (events.js:422:26)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.cp.emit (C:\Users\ASUS TUFF\AppData\Roaming\npm\node_modules\expo-cli\node_modules\cross-spawn\lib\enoent.js:34:29)
+    at maybeClose (internal/child_process.js:1048:16)
+    at Process.ChildProcess._handle.onexit (internal/child_process.js:288:5)
+    ...
+    at Object.spawnAsync [as default] (C:\Users\ASUS TUFF\AppData\Roaming\npm\node_modules\expo-cli\node_modules\@expo\spawn-async\src\spawnAsync.ts:26:19)
+    at NpmPackageManager._runAsync (C:\Users\ASUS TUFF\AppData\Roaming\npm\node_modules\expo-cli\node_modules\@expo\package-manager\src\NodePackageManagers.ts:166:31)
+    at NpmPackageManager.addAsync (C:\Users\ASUS TUFF\AppData\Roaming\npm\node_modules\expo-cli\node_modules\@expo\package-manager\src\NodePackageManagers.ts:105:18)
+    at actionAsync (C:\Users\ASUS TUFF\AppData\Roaming\npm\node_modules\expo-cli\src\commands\installAsync.ts:122:3)
+
+C:\Users\ASUS TUFF\Documents\Study\maps-react-native\react-native-maps&gt;
+</code></pre>
+","[""i'm trying to run this comand in react native project: <code>expo install react-native-maps</code> .\nHowever, it always return this error. I've tried to deleting node_modules and reinstall them, but the error lingers. Help me please, Thanks in advance !""]",0,0,1
+1464,73779373,expo run:android failed gradle,"<p>I'm trying to run my React-Native (Expo) app on Android device.
+First of all i ran an <code>expo prebuild</code> command,
+<a href=""https://i.stack.imgur.com/GYgSf.png"" rel=""nofollow noreferrer"">and i got this traceback</a></p>
+<p>ok, i did not attach much importance to the error
+and after that i ran <code>expo run:android</code></p>
+<p>and i got this error:</p>
+<pre><code>FAILURE: Build failed with an exception.
+
+* Where:
+Settings file '/Desktop/projects/'[PROJECT NAME]'/android/settings.gradle' line: 6
+
+* What went wrong:
+A problem occurred evaluating settings '[PROJECT NAME]'.
+&gt; String index out of range: 0
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+
+BUILD FAILED in 770ms
+/Desktop/projects/'[PROJECT NAME]'/android/gradlew exited with non-zero code: 1
+Error: /Desktop/projects/'[PROJECT NAME]'/android/gradlew exited with non-zero code: 1
+    at ChildProcess.completionListener (/usr/local/lib/node_modules/expo-cli/node_modules/@expo/spawn-async/src/spawnAsync.ts:65:13)
+    at Object.onceWrapper (node:events:642:26)
+    at ChildProcess.emit (node:events:527:28)
+    at maybeClose (node:internal/child_process:1092:16)
+    at Process.ChildProcess._handle.onexit (node:internal/child_process:302:5)
+    ...
+    at spawnAsync (/usr/local/lib/node_modules/expo-cli/node_modules/@expo/spawn-async/src/spawnAsync.ts:26:19)
+    at spawnGradleAsync (/usr/local/lib/node_modules/expo-cli/src/commands/run/android/spawnGradleAsync.ts:83:18)
+    at assembleAsync (/usr/local/lib/node_modules/expo-cli/src/commands/run/android/spawnGradleAsync.ts:57:16)
+    at actionAsync (/usr/local/lib/node_modules/expo-cli/src/commands/run/android/runAndroid.ts:143:9)
+</code></pre>
+<p>this is my <code>setting.gradle</code> file:</p>
+<pre><code>rootProject.name = '[PROJECT NAME]'
+
+apply from: new File([&quot;node&quot;, &quot;--print&quot;, &quot;require.resolve('expo/package.json')&quot;].execute(null, rootDir).text.trim(), &quot;../scripts/autolinking.gradle&quot;);
+useExpoModules()
+
+apply from: new File([&quot;node&quot;, &quot;--print&quot;, &quot;require.resolve('@react-native-community/cli-platform-android/package.json')&quot;].execute(null, rootDir).text.trim(), &quot;../native_modules.gradle&quot;);
+applyNativeModulesSettingsGradle(settings)
+
+include ':app'
+</code></pre>
+<p>What have I done wrong?
+Please help me understand</p>
+","['I\'m trying to run my React-Native (Expo) app on Android device.\nFirst of all i ran an <code>expo prebuild</code> command,\n<a href=""https://i.stack.imgur.com/GYgSf.png"" rel=""nofollow noreferrer"">and i got this traceback</a>', 'ok, i did not attach much importance to the error\nand after that i ran <code>expo run:android</code>', 'and i got this error:', 'this is my <code>setting.gradle</code> file:', 'What have I done wrong?\nPlease help me understand']",0,1,0
+1426,57864453,React Native: Module not found @react-native-community-cli,"<p>Project was working fine before I had to reinstall everything on my computer. I get the following error after I run <code>npm install</code> and then <code>expo start</code></p>
+
+<pre><code>internal/modules/cjs/loader.js:296
+      throw err;
+      ^
+
+Error: Cannot find module '/home/amber/Documents/GitKraken/school-notification-1/App/node_modules/@react-native-community/cli/build/index.js'. Please verify that the package.json has a valid ""main"" entry
+    at tryPackage (internal/modules/cjs/loader.js:288:19)
+    at Function.Module._findPath (internal/modules/cjs/loader.js:515:18)
+    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:759:27)
+    at Function.Module._load (internal/modules/cjs/loader.js:677:27)
+    at Module.require (internal/modules/cjs/loader.js:830:19)
+    at require (internal/modules/cjs/helpers.js:68:18)
+    at Object.&lt;anonymous&gt; (/home/amber/Documents/GitKraken/school-notification-1/App/node_modules/react-native/local-cli/cli.js:12:11)
+    at Module._compile (internal/modules/cjs/loader.js:936:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:947:10)
+    at Module.load (internal/modules/cjs/loader.js:790:32) {
+  code: 'MODULE_NOT_FOUND',
+  path: '/home/amber/Documents/GitKraken/school-notification-1/App/node_modules/@react-native-community/cli/package.json',
+  requestPath: '@react-native-community/cli'
+}
+
+Metro Bundler process exited with code 1
+</code></pre>
+
+<p>This is my <code>package.json</code></p>
+
+<pre><code>{
+  ""main"": ""node_modules/expo/AppEntry.js"",
+  ""scripts"": {
+    ""start"": ""expo start"",
+    ""android"": ""expo start --android"",
+    ""ios"": ""expo start --ios"",
+    ""web"": ""expo start --web"",
+    ""eject"": ""expo eject"",
+    ""test"": ""jest --watchAll""
+  },
+  ""jest"": {
+    ""preset"": ""jest-expo""
+  },
+  ""dependencies"": {
+    ""@expo/vector-icons"": ""^10.0.3"",
+    ""@react-navigation/web"": ""^1.0.0-alpha.9"",
+    ""axios"": ""^0.19.0"",
+    ""expo"": ""^34.0.1"",
+    ""expo-asset"": ""^6.0.0"",
+    ""expo-constants"": ""^6.0.0"",
+    ""expo-font"": ""~6.0.0"",
+    ""expo-web-browser"": ""6.0.0"",
+    ""navigationbar-react-native"": ""0.0.5"",
+    ""qs"": ""^6.8.0"",
+    ""react"": ""16.8.3"",
+    ""react-dom"": ""^16.8.6"",
+    ""react-native"": ""https://github.com/expo/react-native/archive/sdk-34.0.0.tar.gz"",
+    ""react-native-action-button"": ""^2.8.5"",
+    ""react-native-anchor-carousel"": ""^3.1.1"",
+    ""react-native-app-intro-slider"": ""^3.0.0"",
+    ""react-native-calendars"": ""^1.210.0"",
+    ""react-native-circle-drawer"": ""^1.0.0"",
+    ""react-native-drawer-menu"": ""^0.2.5"",
+    ""react-native-elements"": ""^1.1.0"",
+    ""react-native-gesture-handler"": ""^1.3.0"",
+    ""react-native-global-props"": ""^1.1.5"",
+    ""react-native-htmlview"": ""^0.15.0"",
+    ""react-native-loading-spinner-overlay"": ""^1.0.1"",
+    ""react-native-popup-dialog"": ""^0.18.3"",
+    ""react-native-side-drawer"": ""^1.1.11"",
+    ""react-native-side-menu"": ""^1.1.3"",
+    ""react-native-sidebar"": ""^0.3.0"",
+    ""react-native-web"": ""^0.11.4"",
+    ""react-navigation"": ""^3.11.0""
+  },
+  ""devDependencies"": {
+    ""babel-preset-expo"": ""^6.0.0"",
+    ""jest-expo"": ""^34.0.0""
+  },
+  ""private"": true
+}
+</code></pre>
+","['Project was working fine before I had to reinstall everything on my computer. I get the following error after I run <code>npm install</code> and then <code>expo start</code>', 'This is my <code>package.json</code>']",1,0,0
+1538,39547639,ionic 2 Error 'ReferenceError: sqlitePlugin is not defined',"<p>I'm been using the ionic 2 <a href=""http://ionicframework.com/docs/v2/native/sqlite/"" rel=""noreferrer"">native sqlite plugin</a> to make a basic app to capture and store images to the phones local storage. I keep getting an uncaught exception error (seemingly from the sql plugin) sometimes when i run the app on the genymotion emulator. </p>
+
+<p>This normally happens when the app reloads when i'm using the -live parameter(ionic run android -c -l). 
+I also noticed that data which stored on the app doesn't appear(this again indicates that there is some problem loading the stored data when 'live reloading')
+I've put the error i get on the console below:</p>
+
+<p><strong>The Console error message</strong></p>
+
+<pre class=""lang-bash prettyprint-override""><code>[13:28:27] Starting 'html'...
+[13:28:27] Finished 'html' after 42 ms
+HTML changed: www/build/pages/home/home.html
+HTML changed: www/build/pages/map-detail-component/map-detail-component.html
+HTML changed: www/build/pages/map-page/map-page.html
+0     298305   log      Angular 2 is running in the development mode. Call enableProdMode() to enable the production mode.
+1     298474   group    EXCEPTION: Error: Uncaught (in promise): ReferenceError: sqlitePlugin is not defined
+2     298475   error    EXCEPTION: Error: Uncaught (in promise): ReferenceError: sqlitePlugin is not defined
+3     298476   error    STACKTRACE:
+4     298477   error    Error: Uncaught (in promise): ReferenceError: sqlitePlugin is not defined
+    at resolvePromise (http://192.168.56.1:8100/build/js/zone.js:418:31)
+    at resolvePromise (http://192.168.56.1:8100/build/js/zone.js:403:17)
+    at http://192.168.56.1:8100/build/js/zone.js:451:17
+    at ZoneDelegate.invokeTask (http://192.168.56.1:8100/build/js/zone.js:225:37)
+    at Object.NgZoneImpl.inner.inner.fork.onInvokeTask (http://192.168.56.1:8100/build/js/app.bundle.js:37360:41)
+    at ZoneDelegate.invokeTask (http://192.168.56.1:8100/build/js/zone.js:224:42)
+    at Zone.runTask (http://192.168.56.1:8100/build/js/zone.js:125:47)
+    at drainMicroTaskQueue (http://192.168.56.1:8100/build/js/zone.js:357:35)
+    at XMLHttpRequest.ZoneTask.invoke (http://192.168.56.1:8100/build/js/zone.js:297:25)
+5     298478   groupEnd 
+6     298481   error    Unhandled Promise rejection:, sqlitePlugin is not defined, ; Zone:, angular, ; Task:, Promise.then, ; Value:, [object Object], ReferenceError: sqlitePlugin is not defined
+    at http://192.168.56.1:8100/build/js/app.bundle.js:97420:13
+    at new ZoneAwarePromise (http://192.168.56.1:8100/build/js/zone.js:467:29)
+    at SQLite.openDatabase (http://192.168.56.1:8100/build/js/app.bundle.js:97419:16)
+    at new SqlService (http://192.168.56.1:8100/build/js/app.bundle.js:218:21)
+    at DebugAppView.Object.defineProperty.get (MyApp.template.js:18:67)
+    at DebugAppView._View_MyApp_Host0.injectorGetInternal (MyApp.template.js:35:79)
+    at DebugAppView.AppView.injectorGet (http://192.168.56.1:8100/build/js/app.bundle.js:31753:21)
+    at DebugAppView.injectorGet (http://192.168.56.1:8100/build/js/app.bundle.js:31945:49)
+    at ElementInjector.get (http://192.168.56.1:8100/build/js/app.bundle.js:31246:33)
+    at ElementInjector.get (http://192.168.56.1:8100/build/js/app.bundle.js:31249:48)
+7     298519   log      DEVICE READY FIRED AFTER, 1004, ms
+8     298609   log      Entering: map-page
+9     298620   log      ERROR: , {}
+</code></pre>
+
+<p>This goes away when i restart the emulator but then sometimes appears again after more usage. </p>
+
+<p>I thought this could be due to the SQLite db being created before the plugin is imported but i've imported the plugin in my root app.ts file (shown below) (the whole app can be seen in this <a href=""https://github.com/ah3243/ExampleLocApp"" rel=""noreferrer"">github repo</a>)</p>
+
+<p><strong>Root app.ts</strong></p>
+
+<pre class=""lang-typescript prettyprint-override""><code>@Component({
+    template: '&lt;ion-nav [root]=""rootPage""&gt;&lt;/ion-nav&gt;',
+    // Declare services
+    providers: [ SqlService ]
+})
+export class MyApp {
+    rootPage: any = MapPage;
+
+    constructor(platform: Platform) {
+        platform.ready().then(() =&gt; {
+            StatusBar.styleDefault();
+        });
+    }
+}    
+ionicBootstrap(MyApp);
+</code></pre>
+
+<p>I've confined any use of the plugin to an sqlService (shown below)</p>
+
+<p><strong>SQL Service</strong></p>
+
+<pre class=""lang-typescript prettyprint-override""><code>import { Injectable } from '@angular/core';
+import 'rxjs/add/operator/map';
+import { SQLite} from 'ionic-native';
+
+@Injectable()
+export class SqlService {
+  private db: SQLite;
+  private isOpen: boolean;
+
+  public constructor() {
+    if(!this.isOpen){
+      this.db = new SQLite();
+      this.db.openDatabase({
+        name: ""data.db"",
+        location: ""default""
+      }).then(() =&gt; {
+        this.db.executeSql(""CREATE TABLE IF NOT EXISTS places (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, img TEXT)"", []).then((data) =&gt; {
+          console.log(""TABLE CREATED: "" + data);
+        }, (error) =&gt; {
+          console.log(""Unable to execute SQL"" + error);
+        });
+        this.isOpen=true;
+      });
+    }
+  }
+
+  public add(title: string, base64Img: string) {
+    return new Promise((resolve, reject) =&gt; {
+      this.db.executeSql(""INSERT INTO places (title, img) VALUES ( '""+ title +""', '""+ base64Img +""')"", [])
+        .then((data) =&gt; {
+          resolve(data);
+        }, (error) =&gt; {
+          reject(error);
+        });
+    });
+  }
+
+  // Remove individual Location
+  public remove(id: number){
+    return new Promise((resolve, reject) =&gt; {
+      this.db.executeSql(""DELETE FROM places WHERE id = ""+ id +"";"", [])
+        .then((data) =&gt; {
+          resolve(data);
+        }, (error) =&gt; {
+          reject(error);
+        });
+    });
+  }
+
+  public locDetail(id: number){
+    return new Promise((resolve, reject) =&gt; {
+      this.db.executeSql(""SELECT * FROM places WHERE id = ""+ id +"";"",[])
+        .then((data) =&gt; {
+          if(data.rows.length===1){
+            // console.log(""ttitle: "" + data.rows.item(0).title + "" id: "" + data.rows.item(0).id + "" img: "" + data.rows.item(0).img );
+            let place = [];
+            place.push({
+              id: data.rows.item(0).id,
+              title: data.rows.item(0).title,
+              img: data.rows.item(0).img
+            });
+            resolve(place);
+          }
+        }, (error) =&gt; {
+          reject(error);
+        });
+    });
+  }
+
+  // Refresh and initialise the places object
+  public refresh() {
+    return new Promise((resolve, reject) =&gt; {
+        this.db.executeSql(""SELECT * FROM places"", []).then((data) =&gt; {
+          let place = [];
+          if (data.rows.length &gt; 0) {
+            for (var i = 0; i &lt; data.rows.length; i++) {
+              place.push({ 
+                id: data.rows.item(i).id,
+                title: data.rows.item(i).title, 
+                img: data.rows.item(i).img 
+              });
+            }
+          }
+          resolve(place);
+        }, (error) =&gt; {
+          reject(error);
+        });
+      }
+    );
+  }
+}
+</code></pre>
+","['I\'m been using the ionic 2 <a href=""http://ionicframework.com/docs/v2/native/sqlite/"" rel=""noreferrer"">native sqlite plugin</a> to make a basic app to capture and store images to the phones local storage. I keep getting an uncaught exception error (seemingly from the sql plugin) sometimes when i run the app on the genymotion emulator. ', ""This normally happens when the app reloads when i'm using the -live parameter(ionic run android -c -l). \nI also noticed that data which stored on the app doesn't appear(this again indicates that there is some problem loading the stored data when 'live reloading')\nI've put the error i get on the console below:"", 'The Console error message', 'This goes away when i restart the emulator but then sometimes appears again after more usage. ', 'I thought this could be due to the SQLite db being created before the plugin is imported but i\'ve imported the plugin in my root app.ts file (shown below) (the whole app can be seen in this <a href=""https://github.com/ah3243/ExampleLocApp"" rel=""noreferrer"">github repo</a>)', 'Root app.ts', ""I've confined any use of the plugin to an sqlService (shown below)"", 'SQL Service']",1,0,0
+1724,75165457,Angular server side rendering with proxy failing to get data from API,"<p>I am working on a website using angular server side rendering (SSR). The whole thing renders perfectly if no HTTP requests are performed in the app.</p>
+<p>BUT, as soon there is, the app renders but does not take the returned data to render the pages, and errors start to appear in the console.</p>
+<ol>
+<li>Setup</li>
+</ol>
+<p>My setup is a regular Angular 15.1 app with <code>@nguniversal/express-engine</code> to render static pages.</p>
+<p>I also run Strapi (a NodeJS headless CMS on a separate port) as my API over post 8000.</p>
+<ol start=""2"">
+<li>I added <code>http-proxy-middleware</code> to the <code>server.ts</code> file in order to proxy the <code>/api</code> calls to the Strapi server.</li>
+</ol>
+<pre class=""lang-js prettyprint-override""><code>server.use('/api', (req, res) =&gt; {
+    createProxyMiddleware({
+      target: 'http://localhost:8000',
+      changeOrigin: true,
+      logLevel: 'debug',
+    });
+  });
+</code></pre>
+<ol start=""3"">
+<li>I've decided to keep my test simple by keeping only one page of my app to test the HTTP request.</li>
+</ol>
+<p>My Home page route contains a resolve to get the data from the API, which it does successfully when running the project with <code>npm run dev:srr</code> except that I see an error in my console pertaining to my angular code:</p>
+<pre><code>ERROR TypeError: Cannot read properties of undefined (reading 'attributes')
+    at getHomePageContentSuccess (./src/app/home/home.component.ts:224:34)
+    at ngOnInit (./src/app/home/home.component.ts:215:10)
+    at callHook (./node_modules/@angular/core/fesm2020/core.mjs:2488:22)
+    at callHooks (./node_modules/@angular/core/fesm2020/core.mjs:2457:17)
+    at executeInitAndCheckHooks (./node_modules/@angular/core/fesm2020/core.mjs:2408:9)
+    at refreshView (./node_modules/@angular/core/fesm2020/core.mjs:10434:21)
+    at refreshEmbeddedViews (./node_modules/@angular/core/fesm2020/core.mjs:11434:17)
+    at refreshView (./node_modules/@angular/core/fesm2020/core.mjs:10443:9)
+    at refreshComponent (./node_modules/@angular/core/fesm2020/core.mjs:11480:13)
+    at refreshChildComponents (./node_modules/@angular/core/fesm2020/core.mjs:10210:9)
+</code></pre>
+<p>Here, <code>attributes</code> is me trying to get to a property that is returned by the API. It works in the browser, but not on the server.</p>
+<pre class=""lang-js prettyprint-override""><code>private getHomePageContentSuccess(data: IDataPayload&lt;IHomePayload&gt;): void {
+    this.homeContent = data.data.attributes; // this works in the browser, but throws in server console
+}
+
+</code></pre>
+<ol start=""4"">
+<li>When I run <code>npm run prerender</code>, I get the same error.</li>
+</ol>
+<p>It looks like when the angular is bootstrapped on the server side, it performs the call (which isn't hitting Strapi), ends up in the success handler but without any data, thus throwing the <code>attributes</code> error.</p>
+<p>I'm at a loss, I have no idea how to move past this issue.</p>
+<p>I tried the angular proxy file, passing the proxy config in command line, I tried adding a proxy in the <code>server.ts</code> file... it does not seem to be proxy related at all.</p>
+","['I am working on a website using angular server side rendering (SSR). The whole thing renders perfectly if no HTTP requests are performed in the app.', 'BUT, as soon there is, the app renders but does not take the returned data to render the pages, and errors start to appear in the console.', '\nSetup\n', 'My setup is a regular Angular 15.1 app with <code>@nguniversal/express-engine</code> to render static pages.', 'I also run Strapi (a NodeJS headless CMS on a separate port) as my API over post 8000.', 'My Home page route contains a resolve to get the data from the API, which it does successfully when running the project with <code>npm run dev:srr</code> except that I see an error in my console pertaining to my angular code:', 'Here, <code>attributes</code> is me trying to get to a property that is returned by the API. It works in the browser, but not on the server.', ""It looks like when the angular is bootstrapped on the server side, it performs the call (which isn't hitting Strapi), ends up in the success handler but without any data, thus throwing the <code>attributes</code> error."", ""I'm at a loss, I have no idea how to move past this issue."", 'I tried the angular proxy file, passing the proxy config in command line, I tried adding a proxy in the <code>server.ts</code> file... it does not seem to be proxy related at all.']",0,0,1
+971,58155525,BrowserslistError: Unknown version 67 of android,"<p>I have created one angular library using <code>angular 8 and CLI 8</code>. I am trying to build the library, but I am getting the error.</p>
+
+<pre><code>ng build &lt;lib-name&gt;
+</code></pre>
+
+<p>I have gone through some questions posted related to this error, most of them say remove <code>node_modules</code> and reinstall them. I tried this solution but still, I am getting the following error.</p>
+
+<p><strong>[Browserslist] Could not parse package.json. Ignoring it.</strong></p>
+
+<pre><code>ERROR: Unknown version 67 of android
+Unknown version 67 of android
+BrowserslistError: Unknown version 67 of android
+        at Function.select (C:\Users\kaukhare\github\ngx-group-by-alphabates\node_modules\ng-packagr\node_modules\autoprefixer\node_modules\browserslist\index.js:924:17)
+        at C:\Users\kaukhare\github\ngx-group-by-alphabates\node_modules\ng-packagr\node_modules\autoprefixer\node_modules\browserslist\index.js:252:33
+        at Array.reduce (&lt;anonymous&gt;)
+        at resolve (C:\Users\kaukhare\github\ngx-group-by-alphabates\node_modules\ng-packagr\node_modules\autoprefixer\node_modules\browserslist\index.js:234:18)
+        at browserslist (C:\Users\kaukhare\github\ngx-group-by-alphabates\node_modules\ng-packagr\node_modules\autoprefixer\node_modules\browserslist\index.js:353:16)
+        at Browsers.parse (C:\Users\kaukhare\github\ngx-group-by-alphabates\node_modules\ng-packagr\node_modules\autoprefixer\lib\browsers.js:66:12)
+        at new Browsers (C:\Users\kaukhare\github\ngx-group-by-alphabates\node_modules\ng-packagr\node_modules\autoprefixer\lib\browsers.js:48:26)
+        at loadPrefixes (C:\Users\kaukhare\github\ngx-group-by-alphabates\node_modules\ng-packagr\node_modules\autoprefixer\lib\autoprefixer.js:101:20)
+        at plugin (C:\Users\kaukhare\github\ngx-group-by-alphabates\node_modules\ng-packagr\node_modules\autoprefixer\lib\autoprefixer.js:112:20)
+        at LazyResult.run (C:\Users\kaukhare\github\ngx-group-by-alphabates\node_modules\postcss\lib\lazy-result.js:295:14)
+        at LazyResult.sync (C:\Users\kaukhare\github\ngx-group-by-alphabates\node_modules\postcss\lib\lazy-result.js:281:26)
+        at LazyResult.warnings (C:\Users\kaukhare\github\ngx-group-by-alphabates\node_modules\postcss\lib\lazy-result.js:85:17)
+        at StylesheetProcessor.process (C:\Users\kaukhare\github\ngx-group-by-alphabates\node_modules\ng-packagr\lib\ng-v5\entry-point\resources\stylesheet-processor.js:47:16)
+        at Object.readResource (C:\Users\kaukhare\github\ngx-group-by-alphabates\node_modules\ng-packagr\lib\ts\cache-compiler-host.js:73:57)
+        at TsCompilerAotCompilerTypeCheckHostAdapter.loadResource (C:\Users\kaukhare\github\ngx-group-by-alphabates\node_modules\@angular\compiler-cli\src\transformers\compiler_host.js:495:37)
+        at Object.get (C:\Users\kaukhare\github\ngx-group-by-alphabates\node_modules\@angular\compiler\bundles\compiler.umd.js:26490:94)
+</code></pre>
+
+<p>What can be the issue? Is this error is due to <code>autoprefixer</code>? What should I do to solve this issue? </p>
+
+<p><strong>package-lock.json</strong></p>
+
+<pre><code>""ng-packagr"": {
+      ""version"": ""5.5.1"",
+      ""resolved"": ""https://registry.npmjs.org/ng-packagr/-/ng-packagr-5.5.1.tgz"",
+      ""integrity"": ""sha512-GT6QK5WAirQwALdeJPiXdgRd5PzRqcknb/C/G+cCDEbUFri4oGVmns2Nl4I0FGg/cRn6nXTxRiUunOSqZ3Lehw=="",
+      ""dev"": true,
+      ""requires"": {
+        ""ajv"": ""^6.10.2"",
+        ""autoprefixer"": ""^9.6.0"",
+        ""browserslist"": ""^4.0.0""
+},
+    ""autoprefixer"": {
+      ""version"": ""9.5.1"",
+      ""resolved"": ""https://registry.npmjs.org/autoprefixer/-/autoprefixer-9.5.1.tgz"",
+      ""integrity"": ""sha512-KJSzkStUl3wP0D5sdMlP82Q52JLy5+atf2MHAre48+ckWkXgixmfHyWmA77wFDy6jTHU6mIgXv6hAQ2mf1PjJQ=="",
+      ""dev"": true,
+      ""requires"": {
+        ""browserslist"": ""^4.5.4"",
+        ""caniuse-lite"": ""^1.0.30000957"",
+        ""normalize-range"": ""^0.1.2"",
+        ""num2fraction"": ""^1.2.2"",
+        ""postcss"": ""^7.0.14"",
+        ""postcss-value-parser"": ""^3.3.1""
+      }
+</code></pre>
+","['I have created one angular library using <code>angular 8 and CLI 8</code>. I am trying to build the library, but I am getting the error.', 'I have gone through some questions posted related to this error, most of them say remove <code>node_modules</code> and reinstall them. I tried this solution but still, I am getting the following error.', '[Browserslist] Could not parse package.json. Ignoring it.', 'What can be the issue? Is this error is due to <code>autoprefixer</code>? What should I do to solve this issue? ', 'package-lock.json']",0,1,0
+666,53709228,webpack 4 unable to compile json file,"<p>I'm using React Boilerplate 3.7.0 and webpack 4.23.1. </p>
+
+<p>In my project I have a json file to load and the webpack complains:</p>
+
+<pre><code>ERROR in ./app/manifest.json (./node_modules/file-loader/dist/cjs.js?name=[name].[ext]!./app/manifest.json)
+Module parse failed: Unexpected token m in JSON at position 0 while parsing near 'module.exports = __w...'
+You may need an appropriate loader to handle this file type.
+SyntaxError: Unexpected token m in JSON at position 0 while parsing near 'module.exports = __w...'
+    at JSON.parse (&lt;anonymous&gt;)
+    at parseJson (/home/username/myproject/node_modules/json-parse-better-errors/index.js:7:17)
+    at JsonParser.parse (/home/username/myproject/node_modules/webpack/lib/JsonParser.js:16:16)
+    at doBuild.err (/home/username/myproject/node_modules/webpack/lib/NormalModule.js:445:32)
+    at runLoaders (/home/username/myproject/node_modules/webpack/lib/NormalModule.js:327:12)
+    at /home/username/myproject/node_modules/loader-runner/lib/LoaderRunner.js:370:3
+    at iterateNormalLoaders (/home/username/myproject/node_modules/loader-runner/lib/LoaderRunner.js:211:10)
+    at iterateNormalLoaders (/home/username/myproject/node_modules/loader-runner/lib/LoaderRunner.js:218:10)
+    at /home/username/myproject/node_modules/loader-runner/lib/LoaderRunner.js:233:3
+    at runSyncOrAsync (/home/username/myproject/node_modules/loader-runner/lib/LoaderRunner.js:130:11)
+ @ ./app/app.js 30:0-56
+ @ multi ./node_modules/react-app-polyfill/ie11.js webpack-hot-middleware/client?reload=true ./app/app.js
+</code></pre>
+
+<p>According to Webpack official documentation: Since webpack >= v2.0.0, importing of JSON files will work by default.</p>
+
+<p>I found here in <a href=""https://stackoverflow.com/questions/49501723/unexpected-token-m-in-json-at-position-0-error"">Unexpected token m in JSON at position 0 error</a> that <code>raw-loader</code> might solve the problem. But also unsuccessfully. Here is my <code>webpack.base.babel.js</code>:</p>
+
+<pre><code>/**
+ * COMMON WEBPACK CONFIGURATION
+ */
+
+const path = require('path');
+const webpack = require('webpack');
+
+process.noDeprecation = true;
+
+module.exports = options =&gt; ({
+  mode: options.mode,
+  entry: options.entry,
+  output: Object.assign(
+    {
+      path: path.resolve(process.cwd(), 'build'),
+      publicPath: '/',
+    },
+    options.output,
+  ),
+  optimization: options.optimization,
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: options.babelQuery,
+        },
+      },
+      {
+        test: /\.css$/,
+        include: /node_modules/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.(eot|otf|ttf|woff|woff2)$/,
+        use: 'file-loader',
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'svg-url-loader',
+            options: {
+              // Inline files smaller than 10 kB
+              limit: 10 * 1024,
+              noquotes: true,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(jpg|png|gif)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              // Inline files smaller than 10 kB
+              limit: 10 * 1024,
+            },
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              mozjpeg: {
+                enabled: false,
+                // NOTE: mozjpeg is disabled as it causes errors in some Linux environments
+                // Try enabling it in your environment by switching the config to:
+                // enabled: true,
+                // progressive: true,
+              },
+              gifsicle: {
+                interlaced: false,
+              },
+              optipng: {
+                optimizationLevel: 7,
+              },
+              pngquant: {
+                quality: '65-90',
+                speed: 4,
+              },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.html$/,
+        use: 'html-loader',
+      },
+      {
+        test: /\.(mp4|webm)$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 10000,
+          },
+        },
+      },
+    ],
+  },
+  plugins: options.plugins.concat([    
+    // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
+    // inside your code for any environment checks; Terser will automatically
+    // drop any unreachable code.
+    new webpack.DefinePlugin({
+      'process.env': {
+         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+      },
+    }),
+    new webpack.NamedModulesPlugin(),
+  ]),
+  resolve: {
+    modules: ['node_modules', 'app'],
+    extensions: ['.js', '.jsx', '.react.js'],
+    mainFields: ['browser', 'jsnext:main', 'main'],
+  },
+  devtool: options.devtool,
+  target: 'web', // Make web variables accessible to webpack, e.g. window
+  performance: options.performance || {},
+});
+</code></pre>
+
+<p>My question is: how to solve this? What should I include or remove in order to get this working?</p>
+","[""I'm using React Boilerplate 3.7.0 and webpack 4.23.1. "", 'In my project I have a json file to load and the webpack complains:', 'According to Webpack official documentation: Since webpack >= v2.0.0, importing of JSON files will work by default.', 'I found here in <a href=""https://stackoverflow.com/questions/49501723/unexpected-token-m-in-json-at-position-0-error"">Unexpected token m in JSON at position 0 error</a> that <code>raw-loader</code> might solve the problem. But also unsuccessfully. Here is my <code>webpack.base.babel.js</code>:', 'My question is: how to solve this? What should I include or remove in order to get this working?']",0,0,1
+1186,69397918,Ngrx + Jasmin Testing Issue (actual.subscribe is not a function),"<p>While implementing the Spec file for the auth guard we write in the angular app is giving me an error I am not able to contemplate to what's happening.</p>
+<pre><code>Auth Guard -------------&gt; should return FALSE if the user state is not logged in FAILED
+        TypeError: actual.subscribe is not a function
+            at VirtualAction.&lt;anonymous&gt; (node_modules/jasmine-marbles/es6/index.js:55:1)
+            at VirtualAction._execute (node_modules/rxjs/_esm2015/internal/scheduler/AsyncAction.js:51:1)
+            at VirtualAction._execute (node_modules/rxjs/_esm2015/internal/scheduler/VirtualTimeScheduler.js:59:1)
+            at VirtualAction.execute (node_modules/rxjs/_esm2015/internal/scheduler/AsyncAction.js:39:1)
+            at TestScheduler.flush (node_modules/rxjs/_esm2015/internal/scheduler/VirtualTimeScheduler.js:16:1)
+            at TestScheduler.flush (node_modules/rxjs/_esm2015/internal/testing/TestScheduler.js:107:1)
+            at toBeObservableComparer (node_modules/jasmine-marbles/es6/index.js:77:1)
+            at &lt;Jasmine&gt;
+            at UserContext.&lt;anonymous&gt; (src/app/core/guards/auth.guard.spec.ts:55:37)
+</code></pre>
+<p>Above is the issue I am facing While I pasted the code below for auth.guard.spec.ts and auth.guard.ts</p>
+<pre><code>import { TestBed } from '@angular/core/testing';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { cold } from 'jasmine-marbles';
+import { addMatchers, initTestScheduler } from 'jasmine-marbles';
+import { RouterTestingModule } from '@angular/router/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+
+import { AuthGuard } from './auth.guard';
+import * as fromRoot from '../../app-state';
+import * as fromAuth from '../../modules/auth/store/auth.reducer';
+import * as fromAuthActions from '../../modules/auth/store/auth.actions';
+import { User } from '../../modules/auth/login/login.model';
+import { LogInComponent } from '../../modules/auth/login/login.component';
+
+describe('Auth Guard', () =&gt; {
+    let guard: AuthGuard;
+    let store: Store&lt;any&gt;;
+    const initialState = { loggedIn: false };
+    beforeEach(() =&gt; {
+        initTestScheduler();
+        addMatchers();
+        TestBed.configureTestingModule({
+            imports: [
+                RouterTestingModule.withRoutes([
+                    { path: 'auth', component: LogInComponent }
+                ]),
+                StoreModule.forRoot({
+                    ...fromRoot.reducers,
+                    auth: combineReducers(fromAuth.reducer)
+                })
+            ],
+            providers: [
+                AuthGuard,
+                provideMockStore({ initialState })
+            ]
+        });
+        store = TestBed.inject(Store);
+        spyOn(store, 'dispatch').and.callThrough();
+        guard = TestBed.inject(AuthGuard);
+    });
+
+    it('-------------&gt; should return FALSE if the user state is not logged in', () =&gt; {
+        const expected = cold('(a|)', { a: false });
+        expect(guard.canActivate()).toBeObservable(expected);
+    });
+});
+</code></pre>
+<p>guard.ts</p>
+<pre><code>import { Injectable } from '@angular/core';
+import { Router, CanActivate } from '@angular/router';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/app-state';
+import * as fromAuth from '../../modules/auth/store/auth.reducer';
+
+@Injectable()
+export class AuthGuard implements CanActivate {
+  authState: Observable&lt;fromAuth.AuthState&gt;;
+  constructor(private store: Store&lt;AppState&gt;, private router: Router) { }
+  canActivate(): boolean {
+    // Check if user is authenticated or not i.e. only logged in users havce access to todos page
+    const authState = this.store.select(fromAuth.selectAuthState);
+    authState.subscribe(state =&gt; {
+      if (!state.isAuthenticated) {
+        this.router.navigate(['auth']);
+        return false;
+      }
+    });
+
+    return true;
+  }
+}
+</code></pre>
+","[""While implementing the Spec file for the auth guard we write in the angular app is giving me an error I am not able to contemplate to what's happening."", 'Above is the issue I am facing While I pasted the code below for auth.guard.spec.ts and auth.guard.ts', 'guard.ts']",0,1,0
+1837,47747416,How to compute and pass array in props?,"<p>I'm using <a href=""https://react-form.js.org"" rel=""nofollow noreferrer"">react-form</a> to make a simple form and want to pass in a list of items to the <code>Select</code> Component. The <code>Select</code> Component is a part of the <code>react-form</code> library. </p>
+
+<p>I want to pass a <code>fooItems</code> to the <code>Select</code></p>
+
+
+
+<p>Required Structure for <code>Select</code> Component</p>
+
+<pre><code>selectItems = [{
+  value: 1,
+  label: 'a',
+}, {
+  value: 2,
+  label: 'b',
+}]
+</code></pre>
+
+<p>I first want to filter my <code>fooItems</code> array recieved from Redux <code>mapStateToProps</code></p>
+
+<pre><code>fooItems = [{
+  id: 1,
+  name: 'a',
+  parent: 'P',
+  child: 'C'
+}, {
+  id: 2,
+  name: 'b',
+  parent: 'P',
+  child: 'C'
+}]
+</code></pre>
+
+<p>I'm trying to implement a function while passing the props in to the Component</p>
+
+<pre class=""lang-js prettyprint-override""><code>render() =&gt; (
+    &lt;Select
+    field = ""foo""
+    id = ""foo""
+    options = {
+      () =&gt; {
+        return this.props.fooItems.map(e =&gt; {
+          return {
+            label: e.name,
+            value: e.id
+          }
+        })
+      }
+    }
+    /&gt;)
+</code></pre>
+
+<p>But I get the following Errors</p>
+
+<pre><code>Uncaught TypeError: Cannot read property 'find' of undefined
+at t.value (index.js:1)
+
+The above error occurred in the &lt;t&gt; component:
+in t (created by r)
+</code></pre>
+","['I\'m using <a href=""https://react-form.js.org"" rel=""nofollow noreferrer"">react-form</a> to make a simple form and want to pass in a list of items to the <code>Select</code> Component. The <code>Select</code> Component is a part of the <code>react-form</code> library. ', 'I want to pass a <code>fooItems</code> to the <code>Select</code>', 'Required Structure for <code>Select</code> Component', 'I first want to filter my <code>fooItems</code> array recieved from Redux <code>mapStateToProps</code>', ""I'm trying to implement a function while passing the props in to the Component"", 'But I get the following Errors']",0,0,1
+325,55594755,React-Native: Unable to add or set() document using firestore when app is Offline(no internet access),"<p>I'm facing an issue while using .set() function in offline mode for creating a document in firestore. But .update() , .get() and .delete() functions are working in offline mode.</p>
+
+<p>below is the code snippet</p>
+
+<pre><code>    firebase.firestore().collection(this.state.mainCollectionId)
+      .doc(this.state.authKey)
+      .collection(collectionId.toString())
+      .doc(docId)
+      .get()
+      .then(docData =&gt; {
+
+        if (docData.exists) {
+          // console.log(""daily Activity exists"");
+
+        } else {
+
+         firebase.firestore().collection(this.state.mainCollectionId)
+            .doc(this.state.authKey)
+            .collection(collectionId.toString())
+            .doc(docId)
+            .set({
+              id:1234,
+              collectionId: collectionId.toString(),
+              authKey: this.state.userDatails.authKey,
+              name: this.state.userDatails.name,
+              email: this.state.userDatails.email
+
+      }).then(data =&gt;{});
+
+}
+});
+</code></pre>
+
+<p>and error that I'm getting:</p>
+
+<pre><code>&gt; Error: Firestore: The service is currently unavailable. (firestore/unavailable).
+at createErrorFromErrorData (NativeModules.js:146)
+at NativeModules.js:95
+at MessageQueue.__invokeCallback (MessageQueue.js:392)
+at MessageQueue.js:128
+at MessageQueue.__guard (MessageQueue.js:291)
+at MessageQueue.invokeCallbackAndReturnFlushedQueue (MessageQueue.js:127)
+at debuggerWorker.js:72
+</code></pre>
+","[""I'm facing an issue while using .set() function in offline mode for creating a document in firestore. But .update() , .get() and .delete() functions are working in offline mode."", 'below is the code snippet', ""and error that I'm getting:""]",1,0,0
+1011,51052315,react-big-calendar: Cannot read property 'momentLocalizer' of undefined,"<p>In my project I am trying to initialize react-big-calendar but it's saying that it doesn't exist. Here's the error from the console:</p>
+
+<pre><code>home.tsx:18 Uncaught TypeError: Cannot read property 'momentLocalizer' of undefined
+    at Object../src/main/webapp/app/modules/home/home.tsx (home.tsx:18)
+    at __webpack_require__ (bootstrap:709)
+    at fn (bootstrap:94)...
+</code></pre>
+
+<p>I checked my dependencies and even checked my node_modules folder for the library and it's there. There's something else going on. Here's my code:</p>
+
+<pre><code>import './home.scss';
+
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { getSession } from 'app/shared/reducers/authentication';
+import BigCalendar from 'react-big-calendar';
+import moment from 'moment';
+
+// Setup the localizer by providing the moment (or globalize) Object
+// to the correct localizer.
+BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
+
+export interface IHomeProp extends StateProps, DispatchProps {}
+
+
+const MyCalendar = props =&gt; (
+  &lt;div&gt;
+    &lt;BigCalendar
+      events={[]}
+      startAccessor='startDate'
+      endAccessor='endDate'
+      defaultDate={moment().toDate()}
+    /&gt;
+  &lt;/div&gt;
+);
+
+export class Home extends React.Component&lt;IHomeProp&gt; {
+  componentDidMount() {
+    this.props.getSession();
+  }
+
+  render() {
+    const { account } = this.props;
+    return (
+      &lt;MyCalendar/&gt;
+    );
+  }
+}
+
+const mapStateToProps = storeState =&gt; ({
+  account: storeState.authentication.account,
+  isAuthenticated: storeState.authentication.isAuthenticated
+});
+
+const mapDispatchToProps = { getSession };
+
+type StateProps = ReturnType&lt;typeof mapStateToProps&gt;;
+type DispatchProps = typeof mapDispatchToProps;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
+</code></pre>
+
+<p>and here's my package versions:</p>
+
+<p>""react"": ""16.3.0"",
+""react-big-calendar"": ""^0.19.1"",
+""moment"": ""2.22.0"",</p>
+
+<p>Any ideas? </p>
+","[""In my project I am trying to initialize react-big-calendar but it's saying that it doesn't exist. Here's the error from the console:"", ""I checked my dependencies and even checked my node_modules folder for the library and it's there. There's something else going on. Here's my code:"", ""and here's my package versions:"", '""react"": ""16.3.0"",\n""react-big-calendar"": ""^0.19.1"",\n""moment"": ""2.22.0"",', 'Any ideas? ']",0,0,1
+456,59859580,ReactJS | App not working on IOS and IE/Edge,"<p>Version Edge: 
+Microsoft Edge 44.18362.449.0
+Microsoft EdgeHTML 18.18362</p>
+
+<p>Version IE:
+11.592.18362.0</p>
+
+<p>Hopefully we can get this sorted quick:</p>
+
+<p>My reactjs project after being built and deployed is working on chrome and firefox - on windows and android. However on IE, Edge and Safari (also chrome on IOS) I get a blank page with the following error:</p>
+
+<p>For IE:</p>
+
+<pre><code>TypeError: Unable to get property 'index' of undefined or null reference
+   {
+      [functions]: ,
+      __proto__: { },
+      description: ""Unable to get property 'index' of undefined or null reference"",
+      message: ""Unable to get property 'index' of undefined or null reference"",
+      name: ""TypeError"",
+      number: -2146823281,
+      stack: ""TypeError: Unable to get property 'index' of undefined or null reference
+   at value (https://xxxx/static/js/main.9016f2a2.chunk.js:1:2786)
+   at Za (https://xxxx/static/js/2.97b2c280.chunk.js:2:331602)
+   at Ja (https://xxxx/static/js/2.97b2c280.chunk.js:2:331451)
+   at ju (https://xxxx/static/js/2.97b2c280.chunk.js:2:366905)
+   at Nl (https://xxxx/static/js/2.97b2c280.chunk.js:2:351180)
+   at Al (https://xxxx/static/js/2.97b2c280.chunk.js:2:351108)
+   at wl (https://xxxx/static/js/2.97b2c280.chunk.js:2:348431)
+   at gl (https://xxxx/static/js/2.97b2c280.chunk.js:2:345175)
+   at oc (https://xxxx/static/js/2.97b2c280.chunk.js:2:373109)
+   at Anonymous function (https://xxxx/static/js/2.97b2c280.chunk.js:2:374484)"",
+      Symbol()_6.wutlnu1cxkj: undefined,
+      Symbol(react.async_mode)_y.wutlnu1cxkj: undefined,
+      Symbol(react.concurrent_mode)_x.wutlnu1cxkj: undefined,
+      Symbol(react.context)_o.wutlnu1cxkj: undefined,
+      Symbol(react.element)_i.wutlnu1cxkj: undefined,
+      Symbol(react.forward_ref)_p.wutlnu1cxkj: undefined,
+      Symbol(react.fragment)_k.wutlnu1cxkj: undefined,
+      Symbol(react.fundamental)_u.wutlnu1cxkj: undefined,
+      Symbol(react.lazy)_t.wutlnu1cxkj: undefined,
+      Symbol(react.memo)_s.wutlnu1cxkj: undefined,
+      Symbol(react.portal)_j.wutlnu1cxkj: undefined,
+      Symbol(react.profiler)_m.wutlnu1cxkj: undefined,
+      Symbol(react.provider)_n.wutlnu1cxkj: undefined,
+      Symbol(react.responder)_v.wutlnu1cxkj: undefined,
+      Symbol(react.scope)_w.wutlnu1cxkj: undefined,
+      Symbol(react.strict_mode)_l.wutlnu1cxkj: undefined,
+      Symbol(react.suspense)_q.wutlnu1cxkj: undefined,
+      Symbol(react.suspense_list)_r.wutlnu1cxkj: undefined
+   }
+</code></pre>
+
+<p>Edge:</p>
+
+<pre><code>TypeError: Unable to get property 'index' of undefined or null reference
+
+SCRIPT5007: SCRIPT5007: Unable to get property 'index' of undefined or null reference
+</code></pre>
+
+<p><strong>Interesting fact on the side:</strong> Before removing my <em>Header</em> component import (to troubleshoot) this same message came but instead of <em>index</em> it said <em>header</em>. I have no component called index. Except the initiating index.js. Thus I am assuming reactjs has a fundamental issue in these browsers. I assume it has problems of getting the file structures react builds?</p>
+
+<p>I have tried polyfill and core-js/stable, both make no difference in the outcome.</p>
+
+<p>*Unfortunately I can't access any developer tools on my Ipad to get the console log of ios chrome and safari. I assume it's the same issue though.</p>
+","['Version Edge: \nMicrosoft Edge 44.18362.449.0\nMicrosoft EdgeHTML 18.18362', 'Version IE:\n11.592.18362.0', 'Hopefully we can get this sorted quick:', 'My reactjs project after being built and deployed is working on chrome and firefox - on windows and android. However on IE, Edge and Safari (also chrome on IOS) I get a blank page with the following error:', 'For IE:', 'Edge:', 'Interesting fact on the side: Before removing my <em>Header</em> component import (to troubleshoot) this same message came but instead of <em>index</em> it said <em>header</em>. I have no component called index. Except the initiating index.js. Thus I am assuming reactjs has a fundamental issue in these browsers. I assume it has problems of getting the file structures react builds?', 'I have tried polyfill and core-js/stable, both make no difference in the outcome.', ""*Unfortunately I can't access any developer tools on my Ipad to get the console log of ios chrome and safari. I assume it's the same issue though.""]",1,0,0
+1461,53002605,TypeError: undefined is not a function when importing two modules in Angular,"<p>I'm using <code>Angular 6</code>.</p>
+
+<p>I have two layout modules (AdminLayout and AuthLayout) under LayoutModule</p>
+
+<p>Contents of <strong>AdminLayoutModule</strong> is</p>
+
+<pre><code>@NgModule({
+  imports: [
+    CommonModule,
+    RouterModule.forChild(AdminLayoutRoutes),
+    FormsModule,
+    DashboardModule
+  ],
+  declarations: [
+    AdminLayoutComponent
+  ]
+})
+export class AdminLayoutModule { }
+</code></pre>
+
+<p><strong>admin-layout.routing.ts</strong></p>
+
+<pre><code>export const AdminLayoutRoutes: Routes = [
+  { path: 'dashboard', loadChildren: '../../dashboard/dashboard.module#DashboardModule' }
+];
+</code></pre>
+
+<p>and <strong>admin-layout.component.html</strong> has</p>
+
+<pre><code>&lt;h2&gt;admin-layout works!&lt;/h2&gt;
+
+&lt;router-outlet&gt;&lt;/router-outlet&gt;
+</code></pre>
+
+<p>Similarly the contents of <strong>AuthLayoutModule</strong></p>
+
+<pre><code>@NgModule({
+  imports: [
+    CommonModule,
+    RouterModule.forChild(AuthLayoutRoutes),
+    FormsModule,
+    AuthModule
+  ],
+  declarations: [
+    AuthLayoutComponent
+  ],
+  exports: [
+    RouterModule
+  ]
+})
+export class AuthLayoutModule { }
+</code></pre>
+
+<p><strong>auth-layout.routing.ts</strong></p>
+
+<pre><code>export const AuthLayoutRoutes: Routes = [
+  { path: '', redirectTo: 'login', pathMatch: 'full'},
+  { path: 'login', component: LoginComponent},
+  { path: 'logout', component: LogoutComponent}
+];
+</code></pre>
+
+<p><strong>auth-layout.component.html</strong></p>
+
+<pre><code>&lt;h2&gt;auth-layout works!&lt;/h2&gt;
+
+&lt;router-outlet&gt;&lt;/router-outlet&gt;
+</code></pre>
+
+<p>and both <strong>AdminLayoutModule</strong> and <strong>AuthLayoutModule</strong> are imported in <strong>LayoutModule</strong></p>
+
+<pre><code>@NgModule({
+  imports: [
+    CommonModule,
+    AdminLayoutModule,
+    AuthLayoutModule
+  ],
+  declarations: []
+})
+export class LayoutsModule { }
+</code></pre>
+
+<p>Which is further imported in the <strong>AppModule</strong></p>
+
+<pre><code>@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    AppRoutingModule,
+
+    LayoutsModule,
+
+    HttpClientModule,
+    RouterModule,
+    PagesModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+</code></pre>
+
+<p>But when I run the server, it does not give any error during compile but gives an error when visiting URL in the browser.</p>
+
+<pre><code>core.js:1673 ERROR Error: Uncaught (in promise): TypeError: undefined is not a function
+TypeError: undefined is not a function
+    at Array.map (&lt;anonymous&gt;)
+    at webpackAsyncContext ($_lazy_route_resource lazy namespace object:21)
+    at SystemJsNgModuleLoader.push../node_modules/@angular/core/fesm5/core.js.SystemJsNgModuleLoader.loadAndCompile (core.js:4982)
+    at SystemJsNgModuleLoader.push../node_modules/@angular/core/fesm5/core.js.SystemJsNgModuleLoader.load (core.js:4974)
+    at RouterConfigLoader.push../node_modules/@angular/router/fesm5/router.js.RouterConfigLoader.loadModuleFactory (router.js:3261)
+    at RouterConfigLoader.push../node_modules/@angular/router/fesm5/router.js.RouterConfigLoader.load (router.js:3249)
+    at MergeMapSubscriber.project (router.js:1519)
+    at MergeMapSubscriber.push../node_modules/rxjs/_esm5/internal/operators/mergeMap.js.MergeMapSubscriber._tryNext (mergeMap.js:61)
+    at MergeMapSubscriber.push../node_modules/rxjs/_esm5/internal/operators/mergeMap.js.MergeMapSubscriber._next (mergeMap.js:51)
+    at MergeMapSubscriber.push../node_modules/rxjs/_esm5/internal/Subscriber.js.Subscriber.next (Subscriber.js:54)
+    at Array.map (&lt;anonymous&gt;)
+    at webpackAsyncContext ($_lazy_route_resource lazy namespace object:21)
+    at SystemJsNgModuleLoader.push../node_modules/@angular/core/fesm5/core.js.SystemJsNgModuleLoader.loadAndCompile (core.js:4982)
+    at SystemJsNgModuleLoader.push../node_modules/@angular/core/fesm5/core.js.SystemJsNgModuleLoader.load (core.js:4974)
+    at RouterConfigLoader.push../node_modules/@angular/router/fesm5/router.js.RouterConfigLoader.loadModuleFactory (router.js:3261)
+    at RouterConfigLoader.push../node_modules/@angular/router/fesm5/router.js.RouterConfigLoader.load (router.js:3249)
+    at MergeMapSubscriber.project (router.js:1519)
+    at MergeMapSubscriber.push../node_modules/rxjs/_esm5/internal/operators/mergeMap.js.MergeMapSubscriber._tryNext (mergeMap.js:61)
+    at MergeMapSubscriber.push../node_modules/rxjs/_esm5/internal/operators/mergeMap.js.MergeMapSubscriber._next (mergeMap.js:51)
+    at MergeMapSubscriber.push../node_modules/rxjs/_esm5/internal/Subscriber.js.Subscriber.next (Subscriber.js:54)
+    at resolvePromise (zone.js:814)
+    at resolvePromise (zone.js:771)
+    at zone.js:873
+    at ZoneDelegate.push../node_modules/zone.js/dist/zone.js.ZoneDelegate.invokeTask (zone.js:421)
+    at Object.onInvokeTask (core.js:3811)
+    at ZoneDelegate.push../node_modules/zone.js/dist/zone.js.ZoneDelegate.invokeTask (zone.js:420)
+    at Zone.push../node_modules/zone.js/dist/zone.js.Zone.runTask (zone.js:188)
+    at drainMicroTaskQueue (zone.js:595)
+</code></pre>
+
+<p>When I comment any one layout imported in <strong>LayoutModule</strong>, another one works fine. But importing both together is giving above error.</p>
+
+<p>routes are defined in <strong>app-routing.module.ts</strong> like</p>
+
+<pre><code>const routes: Routes = [
+  { path: 'auth', loadChildren: './layouts/auth-layout/auth-layout.module#AuthLayoutModule' },
+  { path: 'admin', loadChildren: './layouts/admin-layout/admin-layout.module#AdminLayoutModule'},
+  { path: '', redirectTo: 'admin/dashboard', pathMatch: 'full'},
+  { path: '**', component: PageNotFoundComponent},
+];
+
+@NgModule({
+  imports: [
+    CommonModule,
+    BrowserModule,
+    RouterModule.forRoot(routes)
+  ],
+  declarations: [],
+  exports: [
+    RouterModule
+  ]
+})
+export class AppRoutingModule { }
+</code></pre>
+","[""I'm using <code>Angular 6</code>."", 'I have two layout modules (AdminLayout and AuthLayout) under LayoutModule', 'Contents of AdminLayoutModule is', 'admin-layout.routing.ts', 'and admin-layout.component.html has', 'Similarly the contents of AuthLayoutModule', 'auth-layout.routing.ts', 'auth-layout.component.html', 'and both AdminLayoutModule and AuthLayoutModule are imported in LayoutModule', 'Which is further imported in the AppModule', 'But when I run the server, it does not give any error during compile but gives an error when visiting URL in the browser.', 'When I comment any one layout imported in LayoutModule, another one works fine. But importing both together is giving above error.', 'routes are defined in app-routing.module.ts like']",1,0,0
+1716,65005002,How can I use posthtml with Webpack and multiple HTML files?,"<p>I'm trying to use Webpack to simulate Parcel's behavior in a multi-page application (I would use Parcel, but Parcel 1 won't work on Node 15 and Parcel 2 is still a beta with too many bugs to be usable at present.), and part of that is that I need to be able to have multiple HTML files with shared markup. In parcel, I used posthtml-include, so I would like to do the same with Webpack, although I am open to other options. To do this, I found <a href=""https://github.com/posthtml/posthtml-loader"" rel=""nofollow noreferrer"">this</a> github repository, which appears to be the official way to integrate posthtml and Webpack. With this, I created a minimal Webpack project to figure out how to use it, and I found that it does not work as expected. My minimal, complete, verifiable example follows:</p>
+<p>package.json:</p>
+<pre class=""lang-json prettyprint-override""><code>{
+  &quot;name&quot;: &quot;posthtml&quot;,
+  &quot;scripts&quot;: {
+    &quot;build&quot;: &quot;webpack&quot;
+  },
+  &quot;devDependencies&quot;: {
+    &quot;html-loader&quot;: &quot;^1.3.2&quot;,
+    &quot;posthtml-include&quot;: &quot;^1.6.0&quot;,
+    &quot;posthtml-loader&quot;: &quot;^2.0.1&quot;,
+    &quot;webpack&quot;: &quot;^5.6.0&quot;,
+    &quot;webpack-cli&quot;: &quot;^4.2.0&quot;
+  }
+}
+</code></pre>
+<p>webpack.config.js (basically a copy/paste of the example in the linked github repository):</p>
+<pre class=""lang-js prettyprint-override""><code>const path = require('path');
+
+module.exports = {
+    entry: './src/index.js',
+    output: {
+        filename: 'main.js',
+        path: path.resolve(__dirname, 'dist'),
+    },
+    module: {
+        rules: [
+            {
+                test: /\.html$/,
+                use: [
+                    'html-loader',
+                    {
+                        loader: 'posthtml-loader',
+                        options: {
+                            ident: 'posthtml',
+                            parser: 'PostHTML Parser',
+                            plugins: [
+                                /* PostHTML Plugins */
+                                require('posthtml-include')(options)
+                            ]
+                        }
+                    }
+                ]
+            },
+        ]
+    }
+};
+
+</code></pre>
+<p>src/index.js:</p>
+<pre class=""lang-js prettyprint-override""><code>import html from './index.html';
+</code></pre>
+<p>src/index.html:</p>
+<pre class=""lang-html prettyprint-override""><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;Test&lt;/h1&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>When I run <code>npm run build</code> on this project, I expect it to output an <code>index.html</code> file in the <code>dist</code> subfolder that displays my heading (actually using Webpack's and Posthtml's features comes after it's working at all.), yet instead I get the following error:</p>
+<pre><code>$ npm run build
+
+&gt; posthtml@ build &lt;path to the project directory is redacted&gt;
+&gt; webpack
+
+[webpack-cli] ReferenceError: options is not defined
+    at Object.&lt;anonymous&gt; (&lt;path to the project directory is redacted&gt;/webpack.config.js:22:35)
+    at Module._compile (&lt;path to the project directory is redacted&gt;/node_modules/v8-compile-cache/v8-compile-cache.js:192:30)
+    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1131:10)
+    at Module.load (node:internal/modules/cjs/loader:967:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:807:14)
+    at Module.require (node:internal/modules/cjs/loader:991:19)
+    at require (&lt;path to the project directory is redacted&gt;/node_modules/v8-compile-cache/v8-compile-cache.js:159:20)
+    at requireConfig (/&lt;path to the project directory is redacted&gt;/node_modules/webpack-cli/lib/groups/resolveConfig.js:73:18)
+    at Array.map (&lt;anonymous&gt;)
+    at resolveConfigFiles (&lt;path to the project directory is redacted&gt;/node_modules/webpack-cli/lib/groups/resolveConfig.js:124:40)
+npm ERR! code ELIFECYCLE
+npm ERR! errno 2
+npm ERR! posthtml@ build: `webpack`
+npm ERR! Exit status 2
+npm ERR! 
+npm ERR! Failed at the posthtml@ build script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     &lt;home directory is redacted&gt;/.npm/_logs/&lt;current time, which gives timezone, is redacted&gt;-debug.log
+</code></pre>
+<p>Why is Webpack not behaving how I expected it to? How can I cause it to behave as I expect it to? I tried to find other sources for how to use Posthtml with Webpack, but most of what I find only gives information on how to use regular HTML files with Webpack. When I use the exact code that is given in the example of what appears to be the official Github repository for this integration, it makes no sense that it's not working.</p>
+<p>Version information:</p>
+<pre><code>$ npm --version            
+6.14.8
+$ node --version
+v15.2.1
+$ uname -a      
+Linux blue 5.9.10-arch1-1 #1 SMP PREEMPT &lt;date is redacted&gt; x86_64 GNU/Linux
+</code></pre>
+","['I\'m trying to use Webpack to simulate Parcel\'s behavior in a multi-page application (I would use Parcel, but Parcel 1 won\'t work on Node 15 and Parcel 2 is still a beta with too many bugs to be usable at present.), and part of that is that I need to be able to have multiple HTML files with shared markup. In parcel, I used posthtml-include, so I would like to do the same with Webpack, although I am open to other options. To do this, I found <a href=""https://github.com/posthtml/posthtml-loader"" rel=""nofollow noreferrer"">this</a> github repository, which appears to be the official way to integrate posthtml and Webpack. With this, I created a minimal Webpack project to figure out how to use it, and I found that it does not work as expected. My minimal, complete, verifiable example follows:', 'package.json:', 'webpack.config.js (basically a copy/paste of the example in the linked github repository):', 'src/index.js:', 'src/index.html:', ""When I run <code>npm run build</code> on this project, I expect it to output an <code>index.html</code> file in the <code>dist</code> subfolder that displays my heading (actually using Webpack's and Posthtml's features comes after it's working at all.), yet instead I get the following error:"", ""Why is Webpack not behaving how I expected it to? How can I cause it to behave as I expect it to? I tried to find other sources for how to use Posthtml with Webpack, but most of what I find only gives information on how to use regular HTML files with Webpack. When I use the exact code that is given in the example of what appears to be the official Github repository for this integration, it makes no sense that it's not working."", 'Version information:']",0,0,1
+1145,53472491,React Redux throws error when displaying records in a Modal View,"<p>I have asked similar question which has been answered here but it was for <strong>Reactjs</strong> only and not for <strong>react redux</strong>.
+<a href=""https://stackoverflow.com/questions/53471599/reactjs-shows-only-first-record-each-time-a-modal-pop-up-button-is-clicked/53471754#53471754"">Reactjs shows only first record each time a modal pop up button is clicked</a></p>
+
+<p>Here am trying to display Records on Bootstraps Modal Popup via <strong>React Redux</strong> when a view button is clicked.</p>
+
+<p>Similarly I have 9 records in the React Redux array.</p>
+
+<pre><code>     { ""name"" : ""Tony"", ""Age"" : ""18""},
+     { ""name"" : ""John"", ""Age"" : ""21"" },
+     { ""name"" : ""Luke"", ""Age"" : ""78"" },
+     { ""name"" : ""Mark"", ""Age"" : ""90"" },
+     { ""name"" : ""Jame"", ""Age"" : ""87"" },
+     { ""name"" : ""Franco"", ""Age"" : ""34"" },
+     { ""name"" : ""Franco"", ""Age"" : ""34"" },
+     { ""name"" : ""Biggard"", ""Age"" : ""19"" },
+     { ""name"" : ""tom"", ""Age"" : ""89"" },
+</code></pre>
+
+<p>The code displays all the records with each records having its <strong>Modal view
+button</strong>. The problem am having is that each time I click on view button of any record so as to display the record in the modal
+view, it will display error </p>
+
+<pre><code>bundle.js:58831 Uncaught TypeError: _this.rec is not a function
+    at Applications._this.viewData 
+</code></pre>
+
+<p>below is the code</p>
+
+<pre><code>    import React from 'react';
+    import { Link } from 'react-router-dom';
+    import { connect } from 'react-redux';
+
+    import { UActions } from '../_actions';
+
+    class Applications extends React.Component {
+
+      constructor(props) {
+            super(props);
+            this.state = {
+              currentRec: undefined,
+            };
+        this.viewData = this.viewData.bind(this);
+       }
+
+       componentDidMount() {
+          this.rec=this.props.dispatch(userActions.getAll_Records());
+       }
+
+     // Display Data in a Modal when View button is Clicked
+     viewData = (i) =&gt; {
+        //this.setState({ currentRec: i });
+        this.rec({ currentRec: i });
+        console.log(`Selected record index: ${i}`);
+      }
+
+        render() {
+          const { user, users } = this.props;
+          return (
+             &lt;div className=""ml""&gt;
+                    &lt;div className=""responsive-table""&gt;
+            {users.items &amp;&amp;        
+              &lt;table className=""table table-bordered table-striped""&gt;
+                            &lt;thead&gt;
+                            &lt;tr&gt;
+                                &lt;th&gt;ID&lt;/th&gt;
+                                &lt;th&gt;Name&lt;/th&gt;
+                                &lt;th&gt;Age&lt;/th&gt;
+                                &lt;th &gt;view&lt;/th&gt;
+                            &lt;/tr&gt;
+                            &lt;/thead&gt;
+                            &lt;tbody&gt;
+                            {users.items.map((user, i) =&gt;
+                               &lt;tr key={user.id}&gt;
+                                  &lt;td&gt;{user.id}&lt;/td&gt;
+                                  &lt;td&gt;{user.name}&lt;/td&gt;
+                                  &lt;td&gt;{user.Age}&lt;/td&gt;
+                                  &lt;td  className=""btn btn-primary btn-sm""&gt;&lt;button
+                                    type=""button""
+                                    onClick={() =&gt; { this.viewData(i); }}
+                                    className=""btn btn-primary btn-sm""
+                                    data-toggle=""modal""
+                                    data-target=""#myModal""
+                                     &gt;
+                                   view from Modal
+                                &lt;/button&gt;
+                                &lt;/td&gt;
+                            &lt;/tr&gt;
+                            )}
+             &lt;/tbody&gt;
+          &lt;/table&gt;
+        }
+    &lt;/div&gt;
+
+    //Modal Start
+     &lt;div className=""modal"" id=""myModal""&gt;
+              &lt;div className=""modal-dialog""&gt;
+                &lt;div see={this.see} className=""modal-content""&gt;
+                  &lt;div className=""modal-header""&gt;
+                    &lt;h4 className=""modal-title""&gt;Show Records in Modal&lt;/h4&gt;
+                    &lt;button type=""button"" className=""close"" data-dismiss=""modal""&gt;
+                      &amp;times;
+                    &lt;/button&gt;
+                  &lt;/div&gt;
+
+                  {this.state.currentRec !== undefined &amp;&amp; 
+                      &lt;div className=""modal-body""&gt;
+                        Name: {this.rec[this.state.currentRec].name} &lt;br /&gt;
+                        Age: {this.rec[this.state.currentRec].Age} &lt;br /&gt;
+                      &lt;/div&gt;}
+
+                  &lt;div className=""modal-footer""&gt;
+                    &lt;button
+                      type=""button""
+                      className=""btn btn-danger""
+                      data-dismiss=""modal""
+                    &gt;
+                      Close
+                    &lt;/button&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+    //Modal Ends
+    &lt;/div&gt;
+            );
+        }
+    }
+
+
+    function mapStateToProps(state) {
+        const { users } = state;
+        const { user } = state;
+        return {
+            user,
+           users
+        };
+    }
+
+const connectedApplications = connect(mapStateToProps)(Applications);
+export { connectedApplications as Applications };
+</code></pre>
+
+<p><strong>An Updates</strong></p>
+
+<p>If I implement <code>this.props.rec=this.props.dispatch(userActions.getAll_Records());</code></p>
+
+<p>it will show error
+<strong>TypeError: Cannot add property rec, object is not extensible
+    at Applications.componentDidMount</strong> </p>
+
+<p>I think the problem lies in the <strong>setState()</strong> within the <strong>ViewData()</strong> Method which prevents the records from being displayed in
+the Modal view</p>
+
+<p>Here is my <strong>reducer</strong> files</p>
+
+<pre><code>import { userConstants } from '../_constants';
+
+export function users(state = {}, action) {
+  switch (action.type) {
+
+case userConstants.GETALL_REQUEST:
+  return {
+    ...state,
+    loading: true
+  };
+case userConstants.GETALL_SUCCESS:
+  return {
+    loading: false,
+    error: null,
+    items: action.users
+  };
+</code></pre>
+","['I have asked similar question which has been answered here but it was for Reactjs only and not for react redux.\n<a href=""https://stackoverflow.com/questions/53471599/reactjs-shows-only-first-record-each-time-a-modal-pop-up-button-is-clicked/53471754#53471754"">Reactjs shows only first record each time a modal pop up button is clicked</a>', 'Here am trying to display Records on Bootstraps Modal Popup via React Redux when a view button is clicked.', 'Similarly I have 9 records in the React Redux array.', 'The code displays all the records with each records having its Modal view\nbutton. The problem am having is that each time I click on view button of any record so as to display the record in the modal\nview, it will display error ', 'below is the code', 'An Updates', 'If I implement <code>this.props.rec=this.props.dispatch(userActions.getAll_Records());</code>', 'it will show error\nTypeError: Cannot add property rec, object is not extensible\n    at Applications.componentDidMount ', 'I think the problem lies in the setState() within the ViewData() Method which prevents the records from being displayed in\nthe Modal view', 'Here is my reducer files']",0,0,1
+750,72992781,Why I encountered is not iterable?,"<p>I have this error and I started to learn React last week so I couldn't solve the problem.</p>
+<pre class=""lang-none prettyprint-override""><code>Uncaught TypeError: contacts is not iterable
+    at onSubmit (index.js:15:1)
+</code></pre>
+<p>Contacts Component</p>
+<pre><code>import List from &quot;./List&quot;
+import Form from &quot;./Form&quot;
+import {useState,useEffect} from &quot;react&quot;
+import React  from &quot;react&quot;
+
+function Contacts(){
+
+    const [contacts,setContacts] = useState([]);
+
+    useEffect(()=&gt;{
+        console.log(contacts)
+    },[contacts])   
+
+    return (
+        &lt;div&gt;
+            &lt;List/&gt;
+            &lt;Form addContact = {setContacts} contacts={contacts}/&gt;
+        &lt;/div&gt;
+    )
+}
+
+
+export default Contacts
+</code></pre>
+<p>Form Component</p>
+<pre><code>import React from &quot;react&quot;
+import { useState } from &quot;react&quot;
+
+function Form(addContact,contacts){
+    
+    const [form,setForm] = useState({fullName : &quot;&quot; , phoneNumber : &quot;&quot;})
+
+    const onChangeInput = (event) =&gt; { setForm({...form,[event.target.name]: event.target.value}) }
+
+    const onSubmit = (event) =&gt; {
+        event.preventDefault();
+        if(form.name ===&quot;&quot; || form.phoneNumber===&quot;&quot;){
+            return false
+        }
+        addContact([...contacts , form]);
+    }
+
+    return (
+        &lt;form onSubmit={onSubmit}&gt;
+            Form List
+            &lt;div&gt;&lt;input name=&quot;fullName&quot; placeholder=&quot;fullName&quot; onChange={onChangeInput}&gt;&lt;/input&gt;&lt;/div&gt;
+            &lt;div&gt;&lt;input name=&quot;phoneNumber&quot; placeholder=&quot;phoneNumber&quot; onChange={onChangeInput}&gt;&lt;/input&gt;&lt;/div&gt;
+            
+            &lt;div&gt;
+                &lt;button&gt;Add&lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/form&gt;
+    )
+}
+
+
+export default Form
+</code></pre>
+","[""I have this error and I started to learn React last week so I couldn't solve the problem."", 'Contacts Component', 'Form Component']",0,0,1
+1697,70411787,Cannot read properties of undefined (reading 'map') NGRX Entity,"<p>It happens on the selectAll selector, I Have looked at other answers and I am using a createfeatureSelector, to call the state. I have managed to dispatch actions, save the state to the store but I can't use the selectors. Any help would be highly appreciated.</p>
+<pre><code>ERROR TypeError: Cannot read properties of undefined (reading 'map')
+    at ngrx-entity.mjs:21
+    at ngrx-store.mjs:697
+    at memoized (ngrx-store.mjs:578)
+    at defaultStateFn (ngrx-store.mjs:601)
+    at ngrx-store.mjs:700
+    at memoized (ngrx-store.mjs:578)
+    at ngrx-store.mjs:697
+    at memoized (ngrx-store.mjs:578)
+    at defaultStateFn (ngrx-store.mjs:601)
+    at ngrx-store.mjs:700
+</code></pre>
+<p>todos.actions.ts</p>
+<pre><code>import { Update } from &quot;@ngrx/entity&quot;;
+import { createAction, props } from &quot;@ngrx/store&quot;;
+import { Todo } from &quot;../../../models/todo.interface&quot;;
+
+export enum TodosActionTypes {
+  GET_TODOS = '[todos] get todos',
+  GET_TODOS_FAIL = '[todos] get todos fail',
+  GET_TODOS_SUCCESS = '[todos] get todos success',
+  ADD_TODO = '[todo] add todo',
+  EDIT_TODO = '[todo] edit todo',
+  DELETE_TODO = '[todo] delete todo',
+}
+
+const getTodos = createAction(TodosActionTypes.GET_TODOS);
+const getTodosFail = createAction(TodosActionTypes.GET_TODOS_FAIL, props&lt;{error: Error}&gt;());
+const getTodosSuccess = createAction(TodosActionTypes.GET_TODOS_SUCCESS, props&lt;{todos: Todo[]}&gt;());
+const editTodo = createAction(TodosActionTypes.EDIT_TODO, props&lt;{edit: Update&lt;Todo&gt;, completed: boolean}&gt;());
+const deleteTodo = createAction(TodosActionTypes.DELETE_TODO, props&lt;{id: string}&gt;());
+const addTodo = createAction(TodosActionTypes.ADD_TODO, props&lt;{todo: Todo}&gt;());
+
+export const TodosActions = {
+  getTodos,
+  getTodosFail,
+  getTodosSuccess,
+  editTodo,
+  deleteTodo,
+  addTodo
+};
+
+</code></pre>
+<p>todos.reducer.ts</p>
+<pre><code>import { createEntityAdapter, EntityAdapter, Update } from '@ngrx/entity';
+import { createReducer, on } from '@ngrx/store';
+import { Todo } from '../../../models/todo.interface';
+import { TodosState } from '../../../models/todos-state.interface';
+import { TodosActions } from '../actions/todos.actions';
+
+export function selectTodoId(a: Todo): string {
+  return a.id;
+}
+export function sortByName(a: Todo, b: Todo): number {
+  return a.name.localeCompare(b.name);
+}
+export const adapter: EntityAdapter&lt;Todo&gt; = createEntityAdapter&lt;Todo&gt;({
+  selectId: selectTodoId,
+  sortComparer: sortByName,
+});
+
+export const initalState: TodosState = adapter.getInitialState({
+  loading: false,
+  loaded: false,
+  error: {
+    message: '',
+    name: '',
+  },
+});
+
+function getTodosHandler(state = initalState) {
+  return {
+    ...state,
+    loading: true,
+  };
+}
+function getTodosFailHandler(state = initalState, action: { error: Error }) {
+  return {
+    ...state,
+    loading: false,
+    loaded: true,
+    error: action.error,
+  };
+}
+
+function getTodosSuccessHandler(
+  state = initalState,
+  action: { todos: Todo[] }
+) {
+  return adapter.addMany(action.todos, {
+    ...state,
+    loading: false,
+    loaded: true,
+  });
+}
+function editTodosHandler(state = initalState, action: { edit: Update&lt;Todo&gt; }) {
+  return adapter.updateOne(action.edit, {
+    ...state,
+  });
+}
+function deleteTodoHandler(state = initalState, action: { id: string }) {
+  return adapter.removeOne(action.id, {
+    ...state,
+  });
+}
+function addTodoHandler(state = initalState, action: {todo: Todo}) {
+  return adapter.addOne(action.todo, {
+    ...state,
+  })
+}
+export const TodosReducer = createReducer(
+  initalState,
+  on(TodosActions.getTodos, getTodosHandler),
+  on(TodosActions.getTodosFail, getTodosFailHandler),
+  on(TodosActions.getTodosSuccess, getTodosSuccessHandler),
+  on(TodosActions.editTodo, editTodosHandler),
+  on(TodosActions.deleteTodo, deleteTodoHandler),
+  on(TodosActions.addTodo, addTodoHandler)
+);
+
+</code></pre>
+<p>todos.selectors.ts</p>
+<pre><code>import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { TodosState } from '../../../models/todos-state.interface';
+import { adapter } from '../reducers/todos.reducers';
+import { Todo } from '../../../models/todo.interface';
+
+
+
+const { selectIds, selectEntities, selectAll, selectTotal } =
+  adapter.getSelectors();
+
+  export const getTodosFeatureState =
+  createFeatureSelector&lt;TodosState&gt;('todos');
+
+
+const getTodosLoading = (state: TodosState): boolean =&gt; state.loading;
+const getTodosLoaded = (state: TodosState): boolean =&gt; state.loaded;
+
+const selectAllTodos = createSelector(getTodosFeatureState, selectAll);
+
+
+const selectCompletedTodos = createSelector(selectAllTodos, (todos: Todo[]) =&gt; todos.filter(todo =&gt; todo.completed === true));
+
+const selectTodosLoading = createSelector(getTodosFeatureState, getTodosLoading);
+
+const selectTodosLoaded = createSelector(getTodosFeatureState, getTodosLoaded);
+
+const selectAllTodosIds = createSelector(getTodosFeatureState, selectIds);
+
+const selectAllTodosEntities = createSelector(getTodosFeatureState, selectEntities);
+
+const selectTodosTotal = createSelector(getTodosFeatureState, selectTotal);
+
+export const TodosSelectors = {
+  selectAllTodos,
+  selectCompletedTodos,
+  selectTodosLoading,
+  selectTodosLoaded,
+  selectAllTodosIds,
+  selectAllTodosEntities,
+  selectTodosTotal
+}
+
+</code></pre>
+<p>todos-index.reducer.ts</p>
+<pre><code>import { ActionReducerMap } from '@ngrx/store';
+import { TodosState } from '../../../models/todos-state.interface';
+import * as fromTodosReducer from './todos.reducers';
+
+
+export interface TodosFeatureState {
+  todos: TodosState;
+}
+
+export const reducers: ActionReducerMap&lt;TodosFeatureState&gt; = {
+  todos: fromTodosReducer.TodosReducer,
+};
+
+</code></pre>
+<p>todos.effect.ts</p>
+<pre><code>import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { catchError, map, switchMap, take, } from 'rxjs';
+import { Todo } from '../../../models/todo.interface';
+import { TodosService } from '../../../services/todos.service';
+import { TodosActions, TodosActionTypes } from '../actions/todos.actions';
+
+@Injectable()
+export class TodosEffects {
+  constructor(private todosService: TodosService, private actions$: Actions) {}
+  loadTodos$ = createEffect(() =&gt;
+    this.actions$.pipe(
+      ofType(TodosActionTypes.GET_TODOS),
+      switchMap(() =&gt;
+        this.todosService.getTodos().pipe(
+          take(1),
+          map((todos: Todo[]) =&gt; TodosActions.getTodosSuccess({ todos })),
+          catchError(async (error: Error) =&gt;
+            TodosActions.getTodosFail({ error })
+          )
+        )
+      )
+    )
+  );
+
+}
+
+</code></pre>
+<p>todosStateModule</p>
+<pre><code>import { NgModule } from &quot;@angular/core&quot;;
+import { EffectsModule } from &quot;@ngrx/effects&quot;;
+import { StoreModule } from &quot;@ngrx/store&quot;;
+import { SnackBarService } from &quot;../../services/snackbar.service&quot;;
+import { TodosEffects } from &quot;./effects/todos.effects&quot;;
+import * as fromTodos from './reducers/todos-index.reducers';
+
+@NgModule({
+  imports: [
+      StoreModule.forFeature('todos', fromTodos.reducers),
+      EffectsModule.forFeature([TodosEffects]),
+  ],
+  providers:[SnackBarService]
+})
+export class TodosNgrxStateModule {}
+
+</code></pre>
+<p>My package.json</p>
+<pre><code>{
+  &quot;name&quot;: &quot;marin-software&quot;,
+  &quot;version&quot;: &quot;0.0.0&quot;,
+  &quot;license&quot;: &quot;MIT&quot;,
+  &quot;scripts&quot;: {
+    &quot;ng&quot;: &quot;nx&quot;,
+    &quot;postinstall&quot;: &quot;node ./decorate-angular-cli.js &amp;&amp; ngcc --properties es2015 browser module main&quot;,
+    &quot;start&quot;: &quot;nx serve&quot;,
+    &quot;build&quot;: &quot;nx build&quot;,
+    &quot;test&quot;: &quot;nx test&quot;
+  },
+  &quot;private&quot;: true,
+  &quot;dependencies&quot;: {
+    &quot;@angular/animations&quot;: &quot;~13.1.0&quot;,
+    &quot;@angular/cdk&quot;: &quot;^13.1.1&quot;,
+    &quot;@angular/common&quot;: &quot;~13.1.0&quot;,
+    &quot;@angular/compiler&quot;: &quot;~13.1.0&quot;,
+    &quot;@angular/core&quot;: &quot;~13.1.0&quot;,
+    &quot;@angular/forms&quot;: &quot;~13.1.0&quot;,
+    &quot;@angular/material&quot;: &quot;^13.1.1&quot;,
+    &quot;@angular/platform-browser&quot;: &quot;~13.1.0&quot;,
+    &quot;@angular/platform-browser-dynamic&quot;: &quot;~13.1.0&quot;,
+    &quot;@angular/router&quot;: &quot;~13.1.0&quot;,
+    &quot;@ngrx/effects&quot;: &quot;^13.0.2&quot;,
+    &quot;@ngrx/entity&quot;: &quot;^13.0.2&quot;,
+    &quot;@ngrx/store&quot;: &quot;^13.0.2&quot;,
+    &quot;@ngrx/store-devtools&quot;: &quot;^13.0.2&quot;,
+    &quot;@nrwl/angular&quot;: &quot;13.3.9&quot;,
+    &quot;@tailwindcss/forms&quot;: &quot;^0.4.0&quot;,
+    &quot;@tailwindcss/typography&quot;: &quot;^0.5.0&quot;,
+    &quot;rxjs&quot;: &quot;~7.4.0&quot;,
+    &quot;tslib&quot;: &quot;^2.0.0&quot;,
+    &quot;zone.js&quot;: &quot;~0.11.4&quot;
+  },
+  &quot;devDependencies&quot;: {
+    &quot;@angular-devkit/build-angular&quot;: &quot;~13.1.0&quot;,
+    &quot;@angular-eslint/eslint-plugin&quot;: &quot;~13.0.1&quot;,
+    &quot;@angular-eslint/eslint-plugin-template&quot;: &quot;~13.0.1&quot;,
+    &quot;@angular-eslint/template-parser&quot;: &quot;~13.0.1&quot;,
+    &quot;@angular/cli&quot;: &quot;~13.1.0&quot;,
+    &quot;@angular/compiler-cli&quot;: &quot;~13.1.0&quot;,
+    &quot;@angular/language-service&quot;: &quot;~13.1.0&quot;,
+    &quot;@nrwl/cli&quot;: &quot;13.3.9&quot;,
+    &quot;@nrwl/cypress&quot;: &quot;13.3.9&quot;,
+    &quot;@nrwl/eslint-plugin-nx&quot;: &quot;13.3.9&quot;,
+    &quot;@nrwl/jest&quot;: &quot;13.3.9&quot;,
+    &quot;@nrwl/linter&quot;: &quot;13.3.9&quot;,
+    &quot;@nrwl/nx-cloud&quot;: &quot;latest&quot;,
+    &quot;@nrwl/tao&quot;: &quot;13.3.9&quot;,
+    &quot;@nrwl/workspace&quot;: &quot;13.3.9&quot;,
+    &quot;@types/jest&quot;: &quot;27.0.2&quot;,
+    &quot;@types/node&quot;: &quot;14.14.33&quot;,
+    &quot;@typescript-eslint/eslint-plugin&quot;: &quot;~5.3.0&quot;,
+    &quot;@typescript-eslint/parser&quot;: &quot;~5.3.0&quot;,
+    &quot;cypress&quot;: &quot;^9.1.0&quot;,
+    &quot;eslint&quot;: &quot;8.2.0&quot;,
+    &quot;eslint-config-prettier&quot;: &quot;8.1.0&quot;,
+    &quot;eslint-plugin-cypress&quot;: &quot;^2.10.3&quot;,
+    &quot;jest&quot;: &quot;27.2.3&quot;,
+    &quot;jest-preset-angular&quot;: &quot;11.0.0&quot;,
+    &quot;prettier&quot;: &quot;^2.3.1&quot;,
+    &quot;tailwindcss&quot;: &quot;^3.0.7&quot;,
+    &quot;ts-jest&quot;: &quot;27.0.5&quot;,
+    &quot;typescript&quot;: &quot;~4.4.3&quot;
+  }
+}
+
+</code></pre>
+<pre><code>export interface TodosState extends EntityState&lt;Todo&gt; 
+{ 
+loading: boolean;
+loaded: boolean;
+error: Error;
+}
+</code></pre>
+","[""It happens on the selectAll selector, I Have looked at other answers and I am using a createfeatureSelector, to call the state. I have managed to dispatch actions, save the state to the store but I can't use the selectors. Any help would be highly appreciated."", 'todos.actions.ts', 'todos.reducer.ts', 'todos.selectors.ts', 'todos-index.reducer.ts', 'todos.effect.ts', 'todosStateModule', 'My package.json']",0,0,1
+331,49090324,Saving to a variable from async function Angular 5,"<p>Hello I am new to angular and firebase and have been looking online but none of the solutions worked for me, hopefully someone can help. (if i'm not using to right terminology, I can clarify if you ask, like i said i'm new to this.) thanks.</p>
+
+<p>I am trying to save data into a variable from within an async function. When I try to subscribe to it I get this error:</p>
+
+<pre><code>/////////////////////////////////////////////
+        ERROR TypeError: Cannot read property 'subscribe' of undefined
+        at EmployeeListComponent.ngOnInit (employee-list.component.ts:17)
+</code></pre>
+
+<p>What should happen: </p>
+
+<ol>
+<li><p>save the data from angularfire store save it to a variable called employees: <code>Observable&lt;Employee&gt;;</code></p>
+
+<blockquote>
+<pre><code> constructor(public afStore: AngularFirestore, private authService:
+ AuthService) {
+
+             this.authService.afAuth.authState.subscribe(user =&gt; {
+                 this.employeeList = this.afStore.collection&lt;Employee&gt;('restaurantUsers/' + user.uid +
+ '/employees');
+                 return this.employees = this.employeeList.valueChanges();
+             });
+           }
+</code></pre>
+</blockquote></li>
+<li><p>Return the data from a method called <code>getData()</code></p>
+
+<blockquote>
+<pre><code>getData(): Observable&lt;Employee[]&gt; {
+        return this.employees;
+      }
+</code></pre>
+</blockquote></li>
+<li><p>Access it from component employee-listcomponent </p>
+
+<blockquote>
+<pre><code>    export class EmployeeListComponent implements OnInit {
+      constructor(private employeeService: EmployeeService, private authService: AuthService) {
+
+       }
+
+      ngOnInit() {
+        this.employeeService.getData().subscribe(data =&gt; {
+          console.log(data);
+        });
+      }
+</code></pre>
+</blockquote></li>
+</ol>
+
+<p>from my employee-listComponent -     </p>
+
+<pre><code>@Injectable()
+    export class EmployeeService {
+      employeeList: AngularFirestoreCollection&lt;Employee&gt;;
+      employees: Observable&lt;Employee[]&gt;;
+      selectedEmployee: Observable&lt;Employee[]&gt;;
+
+
+
+    constructor(public afStore: AngularFirestore, private authService: AuthService) {
+
+        this.authService.afAuth.authState.subscribe(user =&gt; {
+            this.employeeList =`enter code here` this.afStore.collection&lt;Employee&gt;('restaurantUsers/' + user.uid + '/employees');
+            return this.employees = this.employeeList.valueChanges();
+        });
+      }
+
+
+      getData(): Observable&lt;Employee[]&gt; {
+        return this.employees;
+      }
+
+
+
+    //////////////////////////////////////////////////////////////
+
+    export class EmployeeListComponent implements OnInit {
+      constructor(private employeeService: EmployeeService, private authService: AuthService) {
+
+       }
+
+      ngOnInit() {
+        this.employeeService.getData().subscribe(data =&gt; {
+          console.log(data);
+        });
+      }
+
+        **/////////////////////////////////////////////
+        ERROR TypeError: Cannot read property 'subscribe' of undefined
+        at EmployeeListComponent.ngOnInit (employee-list.component.ts:17)**
+</code></pre>
+","[""Hello I am new to angular and firebase and have been looking online but none of the solutions worked for me, hopefully someone can help. (if i'm not using to right terminology, I can clarify if you ask, like i said i'm new to this.) thanks."", 'I am trying to save data into a variable from within an async function. When I try to subscribe to it I get this error:', 'What should happen: ', ""\nsave the data from angularfire store save it to a variable called employees: <code>Observable&lt;Employee&gt;;</code>\n\n<blockquote>\n<pre><code> constructor(public afStore: AngularFirestore, private authService:\n AuthService) {\n\n             this.authService.afAuth.authState.subscribe(user =&gt; {\n                 this.employeeList = this.afStore.collection&lt;Employee&gt;('restaurantUsers/' + user.uid +\n '/employees');\n                 return this.employees = this.employeeList.valueChanges();\n             });\n           }\n</code></pre>\n</blockquote>\nReturn the data from a method called <code>getData()</code>\n\n<blockquote>\n<pre><code>getData(): Observable&lt;Employee[]&gt; {\n        return this.employees;\n      }\n</code></pre>\n</blockquote>\nAccess it from component employee-listcomponent \n\n<blockquote>\n<pre><code>    export class EmployeeListComponent implements OnInit {\n      constructor(private employeeService: EmployeeService, private authService: AuthService) {\n\n       }\n\n      ngOnInit() {\n        this.employeeService.getData().subscribe(data =&gt; {\n          console.log(data);\n        });\n      }\n</code></pre>\n</blockquote>\n"", 'from my employee-listComponent -     ']",0,1,0
+814,63067898,Send Image from mobile to Node js server,"<p>I am trying to send an image from mobile (I took photo) and send to NodeJS from React without success.
+Here is the piece of code.</p>
+<p><strong>ReactJS</strong></p>
+<pre><code>const formData = new FormData();
+  formData.append(&quot;data&quot;, {
+    uri: imageURI,
+    name: &quot;photo&quot;,
+    type: &quot;image/jpg&quot;,
+  });
+
+  const resp = await fetch(URL + &quot;/send&quot;, {
+    method: &quot;POST&quot;,
+     body: formData,
+     headers: { &quot;Content-Type&quot;: &quot;multipart/form-data&quot; }
+  }).then(async (res) =&gt; {
+    console.log(res);
+    
+  });
+</code></pre>
+<p>And here is the <strong>NodeJS code</strong>:</p>
+<pre><code>const express = require('express');
+const bodyParser = require('body-parser');
+const port = process.env.PORT || 3000;
+const server = require(&quot;http&quot;).createServer();
+const fs = require('fs');
+let multiparty = require('multiparty');
+const app = express();
+
+app.use(bodyParser.urlencoded({
+    extended: false,
+    type: 'multipart/form-data'
+}));
+
+//https://stackoverflow.com/questions/56748415/req-body-is-empty-in-node
+app.post('/send', (request, response, next) =&gt; {
+    console.log(request.body);
+    console.log(request.body.data);
+    
+    fs.writeFile('result.png', request.body, function(err) {
+        console.log('File created: result.png');
+    });
+
+    response.send('uploaded!')
+});
+
+
+//Start the Server 
+server.on(&quot;request&quot;, app);
+
+server.listen(port, function() {
+    console.info(`PPT Server: ${server.address().port}`);
+});
+</code></pre>
+<p>I am getting this error.</p>
+<blockquote>
+<pre><code>fs.js:1253
+      data : Buffer.from('' + data, options.encoding || 'utf8');
+                            ^
+
+TypeError: Cannot convert object to primitive value
+    at writeFd (fs.js:1253:29)
+    at fs.js:1247:7
+    at FSReqCallback.oncomplete (fs.js:146:23)
+</code></pre>
+</blockquote>
+<p>How can I be able to save the uploaded image?</p>
+","['I am trying to send an image from mobile (I took photo) and send to NodeJS from React without success.\nHere is the piece of code.', 'ReactJS', 'And here is the NodeJS code:', 'I am getting this error.', 'How can I be able to save the uploaded image?']",0,0,1
+865,65030469,ReferenceError: require is not defined (on my rest api),"<p><strong>doesn't work</strong>
+Hey guys i have tried so many ways to fix this problem but i can´t really find a answer fot this.</p>
+<p>I am making an rest API for my web site in react, and i am very new to this...
+i am trying to connect my server.js file to my routes.js file but it doesn´t let me beacuse it doesn´t recognise de &quot;require&quot;.</p>
+<pre><code>    import express from &quot;express&quot;;
+import cors from 'cors';
+import mysql from 'mysql';
+const routes = require('./routes');
+
+app.use(cors());
+const app = express();
+
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'marioquiz'
+});
+
+
+app.use(express.json());
+app.use(routes);
+app.use('/User',routes);
+
+
+app.get('/',(req,res)=&gt;  res.send('O servidor esta a funcionar...'));
+
+app.listen(5000);
+</code></pre>
+<p>And returns me this Error:</p>
+<pre><code>file:///C:/Users/Mario/Desktop/Master/Backend/src/server.js:4
+
+const routes = require('./routes');
+           ^
+
+ReferenceError: require is not defined
+    at file:///C:/Users/Mario/Desktop/Master/Backend/src/server.js:4:16
+    at ModuleJob.run (internal/modules/esm/module_job.js:146:23)
+    at async Loader.import (internal/modules/esm/loader.js:165:24)
+    at async Object.loadESM (internal/process/esm_loader.js:68:5)
+</code></pre>
+","[""doesn't work\nHey guys i have tried so many ways to fix this problem but i can´t really find a answer fot this."", 'I am making an rest API for my web site in react, and i am very new to this...\ni am trying to connect my server.js file to my routes.js file but it doesn´t let me beacuse it doesn´t recognise de &quot;require&quot;.', 'And returns me this Error:']",0,0,1
+887,67741286,"Next.js Webviewer Reference Error on build, window is not defined","<p>I am creating a website where I have a pdf viewer inside my page imported dynamically.
+the code runs locally without errors, but during the &quot;npm run build&quot; command I find the following error:</p>
+<pre><code>&gt; Build error occurred
+ReferenceError: window is not defined
+    at Object.&lt;anonymous&gt; (C:\Users\GustavoMorilla\MyProfile\node_modules\@pdftron\webviewer\webviewer.min.js:1:224)
+    at Object.g7Pv (C:\Users\Gustavo Morilla\MyProfile\.next\server\pages\resume\viewer.js:121:18)    
+    at __webpack_require__ (C:\Users\Gustavo Morilla\MyProfile\.next\server\pages\resume\viewer.js:23:31)
+    at Module.vRHl (C:\Users\Gustavo Morilla\MyProfile\.next\server\pages\resume\viewer.js:134:76) {  
+  type: 'ReferenceError'
+info  - Collecting page data .npm ERR! code ELIFECYCLE }
+</code></pre>
+<p>viewer.js code:</p>
+<pre><code>import React, { useRef, useEffect } from &quot;react&quot;;
+import WebViewer from &quot;@pdftron/webviewer&quot;;
+
+const Viewer = () =&gt; {
+  const viewer = useRef(null);
+
+  useEffect(() =&gt; {   
+    WebViewer(
+      {
+        path: '/lib',
+        initialDoc: &quot;/pdf/GustavoMorilla.pdf&quot;,
+      },
+      viewer.current
+    ).then(function (instance) {
+      instance.setTheme(&quot;dark&quot;);
+    });
+  }, []);
+
+  return (
+    &lt;div&gt;      
+        &lt;div className=&quot;Viewer&quot;&gt;  
+        &lt;div className=&quot;header flex justify-between&quot;&gt;          
+          &lt;a&gt;Resume&lt;/a&gt;
+          &lt;a className=&quot;text-sm&quot;&gt;You can download the file on &quot;Settings&quot; button&lt;/a&gt;         
+        &lt;/div&gt;    
+        &lt;div className=&quot;Webviewer&quot; ref={viewer}&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default Viewer;
+</code></pre>
+<p>resume.js code:</p>
+<pre><code>import SiteLayout from &quot;../../components/SiteLayout&quot;;
+import React from &quot;react&quot;;
+import dynamic from &quot;next/dynamic&quot;;
+const Viewer = dynamic(() =&gt; import(&quot;../resume/viewer.js&quot;), { ssr: false });
+
+export default function Resume({ resume }) {
+  return (
+    &lt;div&gt;
+      &lt;SiteLayout&gt;    
+      &lt;div className=&quot;main w-screen&quot;&gt;                         
+          &lt;Viewer /&gt;     
+        &lt;/div&gt;               
+      &lt;/SiteLayout&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+<p>should be something related with the SSR or lifecycle... i dont know.</p>
+","['I am creating a website where I have a pdf viewer inside my page imported dynamically.\nthe code runs locally without errors, but during the &quot;npm run build&quot; command I find the following error:', 'viewer.js code:', 'resume.js code:', 'should be something related with the SSR or lifecycle... i dont know.']",0,0,1
+1473,64582262,split a string message into array in Typescript,"<p>I'm trying to split a string message into array in Typescript. I cannot use comma as there's a json string. I tried to parse but I'm getting an error.</p>
+<pre><code>const msgs = 'string_no_quotes,&quot;string-with@}-weirdchars&quot;,{&quot;ckey&quot;:null,&quot;email&quot;:&quot;user@gmail.com&quot;,&quot;pass&quot;:&quot;password&quot;,&quot;name&quot;:{&quot;firstName&quot;:&quot;User&quot;,&quot;middleName&quot;:&quot;&quot;,&quot;lastName&quot;:&quot;Name&quot;},&quot;address&quot;:{&quot;street&quot;: &quot;test street&quot;, &quot;country&quot;:&quot;some country&quot;, &quot;zip&quot;: &quot;639821&quot;},&quot;status&quot;:1},opt-data'
+
+const messages:string[] = JSON.parse(msgs.toString())
+</code></pre>
+<p>The error :</p>
+<pre><code>SyntaxError: Unexpected token c in JSON at position 1
+    at JSON.parse (&lt;anonymous&gt;)
+</code></pre>
+<p>What could be a best solution to get values in to string array.</p>
+<p>PS: If you wonder why I came up with such nasty string, its 'ZeroMQ' message. And, i tried,</p>
+<pre><code>JSON.parse(&quot;[&quot;+msgs.toString()+&quot;]&quot;)
+eval(&quot;(&quot;+msgs.toString()+&quot;)&quot;)
+</code></pre>
+","[""I'm trying to split a string message into array in Typescript. I cannot use comma as there's a json string. I tried to parse but I'm getting an error."", 'The error :', 'What could be a best solution to get values in to string array.', ""PS: If you wonder why I came up with such nasty string, its 'ZeroMQ' message. And, i tried,""]",0,1,0
+1505,64578983,Struggling with running Storybook,"<p>Hi I'm a beginner learning React &amp; I'm trying out Storybook and I am having the following error when I try to run Storybook. **I tried to update by using npm update, I thought there was conflict with my dependencies **</p>
+<pre><code>ERROR in ./.storybook/generated-refs.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+Error: You gave us a visitor for the node type StaticBlock but it's not a valid type
+    at verify (C:\Users\msngw\OneDrive\Desktop\SBook\myapp\node_modules\@babel\traverse\lib\visitors.js:112:13)
+    at explode (C:\Users\msngw\OneDrive\Desktop\SBook\myapp\node_modules\@babel\traverse\lib\visitors.js:34:3)
+    at Object.merge (C:\Users\msngw\OneDrive\Desktop\SBook\myapp\node_modules\@babel\traverse\lib\visitors.js:147:5)
+    at Object.&lt;anonymous&gt; (C:\Users\msngw\OneDrive\Desktop\SBook\myapp\node_modules\@babel\helper-replace-supers\lib\index.js:60:44)
+    at Module._compile (internal/modules/cjs/loader.js:1015:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1035:10)
+    at Module.load (internal/modules/cjs/loader.js:879:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:724:14)
+    at Module.require (internal/modules/cjs/loader.js:903:19)
+    at require (internal/modules/cjs/helpers.js:74:18)
+    at Object.&lt;anonymous&gt; (C:\Users\msngw\OneDrive\Desktop\SBook\myapp\node_modules\@babel\helper-create-class-features-plugin\lib\fields.js:13:52)
+    at Module._compile (internal/modules/cjs/loader.js:1015:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1035:10)
+    at Module.load (internal/modules/cjs/loader.js:879:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:724:14)
+    at Module.require (internal/modules/cjs/loader.js:903:19)
+ @ multi ./node_modules/@storybook/core/dist/server/common/polyfills.js ./node_modules/@storybook/core/dist/client/manager/index.js ./node_modules/@storybook/addon-links/dist/register.js ./node_modules/@storybook/addon-actions/dist/register.js ./node_modules/@storybook/addon-docs/dist/register.js ./node_modules/@storybook/addon-controls/dist/register.js ./node_modules/@storybook/addon-backgrounds/dist/register.js ./node_modules/@storybook/addon-viewport/dist/register.js ./node_modules/@storybook/addon-toolbars/dist/register.js ./.storybook/generated-refs.js main[9]
+</code></pre>
+","[""Hi I'm a beginner learning React &amp; I'm trying out Storybook and I am having the following error when I try to run Storybook. **I tried to update by using npm update, I thought there was conflict with my dependencies **""]",0,0,1

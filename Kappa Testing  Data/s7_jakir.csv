@@ -1,0 +1,2755 @@
+,QId,Question Link,QTitle,QBody,Why,What,How,Other
+3973,76894203,https://stackoverflow.com/questions/76894203,cant run expo project again,"<p>Please I experienced an error trying to run my React Native Expo project that was working fine and in just 24hrs I tried to running the same project with &quot;npx expo start&quot; as usual to continue development and i got the following error:</p>
+<pre><code>D:\project\node_modules\ssri\lib\index.js:18
+class IntegrityStream extends Minipass {
+                              ^
+
+TypeError: Class extends value undefined is not a constructor or null
+    at Object.&lt;anonymous&gt; (D:\project\node_modules\ssri\lib\index.js:18:31)
+    at Module._compile (node:internal/modules/cjs/loader:1233:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1287:10)
+    at Module.load (node:internal/modules/cjs/loader:1091:32)
+    at Module._load (node:internal/modules/cjs/loader:938:12)
+    at Module.require (node:internal/modules/cjs/loader:1115:19)
+    at require (node:internal/modules/helpers:119:18)
+    at Object.&lt;anonymous&gt; (D:\project\node_modules\cacache\lib\entry-index.js:14:14)
+    at Module._compile (node:internal/modules/cjs/loader:1233:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1287:10)
+
+Node.js v20.5.0
+npm ERR! code 1
+npm ERR! path D:\project
+npm ERR! command failed
+npm ERR! command C:\WINDOWS\system32\cmd.exe /d /s /c expo start -c
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     C:\Users\l9\AppData\Local\npm-cache\_logs\2023-08-13T15_43_11_109Z-debug.log
+</code></pre>
+<p>Expo Version : 0.7.1
+React: 18.2.0,<br />
+React-Native: 0.71.8</p>
+<p>I don't know what this error could be.</p>
+",0,1,0,0
+209,70899377,https://stackoverflow.com/questions/70899377,"How to make ""dispatch"" as export function in React JS?","<p>This is my dispatch function:</p>
+<p><strong>DispatchRecipeID.js</strong></p>
+<pre><code>    import { useDispatch } from &quot;react-redux&quot;;
+    import { UpdateRecipeID } from &quot;../store/action/recipeId&quot;;
+    
+    const DispatchRecipeID = (id) =&gt; { 
+
+      const dispatch = useDispatch(); // dispatch
+    
+      dispatch(UpdateRecipeID(id));
+    
+    };
+    
+    export default DispatchRecipeID;
+    
+</code></pre>
+<hr />
+<p>Now I am use this <strong>DispatchRecipeID()</strong> function in another <strong>React JS</strong> file.</p>
+<p><strong>Navbar.js</strong></p>
+<pre><code>        import React, { useState } from &quot;react&quot;;
+        import DispatchRecipeID from &quot;../../middleware/DispatchRecipeID&quot;;
+
+    
+    const Navbar = () =&gt; {
+
+            // inputbox value
+            const [input, setInput] = useState(&quot;&quot;);
+            // get search item info from inputID. using inputID.id
+            const [inputID, setInputID] = useState(null);
+
+            // search function
+            const dispatchRecipeID = ()=&gt;{
+              if(input !== &quot;&quot; &amp;&amp; input !== null ){
+               DispatchRecipeID(inputID.id)
+              }
+              return
+            }
+          
+            // ....... some code
+            return(
+                &lt;div&gt;
+                  &lt;input type=&quot;text&quot; value={input}   onChange={(event,value)=&gt;{ setInputID(value) }} /&gt; 
+                  &lt;button onClick={dispatchRecipeID(input)} &gt;Search&lt;/button&gt; 
+                &lt;/div&gt;
+            )
+            
+  }
+
+  export default Navbar;
+</code></pre>
+<hr />
+<p>But I get error:</p>
+<blockquote>
+<p>Error: Invalid hook call. Hooks can only be called inside of the body
+of a function component.</p>
+</blockquote>
+<p>Full Error Here:</p>
+<blockquote>
+<p>react-dom.development.js:14906 Uncaught Error: Invalid hook call.
+Hooks can only be called inside of the body of a function component.
+This could happen for one of the following reasons:</p>
+<ol>
+<li>You might have mismatching versions of React and the renderer (such as React DOM)</li>
+<li>You might be breaking the Rules of Hooks</li>
+<li>You might have more than one copy of React in the same app See <a href=""https://reactjs.org/link/invalid-hook-call"" rel=""nofollow noreferrer"">https://reactjs.org/link/invalid-hook-call</a> for tips about how to debug
+and fix this problem.
+at Object.throwInvalidHookError (react-dom.development.js:14906:1)
+at useContext (react.development.js:1504:1)
+at useReduxContext (useReduxContext.js:21:1)
+at useStore (useStore.js:20:1)
+at useDispatch (useDispatch.js:17:1)
+at DispatchRecipeID (DispatchRecipeID.js:6:1)
+at searchFunc (Navbar.js:71:1)
+at HTMLUnknownElement.callCallback (react-dom.development.js:3945:1)
+at Object.invokeGuardedCallbackDev (react-dom.development.js:3994:1)
+at invokeGuardedCallback (react-dom.development.js:4056:1)</li>
+</ol>
+</blockquote>
+<p><a href=""https://i.stack.imgur.com/Z1k0r.png"" rel=""nofollow noreferrer""><img src=""https://i.stack.imgur.com/Z1k0r.png"" alt=""enter image description here"" /></a></p>
+<hr />
+<p>How to fix this error? And I want use <strong>DispatchRecipeID() function</strong> at &quot;3 or 4 JS&quot; files like as <strong>Navbar.js</strong></p>
+<p>please help me, and thanks :)</p>
+",0,0,1,0
+2129,74429770,https://stackoverflow.com/questions/74429770,Invoking userEvent click in test script showing navigate() error,"<p>I am pulling some data from backend (nock mock calls) and storing it in an array. Then I am looping over the data and wrapping each array item with an <code>&lt;a href=&quot;/test&quot;&gt;</code> link. Clicking on the link will take us to the detail page.</p>
+<p>I am testing above functionality in react testing library. In the test file I am calling <code>render(&lt;App/&gt;)</code> . Then I am searching the data returned from backend for a particular item.</p>
+<p>I can see that the backend data is retrieved correctly from backend as <code>screen.debug(elem)</code> is showing the matched element in the log.</p>
+<p>Then I invoke click  using <code>userEvent.click</code> on the matched item (which is wrapped inside the link <code>&lt;a href=&quot;/test&quot;&gt;</code>). This click is supposed to take us to the detail page. It is at this point an error shows</p>
+<pre><code>  console.warn
+    You should call navigate() in a React.useEffect(), not when your component is first rendered.
+
+      265 |         //screen.debug(elem);
+      266 |
+    &gt; 267 |         await userEvent.click(elem);
+          |                         ^
+      268 |         screen.debug();
+      269 |
+      270 |
+
+      at Object.warning (node_modules/@remix-run/router/utils.ts:791:49)
+      at navigate (node_modules/react-router/lib/hooks.tsx:180:7)
+      at internalOnClick (node_modules/react-router-dom/index.tsx:727:9)
+      at handleClick (node_modules/react-router-dom/index.tsx:385:9)
+      at HTMLUnknownElement.callCallback (node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+      at HTMLUnknownElement.callTheUserObjectsOperation (node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+      at innerInvokeEventListeners (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:338:25)
+      at invokeEventListeners (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:274:3)
+      at HTMLUnknownElementImpl._dispatch (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:221:9)
+      at HTMLUnknownElementImpl.dispatchEvent (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:94:17)
+      at HTMLUnknownElement.dispatchEvent (node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:231:34)
+      at Object.invokeGuardedCallbackDev (node_modules/react-dom/cjs/react-dom.development.js:4213:16)
+      at invokeGuardedCallback (node_modules/react-dom/cjs/react-dom.development.js:4277:31)
+      at invokeGuardedCallbackAndCatchFirstError (node_modules/react-dom/cjs/react-dom.development.js:4291:25)
+      at executeDispatch (node_modules/react-dom/cjs/react-dom.development.js:9041:3)
+      at processDispatchQueueItemsInOrder (node_modules/react-dom/cjs/react-dom.development.js:9073:7)
+      at processDispatchQueue (node_modules/react-dom/cjs/react-dom.development.js:9086:5)
+      at dispatchEventsForPlugins (node_modules/react-dom/cjs/react-dom.development.js:9097:3)
+      at node_modules/react-dom/cjs/react-dom.development.js:9288:12
+      at batchedUpdates$1 (node_modules/react-dom/cjs/react-dom.development.js:26140:12)
+      at batchedUpdates (node_modules/react-dom/cjs/react-dom.development.js:3991:12)
+      at dispatchEventForPluginEventSystem (node_modules/react-dom/cjs/react-dom.development.js:9287:3)
+      at dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay (node_modules/react-dom/cjs/react-dom.development.js:6465:5)
+      at dispatchEvent (node_modules/react-dom/cjs/react-dom.development.js:6457:5)
+      at dispatchDiscreteEvent (node_modules/react-dom/cjs/react-dom.development.js:6430:5)
+      at HTMLDivElement.callTheUserObjectsOperation (node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+      at innerInvokeEventListeners (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:338:25)
+      at invokeEventListeners (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:274:3)
+      at HTMLAnchorElementImpl._dispatch (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:221:9)
+      at HTMLAnchorElementImpl.dispatchEvent (node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:94:17)
+      at HTMLAnchorElement.dispatchEvent (node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:231:34)
+      at node_modules/@testing-library/dom/dist/events.js:25:20
+      at node_modules/@testing-library/react/dist/pure.js:79:16
+      at node_modules/@testing-library/react/dist/act-compat.js:64:24
+      at act (node_modules/react/cjs/react.development.js:2512:16)
+      at node_modules/@testing-library/react/dist/act-compat.js:63:25
+      at Object.eventWrapper (node_modules/@testing-library/react/dist/pure.js:78:28)
+      at fireEvent (node_modules/@testing-library/dom/dist/events.js:16:35)
+      at Function.fireEvent.&lt;computed&gt; [as click] (node_modules/@testing-library/dom/dist/events.js:125:36)
+      at fireClick (node_modules/@testing-library/user-event/dist/click.js:150:20)
+      at clickElement (node_modules/@testing-library/user-event/dist/click.js:91:5)
+      at Object.click (node_modules/@testing-library/user-event/dist/click.js:140:5)
+      at Object.&lt;anonymous&gt; (src/App.test.js:267:25)
+
+  console.log
+    &lt;body&gt;
+      &lt;div&gt;
+        &lt;div
+          class=&quot;products-container&quot;
+        &gt;
+          &lt;div
+            class=&quot;products-list&quot;
+          &gt;
+            &lt;a
+              href=&quot;/test&quot;
+            &gt;
+              &lt;div
+                class=&quot;product&quot;
+              &gt;
+                &lt;div
+                  class=&quot;product-title&quot;
+                &gt;
+                  Samsung Note 10 Lite | 10% Price Drop
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/a&gt;
+            &lt;a
+              href=&quot;/test&quot;
+            &gt;
+              &lt;div
+                class=&quot;product&quot;
+              &gt;
+                &lt;div
+                  class=&quot;product-title&quot;
+                &gt;
+                  Samsung Galaxy S21 Plus 5G (Phantom Black, 8GB RAM, 128GB Storage)
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/a&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/body&gt;
+</code></pre>
+<p>If instead of using dynamic data from backend if I just use some static data as return output from the component, then the test works correctly.</p>
+<pre><code>test('renders learn react link', async () =&gt; {
+    
+        //nock mock requests for backend calls
+        
+        render(&lt;App/&gt;);
+
+        let elem;
+                
+        await waitFor(() =&gt; {            
+            elem = screen.getByText(&quot;Product Label 1&quot;).parentElement.parentElement;
+            expect(elem).toBeInTheDocument;            
+        });
+        screen.debug(elem);
+          
+        await userEvent.click(elem);
+        screen.debug();       
+
+        await waitFor(async () =&gt; {
+            let elem2 = await screen.findByText(&quot;Lorem Ipsum&quot;);
+        });
+
+
+    });
+</code></pre>
+<p>This is the file retrieving the backend data</p>
+<pre><code>const ProductsList = () =&gt; {
+    const [productsList, setProductsList] = useState([]);
+    const [noDataFound, setNoDataFound] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [searchData, setSearchData] = useState([]);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [mongoDB, setMongoDB] = useState(null);  
+    
+    const context = React.useContext(AppContext);
+    const userContext = React.useContext(UserContext);   
+    
+    const app = context.app;
+    const user = userContext.user;  
+
+    useEffect(() =&gt; {
+        
+        const getDatabase = async () =&gt; {            
+            let database = await user?.mongoClient(&quot;atlas&quot;);            
+            setMongoDB( database );         
+        }
+        
+        user &amp;&amp; getDatabase();
+        
+    }, [user]);
+
+    useEffect(() =&gt; {      
+        const getProducts = async () =&gt; {
+
+            console.log(&quot;calling realm&quot;);
+            const col =  mongoDB.db(&quot;dbname&quot;).collection(&quot;collectionname&quot;);
+            
+            const products =  await col.aggregate(
+                [
+                    {&quot;$skip&quot; : 0 },
+                    {&quot;$limit&quot;: 12 }
+                ]);
+            if(!products || products.length === 0 ){
+                setNoDataFound(true);
+            }else{
+                setNoDataFound(false);
+            }
+            
+            setProductsList(products);
+            
+        }
+        
+        mongoDB &amp;&amp; getProducts();
+        
+    }, [searchData, mongoDB, searchParams]);
+
+    useEffect(() =&gt; {       
+        
+        if(productsList || productsList?.length === 0)
+            setIsLoading(false);
+        
+    }, [productsList, setProductsList]);
+
+    const getProducts = () =&gt; {
+
+        return productsList.map( product =&gt; {           
+           
+            return (
+                &lt;Link to=&quot;/test&quot; key={product['product-title']}&gt;
+                    &lt;div className=&quot;product&quot;&gt;                                       
+                        &lt;div className=&quot;product-title&quot;&gt;{product['product-title']}&lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/Link&gt;
+            )
+            
+        });
+    }
+
+    return (
+        &lt;&gt;              
+            {                
+                    &lt;div className=&quot;products-container&quot;&gt;    
+                        &lt;div className=&quot;products-list&quot;&gt;
+                            {productsList &amp;&amp; productsList.length &gt; 0 &amp;&amp; getProducts()}
+                        &lt;/div&gt;
+                    &lt;/div&gt; 
+            }            
+        &lt;/&gt;
+    );
+    
+}
+</code></pre>
+<p>This is the Parent App</p>
+<pre><code>function App() {
+  return &lt;BrowserRouter&gt;
+            &lt;Routes&gt;
+                &lt;Route exact path=&quot;/&quot; element={&lt;ProductsList /&gt;} /&gt; 
+                &lt;Route exact path=&quot;/test&quot; element={&lt;ProductDetail /&gt;} /&gt;
+            &lt;/Routes&gt;
+        &lt;/BrowserRouter&gt;
+}
+</code></pre>
+<p>This is file that is navigated to when userEvent.click is invoked</p>
+<pre><code>const ProductDetail = () =&gt; {
+    return &lt;div&gt;Lorem Ipsum&lt;/div&gt;
+
+}
+</code></pre>
+",1,0,0,0
+1299,72894918,https://stackoverflow.com/questions/72894918,Unable to show weather information on map using ArcGIS Js api,"<p>I am getting this error after adding weather service layer I have added traffic layer as well in the same way only the url is different<br />
+[esri.views.2d.layers.MapImageLayerView2D] TypeError: Cannot read properties of null (reading 'supportsDynamicLayers')
+at l.fetchImage (MapImageLayer.js:5:4430)
+at l.fetchImage (MapImageLayerView2D.js:5:2577)
+at l._export (ExportStrategy.js:5:2787)
+at l._singleExport (ExportStrategy.js:5:3092)
+at ExportStrategy.js:5:2011
+at l.s [as update] (promiseUtils.js:5:2854)
+at l.update (MapImageLayerView2D.js:5:1184)
+at l.processUpdate (LayerView2D.js:5:2547)
+at a._updateLayerView (FrameTask.js:5:1982)
+at Array.forEach ()</p>
+<pre><code>const weatherLayer = new MapImageLayer({     url:&quot;https://services9.arcgis.com/RHVPKKiFTONKtxq3/arcgis/rest/services/NWS_Watches_Warnings_v1/FeatureServer&quot;,
+                         sublayers: [
+                            {
+                              id: 0,
+                              visible: true
+                            },
+                            {
+                              id: 1,
+                              visible: true
+                            },
+                            {
+                              id: 2,
+                              visible: false
+                            },
+                            {
+                              id: 3,
+                              visible: false
+                            },
+                            {
+                              id: 4,
+                              visible: false
+                            },
+                            {
+                              id: 5,
+                              visible: false
+                            },
+                            {
+                              id: 6,
+                              visible: false
+                            },
+                            {
+                              id: 8,
+                              visible: false
+                            },
+                            {
+                              id: 9,
+                              visible: false
+                            },
+                            {
+                              id: 10,
+                              visible: false
+                            },
+                            {
+                              id: 11,
+                              visible: false
+                            },
+                            {
+                              id: 12,
+                              visible: false
+                            }
+                          ] })
+                
+                        this.map = new Map({
+                                basemap: &quot;streets-vector&quot;,
+                                layers: [trafficLayer,weatherLayer]
+                              });
+                
+                        this.mapView = new MapView({
+                                map: this.map,
+                                center: [US_LON_CENTER, US_LAT_CENTER],
+                                zoom: ZOOM_LEVEL,
+                                container: this.mapViewElement.nativeElement
+                              });
+    
+</code></pre>
+",0,0,1,0
+1112,72564710,https://stackoverflow.com/questions/72564710,React Native crash release build - FATAL EXCEPTION: create_react_context,"<p>There is no problem in the development environment, but when I get the release build, the app crashes. (Android) I created a new project (v0.68.2), I didn't make any changes, the room crashed in the same way.</p>
+<pre><code>npx react-native run-android --variant=release
+</code></pre>
+<ul>
+<li></li>
+</ul>
+<pre><code>FATAL EXCEPTION: create_react_context
+
+java.lang.RuntimeException: Unable to load script. Make sure you're either running Metro (run 'npx react-native start') or that your bundle 'index.android.bundle' is packaged correctly for release.
+
+FATAL EXCEPTION: create_react_context
+Process: com.testreleasebuild, PID: 8291
+java.lang.RuntimeException: Unable to load script. Make sure you're either running Metro (run 'npx react-native start') or that your bundle 'index.android.bundle' is packaged correctly for release.
+    at com.facebook.react.bridge.CatalystInstanceImpl.jniLoadScriptFromAssets(Native Method)
+    at com.facebook.react.bridge.CatalystInstanceImpl.loadScriptFromAssets(CatalystInstanceImpl.java:248)
+    at com.facebook.react.bridge.JSBundleLoader$1.loadScript(JSBundleLoader.java:29)
+    at com.facebook.react.bridge.CatalystInstanceImpl.runJSBundle(CatalystInstanceImpl.java:277)
+    at com.facebook.react.ReactInstanceManager.createReactContext(ReactInstanceManager.java:1422)
+    at com.facebook.react.ReactInstanceManager.access$1200(ReactInstanceManager.java:138)
+    at com.facebook.react.ReactInstanceManager$5.run(ReactInstanceManager.java:1111)
+    at java.lang.Thread.run(Thread.java:923)
+</code></pre>
+",1,0,0,0
+3984,76902887,https://stackoverflow.com/questions/76902887,Why can't Vite recognize the src folder?,"<p>I have a SvelteKit project in which I use Socket.IO for WebSocket communication.</p>
+<p>For that I need to run the function that inits the WebSocket server from the vite.config.ts file in a plugin.</p>
+<p>My vite.config.ts file:</p>
+<pre><code>import { defineConfig } from 'vite';
+import { sveltekit } from '@sveltejs/kit/vite';
+import type http from 'http';
+import initSocketIoServer from './src/lib/server/socketIoServer';
+export default defineConfig({
+    plugins: [
+        sveltekit(),
+        {
+            name: 'vite-plugin-socket-io',
+            configureServer(server) {
+                initSocketIoServer(server.httpServer as http.Server);
+            },
+        },
+    ],
+});
+</code></pre>
+<p>I don't have any errors in the file, but when I try to run <code>npm run dev</code></p>
+<p>I get:</p>
+<pre><code>failed to load config from C:\vs_code_projects\TypeScript\ej_coop\vite.config.ts
+error when starting dev server:
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'src' imported from C:\vs_code_projects\TypeScript\ej_coop\vite.config.ts.timestamp-1692059596974-1e8475088e131.mjs
+    at new NodeError (node:internal/errors:387:5)  
+    at packageResolve (node:internal/modules/esm/resolve:951:9)
+    at moduleResolve (node:internal/modules/esm/resolve:1000:20)
+    at defaultResolve (node:internal/modules/esm/resolve:1214:11)
+    at nextResolve (node:internal/modules/esm/loader:165:28)
+    at ESMLoader.resolve (node:internal/modules/esm/loader:844:30)
+    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:431:18)
+    at ModuleWrap.&lt;anonymous&gt; (node:internal/modules/esm/module_job:76:40)
+    at link (node:internal/modules/esm/module_job:75:36)
+</code></pre>
+<p>I tried restarting the editor, import in different ways, even turning my PC off and on. Nothing works.</p>
+<p>And the weirdest thing is that it worked before, and I don't recall changing that file, or any other config files for that matter.</p>
+<p>Edit: So apparently, the bug refers to the first instance where I import from src like this: import x from 'src/...'</p>
+<p>but I've added an alias in svelte.config.js vite.config.ts and .svelte-kit/tsconfig.json:</p>
+<p>[svelte.config.js]</p>
+<pre><code>import adapter from '@sveltejs/adapter-node';
+import { vitePreprocess } from '@sveltejs/kit/vite';
+
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
+    // Consult https://kit.svelte.dev/docs/integrations#preprocessors
+    // for more information about preprocessors
+    preprocess: vitePreprocess(),
+
+    kit: {
+        // adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.
+        // If your environment is not supported or you settled on a specific environment, switch out the adapter.
+        // See https://kit.svelte.dev/docs/adapters for more information about adapters.
+        adapter: adapter(),
+
+
+        alias: {
+            src: 'src'
+        },
+    },
+};
+
+export default config;
+</code></pre>
+<p>[svelte-kit/tsconfig.json]</p>
+<pre><code>{
+    &quot;compilerOptions&quot;: {
+        &quot;paths&quot;: {
+            &quot;src&quot;: [
+                &quot;../src&quot;
+            ],
+            &quot;src/*&quot;: [
+                &quot;../src/*&quot;
+            ],
+            &quot;$lib&quot;: [
+                &quot;../src/lib&quot;
+            ],
+            &quot;$lib/*&quot;: [
+                &quot;../src/lib/*&quot;
+            ]
+        },
+        &quot;rootDirs&quot;: [
+            &quot;..&quot;,
+            &quot;./types&quot;
+        ],
+        &quot;importsNotUsedAsValues&quot;: &quot;error&quot;,
+        &quot;isolatedModules&quot;: true,
+        &quot;preserveValueImports&quot;: true,
+        &quot;lib&quot;: [
+            &quot;esnext&quot;,
+            &quot;DOM&quot;,
+            &quot;DOM.Iterable&quot;
+        ],
+        &quot;moduleResolution&quot;: &quot;node&quot;,
+        &quot;module&quot;: &quot;esnext&quot;,
+        &quot;target&quot;: &quot;esnext&quot;,
+        &quot;ignoreDeprecations&quot;: &quot;5.0&quot;
+    },
+    &quot;include&quot;: [
+        &quot;ambient.d.ts&quot;,
+        &quot;./types/**/$types.d.ts&quot;,
+        &quot;../vite.config.ts&quot;,
+        &quot;../src/**/*.js&quot;,
+        &quot;../src/**/*.ts&quot;,
+        &quot;../src/**/*.svelte&quot;,
+        &quot;../tests/**/*.js&quot;,
+        &quot;../tests/**/*.ts&quot;,
+        &quot;../tests/**/*.svelte&quot;
+    ],
+    &quot;exclude&quot;: [
+        &quot;../node_modules/**&quot;,
+        &quot;./[!ambient.d.ts]**&quot;,
+        &quot;../src/service-worker.js&quot;,
+        &quot;../src/service-worker.ts&quot;,
+        &quot;../src/service-worker.d.ts&quot;
+    ]
+}
+</code></pre>
+",1,0,0,0
+3829,76731757,https://stackoverflow.com/questions/76731757,Error with GET request 'api/cars/categories',"<p>I create an app with MERN stack and I have problem with GET request .  In the moment I have an app for cars and want to add search box in Nav bar to search a car. And I want after click button search , the app to shows the results and there is some filters in side bar too. The problem is , when I made that , and when the user search some model in the search box , the application shows empty page with filters in side bar. In the console of the browser , it told me :</p>
+<pre><code>GET http://localhost:3000/api/cars/categories 500 
+
+GET http://localhost:3000/api/cars/categories 500 (Internal Server Error)
+
+utils.js:2 Uncaught (in promise) TypeError: Cannot read properties of undefined (reading 'response')
+    at getError (utils.js:2:1)
+    at fetchData (SearchScreen.js:101:1)
+getError @ utils.js:2
+fetchData @ SearchScreen.js:101
+await in fetchData (async)
+(anonymous) @ SearchScreen.js:105
+commitHookEffectListMount @ react-dom.development.js:23150
+commitPassiveMountOnFiber @ react-dom.development.js:24926
+commitPassiveMountEffects_complete @ react-dom.development.js:24891
+commitPassiveMountEffects_begin @ react-dom.development.js:24878
+commitPassiveMountEffects @ react-dom.development.js:24866
+flushPassiveEffectsImpl @ react-dom.development.js:27039
+flushPassiveEffects @ react-dom.development.js:26984
+(anonymous) @ react-dom.development.js:26769
+workLoop @ scheduler.development.js:266
+flushWork @ scheduler.development.js:239
+performWorkUntilDeadline @ scheduler.development.js:533
+</code></pre>
+<p>Where is the problem ? Can you help me, please?</p>
+<p>I share my code below:</p>
+<p><strong>SearchScreen.js</strong></p>
+<pre><code>import React, { useEffect, useReducer, useState } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { getError } from '../utils';
+import { Helmet } from 'react-helmet-async';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Rating from '../components/Rating';
+import LoadingBox from '../components/LoadingBox';
+import MessageBox from '../components/MessageBox';
+import Button from 'react-bootstrap/Button';
+import Car from '../components/Car';
+import LinkContainer from 'react-router-bootstrap/LinkContainer';
+
+const reducer = (state, action) =&gt; {
+  switch (action.type) {
+    case 'FETCH_REQUEST':
+      return { ...state, loading: true };
+    case 'FETCH_SUCCESS':
+      return {
+        ...state,
+        cars: action.payload.cars,
+        page: action.payload.page,
+        pages: action.payload.pages,
+        countCars: action.payload.countCars,
+        loading: false,
+      };
+    case 'FETCH_FAIL':
+      return { ...state, loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
+const prices = [
+  {
+    name: '$1 to $50',
+    value: '1-50',
+  },
+  {
+    name: '$51 to $80',
+    value: '51-80',
+  },
+  {
+    name: '$80 to $160',
+    value: '80-160',
+  },
+];
+
+export const ratings = [
+  {
+    name: '4stars &amp; up',
+    rating: 4,
+  },
+
+  {
+    name: '3stars &amp; up',
+    rating: 3,
+  },
+
+  {
+    name: '2stars &amp; up',
+    rating: 2,
+  },
+
+  {
+    name: '1stars &amp; up',
+    rating: 1,
+  },
+];
+
+export default function SearchScreen() {
+  const navigate = useNavigate();
+  const { search } = useLocation();
+  const sp = new URLSearchParams(search); // /search?category=Jeep
+  const category = sp.get('category') || 'all';
+  const query = sp.get('query') || 'all';
+  const pricePerHour = sp.get('price Per Hour') || 'all';
+  const rating = sp.get('rating') || 'all';
+  const order = sp.get('order') || 'newest';
+  const page = sp.get('page') || 1;
+
+  const [{ loading, error, cars, pages, countCars }, dispatch] =
+    useReducer(reducer, {
+      loading: true,
+      error: '',
+    });
+
+  useEffect(() =&gt; {
+    const fetchData = async () =&gt; {
+      try {
+        const { data } = await axios.get(
+          `/api/cars/search?page=${page}&amp;query=${query}&amp;category=${category}&amp;pricePerHour=${pricePerHour}&amp;rating=${rating}&amp;order=${order}`
+        );
+        dispatch({ type: 'FETCH_SUCCESS', payload: data });
+      } catch (err) {
+        dispatch({
+          type: 'FETCH_FAIL',
+          payload: getError(error),
+        });
+      }
+    };
+    fetchData();
+  }, [category, error, order, page, pricePerHour, query, rating]);
+
+  const [categories, setCategories] = useState([]);
+  useEffect(() =&gt; {
+    const fetchCategories = async () =&gt; {
+      try {
+        const { data } = await axios.get(`/api/cars/categories`);
+        setCategories(data);
+      } catch (err) {
+        toast.error(getError(err));
+      }
+    };
+    fetchCategories();
+  }, [dispatch]);
+
+  const getFilterUrl = (filter, skipPathname) =&gt; {
+    const filterPage = filter.page || page;
+    const filterCategory = filter.category || category;
+    const filterQuery = filter.query || query;
+    const filterRating = filter.rating || rating;
+    const filterPricePerHour = filter.price || pricePerHour;
+    const sortOrder = filter.order || order;
+    return `${
+      skipPathname ? '' : '/search?'
+    }category=${filterCategory}&amp;query=${filterQuery}&amp;price=${filterPricePerHour}&amp;rating=${filterRating}&amp;order=${sortOrder}&amp;page=${filterPage}`;
+  };
+  return (
+    &lt;div&gt;
+      &lt;Helmet&gt;
+        &lt;title&gt;Search Products&lt;/title&gt;
+      &lt;/Helmet&gt;
+      &lt;Row&gt;
+        &lt;Col md={3}&gt;
+          &lt;h3&gt;Department&lt;/h3&gt;
+          &lt;div&gt;
+            &lt;ul&gt;
+              &lt;li&gt;
+                &lt;Link
+                  className={'all' === category ? 'text-bold' : ''}
+                  to={getFilterUrl({ category: 'all' })}
+                &gt;
+                  Any
+                &lt;/Link&gt;
+              &lt;/li&gt;
+              {categories.map((c) =&gt; (
+                &lt;li key={c}&gt;
+                  &lt;Link
+                    className={c === category ? 'text-bold' : ''}
+                    to={getFilterUrl({ category: c })}
+                  &gt;
+                    {c}
+                  &lt;/Link&gt;
+                &lt;/li&gt;
+              ))}
+            &lt;/ul&gt;
+          &lt;/div&gt;
+          &lt;div&gt;
+            &lt;h3&gt;Price&lt;/h3&gt;
+            &lt;ul&gt;
+              &lt;li&gt;
+                &lt;Link
+                  className={'all' === pricePerHour ? 'text-bold' : ''}
+                  to={getFilterUrl({ price: 'all' })}
+                &gt;
+                  Any
+                &lt;/Link&gt;
+              &lt;/li&gt;
+              {prices.map((p) =&gt; (
+                &lt;li key={p.value}&gt;
+                  &lt;Link
+                    to={getFilterUrl({ pricePerHour: p.value })}
+                    className={p.value === pricePerHour ? 'text-bold' : ''}
+                  &gt;
+                    {p.name}
+                  &lt;/Link&gt;
+                &lt;/li&gt;
+              ))}
+            &lt;/ul&gt;
+          &lt;/div&gt;
+          &lt;div&gt;
+            &lt;h3&gt;Avg. Customer Review&lt;/h3&gt;
+            &lt;ul&gt;
+              {ratings.map((r) =&gt; (
+                &lt;li key={r.name}&gt;
+                  &lt;Link
+                    to={getFilterUrl({ rating: r.rating })}
+                    className={`${r.rating}` === `${rating}` ? 'text-bold' : ''}
+                  &gt;
+                    &lt;Rating caption={' &amp; up'} rating={r.rating}&gt;&lt;/Rating&gt;
+                  &lt;/Link&gt;
+                &lt;/li&gt;
+              ))}
+              &lt;li&gt;
+                &lt;Link
+                  to={getFilterUrl({ rating: 'all' })}
+                  className={rating === 'all' ? 'text-bold' : ''}
+                &gt;
+                  &lt;Rating caption={' &amp; up'} rating={0}&gt;&lt;/Rating&gt;
+                &lt;/Link&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/div&gt;
+        &lt;/Col&gt;
+        &lt;Col md={9}&gt;
+          {loading ? (
+            &lt;LoadingBox&gt;&lt;/LoadingBox&gt;
+          ) : error ? (
+            &lt;MessageBox variant=&quot;danger&quot;&gt;{error}&lt;/MessageBox&gt;
+          ) : (
+            &lt;&gt;
+              &lt;Row className=&quot;justify-content-between mb-3&quot;&gt;
+                &lt;Col md={6}&gt;
+                  &lt;div&gt;
+                    {countCars === 0 ? 'No' : countCars} Results
+                    {query !== 'all' &amp;&amp; ' : ' + query}
+                    {category !== 'all' &amp;&amp; ' : ' + category}
+                    {pricePerHour !== 'all' &amp;&amp; ' : Price ' + pricePerHour}
+                    {rating !== 'all' &amp;&amp; ' : Rating ' + rating + ' &amp; up'}
+                    {query !== 'all' ||
+                    category !== 'all' ||
+                    rating !== 'all' ||
+                    pricePerHour !== 'all' ? (
+                      &lt;Button
+                        variant=&quot;light&quot;
+                        onClick={() =&gt; navigate('/search')}
+                      &gt;
+                        &lt;i className=&quot;fas fa-times-circle&quot;&gt;&lt;/i&gt;
+                      &lt;/Button&gt;
+                    ) : null}
+                  &lt;/div&gt;
+                &lt;/Col&gt;
+                &lt;Col className=&quot;text-end&quot;&gt;
+                  Sort by{' '}
+                  &lt;select
+                    value={order}
+                    onChange={(e) =&gt; {
+                      navigate(getFilterUrl({ order: e.target.value }));
+                    }}
+                  &gt;
+                    &lt;option value=&quot;newest&quot;&gt;Newest Arrivals&lt;/option&gt;
+                    &lt;option value=&quot;lowest&quot;&gt;Price: Low to High&lt;/option&gt;
+                    &lt;option value=&quot;highest&quot;&gt;Price: High to Low&lt;/option&gt;
+                    &lt;option value=&quot;toprated&quot;&gt;Avg. Customer Reviews&lt;/option&gt;
+                  &lt;/select&gt;
+                &lt;/Col&gt;
+              &lt;/Row&gt;
+              {cars?.length === 0 &amp;&amp; (
+                &lt;MessageBox&gt;No Product Found&lt;/MessageBox&gt;
+              )}
+
+              &lt;Row&gt;
+              {cars &amp;&amp; cars.length &gt; 0 &amp;&amp; cars.map((car) =&gt; (
+                  &lt;Col sm={6} lg={4} className=&quot;mb-3&quot; key={car._id}&gt;
+                    &lt;Car car={car}&gt;&lt;/Car&gt;
+                  &lt;/Col&gt;
+                ))}
+              &lt;/Row&gt;
+
+              &lt;div&gt;
+                {[...Array(pages).keys()].map((x) =&gt; (
+                  &lt;LinkContainer
+                    key={x + 1}
+                    className=&quot;mx-1&quot;
+                    to={{
+                      pathname: '/search',
+                      seacrh: getFilterUrl({ page: x + 1 }, true),
+                    }}
+                  &gt;
+                    &lt;Button
+                      className={Number(page) === x + 1 ? 'text-bold' : ''}
+                      variant=&quot;light&quot;
+                    &gt;
+                      {x + 1}
+                    &lt;/Button&gt;
+                  &lt;/LinkContainer&gt;
+                ))}
+              &lt;/div&gt;
+            &lt;/&gt;
+          )}
+        &lt;/Col&gt;
+      &lt;/Row&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+<p><strong>carRoutes.js</strong></p>
+<pre><code>import express from 'express';
+import Car from '../models/carModel.js';
+import expressAsyncHandler from 'express-async-handler';
+import { isAuth, isAdmin } from '../utils.js';
+
+const carRouter = express.Router();
+
+carRouter.get('/', async (req,res)=&gt;{
+    const cars = await Car.find();
+    res.send(cars);
+});
+
+
+carRouter.get('/search',expressAsyncHandler(async (req,res)=&gt;{
+  const {query} = req;
+  const pageSize = query.pageSize || PAGE_SIZE;
+  const page = query.page || 1;
+  const category = query.category || '';
+  const pricePerHour = query.pricePerHour || '';
+  const rating = query.rating || '';
+  const order = query.order || '';
+  const searchQuery = query.query || '';
+  
+
+  const queryFilter =
+        searchQuery &amp;&amp; searchQuery !== 'all'
+          ? {
+              name: {
+                $regex: searchQuery,
+                $options: 'i',
+              },
+            }
+          : {};
+      const categoryFilter = category &amp;&amp; category !== 'all' ? { category } : {};
+      const ratingFilter =
+        rating &amp;&amp; rating !== 'all'
+          ? {
+              rating: {
+                $gte: Number(rating),
+              },
+            }
+          : {};
+      const priceFilter =
+        pricePerHour &amp;&amp; pricePerHour !== 'all'
+          ? {
+              // 1-50
+              pricePerHour: {
+                $gte: Number(pricePerHour.split('-')[0]),
+                $lte: Number(pricePerHour.split('-')[1]),
+              },
+            }
+          : {};
+      const sortOrder =
+        order === 'featured'
+          ? { featured: -1 }
+          : order === 'lowest'
+          ? { pricePerHour: 1 }
+          : order === 'highest'
+          ? { pricePerHour: -1 }
+          : order === 'toprated'
+          ? { rating: -1 }
+          : order === 'newest'
+          ? { createdAt: -1 }
+          : { _id: -1 };
+
+      const cars = await Car.find({
+        ...queryFilter,
+        ...categoryFilter,
+        ...priceFilter,
+        ...ratingFilter,
+      })
+        .sort(sortOrder)
+        .skip(pageSize * (page - 1))
+        .limit(pageSize);
+
+      const countCars = await Car.countDocuments({
+        ...queryFilter,
+        ...categoryFilter,
+        ...priceFilter,
+        ...ratingFilter,
+      });
+      res.send({
+        cars,
+        countCars,
+        page,
+        pages: Math.ceil(countCars / pageSize),
+      });
+    })
+  );
+
+carRouter.post('/', isAuth, expressAsyncHandler(async (req,res)=&gt; {
+  const newCar = new Car({
+        mark: 'sample-name' + Date.now() ,
+        model: 'sample-name' + Date.now(),
+        year: 0,
+        category: 'sample-category',
+        capacity: 0,
+        fuelType: 'sample-name',
+        transmission: 'sample-name',
+        image: 'sample-image',
+        pricePerHour: 0,
+        pricePerDay: 0,
+        available: true,
+        location: 'sample-location',
+        description: 'sample description',
+  });
+  const car = await newCar.save();
+  res.send({message: 'Car created', car});
+})
+);
+
+
+  carRouter.put(
+        '/:id',
+        isAuth,
+        expressAsyncHandler(async (req, res) =&gt; {
+          const carId = req.params.id;
+          const car = await Car.findById(carId);
+          if (car) {
+            car.mark = req.body.mark;
+            car.model = req.body.model;
+            car.year = req.body.year;
+            car.capacity = req.body.capacity;
+            car.fuelType = req.body.fuelType;
+            car.transmission = req.body.transmission;
+            car.pricePerDay = req.body.pricePerDay;
+            car.pricePerHour = req.body.pricePerHour;
+            car.image = req.body.image;
+            car.category = req.body.category;
+            car.available = req.body.available;
+            car.description = req.body.description;
+            car.location = req.body.location;
+            await car.save();
+            res.send({ message: 'Car Updated' });
+          } else {
+            res.status(404).send({ message: 'Car Not Found' });
+          }
+        })
+      );
+
+  carRouter.delete(
+        '/:id',
+        isAuth,
+        expressAsyncHandler(async (req, res) =&gt; {
+          const car = await Car.findById(req.params.id);
+          if (car) {
+            await car.deleteOne();
+            res.send({ message: 'Car Deleted' });
+          } else {
+            res.status(404).send({ message: 'Car Not Found' });
+          }
+        })
+      );
+
+
+      carRouter.post(
+        '/:id/reviews',
+        isAuth,
+        expressAsyncHandler(async (req, res) =&gt; {
+          const carId = req.params.id;
+          const car = await Car.findById(carId);
+          if (car) {
+            if (car.reviews.find((x) =&gt; x.name === req.user.name)) {
+              return res
+                .status(400)
+                .send({ message: 'You already submitted a review' });
+            }
+      
+            const review = {
+              name: req.user.name,
+              rating: Number(req.body.rating),
+              comment: req.body.comment,
+            };
+            car.reviews.push(review);
+            car.numReviews = car.reviews.length;
+            car.rating =
+              car.reviews.reduce((a, c) =&gt; c.rating + a, 0) /
+              car.reviews.length;
+            const updatedCar = await car.save();
+            res.status(201).send({
+              message: 'Review Created',
+              review: updatedCar.reviews[updatedCar.reviews.length - 1],
+              numReviews: car.numReviews,
+              rating: car.rating,
+            });
+          } else {
+            res.status(404).send({ message: 'Car is Not Found' });
+          }
+        })
+      );
+
+const PAGE_SIZE = 3;
+
+carRouter.get(
+    '/admin',
+    isAuth , expressAsyncHandler(async (req,res)=&gt;{
+        const {query} = req;
+        const page = query.page || 1 ;
+        const pageSize = query.pageSize || PAGE_SIZE;
+
+        const cars = await Car.find()
+        .skip(pageSize * (page - 1))
+        .limit(pageSize);
+        const countCars = await Car.countDocuments();
+        res.send({
+            cars,
+            countCars,
+            page,
+            pages: Math.ceil(countCars / pageSize),
+        })
+    })
+)
+
+carRouter.get('/model/:model', async (req,res)=&gt;{
+    const car = await Car.findOne({model: req.params.model});
+    if(car){
+        res.send(car);
+    }else{
+        res.status(404).send({message: 'Car Not Found'});
+    }
+});
+
+carRouter.get('/:id', async (req, res) =&gt; {
+  const car = await Car.findById(req.params.id);
+  if (car) {
+    res.send(car);
+  } else {
+    res.status(404).send({ message: 'Car Not Found' });
+  }
+});
+
+
+export default carRouter;
+</code></pre>
+<p><strong>carModel.js</strong></p>
+<pre><code>import mongoose from 'mongoose';
+
+const reviewSchema = new mongoose.Schema(
+    {
+        name: {type: String, required: true},
+        comment: {type: String, required:true},
+        rating: {type: Number, required: true},
+    },
+    {
+        timestamps: true,
+    }
+);
+
+const carSchema = new mongoose.Schema(
+    {
+        mark: {type: String, required: true, unique: true},
+        model: {type: String, required: true, unique: true},
+        year: {type: Number, required: true},
+        category: {type: String, required: true},
+        capacity: {type: Number, required:true},
+        fuelType: {type: String, required: true},
+        transmission: {type: String, required: true},
+        image: {type: String, required: true},
+        pricePerHour: {type: Number, required: true},
+        pricePerDay: {type: Number, required: true},
+        available: {type: Boolean},
+        rating: {type: Number},
+        numReviews: {type: Number},
+        description: {type: String, required: true},
+        reviews: [reviewSchema]
+    },
+    {
+        timestamps: true
+    }
+);
+
+const Car = mongoose.model('Car',carSchema);
+export default Car;
+</code></pre>
+",0,1,0,0
+2283,74714730,https://stackoverflow.com/questions/74714730,always get undefined in nx monorepo build,"<p>I learning monorepo with nx, and I submodule my existing repo and put it in my apps folder, and i setting up with javascript style using nx generate with --js, because my existing file use javascript and HapiJS. then I create a dockerfile to run my application and success to build it, but when I see the container logs in my app, I got an error, like</p>
+<pre><code>TypeError: Cannot read properties of undefined (reading 'register')
+    at module.exports.internals.Server.internals.Plugin.register (/Users/macbook/Documents/coding/apps/express-repo/node_modules/hapi/lib/plugin.js:212:29)
+</code></pre>
+<p>It's always and always, some function always got undefined, it is because the typescript compiles? Does anyone know how to resolve it? please help me guys.. thank you... That's a simple way to run nx without compiling to ts?</p>
+<p>The answer with example in code POV</p>
+",0,0,1,0
+948,72253961,https://stackoverflow.com/questions/72253961,Access document with dynamic keys returned by findOne mongoose API,"<p>I am trying to access the nested object dynamically, in the document returned by findOne. But I am receiving this error:</p>
+<pre><code>    console.log(doc.$[category])
+                         ^
+
+TypeError: Cannot read properties of undefined (reading 'chats')
+    at file:///C:/Users/lenovo/Desktop/commdash/backend/server.js:93:26      
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)  
+</code></pre>
+<p>My code for findOne is:</p>
+<pre><code>mongoData.findOne( {_id: id,  [category] :{$elemMatch:{name: name}}}).then(function (doc) {
+    console.log(doc.$[category])
+});
+</code></pre>
+<p>My Schema is:</p>
+<pre><code>{
+user : {
+        firstName: String,
+        lastName: String,
+        email: String,
+        userImage: {type: String, default: &quot;https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png&quot;}
+    },
+    avatar: {type: String, default: &quot;https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png&quot;},
+    chats: [{
+                name: String, 
+                conversation: [
+                    {
+                        message: String,
+                        timestamp: String,
+                        user: String,
+                        userImage: {type: String, default: avatar}
+                    }
+                ]
+            }],
+    groups:[ {
+        name: String,
+        conversation: [
+            {
+                message: String,
+                timestamp: String,
+                user: String,
+                userImage: {type: String, default: avatar}
+            }
+        ]
+    }],
+    people: [{
+        id: String,
+        name: String,
+        relation : [{name: String}],
+        conversation: [
+            {
+                message: String,
+                timestamp: String,
+                user: String,
+                userImage: {type: String, default: avatar}
+            }
+        ]
+    }
+    ]
+}
+</code></pre>
+<p>}</p>
+<p>The dynamic variable category is either: people, groups, or chats.</p>
+<p>When its only console.log(doc), it returns:</p>
+<pre><code>{
+  user: {
+    userImage: 'https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png',
+    firstName: 'xyz',
+    lastName: 'xyz',
+    email: 'xyz@gmail.com'
+  },
+  _id: new ObjectId(&quot;&quot;),
+  avatar: 'https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png',
+  chats: [
+    {
+      _id: new ObjectId(&quot;&quot;),
+      name: 'Hello',
+      conversation: [Array]
+    },
+    {
+      _id: new ObjectId(&quot;&quot;),
+      name: 'There',
+      conversation: [Array]
+    },
+    {
+      _id: new ObjectId(&quot;&quot;),
+      name: 'up',
+      conversation: [Array]
+    }
+  ],
+  groups: [],
+  people: [],
+  __v: 0
+}
+</code></pre>
+<p>and when I try console.log(doc.chats), it returns:</p>
+<pre><code>[
+  {
+    _id: new ObjectId(&quot;&quot;),
+    name: 'Hello',
+    conversation: [ [Object] ]
+  },
+  {
+    _id: new ObjectId(&quot;&quot;),
+    name: 'There',
+    conversation: [ [Object] ]
+  },
+  {
+    _id: new ObjectId(&quot;&quot;),
+    name: 'up',
+    conversation: [ [Object] ]
+  }
+]
+</code></pre>
+<p>This is again wrong because what is wanted is a particular chats object with chats.name = name?
+I don't know what I am doing  wrong.Please help.</p>
+",0,1,0,0
+2860,75518676,https://stackoverflow.com/questions/75518676,why does arrow function solves the error Cannot read properties of undefined (reading 'setState'),"<p>I have a Board Component which has a button in it. The button when clicked should trigger a handleClick function which will then call this.setState and update the state.</p>
+<pre><code>class Board extends React.Component {
+constructor(props) {
+    super(props);
+    
+    //temp_map is the connections namely left, bottom, right, top it has with other nodes
+    let temp_map = new Map();
+    temp_map.set('left', null);
+    temp_map.set('bottom',null);
+    temp_map.set('right', null);
+    temp_map.set('top', null);
+
+    this.state = {
+        dots: Array(75).fill(temp_map)
+    }
+
+}
+
+handleClick() {
+    let temp_map = new Map();
+    temp_map.set('left', null);
+    temp_map.set('bottom',null);
+    temp_map.set('right', null);
+    temp_map.set('top', null);
+    var dots = Array(75).fill(temp_map);
+    dots[24]['left'] = 23;
+    dots[23]['right'] = 24;
+    
+    this.setState();
+    
+}
+
+renderSquare(i) {
+    return (
+        &lt;Square index={i} connections={this.state.dots[i]}/&gt;
+    );
+}
+
+render() {
+    return (
+        &lt;div className='board'&gt;
+            &lt;button onClick={this.handleClick}&gt; Click me&lt;/button&gt;
+            &lt;div className='board-row'&gt;
+                {this.renderSquare(0)}
+                {this.renderSquare(1)}
+                {this.renderSquare(2)}
+                {this.renderSquare(3)}
+                {this.renderSquare(4)}
+                {this.renderSquare(5)}
+                {this.renderSquare(6)}
+                {this.renderSquare(7)}
+                {this.renderSquare(8)}
+                {this.renderSquare(9)}
+                {this.renderSquare(10)}
+                {this.renderSquare(11)}
+                {this.renderSquare(12)}
+                {this.renderSquare(13)}
+            &lt;/div&gt;
+        &lt;/div&gt;
+    );
+}
+</code></pre>
+<p>}</p>
+<p>But when I click on the button I get the following error:</p>
+<blockquote>
+<p>Game.js:49 Uncaught TypeError: Cannot read properties of undefined (reading 'setState')
+at handleClick (Game.js:49:1)</p>
+</blockquote>
+<p>in ES6, use can you use arrow function for function declaration to fix this issue.
+So I just wrote</p>
+<pre><code>handleClick = () =&gt; {
+  ........
+
+}
+</code></pre>
+<p>And it solved the problem. But I am still not able to understand why this solves the problem and what was actually the problem before when we were not using arrow function.
+Any help is highly appreciated.</p>
+",0,1,0,0
+38,70594740,https://stackoverflow.com/questions/70594740,"Test failing case with React, Jest, React-Testing-Library","<p>For this test case, I am testing a form to see if an error message appears in the DOM after the form is submitted and the response from the server returns with an error. I am using 'MSW' (Mocked Service Worker JS) to mock out the API requests and responses for the form. In the terminal whenever I run the test with jest it fails, but after I setup a screen.debug() within the test I wrote to check whether the error message was present or not I discovered that the error message was actually present.</p>
+<p>The test case fails with this message:</p>
+<pre><code> FAIL  src/components/Form/Form.test.tsx
+  Form
+    ○ skipped Should show &quot;Add User&quot; button
+    ○ skipped Should open modal, when button is pressed
+  Form submit
+    ✕ Should show an error alert message when form fails to submit (519 ms)
+    ○ skipped Should show a &quot;success&quot; alert message when form is successfully submitted
+  Form validation
+    ○ skipped Form validation successfully handles invalid user input
+    ○ skipped Form validation succesfully handles valid user input
+
+  ● Form submit › Should show an error alert message when form fails to submit
+
+    Failed to submit form!
+
+      at new ApolloError (node_modules/@apollo/client/errors/index.js:29:28)
+      at node_modules/@apollo/client/core/QueryManager.js:91:47
+      at both (node_modules/@apollo/client/utilities/observables/asyncMap.js:16:53)
+      at node_modules/@apollo/client/utilities/observables/asyncMap.js:9:72
+      at Object.then (node_modules/@apollo/client/utilities/observables/asyncMap.js:9:24)
+      at Object.next (node_modules/@apollo/client/utilities/observables/asyncMap.js:17:49)
+      at notifySubscription (node_modules/zen-observable/lib/Observable.js:135:18)
+      at onNotify (node_modules/zen-observable/lib/Observable.js:179:3)
+      at SubscriptionObserver.next (node_modules/zen-observable/lib/Observable.js:235:7)
+      at node_modules/@apollo/client/utilities/observables/iteration.js:4:68
+          at Array.forEach (&lt;anonymous&gt;)
+      at iterateObserversSafely (node_modules/@apollo/client/utilities/observables/iteration.js:4:25)
+      at Object.next (node_modules/@apollo/client/utilities/observables/Concast.js:25:21)
+      at notifySubscription (node_modules/zen-observable/lib/Observable.js:135:18)
+      at onNotify (node_modules/zen-observable/lib/Observable.js:179:3)
+      at SubscriptionObserver.next (node_modules/zen-observable/lib/Observable.js:235:7)
+      at node_modules/@apollo/client/link/http/createHttpLink.js:103:26
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 5 skipped, 6 total
+Snapshots:   0 total
+Time:        4.032 s, estimated 5 s
+</code></pre>
+<p>Here is the test:</p>
+<pre><code>  it.only('Should show an error alert message when form fails to submit', async () =&gt; {
+    mockServer.use(createUserInviteHandlerException);
+
+    const errorMessage = 'Failed to submit form!';
+
+    userEvent.click(addUserButton);
+
+    const emailTextField = await screen.findByRole('textbox', {name: 'Email'});
+    const fullNameTextField = await screen.findByRole('textbox', {name: 'Full Name'});
+    const phoneNumberTextField = await screen.findByRole('textbox', {name: 'Phone Number'});
+    userEvent.type(emailTextField, 'tess.dinh@onetutree.co');
+    userEvent.type(fullNameTextField, 'Nadanuda Bugg');
+    userEvent.type(phoneNumberTextField, '9091221233');
+
+    const submitButton = screen.getByText('Send Invitation');
+    userEvent.click(submitButton);
+
+    await waitFor(async () =&gt;
+      expect(await screen.findByText(errorMessage)).toBeInTheDocument()
+    );
+  });
+});
+</code></pre>
+<p>This is the request handler for the mock server:</p>
+<pre><code>export const createUserInviteHandlerException =
+  graphql.mutation('CreateUserInvite', (_, res, ctx) =&gt; {
+    return res(
+      ctx.delay(),
+      ctx.errors([
+        {
+          status: 400,
+          message: 'Failed to submit form!'
+        }
+      ])
+    );
+  });
+
+</code></pre>
+",0,1,0,0
+797,71961299,https://stackoverflow.com/questions/71961299,theme does not recognize material-ui,"<p>I am new in material UI.
+somehow my code doesn't recognize the theme parameter.
+the error is in this line of code on &quot; [theme.breakpoints.up(&quot;sm&quot;)]&quot;</p>
+<pre><code>const Icons = styled(Box)(({ theme }) =&gt; ({
+  display: &quot;none&quot;,
+  gap: &quot;20px&quot;,
+  alignItems: &quot;center&quot;,
+  [theme.breakpoints.up(&quot;sm&quot;)]: {
+    display: &quot;flex&quot;,
+  },
+}));
+</code></pre>
+<p>It seems that theme is a parameter and nothing more, how can I implement the &quot;theme&quot;?</p>
+<p>here is my full page:</p>
+<pre><code>import styled from &quot;@emotion/styled&quot;;
+import { Notifications, Pets } from &quot;@mui/icons-material&quot;;
+import {
+  AppBar,
+  Avatar,
+  Badge,
+  Box,
+  InputBase,
+  Toolbar,
+  Typography,
+} from &quot;@mui/material&quot;;
+import MailIcon from &quot;@mui/icons-material/Mail&quot;;
+import React from &quot;react&quot;;
+
+const StyledToolbar = styled(Toolbar)({
+  display: &quot;flex&quot;,
+  justifyContent: &quot;space-between&quot;,
+});
+
+const Search = styled(&quot;div&quot;)(({ theme }) =&gt; ({
+  backgroundColor: &quot;white&quot;,
+  padding: &quot;0 10px&quot;,
+  borderRadius: 10,
+  width: &quot;40%&quot;,
+}));
+
+const Icons = styled(Box)(({ theme }) =&gt; ({
+  display: &quot;none&quot;,
+  gap: &quot;20px&quot;,
+  alignItems: &quot;center&quot;,
+  [theme.breakpoints.up(&quot;sm&quot;)]: {
+    display: &quot;flex&quot;,
+  },
+}));
+
+const UserBox = styled(Box)(({ theme }) =&gt; ({
+  display: &quot;flex&quot;,
+  gap: &quot;10px&quot;,
+  alignItems: &quot;center&quot;,
+}));
+
+const Navbar = () =&gt; {
+  return (
+    &lt;AppBar position=&quot;sticky&quot;&gt;
+      &lt;StyledToolbar&gt;
+        &lt;Typography variant=&quot;h6&quot; sx={{ display: { xs: &quot;none&quot;, sm: &quot;block&quot; } }}&gt;
+          My App
+        &lt;/Typography&gt;
+        &lt;Pets sx={{ display: { xs: &quot;block&quot;, sm: &quot;none&quot; } }} /&gt;
+        &lt;Search&gt;
+          &lt;InputBase placeholder=&quot;search...&quot; /&gt;
+        &lt;/Search&gt;
+        &lt;Icons&gt;
+          &lt;Badge badgeContent={4} color=&quot;error&quot;&gt;
+            &lt;MailIcon /&gt;
+          &lt;/Badge&gt;
+          &lt;Badge badgeContent={4} color=&quot;error&quot;&gt;
+            &lt;Notifications /&gt;
+          &lt;/Badge&gt;
+          &lt;Avatar
+            sx={{ width: 30, height: 30 }}
+            src=&quot;https://images.pexels.com/photos/846741/pexels-photo-846741.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1260&amp;h=750&amp;dpr=2&quot;
+          /&gt;
+        &lt;/Icons&gt;
+        &lt;UserBox&gt;
+          &lt;Avatar
+            sx={{ width: 30, height: 30 }}
+            src=&quot;https://images.pexels.com/photos/846741/pexels-photo-846741.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1260&amp;h=750&amp;dpr=2&quot;
+          /&gt;
+          &lt;Typography variant=&quot;span&quot;&gt;Jhon&lt;/Typography&gt;
+        &lt;/UserBox&gt;
+      &lt;/StyledToolbar&gt;
+    &lt;/AppBar&gt;
+  );
+};
+
+export default Navbar;
+</code></pre>
+<p>The Error:</p>
+<pre><code>Uncaught TypeError: Cannot read properties of undefined (reading 'up')
+    at Navbar.js:31:1
+    at handleInterpolation (emotion-serialize.browser.esm.js:137:1)
+    at serializeStyles (emotion-serialize.browser.esm.js:251:1)
+    at emotion-styled-base.browser.esm.js:131:1
+    at emotion-element-cbed451f.browser.esm.js:36:1
+    at renderWithHooks (react-dom.development.js:16141:1)
+    at updateForwardRef (react-dom.development.js:19968:1)
+    at beginWork (react-dom.development.js:22391:1)
+    at HTMLUnknownElement.callCallback (react-dom.development.js:4157:1)
+    at Object.invokeGuardedCallbackDev (react-dom.development.js:4206:1)
+</code></pre>
+",0,0,1,0
+142,70792223,https://stackoverflow.com/questions/70792223,Angular google authentication with firebase,"<ul>
+<li><p>I want to create simple login authentication with google using firebase.</p>
+</li>
+<li><p>I have installed
+angular CLI: 13.1.4, firebase,
+firebase: 10.1.1 &amp; @angular/fire</p>
+</li>
+<li><p>I have configured both environment.ts&amp; env.prod looks like this</p>
+<pre><code>export const environment = {
+firebase: {
+  projectId: '....',
+  appId: '....',
+  databaseURL: '...',
+  storageBucket: '...',
+  apiKey: '...',
+  authDomain: '...',
+  messagingSenderId: '...',
+  measurementId: '...',
+},
+production: false
+</code></pre>
+<p>};</p>
+</li>
+<li><p>I have enabled my google authentication provider service on the firebase account.</p>
+</li>
+<li><p>login.component.ts:</p>
+</li>
+</ul>
+<pre><code>    import { Component, OnInit } from '@angular/core';
+    import { AngularFireAuth } from '@angular/fire/compat/auth';
+    import firebase from 'firebase/compat/app';
+    
+    @Component({
+      selector: 'app-login',
+      templateUrl: './login.component.html',
+      styleUrls: ['./login.component.css']
+    })
+    export class LoginComponent{
+      constructor(public auth: AngularFireAuth) {
+      }
+      login() {
+        this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+      }
+    
+    
+      }
+    
+   
+</code></pre>
+<ul>
+<li>login.component.html:</li>
+</ul>
+<pre><code>  &lt;button class=&quot;btn btn-primary&quot; (click)=&quot;login()&quot;&gt;Login with google&lt;/button&gt;
+
+&lt;/div&gt;
+</code></pre>
+<ul>
+<li>app.module.ts</li>
+</ul>
+<pre><code>import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router'
+
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NavbarComponent } from './navbar/navbar.component';
+import { HomeComponent } from './home/home.component';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { CheckOutComponent } from './check-out/check-out.component';
+import { OrderSuccessComponent } from './order-success/order-success.component';
+import { MyOrdersComponent } from './my-orders/my-orders.component';
+import { AdminProductsComponent } from './admin/admin-products/admin-products.component';
+import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
+import { ProductsComponent } from './products/products.component';
+import { LoginComponent } from './login/login.component';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideDatabase,getDatabase } from '@angular/fire/database';
+import { SETTINGS as AUTH_SETTINGS } from '@angular/fire/compat/auth';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    HomeComponent,
+    ShoppingCartComponent,
+    CheckOutComponent,
+    OrderSuccessComponent,
+    MyOrdersComponent,
+    AdminProductsComponent,
+    AdminOrdersComponent,
+    LoginComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    NgbModule,
+    RouterModule.forRoot([
+      { path:'', component: HomeComponent},
+      { path:'products', component: ProductsComponent},
+      { path:'shopping-cart', component: ShoppingCartComponent},
+      { path:'check-out', component: ShoppingCartComponent},
+      { path:'order-success', component: OrderSuccessComponent},
+      { path:'my-orders', component: MyOrdersComponent},
+      { path:'login', component: LoginComponent},
+      { path:'admin/products', component: AdminProductsComponent},
+      { path:'admin/orders', component: AdminOrdersComponent},
+    ]),
+    provideFirebaseApp(() =&gt; initializeApp(environment.firebase)),
+    provideAuth(() =&gt; getAuth()),
+    provideDatabase(() =&gt; getDatabase()),
+
+
+  ],
+  providers: [
+    { provide: AUTH_SETTINGS, useValue: { appVerificationDisabledForTesting: true } }
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+</code></pre>
+<ul>
+<li>there is no compile time error but I get run time error:</li>
+</ul>
+<pre><code>ERROR Error: Uncaught (in promise): NullInjectorError: R3InjectorError(AppModule)[AngularFireAuth -&gt; InjectionToken angularfire2.app.options -&gt; InjectionToken angularfire2.app.options -&gt; InjectionToken angularfire2.app.options]: 
+  NullInjectorError: No provider for InjectionToken angularfire2.app.options!
+NullInjectorError: R3InjectorError(AppModule)[AngularFireAuth -&gt; InjectionToken angularfire2.app.options -&gt; InjectionToken angularfire2.app.options -&gt; InjectionToken angularfire2.app.options]: 
+  NullInjectorError: No provider for InjectionToken angularfire2.app.options!
+    at NullInjector.get (core.mjs:11105:1)
+    at R3Injector.get (core.mjs:11272:1)
+    at R3Injector.get (core.mjs:11272:1)
+    at R3Injector.get (core.mjs:11272:1)
+    at injectInjectorOnly (core.mjs:4746:1)
+    at Module.ɵɵinject (core.mjs:4750:1)
+    at Object.AngularFireAuth_Factory [as factory] (angular-fire-compat-auth.js:126:1)
+    at R3Injector.hydrate (core.mjs:11442:1)
+    at R3Injector.get (core.mjs:11261:1)
+    at NgModuleRef.get (core.mjs:21800:1)
+    at resolvePromise (zone.js:1213:1)
+    at resolvePromise (zone.js:1167:1)
+    at zone.js:1279:1
+    at ZoneDelegate.invokeTask (zone.js:406:1)
+    at Object.onInvokeTask (core.mjs:25437:1)
+    at ZoneDelegate.invokeTask (zone.js:405:1)
+    at Zone.runTask (zone.js:178:1)
+    at drainMicroTaskQueue (zone.js:582:1)
+    at ZoneTask.invokeTask [as invoke] (zone.js:491:1)
+    at invokeTask (zone.js:1600:1)
+</code></pre>
+",1,0,0,0
+3245,76075471,https://stackoverflow.com/questions/76075471,npm error while using npx create-react-app and other npm commands,"<p>I have reinstalled Node.</p>
+<pre><code>C:\Users\...\AppData\Roaming\npm\node_modules\npm\lib\cli.js:35
+    throw err
+    ^
+
+TypeError: Cannot read properties of undefined (reading 'semver')
+    at Object.&lt;anonymous&gt; (C:\Users\...\AppData\Roaming\npm\node_modules\npm\lib\utils\config\definition.js:33:5)
+    at Module._compile (node:internal/modules/cjs/loader:1254:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1308:10)
+    at Module.load (node:internal/modules/cjs/loader:1117:32)
+    at Module._load (node:internal/modules/cjs/loader:958:12)
+    at Module.require (node:internal/modules/cjs/loader:1141:19)
+    at require (node:internal/modules/cjs/helpers:110:18)
+    at Object.&lt;anonymous&gt; (C:\Users\...\AppData\Roaming\npm\node_modules\npm\lib\utils\config\definitions.js:4:20)
+    at Module._compile (node:internal/modules/cjs/loader:1254:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1308:10)
+</code></pre>
+<p>Node.js v18.16.0</p>
+<p>I expected reinstalling Node to fix the error, but it didn't.</p>
+",0,0,1,0
+2944,75639599,https://stackoverflow.com/questions/75639599,"react-router-dom6 | A <Route> is only ever to be used as the child of <Routes> element, never rendered directly.Please wrap your <Route> in a <Routes>","<p>I am using react-router-dom v6. Trying to authenticate user using oidc client and if authenticated the Private page should allow. However I am getting this error below. I am not sure what I am doing wrong. appreciate your inputs on this please.</p>
+<blockquote>
+<pre><code>Uncaught Error: A &lt;Route&gt; is only ever to be used as the child of &lt;Routes&gt; element, never rendered directly. Please wrap your &lt;Route&gt; in
+</code></pre>
+<p>a .
+at invariant (history.ts:480:1)
+at Route (components.tsx:274:1)
+at renderWithHooks (react-dom.development.js:16305:1)
+at mountIndeterminateComponent (react-dom.development.js:20074:1)
+at beginWork (react-dom.development.js:21587:1)
+at HTMLUnknownElement.callCallback (react-dom.development.js:4164:1)
+at Object.invokeGuardedCallbackDev (react-dom.development.js:4213:1)
+at invokeGuardedCallback (react-dom.development.js:4277:1)
+at beginWork$1 (react-dom.development.js:27451:1)
+at performUnitOfWork (react-dom.development.js:26557:1)</p>
+<pre><code>The above error occurred in the &lt;Route&gt; component:
+
+    at Route (http://localhost:3000/static/js/bundle.js:48027:78)
+    at PrivateRoute (http://localhost:3000/static/js/bundle.js:426:14)
+    at RenderedRoute (http://localhost:3000/static/js/bundle.js:47638:5)
+    at Routes (http://localhost:3000/static/js/bundle.js:48103:5)
+    at AuthProvider (http://localhost:3000/static/js/bundle.js:193:5)
+    at Router (http://localhost:3000/static/js/bundle.js:48041:15)
+    at BrowserRouter (http://localhost:3000/static/js/bundle.js:46238:5)
+    at App
+</code></pre>
+</blockquote>
+<p>index.js</p>
+<pre><code>import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render( &lt;App /&gt; );
+</code></pre>
+<p>App.js</p>
+<pre><code>import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import PrivateRoute from './PrivateRoute';
+import HomePage from './HomePage';
+import Profile from './Profile';
+import Login from './Login';
+import {AuthProvider} from &quot;./AuthProvider&quot;;
+
+function App() {
+  return (
+    &lt;Router&gt;
+      &lt;AuthProvider&gt;
+        &lt;Routes&gt;
+          &lt;Route exact path=&quot;/signin-oidc&quot; element={&lt;HomePage /&gt;} /&gt;
+          &lt;Route
+            exact
+            path=&quot;/profile&quot;
+            element={&lt;PrivateRoute&gt;&lt;Profile /&gt;&lt;/PrivateRoute&gt;}
+          /&gt;
+          &lt;Route exact path=&quot;/&quot; element={&lt;HomePage /&gt; } /&gt;
+          &lt;Route exact path=&quot;/login&quot; element={&lt;Login /&gt;} /&gt;
+        &lt;/Routes&gt;
+      &lt;/AuthProvider&gt;
+    &lt;/Router&gt;
+  );
+}
+export default App;
+</code></pre>
+<p>HomePage.js</p>
+<pre><code>export default function HomePage() {
+  return (
+    &lt;div&gt;home page&lt;/div&gt;
+  )
+}
+</code></pre>
+<p>Profile.js</p>
+<pre><code>export default function Profile() {
+  return (
+    &lt;div&gt;profile page&lt;/div&gt;
+  )
+}
+</code></pre>
+<p>Login.js</p>
+<pre><code>export default function Login() {
+  return (
+    &lt;div&gt;login page&lt;/div&gt;
+  )
+}
+</code></pre>
+<p>PrivateRoute.js</p>
+<pre><code>import React from &quot;react&quot;;
+import { Route, Navigate } from &quot;react-router-dom&quot;;
+import { useAuth } from &quot;./AuthProvider&quot;;
+
+export default function PrivateRoute({ element: Component, ...rest }) {
+  const { isAuthenticated } = useAuth();
+
+  return (
+    &lt;Route
+      {...rest}
+      element={isAuthenticated
+        ? (&lt;Component /&gt;)
+        : (&lt;Navigate to=&quot;/login&quot; replace /&gt;)
+      }
+    /&gt;
+  );
+}
+</code></pre>
+<p>AuthProvider.js</p>
+<pre><code>import React, { createContext, useContext, useEffect, useState } from &quot;react&quot;;
+import { UserManager } from &quot;oidc-client&quot;;
+
+export const oidcConfig = {
+  authority: 'https://idp.myid.abcdef.com/.well-known/openid-configuration',
+  client_id: 'oidc-client-20230304-0001',
+  redirect_uri: 'http://localhost:3000/signin-oidc',
+  response_type: 'id_token token',
+  automaticSilentRenew: true,
+  loadUserInfo: true,
+  scope: 'openid profile email',
+};
+
+const userManager = new UserManager({ ...oidcConfig });
+
+const AuthContext = createContext();
+
+export function AuthProvider({ children }) {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() =&gt; {
+    const loadUserFromStorage = async () =&gt; {
+      const user = await userManager.getUser();
+      if (user) {
+        setIsAuthenticated(true);
+        setUser(user);
+      }
+      console.log(user)
+    };
+
+    loadUserFromStorage();
+  }, []);
+
+  const login = async () =&gt; {
+    console.log(&quot;in signin-redirect&quot;)
+    await userManager.signinRedirect();
+  };
+
+  const logout = async () =&gt; {
+    await userManager.signoutRedirect();
+  };
+
+  return (
+    &lt;AuthContext.Provider
+      value={{ isAuthenticated, user, login, logout }}
+    &gt;
+      {children}
+    &lt;/AuthContext.Provider&gt;
+  );
+}
+
+export function useAuth() {
+  return useContext(AuthContext);
+}
+</code></pre>
+",0,1,0,0
+3332,76174867,https://stackoverflow.com/questions/76174867,TypeError: Class extends value undefined is not a constructor or null. (React application),"<p>When I start my React application. I get the following error:</p>
+<pre><code>ERROR
+Class extends value undefined is not a constructor or null
+TypeError: Class extends value undefined is not a constructor or null
+    at ./node_modules/web-streams-node/lib/conversions.js (http://localhost:3000/static/js/bundle.js:187746:28)
+    at options.factory (http://localhost:3000/static/js/bundle.js:204197:31)
+    at __webpack_require__ (http://localhost:3000/static/js/bundle.js:203621:33)
+    at fn (http://localhost:3000/static/js/bundle.js:203854:21)
+    at ./node_modules/web-streams-node/index.js (http://localhost:3000/static/js/bundle.js:187671:21)
+    at options.factory (http://localhost:3000/static/js/bundle.js:204197:31)
+    at __webpack_require__ (http://localhost:3000/static/js/bundle.js:203621:33)
+    at fn (http://localhost:3000/static/js/bundle.js:203854:21)
+    at ./node_modules/@comunica/bus-http/lib/ActorHttp.js (http://localhost:3000/static/js/bundle.js:19999:30)
+    at options.factory (http://localhost:3000/static/js/bundle.js:204197:31)
+</code></pre>
+<p>In <em>components/profile/Container.js</em> and components/friendList/FriendList.js I extended from Component</p>
+<p>Container.js:</p>
+<pre><code>import React, {Component} from 'react';
+
+import Profile from './Profile';
+import styles from &quot;./Profile.module.css&quot;;
+
+const string = value =&gt; value ? value.toString() : undefined;
+
+export default class ProfileContainer extends Component {
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !nextProps.pending;
+  }
+
+  render() {
+    return &lt;div className={styles.profile}&gt;
+      {this.props.pending ? null : &lt;Profile
+          webId={this.props.webId}
+          fullName={string(this.props.fullName)}
+          imageSrc={string(this.props.imageSrc)}
+      /&gt;}
+    &lt;/div&gt;
+  }
+}
+</code></pre>
+<p>FriendList.js:</p>
+<pre><code>import React, {Component} from &quot;react&quot;;
+import InfiniteScroll from &quot;react-infinite-scroll-component&quot;;
+import List from &quot;@material-ui/core/List&quot;;
+
+import Friend from &quot;./friend&quot;;
+import Typography from &quot;@material-ui/core/Typography&quot;;
+
+export default class FriendList extends Component {
+
+  static defaultProps = {
+    friends: [], // list of all the friends to be shown
+    height: 300,
+    showInitially: 10, // number  of friends to show initially
+    fetchCount: 5 // number of friends to fetch at a time, when scrolling through the list
+  };
+
+  state = {
+    items: this.props.friends.slice(0, this.props.showInitially),
+    hasMore: this.props.friends.length &gt; this.props.showInitially
+  };
+
+  fetchMoreData = () =&gt; {
+    const allFriends = this.props.friends;
+    const shownFriends = allFriends.slice(0, this.state.items.length + this.props.fetchCount);
+    this.setState({
+      items: shownFriends,
+      hasMore: shownFriends.length &lt; allFriends.length
+    });
+  };
+
+  render() {
+    return (
+        &lt;List dense&gt;
+          &lt;InfiniteScroll
+              dataLength={this.state.items.length}
+              next={this.fetchMoreData}
+              hasMore={this.state.hasMore}
+              loader={&lt;h4&gt;Loading...&lt;/h4&gt;}
+              height={this.props.height}
+          &gt;
+            {this.state.items.map((webId) =&gt; (
+                &lt;Friend key={webId.toString()} webId={webId}/&gt;
+            ))}
+          &lt;/InfiniteScroll&gt;
+          &lt;Typography variant=&quot;caption&quot; style={{margin: 10}}&gt;
+            {this.state.items.length} / {this.props.friends.length} shown. {this.state.hasMore ? 'Scroll to load more.' : &quot;That's all.&quot;}
+          &lt;/Typography&gt;
+        &lt;/List&gt;
+    );
+  }
+}
+</code></pre>
+<p>Also I have a index.js class for every feature like profile, login or friendList, that will be called at first, when importing a module. My folder structure is as follows:
+<a href=""https://i.stack.imgur.com/ucNFO.png"" rel=""nofollow noreferrer""><img src=""https://i.stack.imgur.com/ucNFO.png"" alt=""enter image description here"" /></a></p>
+<p>As an example I pasted the code from <em>components/login/index.js</em>:</p>
+<pre><code>import React from 'react';
+import {evaluateExpressions, useWebId} from '@solid/react';
+
+import LoginContainer from './Container';
+import useProfile from &quot;../profile/useProfile&quot;;
+
+export default () =&gt; {
+    const webId = useWebId()
+    const profile = useProfile(webId)
+    return &lt;LoginContainer {...profile} /&gt;;
+}
+</code></pre>
+",0,0,0,1
+2834,75488121,https://stackoverflow.com/questions/75488121,TypeError: ImgurClient is not a constructor,"<p>I have a project in svelte kit, vite and typescript. Part of the project is uploading images to imgur. For that task I use an unofficial library to connect to imgur. Here is the link:
+<a href=""https://github.com/KenEucker/imgur/tree/main"" rel=""nofollow noreferrer"">https://github.com/KenEucker/imgur/tree/main</a></p>
+<p>When I run <code>npm run build</code> I get the following output:</p>
+<pre><code>    .svelte-kit/output/server/chunks/Offcanvas.svelte_svelte_type_style_lang.js      5.40 kB
+.svelte-kit/output/server/chunks/Register.js                                     6.19 kB
+.svelte-kit/output/server/entries/pages/_page.svelte.js                          8.41 kB
+.svelte-kit/output/server/chunks/index.js                                       11.33 kB
+.svelte-kit/output/server/chunks/Login.js                                       14.05 kB
+.svelte-kit/output/server/entries/pages/_layout.svelte.js                       18.48 kB
+.svelte-kit/output/server/chunks/Portal.js                                      22.35 kB
+.svelte-kit/output/server/index.js                                              76.62 kB
+.svelte-kit/output/server/entries/pages/atlas/_page.svelte.js                  615.65 kB
+file:///C:/Users/marti/Documents/school/project/Olimpiada2023/svdemo/.svelte-kit/output/server/entries/pages/uploadPhoto/_page.server.ts.js:35
+const client = new ImgurClient({
+            ^
+
+TypeError: ImgurClient is not a constructor
+    at file:///C:/Users/marti/Documents/school/project/Olimpiada2023/svdemo/.svelte-kit/output/server/entries/pages/uploadPhoto/_page.server.ts.js:35:16
+    at ModuleJob.run (node:internal/modules/esm/module_job:193:25)
+    at async Promise.all (index 0)
+    at async ESMLoader.import (node:internal/modules/esm/loader:530:24)
+    at async Promise.all (index 1)
+    at async prerender (file:///C:/Users/marti/Documents/school/project/Olimpiada2023/svdemo/node_modules/@sveltejs/kit/src/core/prerender/prerender.js:370:18)     
+[vite-plugin-sveltekit-compile] Prerendering failed with code 1
+error during build:
+Error: Prerendering failed with code 1
+    at ChildProcess.&lt;anonymous&gt; (file:///C:/Users/marti/Documents/school/project/Olimpiada2023/svdemo/node_modules/@sveltejs/kit/src/exports/vite/index.js:551:15)  
+    at ChildProcess.emit (node:events:513:28)
+    at Process.ChildProcess._handle.onexit (node:internal/child_process:293:12)
+</code></pre>
+<p>here is my uploadPhoto/+page.server.ts for reference:</p>
+<pre><code>import  ImgurClient from 'imgur';
+import type { PageServerLoad, Action, Actions } from './$types';
+import { mssqlConnection } from '../../db/mssqldb';
+import ppkg from 'mssql';
+const { Request } = ppkg;
+import { v4 as uuidv4 } from 'uuid';
+import { fail, redirect } from '@sveltejs/kit';
+let username: string;
+
+export const load: PageServerLoad = async ({ locals }) =&gt; {
+    if (!locals.user) {
+        throw redirect(302, 'login');
+    } else {
+        username = locals.user.username;
+
+        if (process.env.NOVA_KEY) {
+            const sessionKey = await fetchAstrometrySessionKey(process.env.NOVA_KEY);
+            const data = await submitURL(sessionKey, 'http://apod.nasa.gov/apod/image/1206/ldn673s_block1123.jpg');
+            console.log(data);
+            const jobResult = await getJobResults(data)
+
+            if (jobResult.status === &quot;success&quot;) {
+                console.log(jobResult.tags)
+                if (jobResult.tags.length) {
+                    //post to 3d map
+                    console.log(&quot;found stars&quot;);
+
+                    const dataFor3dMap = await fetchData(jobResult.tags);
+                    const maybeJson=JSON.stringify( dataFor3dMap)
+                    console.log(maybeJson);
+                    await fetch(`http://localhost:5173/atlas/api/findStars?dataMap={${maybeJson}},{method:'POST'}`);
+
+                } else {
+                    //no stars found
+                    fail(500, { error: false, noStars: true })
+                }
+            } else {
+                //display error 
+                //ask the user to send the image again
+                fail(500, { error: true, noStars: true })
+            }
+        }
+    }
+};
+
+
+const client = new ImgurClient({
+    accessToken: process.env.TOKEN,
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    refreshToken: process.env.REFRESH_TOKEN
+});
+
+async function fetchData(starNames: object) {
+
+    let formData=&quot;&quot;;
+
+    let validStarNames = starNames.filter(starName =&gt; {
+        return starName.match(/^\w+\s+\d+.*$/g) || starName.startsWith(&quot;The star&quot;);
+    });
+    for(let starName in validStarNames){
+        
+        formData+=await setStarNameAndCoordinates(validStarNames[starName],formData)
+    }
+    return formData;
+}
+
+async function setStarNameAndCoordinates(starName:string,formData:string) {
+    if (starName.startsWith(&quot;The star&quot;)) {
+        starName = starName.slice(&quot;The star&quot;.length).trim();
+    }
+    starName = starName.replace(/ /g, &quot;+&quot;);
+    const res = await fetch(&quot;https://cds.unistra.fr/cgi-bin/nph-sesame?&quot; + starName);
+    starName = starName.replace(&quot;+&quot;, &quot; &quot;);
+    const text = await res.text();
+    const row=getDataRow(text)  
+    
+    
+    return `${starName}:${row}`
+}
+
+
+function getDataRow(text: string): string {
+    const lines = text.split(&quot;\n&quot;);
+    for (let line of lines) {
+        if (line.startsWith(&quot;%J&quot;)) {
+            let index = line.indexOf(&quot;=&quot;);
+
+
+            return line.slice(3, index).trim();
+        }
+    }
+    return &quot;&quot;;
+}
+
+
+async function saveURL(url: string) {
+    const connection = await mssqlConnection();
+    const selectRequest = new Request(connection);
+    const selectResult = await selectRequest
+        .input('Username', username)
+        .query('SELECT Id FROM Users WHERE Username = @Username');
+    const id = selectResult.recordset[0].Id;
+    console.log(id);
+    const insertRequest = new Request(connection);
+    const insertResult = await insertRequest
+        .input('Id', uuidv4())
+        .input('UserId', id)
+        .input('ImageURL', url)
+        .query('INSERT INTO UsersImages(Id, UserId, ImageURL) VALUES(@Id, @UserId, @ImageURL)');
+    return insertResult === undefined;
+}
+
+async function uploadToUmgur(file: File) {
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const base64 = buffer.toString('base64');
+    const response = await client.upload({
+        image: base64,
+        type: 'base64'
+    });
+    console.log(response.data);
+    return response.data;
+}
+
+async function fetchAstrometrySessionKey(apikey: string) {
+    const response = await fetch('http://nova.astrometry.net/api/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `request-json=${encodeURIComponent(JSON.stringify({ apikey }))}`
+    });
+    const data = await response.json();
+    if (data.status !== 'success') {
+        console.log('Could not obtain session key: ' + data.message);
+    }
+    return data.session;
+}
+
+async function submitURL(sessionId: string, url: string) {
+    const options = {
+        method: 'POST',
+        body: new URLSearchParams({
+            &quot;request-json&quot;: JSON.stringify({
+                session: sessionId,
+                url: url,
+                scale_units: 'degwidth',
+                scale_lower: 0.5,
+                scale_upper: 1.0,
+                center_ra: 290,
+                center_dec: 11,
+                radius: 2.0
+            })
+
+
+        })
+    };
+
+    const response = await fetch('http://nova.astrometry.net/api/url_upload', options);
+    const result = await response.json();
+
+    if (result.status === 'success') {
+        console.log(`Successful submission: ${result.subid} with hash ${result.hash}`);
+        return result.subid;
+    } else {
+        console.error(result);
+        return null;
+    }
+}
+
+async function getJobResults(jobid: string) {
+    const response = await fetch(`https://nova.astrometry.net/api/jobs/${jobid}/info/`);
+    return await response.json();
+}
+
+const upload: Action = async ({ request }) =&gt; {
+    try {
+        if (request.method === 'POST') {
+            const form = await request.formData();
+            const image = form.get('img') as File;
+            console.log(form.get('img'));
+            if (image) {
+                console.log(`Received file with name: ${image.name}`);
+                const link = (await uploadToUmgur(image)).link;
+                console.log(link);
+                if (await saveURL(link)) {
+                    return link;
+                } else {
+                    fail(500, { error: true, noStars: false });
+                }
+            }
+        }
+    } catch (e) {
+        console.log(e);
+    }
+};
+
+export const actions: Actions = { upload };
+</code></pre>
+<p>In fewer words, I get error when I initialize the client variable:</p>
+<pre><code>    const client = new ImgurClient({
+    accessToken: process.env.TOKEN,
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    refreshToken: process.env.REFRESH_TOKEN
+});
+</code></pre>
+<p>The error I get is that ImgurClient is not a constructor. The code works when I run <code>npm run dev</code> and I get no errors.</p>
+<p>--------EDIT-------</p>
+<p>so my initial goal was to follow the <a href=""https://vitejs.dev/guide/build.html#building-for-production"" rel=""nofollow noreferrer"">https://vitejs.dev/guide/build.html#building-for-production</a></p>
+<p>vite's tutorial, but as you already know, I get a lot of errors. After these errors I am starting to search for a solution where I host the site using npm run dev or something similar. Forgot to mention that this is my first time deploying and don't know anything about it.</p>
+<p>------------NEW EDIT------------
+After a research, I come up with a conclusion that this is just a bug with the library. I have changed the implementation to:</p>
+<pre><code>async function uploadToUmgur(file: File) {
+const buffer = Buffer.from(await file.arrayBuffer());
+const base64 = buffer.toString('base64');
+let apiUrl = 'https://api.imgur.com/3/image';
+const formData= new FormData();
+formData.append(&quot;image&quot;,base64);
+let link=&quot;&quot;;
+await fetch(apiUrl,{
+    method:&quot;post&quot;,
+    headers:{
+        Authorization: &quot;Client-ID &quot;+process.env.CLIENT_ID
+    },
+    body:formData
+}).then(data =&gt; data.json()).then(data=&gt;{
+    link =data.data.link;
+})
+return link;
+}
+</code></pre>
+<p>so yeah, the lesson is:
+not to follow unofficial libraries with little documentation</p>
+",0,1,0,0
+1556,73352359,https://stackoverflow.com/questions/73352359,NodeJS Typescrip.: Getting error: Must use import to load ES Module on sls offline command,"<p>I have created a NodeJS / Typescript / Serverless framework-based solution to create AWS Lambdas and use serverless-offline lib/plugin to debug it locally in the VS Code. My github repo is <a href=""https://github.com/hasanfar/serveless-node-ts"" rel=""nofollow noreferrer"">here</a></p>
+<p>When executing the command</p>
+<pre><code>sls offline -s dev
+</code></pre>
+<p>I am getting the following error:</p>
+<pre><code>Error [ERR_REQUIRE_ESM]: Must use import to load ES Module: /Users/hasan/apps/zaghop/v2/API/node_modules/serverless-offline/src/index.js
+  require() of ES modules is not supported.
+  require() of /Users/hasan/apps/zaghop/v2/API/node_modules/serverless-offline/src/index.js from /usr/local/lib/node_modules/serverless/lib/classes/PluginManager.js is an ES module file as it is a .js file whose nearest parent package.json contains &quot;type&quot;: &quot;module&quot; which defines all .js files in that package scope as ES modules.
+  Instead rename index.js to end in .cjs, change the requiring code to use import(), or remove &quot;type&quot;: &quot;module&quot; from /Users/hasan/apps/zaghop/v2/API/node_modules/serverless-offline/package.json.
+  
+      at new NodeError (internal/errors.js:322:7)
+      at Object.Module._extensions..js (internal/modules/cjs/loader.js:1102:13)
+      at Module.load (internal/modules/cjs/loader.js:950:32)
+    ....
+</code></pre>
+<p>My tsconfig.json:</p>
+<pre><code>{
+  &quot;compilerOptions&quot;: {
+
+    &quot;target&quot;: &quot;es6&quot;,                                /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */
+    &quot;module&quot;: &quot;commonjs&quot;,                           /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
+    &quot;lib&quot;: [&quot;dom&quot;, &quot;esnext&quot;],                                   /* Specify library files to be included in the compilation. */
+    &quot;allowJs&quot;: true,                             /* Allow javascript files to be compiled. */
+    &quot;removeComments&quot;: true,                      /* Do not emit comments to output. */
+    /* Strict Type-Checking Options */
+    &quot;strict&quot;: true,                                 /* Enable all strict type-checking options. */
+    &quot;noImplicitAny&quot;: false,                       /* Raise error on expressions and declarations with an implied 'any' type. */
+    /* Module Resolution Options */
+    &quot;sourceMap&quot;: true,
+    &quot;moduleResolution&quot;: &quot;node&quot;,                  /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
+    &quot;baseUrl&quot;: &quot;.&quot;,                             /* Base directory to resolve non-absolute module names. */
+    &quot;paths&quot;: {                                   /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
+        &quot;@src/*&quot;: [&quot;src/*&quot;]
+    },                                 
+    &quot;esModuleInterop&quot;: true,                        /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
+    /* Experimental Options */
+    &quot;experimentalDecorators&quot;: true,              /* Enables experimental support for ES7 decorators. */
+    &quot;emitDecoratorMetadata&quot;: true,               /* Enables experimental support for emitting type metadata for decorators. */
+
+    /* Advanced Options */
+    &quot;skipLibCheck&quot;: true,                           /* Skip type checking of declaration files. */
+    &quot;forceConsistentCasingInFileNames&quot;: true        /* Disallow inconsistently-cased references to the same file. */
+  },
+  &quot;exclude&quot;: [&quot;node_modules&quot;, &quot;dist&quot;, &quot;coverage&quot;],
+  &quot;include&quot;: [&quot;src&quot;]
+}
+</code></pre>
+<p>My current Node version:</p>
+<pre><code>➜  node -v
+v14.18.2
+</code></pre>
+<p>Tried changing it to 12 like below</p>
+<pre><code>➜  nvm use 12
+Now using node v12.22.8 (npm v6.14.15)
+</code></pre>
+<p>That didn't help</p>
+<p>Any suggestions?</p>
+",0,0,1,0
+1134,72615188,https://stackoverflow.com/questions/72615188,Datetime picker provides an error when the component closed,"<p>I am using Kendo-datetimepicker in my Angular app. In my Reactive form i set the intial value as null for FormControlName. When i close the component without updating any value. It shows the following error. Please someone guide me through this. Thanks in Advance.</p>
+<pre><code>ERROR TypeError: Cannot read properties of null (reading 'isEmpty')
+    at DateTimePickerComponent.isEmpty (index.js:8605:53)
+    at FloatingLabelComponent.updateState (index.js:463:44)
+    at Object.updateState [as next] (index.js:535:40)
+    at SafeSubscriber.__tryOrUnsub (Subscriber.js:183:1)
+    at SafeSubscriber.next (Subscriber.js:122:1)
+    at Subscriber._next (Subscriber.js:72:1)
+    at Subscriber.next (Subscriber.js:49:1)
+    at EventEmitter_.next (Subject.js:39:1)
+    at EventEmitter_.emit (core.mjs:22416:15)
+    at FormControl.updateValueAndValidity (forms.mjs:2514:31)
+</code></pre>
+",0,0,1,0
+2192,74564776,https://stackoverflow.com/questions/74564776,"Next.js build error No ""exports"" main defined with chart.js","<p>I am currently moving from craco (react-scripts) to Next.js but I have a problem in the build step. If I run the app in development it works perfectly but when I try to build it I get an error on the &quot;Collecting page data&quot;, I tried</p>
+<ul>
+<li>Updating Nodejs from 14 to 16 (also npm)</li>
+<li>I reinstalled all the packages multiple times in different ways</li>
+<li>Also tried installing an older version of chart.js but it seems it breaks other things</li>
+<li>Removing any reference to chart.js (this is the only thing that works)</li>
+</ul>
+<p>The error that I am getting is</p>
+<pre><code>npm run build
+
+&gt; ui@0.1.0 build
+&gt; cross-env GENERATE_SOURCEMAP=false next build
+
+info  - Linting and checking validity of types .error - ESLint must be installed in order to run during builds: npm install --save-dev eslint
+info  - Linting and checking validity of types  
+info  - Creating an optimized production build  
+info  - Compiled successfully
+info  - Collecting page data ...Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: No &quot;exports&quot; main defined in /home/pol/Projects/projects/studio/ui/node_modules/chart.js/package.json
+    at new NodeError (node:internal/errors:372:5)
+    at throwExportsNotFound (node:internal/modules/esm/resolve:472:9)
+    at packageExportsResolve (node:internal/modules/esm/resolve:693:7)
+    at resolveExports (node:internal/modules/cjs/loader:482:36)
+    at Function.Module._findPath (node:internal/modules/cjs/loader:522:31)
+    at Function.Module._resolveFilename (node:internal/modules/cjs/loader:919:27)
+    at Function.mod._resolveFilename (/home/pol/Projects/projects/studio/ui/node_modules/next/dist/build/webpack/require-hook.js:23:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:778:27)
+    at Module.require (node:internal/modules/cjs/loader:1005:19)
+    at require (node:internal/modules/cjs/helpers:102:18) {
+  code: 'ERR_PACKAGE_PATH_NOT_EXPORTED'
+}
+
+&gt; Build error occurred
+Error: Failed to collect page data for /metrics
+    at /home/pol/Projects/projects/studio/ui/node_modules/next/dist/build/utils.js:959:15
+    at processTicksAndRejections (node:internal/process/task_queues:96:5) {
+  type: 'Error'
+}
+info  - Collecting page data .%      
+</code></pre>
+<p>The dependencies of my package.json are</p>
+<pre><code>&quot;dependencies&quot;: {
+    &quot;@headlessui/react&quot;: &quot;^1.7.4&quot;,
+    &quot;@heroicons/react&quot;: &quot;^2.0.13&quot;,
+    &quot;@next/font&quot;: &quot;^13.0.4&quot;,
+    &quot;@tailwindcss/forms&quot;: &quot;^0.5.3&quot;,
+    &quot;antd&quot;: &quot;^5.0.1&quot;,
+    &quot;autoprefixer&quot;: &quot;^10.4.13&quot;,
+    &quot;axios&quot;: &quot;^1.2.0&quot;,
+    &quot;chart.js&quot;: &quot;^4.0.1&quot;,
+    &quot;chartjs-adapter-moment&quot;: &quot;^1.0.1&quot;,
+    &quot;chartjs-plugin-annotation&quot;: &quot;^2.1.0&quot;,
+    &quot;chonky&quot;: &quot;^2.3.2&quot;,
+    &quot;chonky-icon-fontawesome&quot;: &quot;^2.3.2&quot;,
+    &quot;cross-env&quot;: &quot;^7.0.3&quot;,
+    &quot;jsonwebtoken&quot;: &quot;^8.5.1&quot;,
+    &quot;md5&quot;: &quot;^2.3.0&quot;,
+    &quot;moment&quot;: &quot;^2.29.4&quot;,
+    &quot;next&quot;: &quot;^13.0.4&quot;,
+    &quot;postcss&quot;: &quot;^8.4.19&quot;,
+    &quot;react&quot;: &quot;^18.2.0&quot;,
+    &quot;react-chartjs-2&quot;: &quot;^5.0.1&quot;,
+    &quot;react-checkbox-tree&quot;: &quot;^1.8.0&quot;,
+    &quot;react-chrono&quot;: &quot;^1.19.2&quot;,
+    &quot;react-csv&quot;: &quot;^2.2.2&quot;,
+    &quot;react-dom&quot;: &quot;^18.2.0&quot;,
+    &quot;react-icons&quot;: &quot;^4.6.0&quot;,
+    &quot;react-indiana-drag-scroll&quot;: &quot;^2.2.0&quot;,
+    &quot;react-loader-spinner&quot;: &quot;^5.3.4&quot;,
+    &quot;tailwindcss&quot;: &quot;^3.2.4&quot;,
+    &quot;unique-names-generator&quot;: &quot;^4.7.1&quot;,
+    &quot;web-vitals&quot;: &quot;^3.1.0&quot;
+  },
+</code></pre>
+<p>In case it is useful the exports of chart.js are</p>
+<pre><code>{
+  &quot;name&quot;: &quot;chart.js&quot;,
+  &quot;homepage&quot;: &quot;https://www.chartjs.org&quot;,
+  &quot;description&quot;: &quot;Simple HTML5 charts using the canvas element.&quot;,
+  &quot;version&quot;: &quot;4.0.1&quot;,
+  &quot;license&quot;: &quot;MIT&quot;,
+  &quot;type&quot;: &quot;module&quot;,
+  &quot;sideEffects&quot;: [
+    &quot;./auto/auto.js&quot;,
+    &quot;./dist/chart.umd.js&quot;
+  ],
+  &quot;jsdelivr&quot;: &quot;./dist/chart.umd.js&quot;,
+  &quot;unpkg&quot;: &quot;./dist/chart.umd.js&quot;,
+  &quot;main&quot;: &quot;./dist/chart.js&quot;,
+  &quot;exports&quot;: {
+    &quot;.&quot;: {
+      &quot;import&quot;: &quot;./dist/chart.js&quot;,
+      &quot;types&quot;: &quot;./dist/types.d.ts&quot;
+    },
+    &quot;./auto&quot;: {
+      &quot;import&quot;: &quot;./auto/auto.js&quot;,
+      &quot;types&quot;: &quot;./auto/auto.d.ts&quot;
+    },
+    &quot;./helpers&quot;: {
+      &quot;import&quot;: &quot;./helpers/helpers.js&quot;,
+      &quot;types&quot;: &quot;./helpers/helpers.d.ts&quot;
+    }
+  },
+</code></pre>
+<p>And finally the way I am using the package</p>
+<pre><code>import 'chart.js/auto';
+import {Line, Bar} from 'react-chartjs-2'
+import 'chartjs-adapter-moment';
+import 'chartjs-plugin-annotation';
+</code></pre>
+<p>Really don't know what else to do, hopefully someone can help me, thanks!</p>
+<h2>Update</h2>
+<p>I just tried to create a new project with create-next-app and I just installed chartjs and imported it and it does NOT work. So it seems to be an issue with the package itself.</p>
+",0,1,0,0
+3770,76672993,https://stackoverflow.com/questions/76672993,I'm getting AXIOS error code 404 when trying to post data,"<p>I am trying to send the data on the form on my website to the database using axios, but every time I encounter this error, I tried multiple solutions but the result is always the same. Using the fetch method, I can retrieve the data I entered manually from the same database, but I cannot send data.
+My app.js and server.js file's below</p>
+<p><a href=""https://i.stack.imgur.com/Q4bXi.jpg"" rel=""nofollow noreferrer""><img src=""https://i.stack.imgur.com/Q4bXi.jpg"" alt=""enter image description here"" /></a>
+[<img src=""https://i.stack.imgur.com/oXhTW.jpg"" alt=""enter image description here"" />]</p>
+<pre><code>import axios from &quot;axios&quot;;
+import React, { useState } from &quot;react&quot;;
+const instance = axios.create();
+export default function AddUser() {
+
+  const [user, setUser] = useState({
+    id: &quot;&quot;,
+    name: &quot;&quot;,
+    username: &quot;&quot;,
+    email: &quot;&quot;,
+  });
+
+  const { name, username, email, id } = user;
+
+  const onInputChange = (e) =&gt; {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = async (e) =&gt; {
+    e.preventDefault();
+    return instance.post(&quot;http://127.0.0.1:8081/felice&quot;, user);
+  };
+
+  return (
+
+    &lt;form onSubmit={(e) =&gt; onSubmit(e)}&gt;
+      &lt;label htmlFor=&quot;ID&quot;&gt;
+        ID
+      &lt;/label&gt;
+      &lt;input
+        type={&quot;text&quot;}
+        name=&quot;id&quot;
+        value={id}
+        onChange={(e) =&gt; onInputChange(e)}
+      /&gt;
+      &lt;label htmlFor=&quot;Name&quot;&gt;
+        Name
+      &lt;/label&gt;
+      &lt;input
+        type={&quot;text&quot;}
+        name=&quot;name&quot;
+        value={name}
+        onChange={(e) =&gt; onInputChange(e)}
+      /&gt;
+      &lt;label htmlFor=&quot;Username&quot;&gt;
+        Username
+      &lt;/label&gt;
+      &lt;input
+        type={&quot;text&quot;}
+        name=&quot;username&quot;
+        value={username}
+        onChange={(e) =&gt; onInputChange(e)}
+      /&gt;
+      &lt;label htmlFor=&quot;Email&quot;&gt;
+        E-mail
+      &lt;/label&gt;
+      &lt;input
+        type={&quot;text&quot;}
+        name=&quot;email&quot;
+        value={email}
+        onChange={(e) =&gt; onInputChange(e)}
+      /&gt;
+      &lt;button type=&quot;submit&quot;&gt;
+        Submit
+      &lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+</code></pre>
+<pre><code>const express = require('express');
+const mysql = require('mysql');
+const cors = require('cors');
+
+const app = express()
+app.use(cors())
+
+const db = mysql.createConnection({
+    host: &quot;127.0.0.1&quot;,
+    user: &quot;root&quot;,
+    password: &quot;&quot;,
+    database: &quot;felice&quot;
+})
+
+app.get('/felice', (re, res)=&gt; {
+    const sql = &quot;SELECT * FROM reservations&quot;;
+    db.query(sql, (err, data)=&gt; {
+        if(err) return res.json(err);
+        return res.json(data);
+    })
+})
+
+app.listen(8081, () =&gt; {
+    console.log(&quot;working&quot;);
+})
+</code></pre>
+<pre><code>TypeError: Cannot read properties of undefined (reading 'id')
+    at C:\Users\Utku\Desktop\reservation-software-felice\backend\server.js:24:21
+    at Layer.handle [as handle_request] (C:\Users\Utku\Desktop\reservation-software-felice\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\Utku\Desktop\reservation-software-felice\backend\node_modules\express\lib\router\route.js:144:13)
+    at Route.dispatch (C:\Users\Utku\Desktop\reservation-software-felice\backend\node_modules\express\lib\router\route.js:114:3)
+    at Layer.handle [as handle_request] (C:\Users\Utku\Desktop\reservation-software-felice\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\Utku\Desktop\reservation-software-felice\backend\node_modules\express\lib\router\index.js:284:15 
+    at Function.process_params (C:\Users\Utku\Desktop\reservation-software-felice\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\Utku\Desktop\reservation-software-felice\backend\node_modules\express\lib\router\index.js:280:10)
+    at cors (C:\Users\Utku\Desktop\reservation-software-felice\backend\node_modules\cors\lib\index.js:188:7)     
+    at C:\Users\Utku\Desktop\reservation-software-felice\backend\node_modules\cors\lib\index.js:224:17
+</code></pre>
+",0,0,1,0
+2637,75235917,https://stackoverflow.com/questions/75235917,"nestjs monorepo ""Class extends value undefined is not a constructor or null""","<p>I get a <code>Class extends value undefined is not a constructor or null</code> error in a nestjs monorepo only when the app is started with <code>npx nest start &lt;application name&gt;</code></p>
+<p>Anyone had this problem before ?</p>
+<pre><code>export class Boiler extends AssetBase {
+                            ^
+TypeError: Class extends value undefined is not a constructor or null
+    at Object.&lt;anonymous&gt; (C:\Users\...\apps\world1\src\assets\boiler.ts:13:29)
+    at Module._compile (node:internal/modules/cjs/loader:1218:14)
+    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1272:10)
+    at Module.load (node:internal/modules/cjs/loader:1081:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:922:12)
+    at Module.require (node:internal/modules/cjs/loader:1105:19)
+    at require (node:internal/modules/cjs/helpers:103:18)
+    at Object.&lt;anonymous&gt; (C:\Users\...\apps\world1\src\assets\asset-base.ts:5:1)
+    at Module._compile (node:internal/modules/cjs/loader:1218:14)
+    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1272:10)
+</code></pre>
+<p>** <em><strong>edit</strong></em> **</p>
+<p>Contrary to what I thought before, I also get the error when the app is started with 'npx nest start`, the default startup project was not what I thought it to be.</p>
+<p>I tried to debug the class hierarchy, looked for circular dependencies but I'm pretty sure there's none.</p>
+<p>I've been looking around on the internet for this specific error message. It seems to appear in different circumstances.  It's a compile time error, not a runtime error.</p>
+<p>Here's the <code>nest-cli.json</code> file</p>
+<pre class=""lang-json prettyprint-override""><code>{
+  &quot;monorepo&quot;: true,
+  &quot;root&quot;: &quot;apps/world1&quot;,
+  &quot;sourceRoot&quot;: &quot;apps/world1/src&quot;,
+  &quot;compilerOptions&quot;: {
+    &quot;webpack&quot;: false,
+    &quot;tsConfigPath&quot;: &quot;apps/world1/tsconfig.app.json&quot;
+  },
+  &quot;projects&quot;: {
+    &quot;controller1&quot;: {
+      &quot;type&quot;: &quot;application&quot;,
+      &quot;root&quot;: &quot;apps/controller1&quot;,
+      &quot;entryFile&quot;: &quot;main&quot;,
+      &quot;sourceRoot&quot;: &quot;apps/controller1/src&quot;,
+      &quot;compilerOptions&quot;: {
+        &quot;tsConfigPath&quot;: &quot;apps/controller1/tsconfig.app.json&quot;
+      }
+    },
+    &quot;dtos&quot;: {
+      &quot;type&quot;: &quot;library&quot;,
+      &quot;root&quot;: &quot;libs/dtos&quot;,
+      &quot;entryFile&quot;: &quot;index&quot;,
+      &quot;sourceRoot&quot;: &quot;libs/dtos/src&quot;,
+      &quot;compilerOptions&quot;: {
+        &quot;tsConfigPath&quot;: &quot;libs/dtos/tsconfig.lib.json&quot;
+      }
+    },
+    &quot;world1&quot;: {
+      &quot;type&quot;: &quot;application&quot;,
+      &quot;root&quot;: &quot;apps/world1&quot;,
+      &quot;entryFile&quot;: &quot;main&quot;,
+      &quot;sourceRoot&quot;: &quot;apps/world1/src&quot;,
+      &quot;compilerOptions&quot;: {
+        &quot;tsConfigPath&quot;: &quot;apps/world1/tsconfig.app.json&quot;
+      }
+    },
+    &quot;general&quot;: {
+      &quot;type&quot;: &quot;library&quot;,
+      &quot;root&quot;: &quot;libs/general&quot;,
+      &quot;entryFile&quot;: &quot;index&quot;,
+      &quot;sourceRoot&quot;: &quot;libs/general/src&quot;,
+      &quot;compilerOptions&quot;: {
+        &quot;tsConfigPath&quot;: &quot;libs/general/tsconfig.lib.json&quot;
+      }
+    },
+    &quot;algorithm1&quot;: {
+      &quot;type&quot;: &quot;application&quot;,
+      &quot;root&quot;: &quot;apps/algorithm1&quot;,
+      &quot;entryFile&quot;: &quot;main&quot;,
+      &quot;sourceRoot&quot;: &quot;apps/algorithm1/src&quot;,
+      &quot;compilerOptions&quot;: {
+        &quot;tsConfigPath&quot;: &quot;apps/algorithm1/tsconfig.app.json&quot;
+      }
+    }
+  }
+}
+</code></pre>
+<p>** <em><strong>edit 2</strong></em> **</p>
+<p>The error went away after changing aa abstract base class into an interface.  If anyone understands this, let me know, Id love to be enlightened.</p>
+<pre><code>export abstract class AssetBase {
+  constructor(readonly config: AssetConfigBaseDto) {}
+
+  abstract simulationStep(
+    period: Period,
+    beginState?: AssetStateBaseDto,
+    controls?: AssetControlsBaseDto,
+  ): AssetStepResponse
+}
+</code></pre>
+<pre><code>export interface AssetBase {
+  readonly config: AssetConfigBaseDto
+
+  simulationStep(
+    period: Period,
+    beginState?: AssetStateBaseDto,
+    controls?: AssetControlsBaseDto,
+  ): AssetStepResponse
+}
+</code></pre>
+",0,0,1,0
+1713,73639675,https://stackoverflow.com/questions/73639675,I'm trying to fetch data from sanity.io,"<p>I'm trying to get data from sanity but when I try to fetch its causing an error.
+Here is my code ...</p>
+<pre><code>useEffect(() =&gt; {
+  const query = '*[_type==&quot;abouts&quot;]';
+  client.fetch(query).then((data) =&gt; setAbouts(data));
+}, []);
+</code></pre>
+<p>ERROR:</p>
+<pre><code>request.js:28 Uncaught (in promise) ClientError {response: {…}, statusCode: 401, responseBody: '{\n  &quot;message&quot;: &quot;Session not found&quot;,\n &quot;error&quot;: &quot;Un…&quot;errorCode&quot;: &quot;SIO-401-ANF&quot;,\n  &quot;statusCode&quot;: 401\n}', message: 'Unauthorized - Session not found', name: 'ClientError', …}response: {body: {…}, url: 'https://noa7mgdi.apicdn.sanity.io/v2022-09-06/data…y/production?query=*%5B_type%3D%3D%22abouts%22%5D', method: 'GET', headers: {…}, statusCode: 401, …}responseBody: &quot;{\n  \&quot;message\&quot;: \&quot;Session not found\&quot;,\n  \&quot;error\&quot;: \&quot;Unauthorized\&quot;,\n  \&quot;errorCode\&quot;: \&quot;SIO-401-ANF\&quot;,\n  \&quot;statusCode\&quot;: 401\n}&quot;statusCode: 401message: &quot;Unauthorized - Session not found&quot;name: &quot;ClientError&quot;stack: &quot;ClientError: Unauthorized - Session not found\n  
+   at onResponse .onResponse (http://localhost:3000/static/js/bundle.js:3328:13 undefined)\n   
+   at applyMiddleware .applyMiddleware (http://localhost:3000/static/js/bundle.js:8680:23 undefined)\n   
+   at onResponse .onResponse (http://localhost:3000/static/js/bundle.js:7911:22 undefined)\n    at http://localhost:3000/static/js/bundle.js:7880:16\n   
+   at onLoad .onLoad (http://localhost:3000/static/js/bundle.js:8522:5 undefined)\n   
+   at xhr.&lt;computed&gt; (http://localhost:3000/static/js/bundle.js:8385:5 undefined)&quot;[[Prototype]]: BaseError
+</code></pre>
+",1,0,0,0
+3074,75822024,https://stackoverflow.com/questions/75822024,Node-electron-pino | pino doesn't work with electron TypeError: browser.transport is not a function,"<p>I'm struggling with using [pino][1] as my logger and I'm keep getting the following error:</p>
+<blockquote>
+<p>App threw an error during load<br />
+TypeError: browser.transport is not a function
+at Object. (C:\dev\trust-winrm\ts\connect-app\dist-electron\main\index.js:499:27)
+at Module._compile (node:internal/modules/cjs/loader:1174:14)
+at Module._extensions..js (node:internal/modules/cjs/loader:1229:10)
+at Module.load (node:internal/modules/cjs/loader:1044:32)
+at Module._load (node:internal/modules/cjs/loader:885:12)
+at f._load (node:electron/js2c/asar_bundle:2:13330)</p>
+</blockquote>
+<p>after running the following code:</p>
+<pre><code>import os from 'os';
+import path from 'path';
+import pino from 'pino';
+
+export const logsFolder = path.join(os.homedir(), 'AppData', 'Local', 'Zero Networks', 'Logs');
+export const logPath = path.join(logsFolder, 'connect-app.log');
+
+const LEVEL_TO_SEVERITY_MAP = {
+  trace: 'DEBUG',
+  debug: 'DEBUG',
+  info: 'INFO',
+  warn: 'WARNING',
+  error: 'ERROR',
+  fatal: 'CRITICAL',
+};
+
+const options = {
+  level: 'debug',
+  messageKey: 'message',
+  formatters: {
+    level(label, number) {
+      return {
+        severity: LEVEL_TO_SEVERITY_MAP[label] || LEVEL_TO_SEVERITY_MAP.info,
+      };
+    },
+  },
+};
+
+const transport = pino.transport({
+  targets: [
+    {
+      level: 'trace',
+      target: 'pino/file',
+      options: {
+        destination: logPath,
+      },
+    },
+    {
+      level: 'trace',
+      target: 'pino-pretty',
+      options: {},
+    },
+  ],
+});
+
+export const log = pino(options, transport);
+log.debug('test');
+</code></pre>
+<p>the funny thing is, I can easily see that transport is a function if I'm going looking at the library file:</p>
+<p>export function transport&lt;TransportOptions = Record&lt;string, any&gt;&gt;(
+options: TransportSingleOptions | TransportMultiOptions | TransportPipelineOptions
+): ThreadStream</p>
+<p>I don't know why it keeps happening and how to fix it, any ideas?</p>
+<p>(important to mention that I tried different way of import as <code>import * as Pino from 'pino'</code> nothing worked up to now
+[1]: <a href=""https://github.com/pinojs/pino"" rel=""nofollow noreferrer"">https://github.com/pinojs/pino</a></p>
+",1,0,0,0
+2624,75218814,https://stackoverflow.com/questions/75218814,Giving error in chrome like cannot read properties of undefined in Angular,"<p>Created two web components: web-comp-1, web-comp-2</p>
+<p>When I tried to add in HTML page, I am getting console error like below</p>
+<pre><code>Uncaught TypeError: Cannot read properties of undefined (reading 'create')
+at new m.&lt;computed&gt; (web-comp-1.js:3:2706)
+at new t (web-comp-1.js:3:12616)
+</code></pre>
+<p>When I checked the line, the code is,</p>
+<p><code>(o = (u = F &amp;&amp; 1 === a.create.length) ? Reflect.construct</code></p>
+<p>Generated web component using below versions and angular elements:
+&quot;@angular/animations&quot;: &quot;14.2.7&quot;,
+&quot;@angular/cdk&quot;: &quot;14.2.5&quot;,
+&quot;@angular/common&quot;: &quot;14.2.7&quot;,
+&quot;@angular/compiler&quot;: &quot;14.2.7&quot;,
+&quot;@angular/core&quot;: &quot;14.2.7&quot;,
+&quot;@angular/elements&quot;: &quot;14.2.7&quot;,</p>
+<p>Stackblitz link:
+<a href=""https://stackblitz.com/edit/web-platform-bkqbag?file=index.html"" rel=""nofollow noreferrer"">https://stackblitz.com/edit/web-platform-bkqbag?file=index.html</a></p>
+<p>If you run in stack blitz, you wont see any error, you need to download the project and open in only &quot;Chrome&quot;. This issue happening only in chrome, not in mozilla</p>
+<p><a href=""https://i.stack.imgur.com/VXL6p.png"" rel=""nofollow noreferrer""><img src=""https://i.stack.imgur.com/VXL6p.png"" alt=""enter image description here"" /></a></p>
+",1,0,0,0

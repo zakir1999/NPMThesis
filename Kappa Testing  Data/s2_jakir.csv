@@ -1,0 +1,2444 @@
+,QId,QTitle,QBody,Text,Why,What,How
+1118,76301226,API request to fetch users is not returning any data,"<p>Im trying to get all users and pass this down as a users prop to another component. Here is my users api slice.</p>
+<pre><code>import { createSelector, createEntityAdapter } from &quot;@reduxjs/toolkit&quot;;
+import { apiSlice } from &quot;../../app/api/apiSlice&quot;;
+
+const usersAdapter = createEntityAdapter({});
+
+const initialState = usersAdapter.getInitialState();
+
+export const usersApiSlice = apiSlice.injectEndpoints({
+  endpoints: (builder) =&gt; ({
+    getUsers: builder.query({
+      query: () =&gt; &quot;/users&quot;,
+      validateStatus: (response, result) =&gt; {
+        return response.status === 200 &amp;&amp; !result.isError;
+      },
+      transformResponse: (responseData) =&gt; {
+        const loadedUsers = responseData.map((user) =&gt; {
+          user.id = user._id;
+          return user;
+        });
+        return usersAdapter.setAll(initialState, loadedUsers);
+      },
+      providesTags: (result, error, arg) =&gt; {
+        if (result?.ids) {
+          return [
+            { type: &quot;User&quot;, id: &quot;LIST&quot; },
+            ...result.ids.map((id) =&gt; ({ type: &quot;User&quot;, id })),
+          ];
+        } else return [{ type: &quot;User&quot;, id: &quot;LIST&quot; }];
+      },
+    }),
+    addNewUser: builder.mutation({
+      query: (initialUserData) =&gt; ({
+        url: &quot;/users&quot;,
+        method: &quot;POST&quot;,
+        body: {
+          ...initialUserData,
+        },
+      }),
+      invalidatesTags: [{ type: &quot;User&quot;, id: &quot;LIST&quot; }],
+    }),
+    updateUser: builder.mutation({
+      query: (initialUserData) =&gt; ({
+        url: &quot;/users&quot;,
+        method: &quot;PATCH&quot;,
+        body: {
+          ...initialUserData,
+        },
+      }),
+      invalidatesTags: (result, error, arg) =&gt; [{ type: &quot;User&quot;, id: arg.id }],
+    }),
+    deleteUser: builder.mutation({
+      query: ({ id }) =&gt; ({
+        url: `/users`,
+        method: &quot;DELETE&quot;,
+        body: { id },
+      }),
+      invalidatesTags: (result, error, arg) =&gt; [{ type: &quot;User&quot;, id: arg.id }],
+    }),
+  }),
+});
+
+export const {
+  useGetUsersQuery,
+  useAddNewUserMutation,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+} = usersApiSlice;
+
+// returns the query result object
+export const selectUsersResult = usersApiSlice.endpoints.getUsers.select();
+
+// creates memoized selector
+const selectUsersData = createSelector(
+  selectUsersResult,
+  (usersResult) =&gt; usersResult.data // normalized state object with ids &amp; entities
+);
+
+//getSelectors creates these selectors and we rename them with aliases using destructuring
+export const {
+  selectAll: selectAllUsers,
+  selectById: selectUserById,
+  selectIds: selectUserIds,
+  // Pass in a selector that returns the users slice of state
+} = usersAdapter.getSelectors(
+  (state) =&gt; selectUsersData(state) ?? initialState
+);
+
+</code></pre>
+<p>and here is where im trying to access this selectAllUsers get Selector.</p>
+<pre><code>import { useSelector } from &quot;react-redux&quot;;
+import { selectAllUsers } from &quot;../users/usersApiSlice&quot;;
+import NewVehicleForm from &quot;./NewVehicleForm&quot;;
+
+const NewVehicle = () =&gt; {
+  const users = useSelector(selectAllUsers);
+
+  console.log(users);
+
+  const content = users ? &lt;NewVehicleForm users={users} /&gt; : &lt;p&gt;Loading...&lt;/p&gt;;
+
+  return content;
+};
+export default NewVehicle;
+
+</code></pre>
+<p>when I run the app and the console.log runs it returns an empty array of users.</p>
+<p>here is the component user is passed down to.</p>
+<pre><code>import { useState, useEffect } from &quot;react&quot;;
+import { useNavigate } from &quot;react-router-dom&quot;;
+import { useAddNewVehicleMutation } from &quot;./vehiclesApiSlice&quot;;
+
+const NewVehicleForm = ({ users }) =&gt; {
+  const [addNewVehicle, { isLoading, isSuccess, isError, error }] =
+    useAddNewVehicleMutation();
+
+  const navigate = useNavigate();
+
+  const [userId, setUserId] = useState(users[0].id);
+</code></pre>
+<p>I have not put all of this file in as it is just one big form. I have put in the userId use state as when I run the app I get an error uncaught TypeError: Cannot read properties of undefined (reading 'id')
+at NewVehicleForm (NewVehicleForm.js:11:1).</p>
+<p>which further suggests that selectAllUsers is not working as intended.</p>
+<p>I think I have set up my usersApiSlice wrong, specifically the get selectors.</p>
+","['Im trying to get all users and pass this down as a users prop to another component. Here is my users api slice.', 'and here is where im trying to access this selectAllUsers get Selector.', 'when I run the app and the console.log runs it returns an empty array of users.', 'here is the component user is passed down to.', ""I have not put all of this file in as it is just one big form. I have put in the userId use state as when I run the app I get an error uncaught TypeError: Cannot read properties of undefined (reading 'id')\nat NewVehicleForm (NewVehicleForm.js:11:1)."", 'which further suggests that selectAllUsers is not working as intended.', 'I think I have set up my usersApiSlice wrong, specifically the get selectors.']",0,1,0
+1654,54914627,"Angular Forms, build an Array of Objects","<p>I am trying to build an array of objects with Angular forms and I cannot get it to work. </p>
+
+<p>Question:
+How do you build an array of objects with Angular forms?</p>
+
+<p>Here is what I want:</p>
+
+<pre><code>productForm = this.fb.group({
+businessNotes: this.fb.array([
+      [key: valuePair]
+    ]),
+});
+</code></pre>
+
+<p>Here is what I have:</p>
+
+<pre><code>component:
+
+productForm = this.fb.group({
+businessNotes: this.fb.array([
+      this.fb.group({
+        text: ['']
+      })
+    ]),
+});
+
+addBusinessNote() {
+ let control = (&lt;FormArray&gt; (&lt;FormGroup&gt;this.productForm).get('businessNotes')).controls;
+    control.push(this.fb.group({text: ['']}));
+}
+
+get businessNotes() {
+return this.productForm.get('businessNotes') as FormArray;
+}
+
+html:
+&lt;div&gt;
+    &lt;p&gt;Business Notes:&lt;/p&gt;
+    &lt;div formArrayName=""businessNotes""&gt;
+      &lt;h3&gt;business notes&lt;/h3&gt; &lt;button (click)=""addBusinessNote()""&gt;Add business note&lt;/button&gt;
+
+      &lt;div *ngFor=""let note of productForm.controls.businessNotes.controls; let i=index ""&gt;
+        &lt;label&gt;
+          note: {{i + 1}}
+          &lt;input type=""text"" [formControlName]=""text""&gt;
+        &lt;/label&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+</code></pre>
+
+<p>and here is the output I am getting:</p>
+
+<pre><code>ProductAddComponent.html:69 ERROR Error: Cannot find control with path: 'businessNotes -&gt; '
+    at _throwError (forms.js:2144)
+    at setUpControl (forms.js:2052)
+    at FormGroupDirective.push../node_modules/@angular/forms/fesm5/forms.js.FormGroupDirective.addControl (forms.js:5281)
+    at FormControlName.push../node_modules/@angular/forms/fesm5/forms.js.FormControlName._setUpControl (forms.js:5882)
+    at FormControlName.push../node_modules/@angular/forms/fesm5/forms.js.FormControlName.ngOnChanges (forms.js:5803)
+    at checkAndUpdateDirectiveInline (core.js:22085)
+    at checkAndUpdateNodeInline (core.js:23353)
+    at checkAndUpdateNode (core.js:23315)
+    at debugCheckAndUpdateNode (core.js:23949)
+    at debugCheckDirectivesFn (core.js:23909)
+</code></pre>
+","['I am trying to build an array of objects with Angular forms and I cannot get it to work. ', 'Question:\nHow do you build an array of objects with Angular forms?', 'Here is what I want:', 'Here is what I have:', 'and here is the output I am getting:']",0,0,1
+1865,62124061,Axios HTTP DELETE request returns 415 error,"<p>I'm building a React.js app with ASP.NET Core as backend following a tutorial course. I'm using Axios to handle HTTP requests, I tested the get, post, put requests working fine, but keep getting error during a del request. Here is the simplified function that produces the same error:</p>
+
+<pre><code>  const handleDeleteActivityTest = () =&gt; {
+    Axios.delete('https://localhost:5001/api/activities/e2beb0eb-eaaa-49ee-92d8-daf472210456');
+  }
+</code></pre>
+
+<p>And the request prints the following error messages in the console:</p>
+
+<blockquote>
+  <p>DELETE <a href=""https://localhost:5001/api/activities/e2beb0eb-eaaa-49ee-92d8-daf472210456"" rel=""nofollow noreferrer"">https://localhost:5001/api/activities/e2beb0eb-eaaa-49ee-92d8-daf472210456</a> 415 
+  (Unsupported Media Type)</p>
+  
+  <p>createError.js:16 Uncaught (in promise) Error: Request failed with status code 415
+      at createError (createError.js:16)
+      at settle (settle.js:17)
+      at XMLHttpRequest.handleLoad (xhr.js:61)</p>
+</blockquote>
+
+<p>But I tested in Postman, and the delete request works just fine and returns a 200 OK response, and I can see in the database that the entry is deleted:</p>
+
+<p><a href=""https://i.stack.imgur.com/KONzm.png"" rel=""nofollow noreferrer"">Postman DELETE response</a></p>
+
+<p>I would really appreciate if someone can educate me what's going on here. Thank you and stay safe &amp; happy.</p>
+
+<p>EDIT ----------------------------------</p>
+
+<p>Here is the backend code that handles the HTTP request. It is divided into two parts-- 1.) controller that receives the HTTP request and 2.) MediatR class that handles it:</p>
+
+<p>1.)</p>
+
+<pre><code>namespace API.Controllers
+{
+    [Route(""api/[controller]"")]
+    [ApiController]
+    public class ActivitiesController : ControllerBase
+    {
+        private readonly IMediator _mediator;
+
+        public ActivitiesController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
+        [HttpDelete(""{id}"")]
+        public async Task&lt;ActionResult&lt;Unit&gt;&gt; Delete(Guid id, Delete.Command command)
+        {
+            command.Id = id;
+            return await _mediator.Send(command);
+        }
+    }
+}
+</code></pre>
+
+<p>2.)</p>
+
+<pre><code>namespace Application.Activities
+{
+    public class Delete
+    {
+        public class Command : IRequest
+        {
+            public Guid Id { get; set; }
+        }
+
+        public class Handler : IRequestHandler&lt;Command&gt;
+        {
+            private readonly DataContext _context;
+
+            public Handler(DataContext context)
+            {
+                _context = context;
+            }
+
+            public async Task&lt;Unit&gt; Handle(Command request, CancellationToken cancellationToken)
+            {
+                var activity = await _context.Activities.FindAsync(request.Id);
+
+                if (activity == null)
+                    throw new Exception(""Could not find activity"");
+
+                _context.Remove(activity);
+
+
+
+                var success = await _context.SaveChangesAsync() &gt; 0;
+
+                if (success) return Unit.Value;
+
+                throw new Exception(""Problem saving changes"");
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>I found that the HttpDelete method in the controller receives id as a Guid, but in the React app id is typed as string, so I changed the type to string in the controller and MediatR class, but same http error 415.</p>
+","[""I'm building a React.js app with ASP.NET Core as backend following a tutorial course. I'm using Axios to handle HTTP requests, I tested the get, post, put requests working fine, but keep getting error during a del request. Here is the simplified function that produces the same error:"", 'And the request prints the following error messages in the console:', 'DELETE <a href=""https://localhost:5001/api/activities/e2beb0eb-eaaa-49ee-92d8-daf472210456"" rel=""nofollow noreferrer"">https://localhost:5001/api/activities/e2beb0eb-eaaa-49ee-92d8-daf472210456</a> 415 \n  (Unsupported Media Type)', 'createError.js:16 Uncaught (in promise) Error: Request failed with status code 415\n      at createError (createError.js:16)\n      at settle (settle.js:17)\n      at XMLHttpRequest.handleLoad (xhr.js:61)', 'But I tested in Postman, and the delete request works just fine and returns a 200 OK response, and I can see in the database that the entry is deleted:', '<a href=""https://i.stack.imgur.com/KONzm.png"" rel=""nofollow noreferrer"">Postman DELETE response</a>', ""I would really appreciate if someone can educate me what's going on here. Thank you and stay safe &amp; happy."", 'EDIT ----------------------------------', 'Here is the backend code that handles the HTTP request. It is divided into two parts-- 1.) controller that receives the HTTP request and 2.) MediatR class that handles it:', '1.)', '2.)', 'I found that the HttpDelete method in the controller receives id as a Guid, but in the React app id is typed as string, so I changed the type to string in the controller and MediatR class, but same http error 415.']",0,1,0
+941,51342234,Why i will get StaticInjectorError in angular 6. what it means,"<p>My Routing Structure</p>
+
+<p>App-> main -> dashboard</p>
+
+<p>I'm trying to implement this <code>in dashboard.component.ts</code> but it's showing error below I didn't understand why</p>
+
+<p>Can anyone help me out to get this done?</p>
+
+<blockquote>
+  <p>core.js:1624 ERROR Error: Uncaught (in promise): Error: StaticInjectorError(AppModule)[DashboardComponent -> FileUploader]: 
+    StaticInjectorError(Platform: core)[DashboardComponent -> FileUploader]: 
+      NullInjectorError: No provider for FileUploader!
+  Error: StaticInjectorError(AppModule)[DashboardComponent -> FileUploader]: 
+    StaticInjectorError(Platform: core)[DashboardComponent -> FileUploader]: 
+      NullInjectorError: No provider for FileUploader!
+      at NullInjector.push../node_modules/@angular/core/fesm5/core.js.NullInjector.get (core.js:1034)
+      at resolveToken (core.js:1273)
+      at tryResolveToken (core.js:1218)
+      at StaticInjector.push../node_modules/@angular/core/fesm5/core.js.StaticInjector.get (core.js:1113)
+      at resolveToken (core.js:1273)
+      at tryResolveToken (core.js:1218)
+      at StaticInjector.push../node_modules/@angular/core/fesm5/core.js.StaticInjector.get (core.js:1113)
+      at resolveNgModuleDep (core.js:8168)
+      at NgModuleRef_.push../node_modules/@angular/core/fesm5/core.js.NgModuleRef_.get (core.js:8856)
+      at resolveDep (core.js:9221)
+      at NullInjector.push../node_modules/@angular/core/fesm5/core.js.NullInjector.get (core.js:1034)
+      at resolveToken (core.js:1273)
+      at tryResolveToken (core.js:1218)
+      at StaticInjector.push../node_modules/@angular/core/fesm5/core.js.StaticInjector.get (core.js:1113)
+      at resolveToken (core.js:1273)
+      at tryResolveToken (core.js:1218)
+      at StaticInjector.push../node_modules/@angular/core/fesm5/core.js.StaticInjector.get (core.js:1113)
+      at resolveNgModuleDep (core.js:8168)
+      at NgModuleRef_.push../node_modules/@angular/core/fesm5/core.js.NgModuleRef_.get (core.js:8856)
+      at resolveDep (core.js:9221)
+      at resolvePromise (zone.js:814)
+      at resolvePromise (zone.js:771)
+      at zone.js:873
+      at ZoneDelegate.push../node_modules/zone.js/dist/zone.js.ZoneDelegate.invokeTask (zone.js:421)
+      at Object.onInvokeTask (core.js:3748)
+      at ZoneDelegate.push../node_modules/zone.js/dist/zone.js.ZoneDelegate.invokeTask (zone.js:420)
+      at Zone.push../node_modules/zone.js/dist/zone.js.Zone.runTask (zone.js:188)
+      at drainMicroTaskQueue (zone.js:595)
+      at ZoneTask.push../node_modules/zone.js/dist/zone.js.ZoneTask.invokeTask [as invoke] (zone.js:500)
+      at invokeTask (zone.js:1540)```</p>
+</blockquote>
+
+<p>Thanks
+Surya Teja.K</p>
+","['My Routing Structure', 'App-> main -> dashboard', ""I'm trying to implement this <code>in dashboard.component.ts</code> but it's showing error below I didn't understand why"", 'Can anyone help me out to get this done?', 'core.js:1624 ERROR Error: Uncaught (in promise): Error: StaticInjectorError(AppModule)[DashboardComponent -> FileUploader]: \n    StaticInjectorError(Platform: core)[DashboardComponent -> FileUploader]: \n      NullInjectorError: No provider for FileUploader!\n  Error: StaticInjectorError(AppModule)[DashboardComponent -> FileUploader]: \n    StaticInjectorError(Platform: core)[DashboardComponent -> FileUploader]: \n      NullInjectorError: No provider for FileUploader!\n      at NullInjector.push../node_modules/@angular/core/fesm5/core.js.NullInjector.get (core.js:1034)\n      at resolveToken (core.js:1273)\n      at tryResolveToken (core.js:1218)\n      at StaticInjector.push../node_modules/@angular/core/fesm5/core.js.StaticInjector.get (core.js:1113)\n      at resolveToken (core.js:1273)\n      at tryResolveToken (core.js:1218)\n      at StaticInjector.push../node_modules/@angular/core/fesm5/core.js.StaticInjector.get (core.js:1113)\n      at resolveNgModuleDep (core.js:8168)\n      at NgModuleRef_.push../node_modules/@angular/core/fesm5/core.js.NgModuleRef_.get (core.js:8856)\n      at resolveDep (core.js:9221)\n      at NullInjector.push../node_modules/@angular/core/fesm5/core.js.NullInjector.get (core.js:1034)\n      at resolveToken (core.js:1273)\n      at tryResolveToken (core.js:1218)\n      at StaticInjector.push../node_modules/@angular/core/fesm5/core.js.StaticInjector.get (core.js:1113)\n      at resolveToken (core.js:1273)\n      at tryResolveToken (core.js:1218)\n      at StaticInjector.push../node_modules/@angular/core/fesm5/core.js.StaticInjector.get (core.js:1113)\n      at resolveNgModuleDep (core.js:8168)\n      at NgModuleRef_.push../node_modules/@angular/core/fesm5/core.js.NgModuleRef_.get (core.js:8856)\n      at resolveDep (core.js:9221)\n      at resolvePromise (zone.js:814)\n      at resolvePromise (zone.js:771)\n      at zone.js:873\n      at ZoneDelegate.push../node_modules/zone.js/dist/zone.js.ZoneDelegate.invokeTask (zone.js:421)\n      at Object.onInvokeTask (core.js:3748)\n      at ZoneDelegate.push../node_modules/zone.js/dist/zone.js.ZoneDelegate.invokeTask (zone.js:420)\n      at Zone.push../node_modules/zone.js/dist/zone.js.Zone.runTask (zone.js:188)\n      at drainMicroTaskQueue (zone.js:595)\n      at ZoneTask.push../node_modules/zone.js/dist/zone.js.ZoneTask.invokeTask [as invoke] (zone.js:500)\n      at invokeTask (zone.js:1540)```', 'Thanks\nSurya Teja.K']",1,0,0
+331,49090324,Saving to a variable from async function Angular 5,"<p>Hello I am new to angular and firebase and have been looking online but none of the solutions worked for me, hopefully someone can help. (if i'm not using to right terminology, I can clarify if you ask, like i said i'm new to this.) thanks.</p>
+
+<p>I am trying to save data into a variable from within an async function. When I try to subscribe to it I get this error:</p>
+
+<pre><code>/////////////////////////////////////////////
+        ERROR TypeError: Cannot read property 'subscribe' of undefined
+        at EmployeeListComponent.ngOnInit (employee-list.component.ts:17)
+</code></pre>
+
+<p>What should happen: </p>
+
+<ol>
+<li><p>save the data from angularfire store save it to a variable called employees: <code>Observable&lt;Employee&gt;;</code></p>
+
+<blockquote>
+<pre><code> constructor(public afStore: AngularFirestore, private authService:
+ AuthService) {
+
+             this.authService.afAuth.authState.subscribe(user =&gt; {
+                 this.employeeList = this.afStore.collection&lt;Employee&gt;('restaurantUsers/' + user.uid +
+ '/employees');
+                 return this.employees = this.employeeList.valueChanges();
+             });
+           }
+</code></pre>
+</blockquote></li>
+<li><p>Return the data from a method called <code>getData()</code></p>
+
+<blockquote>
+<pre><code>getData(): Observable&lt;Employee[]&gt; {
+        return this.employees;
+      }
+</code></pre>
+</blockquote></li>
+<li><p>Access it from component employee-listcomponent </p>
+
+<blockquote>
+<pre><code>    export class EmployeeListComponent implements OnInit {
+      constructor(private employeeService: EmployeeService, private authService: AuthService) {
+
+       }
+
+      ngOnInit() {
+        this.employeeService.getData().subscribe(data =&gt; {
+          console.log(data);
+        });
+      }
+</code></pre>
+</blockquote></li>
+</ol>
+
+<p>from my employee-listComponent -     </p>
+
+<pre><code>@Injectable()
+    export class EmployeeService {
+      employeeList: AngularFirestoreCollection&lt;Employee&gt;;
+      employees: Observable&lt;Employee[]&gt;;
+      selectedEmployee: Observable&lt;Employee[]&gt;;
+
+
+
+    constructor(public afStore: AngularFirestore, private authService: AuthService) {
+
+        this.authService.afAuth.authState.subscribe(user =&gt; {
+            this.employeeList =`enter code here` this.afStore.collection&lt;Employee&gt;('restaurantUsers/' + user.uid + '/employees');
+            return this.employees = this.employeeList.valueChanges();
+        });
+      }
+
+
+      getData(): Observable&lt;Employee[]&gt; {
+        return this.employees;
+      }
+
+
+
+    //////////////////////////////////////////////////////////////
+
+    export class EmployeeListComponent implements OnInit {
+      constructor(private employeeService: EmployeeService, private authService: AuthService) {
+
+       }
+
+      ngOnInit() {
+        this.employeeService.getData().subscribe(data =&gt; {
+          console.log(data);
+        });
+      }
+
+        **/////////////////////////////////////////////
+        ERROR TypeError: Cannot read property 'subscribe' of undefined
+        at EmployeeListComponent.ngOnInit (employee-list.component.ts:17)**
+</code></pre>
+","[""Hello I am new to angular and firebase and have been looking online but none of the solutions worked for me, hopefully someone can help. (if i'm not using to right terminology, I can clarify if you ask, like i said i'm new to this.) thanks."", 'I am trying to save data into a variable from within an async function. When I try to subscribe to it I get this error:', 'What should happen: ', ""\nsave the data from angularfire store save it to a variable called employees: <code>Observable&lt;Employee&gt;;</code>\n\n<blockquote>\n<pre><code> constructor(public afStore: AngularFirestore, private authService:\n AuthService) {\n\n             this.authService.afAuth.authState.subscribe(user =&gt; {\n                 this.employeeList = this.afStore.collection&lt;Employee&gt;('restaurantUsers/' + user.uid +\n '/employees');\n                 return this.employees = this.employeeList.valueChanges();\n             });\n           }\n</code></pre>\n</blockquote>\nReturn the data from a method called <code>getData()</code>\n\n<blockquote>\n<pre><code>getData(): Observable&lt;Employee[]&gt; {\n        return this.employees;\n      }\n</code></pre>\n</blockquote>\nAccess it from component employee-listcomponent \n\n<blockquote>\n<pre><code>    export class EmployeeListComponent implements OnInit {\n      constructor(private employeeService: EmployeeService, private authService: AuthService) {\n\n       }\n\n      ngOnInit() {\n        this.employeeService.getData().subscribe(data =&gt; {\n          console.log(data);\n        });\n      }\n</code></pre>\n</blockquote>\n"", 'from my employee-listComponent -     ']",0,1,0
+471,42240246,wildcard entry point usng glob on webpack got error,"<p>Trying to do wildcard matching for all my js file but I got this error </p>
+
+<pre><code>var elements = request.replace(/^-?!+/, """").replace(/!!+/g, ""!"").split(""!"");
+                                               ^
+
+TypeError: request.replace is not a function
+    at C:\Users\Superant-Laptop\Projects\seeties-webapp\node_modules\webpack\lib\NormalModuleFactory.js:72:27
+</code></pre>
+
+<p>This is how I configure my webpack file.</p>
+
+<pre><code>function toObject(paths) {
+  console.log(paths)
+  var ret = {};
+
+  paths.forEach(function(path) {
+    ret[path.split('/').slice(-1)[0]] = path;
+  });
+
+  return ret;
+}
+
+module.exports = {
+  entry: [
+    'webpack/hot/dev-server',
+    'webpack-hot-middleware/client', 
+    toObject(glob.sync(path.join(__dirname, 'resources/assets/bundle/entries/*js')))
+  ],
+  output: {
+    path: path.join(__dirname, 'public'),
+    publicPath: '/',
+    filename: 'app.js'
+  }
+}
+</code></pre>
+
+<p>what's wrong with my webpack.config.js above? It looks ok for me.</p>
+","['Trying to do wildcard matching for all my js file but I got this error ', 'This is how I configure my webpack file.', ""what's wrong with my webpack.config.js above? It looks ok for me.""]",0,1,0
+1344,59578996,vue-cli@3 No module factory available for dependency type: CssDependency,"<p>when I used vue-cli@3 to </p>
+
+<p><code>npm run build</code></p>
+
+<p>system hint generate this error <code>No module factory available for dependency type: CssDependency</code></p>
+
+<p>I have searched a lot of related questions, but they are all angular，And i also tried</p>
+
+<ol>
+<li>rm -r node_modules</li>
+<li>rm package-lock.json</li>
+<li>npm i</li>
+</ol>
+
+<p>But this error still occurs,I want to know how can I solve this problem</p>
+
+<p>Here are the details of my error</p>
+
+<pre><code>ERROR  Error: No module factory available for dependency type: CssDependency
+Error: No module factory available for dependency type: CssDependency
+    at addDependency (E:\Games\hitokoto\node_modules\webpack\lib\Compilation.js:800:12)
+    at iterationOfArrayCallback (E:\Games\hitokoto\node_modules\webpack\lib\Compilation.js:208:3)
+    at addDependenciesBlock (E:\Games\hitokoto\node_modules\webpack\lib\Compilation.js:816:5)
+    at Compilation.processModuleDependencies (E:\Games\hitokoto\node_modules\webpack\lib\Compilation.js:827:4)
+    at afterBuild (E:\Games\hitokoto\node_modules\webpack\lib\Compilation.js:954:15)
+    at buildModule.err (E:\Games\hitokoto\node_modules\webpack\lib\Compilation.js:998:11)
+    at callback (E:\Games\hitokoto\node_modules\webpack\lib\Compilation.js:734:5)
+    at module.build.error (E:\Games\hitokoto\node_modules\webpack\lib\Compilation.js:782:12)
+    at handleParseResult (E:\Games\hitokoto\node_modules\webpack\lib\NormalModule.js:478:12)
+    at doBuild.err (E:\Games\hitokoto\node_modules\webpack\lib\NormalModule.js:500:6)
+    at runLoaders (E:\Games\hitokoto\node_modules\webpack\lib\NormalModule.js:358:12)
+    at E:\Games\hitokoto\node_modules\loader-runner\lib\LoaderRunner.js:373:3
+    at iterateNormalLoaders (E:\Games\hitokoto\node_modules\loader-runner\lib\LoaderRunner.js:214:10)
+    at E:\Games\hitokoto\node_modules\loader-runner\lib\LoaderRunner.js:186:6
+    at context.callback (E:\Games\hitokoto\node_modules\loader-runner\lib\LoaderRunner.js:111:13)
+    at childCompiler.runAsChild (E:\Games\Hitokoto\node_modules\mini-css-extract-plugin\dist\loader.js:198:12)
+    at compile (E:\Games\hitokoto\node_modules\webpack\lib\Compiler.js:343:11)
+    at hooks.afterCompile.callAsync.err (E:\Games\hitokoto\node_modules\webpack\lib\Compiler.js:681:15)
+    at AsyncSeriesHook.eval [as callAsync] (eval at create (E:\Games\hitokoto\node_modules\tapable\lib\HookCodeFactory.js:33:10), &lt;anonymous&gt;:15:1)
+    at AsyncSeriesHook.lazyCompileHook (E:\Games\hitokoto\node_modules\tapable\lib\Hook.js:154:20)
+    at compilation.seal.err (E:\Games\hitokoto\node_modules\webpack\lib\Compiler.js:678:31)
+    at AsyncSeriesHook.eval [as callAsync] (eval at create (E:\Games\hitokoto\node_modules\tapable\lib\HookCodeFactory.js:33:10), &lt;anonymous&gt;:6:1)
+E:\Games\hitokoto\node_modules\neo-async\async.js:16
+    throw new Error('Callback was already called.');
+</code></pre>
+
+<p>Then below is my package.json file</p>
+
+<pre><code>{
+  ""name"": ""hitokoto"",
+  ""version"": ""0.1.0"",
+  ""private"": true,
+  ""scripts"": {
+    ""serve"": ""vue-cli-service serve"",
+    ""build"": ""vue-cli-service build"",
+    ""lint"": ""vue-cli-service lint""
+  },
+  ""dependencies"": {
+    ""core-js"": ""^3.4.4"",
+    ""jquery"": ""^3.4.1"",
+    ""jquery-ui"": ""^1.12.1"",
+    ""vue"": ""^2.6.10"",
+    ""vue-router"": ""^3.1.3""
+  },
+  ""devDependencies"": {
+    ""@vue/cli-plugin-babel"": ""^4.1.0"",
+    ""@vue/cli-plugin-eslint"": ""^4.1.0"",
+    ""@vue/cli-plugin-router"": ""^4.1.0"",
+    ""@vue/cli-service"": ""^4.1.0"",
+    ""@vue/eslint-config-prettier"": ""^5.0.0"",
+    ""babel-eslint"": ""^10.0.3"",
+    ""eslint"": ""^5.16.0"",
+    ""eslint-plugin-prettier"": ""^3.1.1"",
+    ""eslint-plugin-vue"": ""^5.0.0"",
+    ""prettier"": ""^1.19.1"",
+    ""stylus"": ""^0.54.7"",
+    ""stylus-loader"": ""^3.0.2"",
+    ""vue-template-compiler"": ""^2.6.10""
+  }
+}
+</code></pre>
+","['when I used vue-cli@3 to ', '<code>npm run build</code>', 'system hint generate this error <code>No module factory available for dependency type: CssDependency</code>', 'I have searched a lot of related questions, but they are all angular，And i also tried', '\nrm -r node_modules\nrm package-lock.json\nnpm i\n', 'But this error still occurs,I want to know how can I solve this problem', 'Here are the details of my error', 'Then below is my package.json file']",0,0,1
+305,48206865,How to control width of ngbSlide in NgbCarousel of ngbootstrap,"<p><a href=""https://i.stack.imgur.com/ixXoQ.png"" rel=""nofollow noreferrer""><img src=""https://i.stack.imgur.com/ixXoQ.png"" alt=""enter image description here""></a>How to control width of ngbSlide  in NgbCarousel of ngbootstrap </p>
+
+<p>I am not able to change the width of  carousel-item div present in NgbCarousel.
+below is the caurosal item sample </p>
+
+<pre><code>&lt;ng-template ngbSlide&gt;
+    &lt;img src=""https://lorempixel.com/900/500?r=1"" alt=""Random first slide""&gt;
+    &lt;div class=""carousel-caption""&gt;
+      &lt;h3&gt;First slide label&lt;/h3&gt;
+      &lt;p&gt;Nulla vitae elit libero, a pharetra augue mollis interdum.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/ng-template&gt;
+</code></pre>
+
+<p>its width is 100% how can i reduce it to 25%. ng-template will render into carusal item where its width is coming 100%. I have tried to put a ngclass attribute over ng-template tag but its throwing runtime error as below :</p>
+
+<pre><code>    &lt;ng-template ngbSlide [ngClass]=""'ddd'""&gt;
+
+ERROR TypeError: Cannot read property 'add' of undefined
+    at EmulatedEncapsulationDomRenderer2.DefaultDomRenderer2.addClass
+</code></pre>
+","['<a href=""https://i.stack.imgur.com/ixXoQ.png"" rel=""nofollow noreferrer""><img src=""https://i.stack.imgur.com/ixXoQ.png"" alt=""enter image description here""></a>How to control width of ngbSlide  in NgbCarousel of ngbootstrap ', 'I am not able to change the width of  carousel-item div present in NgbCarousel.\nbelow is the caurosal item sample ', 'its width is 100% how can i reduce it to 25%. ng-template will render into carusal item where its width is coming 100%. I have tried to put a ngclass attribute over ng-template tag but its throwing runtime error as below :']",0,0,1
+1185,39770041,ionic 2 RangeError: Maximum call stack size exceeded,"<p>I just tried to </p>
+
+<blockquote>
+  <p>RangeError: Maximum call stack size exceeded
+      at deepClone (C:\Users\Adir\MyApps\ToDoApp\node_modules\rollup\dist\rollup.js:163:2)
+      at deepClone (C:\Users\Adir\MyApps\ToDoApp\node_modules\rollup\dist\rollup.js:165:18)
+      at deepClone (C:\Users\Adir\MyApps\ToDoApp\node_modules\rollup\dist\rollup.js:165:18)
+      at deepClone (C:\Users\Adir\MyApps\ToDoApp\node_modules\rollup\dist\rollup.js:165:18)
+      at deepClone (C:\Users\Adir\MyApps\ToDoApp\node_modules\rollup\dist\rollup.js:165:18)
+      at deepClone (C:\Users\Adir\MyApps\ToDoApp\node_modules\rollup\dist\rollup.js:165:18)
+      at deepClone (C:\Users\Adir\MyApps\ToDoApp\node_modules\rollup\dist\rollup.js:165:18)
+      at deepClone (C:\Users\Adir\MyApps\ToDoApp\node_modules\rollup\dist\rollup.js:165:18)
+      at deepClone (C:\Users\Adir\MyApps\ToDoApp\node_modules\rollup\dist\rollup.js:165:18)
+      at deepClone (C:\Users\Adir\MyApps\ToDoApp\node_modules\rollup\dist\rollup.js:165:18)</p>
+</blockquote>
+
+<p>this is my adminPage, this pages makes the problem</p>
+
+<pre><code>import { Component } from '@angular/core';
+import { NavController } from 'ionic-angular';
+
+import {Storage,LocalStorage} from 'ionic-angular';
+
+
+
+/*
+ Generated class for the Admin page.
+
+ See http://ionicframework.com/docs/v2/components/#navigation for more info on
+ Ionic pages and navigation.
+ */
+
+@Component({
+  selector: 'page-admin',
+  templateUrl: 'admin.html'
+})
+export class AdminPage {
+  data: any;
+  local: Storage = new Storage(LocalStorage);
+  public getsession:any;
+
+  constructor(public navCtrl: NavController) {
+    this.data={};
+    this.data.title="""";
+    this.data.desc="""";
+    this.local=new Storage(LocalStorage);
+    this.local.set('session','true');
+
+    this.getsession=this.local.get('session');
+    this.getsession.then((value)=&gt;{
+      let x=value;
+      console.log(x);
+
+    })
+
+
+  }
+
+  ionViewDidLoad() {
+
+  }
+
+}
+</code></pre>
+","['I just tried to ', 'RangeError: Maximum call stack size exceeded\n      at deepClone (C:\\Users\\Adir\\MyApps\\ToDoApp\\node_modules\\rollup\\dist\\rollup.js:163:2)\n      at deepClone (C:\\Users\\Adir\\MyApps\\ToDoApp\\node_modules\\rollup\\dist\\rollup.js:165:18)\n      at deepClone (C:\\Users\\Adir\\MyApps\\ToDoApp\\node_modules\\rollup\\dist\\rollup.js:165:18)\n      at deepClone (C:\\Users\\Adir\\MyApps\\ToDoApp\\node_modules\\rollup\\dist\\rollup.js:165:18)\n      at deepClone (C:\\Users\\Adir\\MyApps\\ToDoApp\\node_modules\\rollup\\dist\\rollup.js:165:18)\n      at deepClone (C:\\Users\\Adir\\MyApps\\ToDoApp\\node_modules\\rollup\\dist\\rollup.js:165:18)\n      at deepClone (C:\\Users\\Adir\\MyApps\\ToDoApp\\node_modules\\rollup\\dist\\rollup.js:165:18)\n      at deepClone (C:\\Users\\Adir\\MyApps\\ToDoApp\\node_modules\\rollup\\dist\\rollup.js:165:18)\n      at deepClone (C:\\Users\\Adir\\MyApps\\ToDoApp\\node_modules\\rollup\\dist\\rollup.js:165:18)\n      at deepClone (C:\\Users\\Adir\\MyApps\\ToDoApp\\node_modules\\rollup\\dist\\rollup.js:165:18)', 'this is my adminPage, this pages makes the problem']",0,1,0
+482,49930129,ng serve fail not recognizing bootstrap installed in node modules,"<p>I have an angular 5 project. I have installed bootstrap 4</p>
+
+<p>I have attempted to point to bootstrap in my angular-cli.json file</p>
+
+<pre><code>""styles"": [
+        ""../node_modules/bootstrap/dist/css/bootstrap.min.css"",
+        ""styles.css""
+
+      ],
+</code></pre>
+
+<p>I have attempted to import via an <code>@import</code> statement in my styles.css</p>
+
+<pre><code>@import '~bootstrap/dist/css/bootstrap.min.css';
+</code></pre>
+
+<p>I keep getting this error. I think it may be an issue deeper than just angular maybe something in node but I am not sure. </p>
+
+<p>here is the of the error message: </p>
+
+<pre><code>ERROR in ./node_modules/css-loader?{""sourceMap"":false,""importLoaders"":1}!./node_modules/postcss-loader?{""ident"":""postcss""}!./node_modules/bootstrap/dist/css/bootstrap.min.css
+Module build failed: BrowserslistError: Unknown browser major
+    at error (/home/rickus/Documents/softwareProjects/211hospitality/suitsandtables/frontend/suitsandtables/node_modules/browserslist/index.js:37:11)
+    at Function.browserslist.checkName (/home/rickus/Documents/softwareProjects/211hospitality/suitsandtables/frontend/suitsandtables/node_modules/browserslist/index.js:320:18)
+    at Function.select (/home/rickus/Documents/softwareProjects/211hospitality/suitsandtables/frontend/suitsandtables/node_modules/browserslist/index.js:438:37)
+    at /home/rickus/Documents/softwareProjects/211hospitality/suitsandtables/frontend/suitsandtables/node_modules/browserslist/index.js:207:41
+    at Array.forEach (native)
+    at browserslist (/home/rickus/Documents/softwareProjects/211hospitality/suitsandtables/frontend/suitsandtables/node_modules/browserslist/index.js:196:13)
+    at Browsers.parse (/home/rickus/Documents/softwareProjects/211hospitality/suitsandtables/frontend/suitsandtables/node_modules/autoprefixer/lib/browsers.js:44:14)
+    at new Browsers (/home/rickus/Documents/softwareProjects/211hospitality/suitsandtables/frontend/suitsandtables/node_modules/autoprefixer/lib/browsers.js:39:28)
+    at loadPrefixes (/home/rickus/Documents/softwareProjects/211hospitality/suitsandtables/frontend/suitsandtables/node_modules/autoprefixer/lib/autoprefixer.js:56:18)
+    at plugin (/home/rickus/Documents/softwareProjects/211hospitality/suitsandtables/frontend/suitsandtables/node_modules/autoprefixer/lib/autoprefixer.js:62:18)
+    at LazyResult.run (/home/rickus/Documents/softwareProjects/211hospitality/suitsandtables/frontend/suitsandtables/node_modules/postcss/lib/lazy-result.js:274:20)
+    at LazyResult.asyncTick (/home/rickus/Documents/softwareProjects/211hospitality/suitsandtables/frontend/suitsandtables/node_modules/postcss/lib/lazy-result.js:189:32)
+    at LazyResult.asyncTick (/home/rickus/Documents/softwareProjects/211hospitality/suitsandtables/frontend/suitsandtables/node_modules/postcss/lib/lazy-result.js:201:22)
+    at processing.Promise.then._this2.processed (/home/rickus/Documents/softwareProjects/211hospitality/suitsandtables/frontend/suitsandtables/node_modules/postcss/lib/lazy-result.js:228:20)
+    at LazyResult.async (/home/rickus/Documents/softwareProjects/211hospitality/suitsandtables/frontend/suitsandtables/node_modules/postcss/lib/lazy-result.js:225:27)
+    at LazyResult.then (/home/rickus/Documents/softwareProjects/211hospitality/suitsandtables/frontend/suitsandtables/node_modules/postcss/lib/lazy-result.js:131:21)
+ @ ./node_modules/css-loader?{""sourceMap"":false,""importLoaders"":1}!./node_modules/postcss-loader?{""ident"":""postcss""}!./src/styles.css 3:10-186
+ @ ./src/styles.css
+ @ multi ./src/styles.css
+</code></pre>
+","['I have an angular 5 project. I have installed bootstrap 4', 'I have attempted to point to bootstrap in my angular-cli.json file', 'I have attempted to import via an <code>@import</code> statement in my styles.css', 'I keep getting this error. I think it may be an issue deeper than just angular maybe something in node but I am not sure. ', 'here is the of the error message: ']",0,1,0
+212,69025632,Login with Firebase/auth - firebase__WEBPACK_IMPORTED_MODULE_3 __,"<p>Auth.onAuthStateChanged is not a function</p>
+<p>I have created a web application with React <a href=""https://github.com/facebook/create-react-app"" rel=""nofollow noreferrer"">npx create-react-app my-app</a>)</p>
+<p>It is a simple application that shows a list of products from a store, from where the user can add more products.
+Once finished, I have decided that registration by email is mandatory in order to see the content and be able to add products.</p>
+<p>I need it to be mandatory to login to access the application.</p>
+<p>Since I don't have a lot of Backend experience, I have used Firebase.</p>
+<p>I have read information, I have seen examples and finally I have added the necessary code to my App so that when entering it, it is necessary to enter the email and password.
+Once I log in, I would enter the main page <code>&lt;Sidebar /&gt;</code></p>
+<p>I have repeated the steps several times and I always get the same error.</p>
+<p>I have looked for examples elsewhere and in this same place, but I cannot solve my problem.</p>
+<p>I show my error and some of the files that I create are the cause.</p>
+<p>Console Errors:</p>
+<pre><code>App.js:17 Uncaught TypeError: firebase__WEBPACK_IMPORTED_MODULE_3__.auth.onAuthStateChanged is not a function
+    at App.js:17
+    at invokePassiveEffectCreate (react-dom.development.js:23487)
+    at HTMLUnknownElement.callCallback (react-dom.development.js:3945)
+    at Object.invokeGuardedCallbackDev (react-dom.development.js:3994)
+    at invokeGuardedCallback (react-dom.development.js:4056)
+    at flushPassiveEffectsImpl (react-dom.development.js:23574)
+    at unstable_runWithPriority (scheduler.development.js:468)
+    at runWithPriority$1 (react-dom.development.js:11276)
+    at flushPassiveEffects (react-dom.development.js:23447)
+    at react-dom.development.js:23324
+    at workLoop (scheduler.development.js:417)
+    at flushWork (scheduler.development.js:390)
+    at MessagePort.performWorkUntilDeadline (scheduler.development.js:157)
+(anonymous) @ App.js:17
+invokePassiveEffectCreate @ react-dom.development.js:23487
+callCallback @ react-dom.development.js:3945
+invokeGuardedCallbackDev @ react-dom.development.js:3994
+invokeGuardedCallback @ react-dom.development.js:4056
+flushPassiveEffectsImpl @ react-dom.development.js:23574
+unstable_runWithPriority @ scheduler.development.js:468
+runWithPriority$1 @ react-dom.development.js:11276
+flushPassiveEffects @ react-dom.development.js:23447
+(anonymous) @ react-dom.development.js:23324
+workLoop @ scheduler.development.js:417
+flushWork @ scheduler.development.js:390
+performWorkUntilDeadline @ scheduler.development.js:157
+index.js:1 The above error occurred in the &lt;App&gt; component:
+
+    at App (http://localhost:3000/static/js/main.chunk.js:67:81)
+    at x (http://localhost:3000/static/js/vendors~main.chunk.js:118342:13)
+    at w (http://localhost:3000/static/js/vendors~main.chunk.js:117967:13)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+console.&lt;computed&gt; @ index.js:1
+logCapturedError @ react-dom.development.js:20085
+update.callback @ react-dom.development.js:20118
+callCallback @ react-dom.development.js:12318
+commitUpdateQueue @ react-dom.development.js:12339
+commitLifeCycles @ react-dom.development.js:20736
+commitLayoutEffects @ react-dom.development.js:23426
+callCallback @ react-dom.development.js:3945
+invokeGuardedCallbackDev @ react-dom.development.js:3994
+invokeGuardedCallback @ react-dom.development.js:4056
+commitRootImpl @ react-dom.development.js:23151
+unstable_runWithPriority @ scheduler.development.js:468
+runWithPriority$1 @ react-dom.development.js:11276
+commitRoot @ react-dom.development.js:22990
+performSyncWorkOnRoot @ react-dom.development.js:22329
+(anonymous) @ react-dom.development.js:11327
+unstable_runWithPriority @ scheduler.development.js:468
+runWithPriority$1 @ react-dom.development.js:11276
+flushSyncCallbackQueueImpl @ react-dom.development.js:11322
+flushSyncCallbackQueue @ react-dom.development.js:11309
+flushPassiveEffectsImpl @ react-dom.development.js:23620
+unstable_runWithPriority @ scheduler.development.js:468
+runWithPriority$1 @ react-dom.development.js:11276
+flushPassiveEffects @ react-dom.development.js:23447
+(anonymous) @ react-dom.development.js:23324
+workLoop @ scheduler.development.js:417
+flushWork @ scheduler.development.js:390
+performWorkUntilDeadline @ scheduler.development.js:157
+scheduler.development.js:171 Uncaught TypeError: firebase__WEBPACK_IMPORTED_MODULE_3__.auth.onAuthStateChanged is not a function
+    at App.js:17
+    at invokePassiveEffectCreate (react-dom.development.js:23487)
+    at HTMLUnknownElement.callCallback (react-dom.development.js:3945)
+    at Object.invokeGuardedCallbackDev (react-dom.development.js:3994)
+    at invokeGuardedCallback (react-dom.development.js:4056)
+    at flushPassiveEffectsImpl (react-dom.development.js:23574)
+    at unstable_runWithPriority (scheduler.development.js:468)
+    at runWithPriority$1 (react-dom.development.js:11276)
+    at flushPassiveEffects (react-dom.development.js:23447)
+    at react-dom.development.js:23324
+    at workLoop (scheduler.development.js:417)
+    at flushWork (scheduler.development.js:390)
+    at MessagePort.performWorkUntilDeadline (scheduler.development.js:157)
+</code></pre>
+<p><strong>File App.js</strong></p>
+<pre><code>import React, { useState, useEffect } from 'react'
+import { Routes, Route } from 'react-router'
+
+import firebase, { FirebaseContext } from './firebase'
+import { auth } from 'firebase'
+
+import Ordenes from './components/paginas/Ordenes'
+import Menu from './components/paginas/Menu'
+import NuevoPlato from './components/paginas/NuevoPlato'
+import Sidebar from './components/ui/Sidebar'
+import Signin from './components/Signin'
+
+function App() {
+
+  const [user, setUser] = useState(null)
+  useEffect(() =&gt; {
+    const unsubscribe = auth.onAuthStateChanged(userAuth =&gt; {
+      const user = {
+        uid: userAuth?.uid,
+        email: userAuth?.email
+      }
+      if (userAuth) {
+        console.log(userAuth)
+        setUser(user)
+      } else {
+        setUser(null)
+      }
+    })
+    return unsubscribe
+  }, [])
+
+  return (
+    &lt;FirebaseContext.Provider
+      value={{
+        firebase
+      }}
+    &gt;
+      &lt;div className=&quot;md:flex min-h-screen&quot; &gt;
+      &lt;Sidebar /&gt;
+        &lt;div className=&quot;md:w-2/5 xl:w-4/5 p-6&quot;&gt;
+          {user ? &lt;Sidebar /&gt; : &lt;Signin /&gt;}
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div className=&quot;md:w-2/5 xl:w-4/5 p-6&quot;&gt;
+        &lt;Routes&gt;
+          &lt;Route path=&quot;/&quot; element={&lt;Ordenes /&gt;} /&gt;
+          &lt;Route path=&quot;/menu&quot; element={&lt;Menu /&gt;} /&gt;
+          &lt;Route path=&quot;/nuevo-plato&quot; element={&lt;NuevoPlato /&gt;} /&gt;
+        &lt;/Routes&gt;
+      &lt;/div&gt;
+    &lt;/FirebaseContext.Provider&gt;
+
+
+  )
+}
+
+export default App
+</code></pre>
+<p><strong>File Signin.js</strong></p>
+<pre><code>import React, { useRef } from 'react'
+//import { auth } from '../firebase'
+import { auth } from 'firebase';
+const Signin = () =&gt; {
+    const emailRef = useRef(null);
+    const passwordRef = useRef(null);
+    const signUp = e =&gt; {
+        e.preventDefault();
+        auth.createUserWithEmailAndPassword(
+            emailRef.current.value,
+            passwordRef.current.value
+        ).then(user =&gt; {
+            console.log(user)
+        }).catch(err =&gt; {
+            console.log(err)
+        })
+    }
+    const signIn = e =&gt; {
+        e.preventDefault();
+        auth.signInWithEmailAndPassword(
+            emailRef.current.value,
+            passwordRef.current.value
+        ).then(user =&gt; {
+            console.log(user)
+        }).catch(err =&gt; {
+            console.log(err)
+        })
+    }
+    return (
+        &lt;div className=&quot;mb-4&quot;&gt;
+            &lt;form action=&quot;&quot;&gt;
+                &lt;h1&gt;Sign in&lt;/h1&gt;
+                &lt;input
+                className=&quot;shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline&quot;
+                ref={emailRef} type=&quot;email&quot; placeholder=&quot;email&quot;/&gt;
+                &lt;input 
+                className=&quot;shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline&quot;
+                ref={passwordRef} type=&quot;password&quot; /&gt;
+                &lt;button onClick={signIn}&gt;Sign in &lt;/button&gt;
+            &lt;/form&gt;
+        &lt;/div&gt;
+    )
+}
+
+export default Signin
+
+
+
+
+**File firebase.js**
+
+import app from 'firebase/app'
+import 'firebase/firestore'
+import 'firebase/storage'
+import 'firebase/auth'
+
+import firebaseConfig from './config'
+
+class Firebase {
+  constructor() {
+    if (!app.apps.length) {
+      app.initializeApp(firebaseConfig)
+    }
+    this.db = app.firestore()
+    this.storage = app.storage()
+    this.auth = app.auth()
+  }
+}
+
+const firebase = new Firebase()
+export default firebase
+</code></pre>
+<p><strong>File package.json</strong></p>
+<pre><code>{
+  &quot;name&quot;: &quot;mYStore&quot;,
+  &quot;version&quot;: &quot;0.1.0&quot;,
+  &quot;private&quot;: true,
+  &quot;dependencies&quot;: {
+    &quot;@testing-library/jest-dom&quot;: &quot;^5.11.4&quot;,
+    &quot;@testing-library/react&quot;: &quot;^11.1.0&quot;,
+    &quot;@testing-library/user-event&quot;: &quot;^12.1.10&quot;,
+    &quot;firebase&quot;: &quot;^7.19.0&quot;,
+    &quot;formik&quot;: &quot;^2.2.9&quot;,
+    &quot;react&quot;: &quot;^17.0.2&quot;,
+    &quot;react-dom&quot;: &quot;^17.0.2&quot;,
+    &quot;react-firebase-file-uploader&quot;: &quot;^2.4.4&quot;,
+    &quot;react-router-dom&quot;: &quot;^6.0.0-beta.0&quot;,
+    &quot;react-scripts&quot;: &quot;^4.0.3&quot;,
+    &quot;web-vitals&quot;: &quot;^1.0.1&quot;,
+    &quot;yup&quot;: &quot;^0.32.9&quot;
+  },
+  &quot;scripts&quot;: {
+    &quot;start&quot;: &quot;npm run watch:css &amp;&amp; react-scripts start&quot;,
+    &quot;build&quot;: &quot;npm run build:css &amp;&amp; react-scripts build&quot;,
+    &quot;test&quot;: &quot;react-scripts test&quot;,
+    &quot;eject&quot;: &quot;react-scripts eject&quot;,
+    &quot;build:css&quot;: &quot;postcss src/css/tailwind.css -o src/css/main.css&quot;,
+    &quot;watch:css&quot;: &quot;postcss src/css/tailwind.css -o src/css/main.css&quot;
+  },
+  &quot;eslintConfig&quot;: {
+    &quot;extends&quot;: [
+      &quot;react-app&quot;,
+      &quot;react-app/jest&quot;
+    ]
+  },
+  &quot;browserslist&quot;: {
+    &quot;production&quot;: [
+      &quot;&gt;0.2%&quot;,
+      &quot;not dead&quot;,
+      &quot;not op_mini all&quot;
+    ],
+    &quot;development&quot;: [
+      &quot;last 1 chrome version&quot;,
+      &quot;last 1 firefox version&quot;,
+      &quot;last 1 safari version&quot;
+    ]
+  },
+  &quot;devDependencies&quot;: {
+    &quot;autoprefixer&quot;: &quot;^10.3.1&quot;,
+    &quot;history&quot;: &quot;^5.0.0&quot;,
+    &quot;postcss-cli&quot;: &quot;^8.3.1&quot;,
+    &quot;react-router&quot;: &quot;^6.0.0-beta.0&quot;,
+    &quot;tailwindcss&quot;: &quot;^2.2.7&quot;
+  }
+}
+</code></pre>
+<p><strong>This is the structure of the application</strong></p>
+<p><a href=""https://i.stack.imgur.com/k7caZ.png"" rel=""nofollow noreferrer""><img src=""https://i.stack.imgur.com/k7caZ.png"" alt=""enter image description here"" /></a></p>
+","['Auth.onAuthStateChanged is not a function', 'I have created a web application with React <a href=""https://github.com/facebook/create-react-app"" rel=""nofollow noreferrer"">npx create-react-app my-app</a>)', 'It is a simple application that shows a list of products from a store, from where the user can add more products.\nOnce finished, I have decided that registration by email is mandatory in order to see the content and be able to add products.', 'I need it to be mandatory to login to access the application.', ""Since I don't have a lot of Backend experience, I have used Firebase."", 'I have read information, I have seen examples and finally I have added the necessary code to my App so that when entering it, it is necessary to enter the email and password.\nOnce I log in, I would enter the main page <code>&lt;Sidebar /&gt;</code>', 'I have repeated the steps several times and I always get the same error.', 'I have looked for examples elsewhere and in this same place, but I cannot solve my problem.', 'I show my error and some of the files that I create are the cause.', 'Console Errors:', 'File App.js', 'File Signin.js', 'File package.json', 'This is the structure of the application', '<a href=""https://i.stack.imgur.com/k7caZ.png"" rel=""nofollow noreferrer""><img src=""https://i.stack.imgur.com/k7caZ.png"" alt=""enter image description here"" /></a>']",0,0,1
+1556,60986011,UnhandledPromiseRejection problem with using nodejs and mongodb,"<p>The service I wrote with node js runs smoothly, I successfully created create, delete, put, read from postman. When I press delete button on React interface, I get the error I shared below. When I press the delete button, the deleteUser() method is triggered.
+It gives an error related to id. What should I change to resolve this error?</p>
+
+<pre><code>https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 2)
+(node:16381) UnhandledPromiseRejectionWarning: CastError: Cast to ObjectId failed for value ""${id}"" at path ""_id"" for model ""User""
+    at new CastError (/home/mutlueren/Desktop/mern-demo-app/backend/node_modules/mongoose/lib/error/cast.js:29:11)
+    at model.Query.exec (/home/mutlueren/Desktop/mern-demo-app/backend/node_modules/mongoose/lib/query.js:4331:21)
+    at model.Query.Query.then (/home/mutlueren/Desktop/mern-demo-app/backend/node_modules/mongoose/lib/query.js:4423:15)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+(node:16381) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 3)
+</code></pre>
+
+<p><strong>model</strong></p>
+
+<pre><code>const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+
+newSchema = new Schema({
+    name : String,
+    email : String,
+    password : String
+})
+
+module.exports = mongoose.model('User', newSchema)
+</code></pre>
+
+<p><strong>routes</strong></p>
+
+<pre><code>/* find user by id */
+router.get('/:id',(req, res) =&gt;{
+    User.findById(req.params.id, (err, data) =&gt;{
+        res.json(data)
+    })
+})
+
+/* delete user by id */
+router.delete('/:id', async (req, res) =&gt;{
+    await User.findByIdAndDelete(req.params.id)
+    res.json({'message':'deleted'})
+})
+
+/* create */
+router.post('/',(req,res)=&gt;{
+    user = new User({
+        name:req.body.name,
+        email:req.body.email,
+        password:req.body.password
+    })
+
+    user.save(()=&gt;{
+        res.json(user)
+    })
+})
+
+/* update */
+router.put('/:id', async (req, res)=&gt;{
+    await User.findByIdAndUpdate(req.params.is, req.body)
+    res.json({'message':'updated'})
+})
+</code></pre>
+
+<p><strong>react ui</strong></p>
+
+<pre><code>constructor(props) {
+    super(props);
+    this.state = {
+        users : [],
+        id:0,
+        name:'',
+        email:'',
+        password:''
+    }
+}
+
+componentDidMount() {
+    axios.get('http://localhost:8080/api')
+        .then((res)=&gt;{
+          this.setState({
+              users:res.data,
+              id:0,
+              name:'',
+              email:'',
+              password:''
+          })
+    })
+}
+
+nameChange = event =&gt;{
+    this.setState({
+        name:event.target.value
+    })
+}
+
+emailChange = event =&gt;{
+    this.setState({
+        email:event.target.value
+    })
+}
+
+passwordChange = event =&gt;{
+    this.setState({
+        password:event.target.value
+    })
+}
+
+submit(event, id) {
+    event.preventDefault()
+    if(id === 0) {
+        axios.post('http://localhost:8080/api', {
+            name: this.state.name,
+            email: this.state.email,
+            password: this.state.password
+        })
+        this.componentDidMount()
+    }else{
+        axios.put('http://localhost:8080/api/${id}', {
+            name: this.state.name,
+            email: this.state.email,
+            password: this.state.password
+        })
+        this.componentDidMount()
+    }
+}
+
+deleteUser(id){
+    axios.delete('http://localhost:8080/api/${id}')
+        .then(()=&gt;{
+            this.componentDidMount()
+        })
+}
+
+editUser(id){
+    axios.get('http://localhost:8080/api/${id}')
+        .then((res)=&gt;{
+            this.setState({
+                name:res.data.name,
+                email:res.data.email,
+                password:res.data.password
+            })
+        })
+}
+</code></pre>
+
+<p><strong>package.json</strong></p>
+
+<pre><code>{
+  ""name"": ""backend"",
+  ""version"": ""1.0.0"",
+  ""description"": """",
+  ""main"": ""index.js"",
+  ""scripts"": {
+    ""watch"": ""nodemon ./index.js"",
+    ""start"": ""node index""
+  },
+  ""keywords"": [],
+  ""author"": """",
+  ""license"": ""ISC"",
+  ""dependencies"": {
+    ""cors"": ""^2.8.5"",
+    ""express"": ""^4.17.1"",
+    ""mongoose"": ""^5.9.7""
+  },
+  ""devDependencies"": {
+    ""nodemon"": ""^2.0.2""
+  }
+}
+</code></pre>
+","['The service I wrote with node js runs smoothly, I successfully created create, delete, put, read from postman. When I press delete button on React interface, I get the error I shared below. When I press the delete button, the deleteUser() method is triggered.\nIt gives an error related to id. What should I change to resolve this error?', 'model', 'routes', 'react ui', 'package.json']",0,1,0
+650,43292680,Angular 2 - Uncaught (in promise): TypeError: Cannot read property 'title' of undefined,"<p>I see this error in my App when I try to add some text input field with dual binding:</p>
+
+<pre><code>   ERROR Error: Uncaught (in promise): TypeError: Cannot read property 'title' of undefined
+TypeError: Cannot read property 'title' of undefined
+    at Object.eval [as updateRenderer] (ng:///AppModule/TapesComponent.ngfactory.js:660:29)
+    at Object.debugUpdateRenderer [as updateRenderer] (http://localhost:3000/node_modules/@angular/core/bundles/core.umd.js:12658:21)
+    at checkAndUpdateView (http://localhost:3000/node_modules/@angular/core/bundles/core.umd.js:12037:14)
+    at callViewAction (http://localhost:3000/node_modules/@angular/core/bundles/core.umd.js:12347:17)
+    at execComponentViewsAction (http://localhost:3000/node_modules/@angular/core/bundles/core.umd.js:12293:13)
+    at checkAndUpdateView (http://localhost:3000/node_modules/@angular/core/bundles/core.umd.js:12038:5)
+    at callWithDebugContext (http://localhost:3000/node_modules/@angular/core/bundles/core.umd.js:13020:42)
+    at Object.debugCheckAndUpdateView [as checkAndUpdateView] (http://localhost:3000/node_modules/@angular/core/bundles/core.umd.js:12560:12)
+    at ViewRef_.detectChanges (http://localhost:3000/node_modules/@angular/core/bundles/core.umd.js:10129:63)
+    at RouterOutlet.activateWith (http://localhost:3000/node_modules/@angular/router/bundles/router.umd.js:5378:42)
+    at ActivateRoutes.placeComponentIntoOutlet (http://localhost:3000/node_modules/@angular/router/bundles/router.umd.js:4558:16)
+    at ActivateRoutes.activateRoutes (http://localhost:3000/node_modules/@angular/router/bundles/router.umd.js:4539:26)
+    at eval (http://localhost:3000/node_modules/@angular/router/bundles/router.umd.js:4475:58)
+    at Array.forEach (native)
+    at ActivateRoutes.activateChildRoutes (http://localhost:3000/node_modules/@angular/router/bundles/router.umd.js:4475:29)
+    at Object.eval [as updateRenderer] (ng:///AppModule/TapesComponent.ngfactory.js:660:29)
+    at Object.debugUpdateRenderer [as updateRenderer] (http://localhost:3000/node_modules/@angular/core/bundles/core.umd.js:12658:21)
+    at checkAndUpdateView (http://localhost:3000/node_modules/@angular/core/bundles/core.umd.js:12037:14)
+    at callViewAction (http://localhost:3000/node_modules/@angular/core/bundles/core.umd.js:12347:17)
+    at execComponentViewsAction (http://localhost:3000/node_modules/@angular/core/bundles/core.umd.js:12293:13)
+    at checkAndUpdateView (http://localhost:3000/node_modules/@angular/core/bundles/core.umd.js:12038:5)
+    at callWithDebugContext (http://localhost:3000/node_modules/@angular/core/bundles/core.umd.js:13020:42)
+    at Object.debugCheckAndUpdateView [as checkAndUpdateView] (http://localhost:3000/node_modules/@angular/core/bundles/core.umd.js:12560:12)
+    at ViewRef_.detectChanges (http://localhost:3000/node_modules/@angular/core/bundles/core.umd.js:10129:63)
+    at RouterOutlet.activateWith (http://localhost:3000/node_modules/@angular/router/bundles/router.umd.js:5378:42)
+    at ActivateRoutes.placeComponentIntoOutlet (http://localhost:3000/node_modules/@angular/router/bundles/router.umd.js:4558:16)
+    at ActivateRoutes.activateRoutes (http://localhost:3000/node_modules/@angular/router/bundles/router.umd.js:4539:26)
+    at eval (http://localhost:3000/node_modules/@angular/router/bundles/router.umd.js:4475:58)
+    at Array.forEach (native)
+    at ActivateRoutes.activateChildRoutes (http://localhost:3000/node_modules/@angular/router/bundles/router.umd.js:4475:29)
+    at resolvePromise (http://localhost:3000/node_modules/zone.js/dist/zone.js:712:31) [angular]
+    at resolvePromise (http://localhost:3000/node_modules/zone.js/dist/zone.js:683:17) [angular]
+    at http://localhost:3000/node_modules/zone.js/dist/zone.js:760:17 [angular]
+    at Object.onInvokeTask (http://localhost:3000/node_modules/@angular/core/bundles/core.umd.js:4123:37) [angular]
+    at ZoneDelegate.invokeTask (http://localhost:3000/node_modules/zone.js/dist/zone.js:397:36) [angular]
+    at Zone.runTask (http://localhost:3000/node_modules/zone.js/dist/zone.js:165:47) [&lt;root&gt; =&gt; angular]
+    at drainMicroTaskQueue (http://localhost:3000/node_modules/zone.js/dist/zone.js:593:35) [&lt;root&gt;]
+    at HTMLAnchorElement.ZoneTask.invoke (http://localhost:3000/node_modules/zone.js/dist/zone.js:464:25) [&lt;root&gt;]
+</code></pre>
+
+<p>I have this Tape class:</p>
+
+<pre><code>    export class Tape {
+  constructor (
+  public id: number,
+  public title: string,
+  public date?: string,
+  public rating?: number,
+  public description?: string,
+  public photo?: string){}
+}
+</code></pre>
+
+<p>And component</p>
+
+<pre><code>import { Component, OnInit } from '@angular/core';
+import { Tape } from './tape'
+import { TapeService } from './tape.service';
+import { Router } from '@angular/router';
+// import { TitlePipe } from './titleFilter';
+
+@Component({
+  selector: 'my-tapes',
+  templateUrl: './tapes.component.html',
+  styleUrls: [`./tapes.component.css`],
+  providers: [TapeService],
+
+})
+export class TapesComponent implements OnInit {
+  pageName = 'VHS Movies listing';
+  tapes: Tape[];
+  selectedTape: Tape;
+  model = new Tape(0,'s','s',0,'s','sS'); 
+</code></pre>
+
+<p>Component HTML looks like</p>
+
+<pre><code>&lt;div class=""form-group""&gt;
+              &lt;label for=""title""&gt;Title{{model.title}}&lt;/label&gt;
+              &lt;input type=""text"" class=""form-control"" id=""title"" required [(ngModel)]=""model.title"" name=""title"" #title=""ngModel""&gt;              Written text: {{tape.title}}
+              &lt;div [hidden]=""title.valid || title.pristine"" class=""alert alert-danger""&gt;
+                Title is mandatory
+              &lt;/div&gt;
+            &lt;/div&gt;
+</code></pre>
+
+<p>I just started learning Angular 2, but for me it should get title from module. He he can't read title?</p>
+","['I see this error in my App when I try to add some text input field with dual binding:', 'I have this Tape class:', 'And component', 'Component HTML looks like', ""I just started learning Angular 2, but for me it should get title from module. He he can't read title?""]",1,0,0
+420,43727464,How do I fix RN suddenly being unable to find local modules (Unable to resolve module)?,"<p>I've got a strange situation where suddenly my RN app won't load any of its scenes. The app has been running fine for weeks and I haven't moved any of the files. The failure: </p>
+
+<pre><code>error: bundling: UnableToResolveError: Unable to resolve module `./src/scenes/splash` from `/Users/jcollum/projects/starsApp/index.ios.js`: Directory /Users/jcollum/projects/starsApp/src/scenes/splash doesn't exist
+at Promise.resolve.then (/Users/jcollum/projects/starsApp/node_modules/react-native/packager/src/node-haste/DependencyGraph/ResolutionRequest.js:445:15)
+at process._tickCallback (internal/process/next_tick.js:109:7)
+</code></pre>
+
+<p>My import statements look like: </p>
+
+<pre><code>import React, { Component } from 'react';
+import { AppRegistry, StyleSheet, Text, View } from 'react-native';
+import { Router, Scene } from 'react-native-router-flux';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Splash from './src/scenes/splash';
+</code></pre>
+
+<p>The scene definitely exists:  </p>
+
+<pre><code>$ ll /Users/jcollum/projects/starsApp/src/scenes/splash.js 
+-rw-r--r--  1 jcollum  staff   722B Apr 26 10:12 /Users/jcollum/projects/starsApp/src/scenes/splash.js
+</code></pre>
+
+<p>And it has an <code>export default</code>:</p>
+
+<pre><code>import React, { Component, PropTypes } from 'react';
+import { View, Text, TouchableHighlight, Image } from 'react-native';
+import styles from '../styles'
+import { Actions } from 'react-native-router-flux';
+
+export default class Splash extends Component {
+  componentWillMount() {
+    setTimeout(() =&gt; {
+      Actions.Home()
+    }, 1000);
+  }
+
+  render() {
+    console.log(`rendering Splash`);
+    return (
+      &lt;View ...
+</code></pre>
+
+<p>Things I have tried: </p>
+
+<ul>
+<li>restarting packager</li>
+<li>resetting content and settings </li>
+<li>checking out a previous commit</li>
+<li>clearing temp dir: <code>rm -fr $TMPDIR/react-*</code> </li>
+</ul>
+
+<p><code>react-native --version</code></p>
+
+<pre><code>react-native-cli: 2.0.1
+react-native: 0.43.2
+</code></pre>
+
+<p>What could be causing this? Why would this suddenly stop loading resources? What's the next thing to try?  </p>
+","[""I've got a strange situation where suddenly my RN app won't load any of its scenes. The app has been running fine for weeks and I haven't moved any of the files. The failure: "", 'My import statements look like: ', 'The scene definitely exists:  ', 'And it has an <code>export default</code>:', 'Things I have tried: ', '\nrestarting packager\nresetting content and settings \nchecking out a previous commit\nclearing temp dir: <code>rm -fr $TMPDIR/react-*</code> \n', '<code>react-native --version</code>', ""What could be causing this? Why would this suddenly stop loading resources? What's the next thing to try?  ""]",0,1,0
+1131,65566682,Angular build throwing error (JSON.parse(stripJsonComments(content))),"<p>I am using angular nx with nestjs. When project is cloned and run yarn command on it, it builds successfully but when even I install any package and compile the project. it throws the error:</p>
+<pre><code>**D:\projectNAme\nrwl\node_modules\@nrwl\workspace\src\utils\fileutils.js:44
+    return JSON.parse(stripJsonComments(content));
+                ^
+SyntaxError: Unexpected token } in JSON at position 562
+    at JSON.parse (&lt;anonymous&gt;)
+    at Object.parseJsonWithComments (D:\projectNAme\nrwl\node_modules\@nrwl\workspace\src\utils\fileutils.js:44:17)
+    at new TargetProjectLocator (D:\projectNAme\nrwl\node_modules\@nrwl\workspace\src\core\target-project-locator.js:22:46)
+    at buildExplicitTypeScriptDependencies (D:\projectNAme\nrwl\node_modules\@nrwl\workspace\src\core\project-graph\build-dependencies\explicit-project-dependencies.js:8:34)
+    at D:\projectNAme\nrwl\node_modules\@nrwl\workspace\src\core\project-graph\project-graph.js:60:41
+    at Array.forEach (&lt;anonymous&gt;)
+    at buildProjectGraph (D:\projectNAme\nrwl\node_modules\@nrwl\workspace\src\core\project-graph\project-graph.js:60:26)
+    at Object.createProjectGraph (D:\projectNAme\nrwl\node_modules\@nrwl\workspace\src\core\project-graph\project-graph.js:40:30)
+    at Object.&lt;anonymous&gt; (D:\projectNAme\nrwl\node_modules\@nrwl\workspace\src\command-line\run-one.js:16:46)
+    at Generator.next (&lt;anonymous&gt;)
+[21:31:39] 'deployLocalAPI' errored after 820 ms
+[21:31:39] Error: Command failed: cd nrwl &amp;&amp; nx serve api
+    at checkExecSyncError (node:child_process:636:11)
+    at Object.execSync (node:child_process:672:15)
+    at Object.exec (D:\projectNAme\/gulpfile.babel.js:36:8)
+    at D:\projectNAme\_config\gulp\tasks\deploy\apps\api\/deployLocal.js:41:10
+    at deployLocalAPI (D:\projectNAme\node_modules\undertaker\lib\set-task.js:13:15)
+    at bound (node:domain:413:15)
+    at runBound (node:domain:424:12)
+    at asyncRunner (D:\projectNAme\node_modules\async-done\index.js:55:18)
+    at processTicksAndRejections (node:internal/process/task_queues:75:11)**
+</code></pre>
+<p>and following are the versions I am using:</p>
+<pre><code>&quot;@angular-devkit/build-angular&quot;: &quot;~0.1100.1&quot;,
+&quot;@angular/cli&quot;: &quot;~11.0.0&quot;,
+&quot;@angular/compiler-cli&quot;: &quot;^11.0.0&quot;,
+&quot;@angular/language-service&quot;: &quot;^11.0.0&quot;,
+&quot;@nestjs/schematics&quot;: &quot;^7.0.0&quot;,
+&quot;@nestjs/testing&quot;: &quot;^7.0.0&quot;,
+&quot;@nrwl/cli&quot;: &quot;11.0.2&quot;,
+&quot;@nrwl/cypress&quot;: &quot;11.0.2&quot;,
+&quot;@nrwl/eslint-plugin-nx&quot;: &quot;11.0.2&quot;,
+&quot;@nrwl/jest&quot;: &quot;11.0.2&quot;,
+&quot;@nrwl/nest&quot;: &quot;11.0.2&quot;,
+&quot;@nrwl/node&quot;: &quot;11.0.2&quot;,
+&quot;@nrwl/tao&quot;: &quot;11.0.2&quot;,
+&quot;@nrwl/workspace&quot;: &quot;11.0.2&quot;,
+&quot;@types/jest&quot;: &quot;26.0.8&quot;,
+&quot;@types/node&quot;: &quot;12.12.38&quot;,
+&quot;@typescript-eslint/eslint-plugin&quot;: &quot;4.3.0&quot;,
+&quot;@typescript-eslint/parser&quot;: &quot;4.3.0&quot;,
+&quot;codelyzer&quot;: &quot;^6.0.0&quot;,
+&quot;cypress&quot;: &quot;^5.5.0&quot;,
+&quot;dotenv&quot;: &quot;6.2.0&quot;,
+&quot;eslint&quot;: &quot;7.10.0&quot;,
+&quot;eslint-config-prettier&quot;: &quot;6.0.0&quot;,
+&quot;jest&quot;: &quot;26.2.2&quot;,
+&quot;jest-preset-angular&quot;: &quot;8.3.1&quot;,
+&quot;prettier&quot;: &quot;2.1.2&quot;,
+&quot;ts-jest&quot;: &quot;26.4.0&quot;,
+&quot;ts-node&quot;: &quot;~7.0.0&quot;,
+&quot;tslint&quot;: &quot;~6.0.0&quot;,
+&quot;typescript&quot;: &quot;~4.0.3&quot;
+</code></pre>
+","['I am using angular nx with nestjs. When project is cloned and run yarn command on it, it builds successfully but when even I install any package and compile the project. it throws the error:', 'and following are the versions I am using:']",1,0,0
+1555,52328017,"java.lang.ClassNotFoundException: Didn't find class "".MainActivity"" on path: DexPathList react-native","<p>I am writing a mobile app using react-native. Even though I did not touch any native side of my code, App started to be stopped just after running. I did some changes in react native components, but I did not use anything new. I debugged it in Android studio and here is the error:</p>
+
+<pre><code>E/AndroidRuntime: FATAL EXCEPTION: main
+                  Process: tedu.edu.tr, PID: 23741
+                  java.lang.RuntimeException: Unable to instantiate activity ComponentInfo{tedu.edu.tr/tedu.edu.tr.MainActivity}: java.lang.ClassNotFoundException: Didn't find class ""tedu.edu.tr.MainActivity"" on path: DexPathList[[zip file ""/data/app/tedu.edu.tr-Q-Z69MlFdgprlVraa6TSjg==/base.apk""],nativeLibraryDirectories=[/data/app/tedu.edu.tr-Q-Z69MlFdgprlVraa6TSjg==/lib/arm, /data/app/tedu.edu.tr-Q-Z69MlFdgprlVraa6TSjg==/base.apk!/lib/armeabi-v7a, /system/lib, /vendor/lib]]
+                      at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2721)
+                      at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2895)
+                      at android.app.ActivityThread.-wrap11(Unknown Source:0)
+                      at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1596)
+                      at android.os.Handler.dispatchMessage(Handler.java:105)
+                      at android.os.Looper.loop(Looper.java:164)
+                      at android.app.ActivityThread.main(ActivityThread.java:6565)
+                      at java.lang.reflect.Method.invoke(Native Method)
+                      at com.android.internal.os.Zygote$MethodAndArgsCaller.run(Zygote.java:240)
+                      at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:767)
+                   Caused by: java.lang.ClassNotFoundException: Didn't find class ""tedu.edu.tr.MainActivity"" on path: DexPathList[[zip file ""/data/app/tedu.edu.tr-Q-Z69MlFdgprlVraa6TSjg==/base.apk""],nativeLibraryDirectories=[/data/app/tedu.edu.tr-Q-Z69MlFdgprlVraa6TSjg==/lib/arm, /data/app/tedu.edu.tr-Q-Z69MlFdgprlVraa6TSjg==/base.apk!/lib/armeabi-v7a, /system/lib, /vendor/lib]]
+                      at dalvik.system.BaseDexClassLoader.findClass(BaseDexClassLoader.java:93)
+                      at java.lang.ClassLoader.loadClass(ClassLoader.java:379)
+                      at java.lang.ClassLoader.loadClass(ClassLoader.java:312)
+                      at android.app.Instrumentation.newActivity(Instrumentation.java:1174)
+                      at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2711)
+                      at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2895) 
+                      at android.app.ActivityThread.-wrap11(Unknown Source:0) 
+                      at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1596) 
+                      at android.os.Handler.dispatchMessage(Handler.java:105) 
+                      at android.os.Looper.loop(Looper.java:164) 
+                      at android.app.ActivityThread.main(ActivityThread.java:6565) 
+                      at java.lang.reflect.Method.invoke(Native Method) 
+                      at com.android.internal.os.Zygote$MethodAndArgsCaller.run(Zygote.java:240) 
+                      at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:767) 
+</code></pre>
+
+<p>Worst part of the problem is everyone keeps suggesting cleaning project or enabling multidex, which are done by me, yet no effect.</p>
+
+<p>Here is my app level <code>build.gradle</code>:</p>
+
+<pre><code>android {
+compileSdkVersion rootProject.ext.compileSdkVersion
+
+defaultConfig {
+    applicationId ""tedu.edu.tr""
+    minSdkVersion rootProject.ext.minSdkVersion
+    targetSdkVersion rootProject.ext.targetSdkVersion
+    versionCode 15
+    versionName ""2.0.1""
+    multiDexEnabled true
+    ndk {
+        abiFilters ""armeabi-v7a"", ""x86""
+    }
+}
+
+splits {
+    abi {
+        reset()
+        enable enableSeparateBuildPerCPUArchitecture
+        universalApk false  // If true, also generate a universal APK
+        include ""armeabi-v7a"", ""x86""
+    }
+}
+buildTypes {
+    release {
+        minifyEnabled enableProguardInReleaseBuilds
+        proguardFiles getDefaultProguardFile(""proguard-android.txt""), 
+""proguard-rules.pro""
+        // signingConfig signingConfigs.release
+    }
+}
+// applicationVariants are e.g. debug, release
+applicationVariants.all { variant -&gt;
+    variant.outputs.each { output -&gt;
+        // For each separate APK per architecture, set a unique version code as described here:
+        // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
+        def versionCodes = [""armeabi-v7a"":1, ""x86"":2]
+        def abi = output.getFilter(OutputFile.ABI)
+        if (abi != null) {  // null for the universal-debug, universal-release variants
+            output.versionCodeOverride =
+                    versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
+        }
+    }
+}
+buildToolsVersion '27.0.3'
+}
+
+dependencies {
+compile project(':react-native-file-viewer')
+compile project(':rn-fetch-blob')
+compile project(':react-native-vector-icons')
+compile project(':react-native-randombytes')
+compile project(':react-native-firebase')
+implementation project(':react-native-firebase')
+implementation project(':react-native-vector-icons')
+implementation fileTree(dir: ""libs"", include: [""*.jar""])
+implementation ""com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}""
+implementation ""com.facebook.react:react-native:+""  // From node_modules
+implementation ""com.google.android.gms:play-services-base:15.0.1""
+implementation 'com.google.firebase:firebase-core:16.0.1'
+implementation ""com.google.firebase:firebase-messaging:17.1.0""
+implementation 'me.leolin:ShortcutBadger:1.1.21@aar' // &lt;-- Add this line if you wish to use badge on Android
+implementation 'com.android.support:multidex:1.0.3'
+}
+
+// Run this once to be able to run the application with BUCK
+// puts all compile dependencies into folder libs for BUCK to use
+task copyDownloadableDepsToLibs(type: Copy) {
+from configurations.compile
+into 'libs'
+}
+apply plugin: 'com.google.gms.google-services'
+</code></pre>
+
+<p>Also other build.gradle:</p>
+
+<pre><code>buildscript {
+repositories {
+    google()
+    jcenter()
+    maven {
+        url 'https://maven.google.com/'
+        name 'Google'
+    }
+}
+dependencies {
+    classpath 'com.android.tools.build:gradle:3.1.3'
+    classpath 'com.google.gms:google-services:4.0.1'
+
+    // NOTE: Do not place your application dependencies here; they 
+belong
+    // in the individual module build.gradle files
+}
+}
+
+allprojects {
+repositories {
+    google()
+    mavenLocal()
+    jcenter()
+    maven {
+        // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+        url ""$rootDir/../node_modules/react-native/android""
+    }
+    maven {
+        url 'https://maven.google.com/'
+        name 'Google'
+    }
+}
+}
+
+ext {
+buildToolsVersion = ""26.0.3""
+minSdkVersion = 16
+compileSdkVersion = 26
+targetSdkVersion = 26
+supportLibVersion = ""26.1.0""
+}
+</code></pre>
+
+<p>Lastly here is My <code>MainApplication.java</code> file(I added <code>attachBaseContext()</code> method so that I use MultiDex):</p>
+
+<pre><code>package tedu.edu.tr;
+
+import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
+
+import com.facebook.react.ReactApplication;
+import com.vinzscam.reactnativefileviewer.RNFileViewerPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
+import com.bitgo.randombytes.RandomBytesPackage;
+import io.invertase.firebase.RNFirebasePackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.facebook.react.ReactNativeHost;
+import com.facebook.react.ReactPackage;
+import com.facebook.react.shell.MainReactPackage;
+import com.facebook.soloader.SoLoader;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import 
+ io.invertase.firebase.notifications.RNFirebaseNotificationsPackage; 
+  // &lt;-- Add this line
+ import java.util.Arrays;
+ import java.util.List;
+
+public class MainApplication extends Application implements 
+    ReactApplication {
+
+private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+    @Override
+    public boolean getUseDeveloperSupport() {
+        return BuildConfig.DEBUG;
+    }
+
+    @Override
+    protected List&lt;ReactPackage&gt; getPackages() {
+        return Arrays.&lt;ReactPackage&gt;asList(new MainReactPackage(), new RNFileViewerPackage(),
+                new RNFetchBlobPackage(), new VectorIconsPackage(), new RandomBytesPackage(),
+                new RNFirebasePackage(), new RNFirebaseMessagingPackage(), new RNFirebaseNotificationsPackage());
+    }
+
+    @Override
+    protected String getJSMainModuleName() {
+        return ""index"";
+    }
+};
+
+@Override
+public ReactNativeHost getReactNativeHost() {
+    return mReactNativeHost;
+}
+
+@Override
+public void onCreate() {
+    super.onCreate();
+    SoLoader.init(this, /* native exopackage */ false);
+}
+
+@Override
+protected void attachBaseContext(Context base) {
+    super.attachBaseContext(base);
+    MultiDex.install(this);
+}
+}
+</code></pre>
+
+<p>Sorry If there is a mistake here. I am exhausted due to fighting with this for 2 days. 
+Edit: I tried all of these in possible duplicate questions. None of them helped. Here is my AndroidManifest.xml file:</p>
+
+<pre><code>&lt;manifest xmlns:android=""http://schemas.android.com/apk/res/android""
+package=""tedu.edu.tr""&gt;
+
+&lt;uses-permission android:name=""android.permission.INTERNET"" /&gt;
+&lt;uses-permission android:name=""android.permission.SYSTEM_ALERT_WINDOW""/&gt;
+&lt;uses-permission android:name=""android.permission.READ_EXTERNAL_STORAGE"" /&gt;                                               
+&lt;uses-permission android:name=""android.permission.WRITE_EXTERNAL_STORAGE"" /&gt;                                              
+&lt;uses-permission android:name=""android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"" /&gt;
+&lt;uses-permission android:name=""android.permission.RECEIVE_BOOT_COMPLETED"" /&gt;
+&lt;uses-permission android:name=""android.permission.VIBRATE"" /&gt;
+&lt;application
+  android:name="".MainApplication""
+  android:label=""@string/app_name""
+  android:icon=""@mipmap/ic_launcher""
+  android:allowBackup=""false""
+  android:theme=""@style/AppTheme""&gt;
+  &lt;meta-data
+android:name=""com.google.firebase.messaging.default_notification_icon""
+android:resource=""@drawable/ic_stat_tedu"" /&gt;
+  &lt;meta-data
+    android:name=""com.google.firebase.messaging.default_notification_color""
+    android:resource=""@color/bluelight"" /&gt;
+  &lt;activity
+    android:name="".MainActivity""
+    android:label=""@string/app_name""
+    android:launchMode=""singleTop""
+    android:configChanges=""keyboard|keyboardHidden|orientation|screenSize""
+   android:windowSoftInputMode=""stateAlwaysHidden|adjustPan""&gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name=""android.intent.action.MAIN"" /&gt;
+        &lt;category android:name=""android.intent.category.LAUNCHER"" /&gt;
+ &lt;action android:name=""android.intent.action.DOWNLOAD_COMPLETE""/&gt;
+    &lt;/intent-filter&gt;
+  &lt;/activity&gt;
+  &lt;activity android:name=""com.facebook.react.devsupport.DevSettingsActivity"" /&gt;
+   &lt;service android:name=""io.invertase.firebase.messaging.RNFirebaseMessagingService""&gt;
+ &lt;intent-filter&gt;
+  &lt;action android:name=""com.google.firebase.MESSAGING_EVENT"" /&gt;
+ &lt;/intent-filter&gt;
+ &lt;/service&gt;
+ &lt;service android:name=""io.invertase.firebase.messaging.RNFirebaseInstanceIdService""&gt;
+ &lt;intent-filter&gt;
+  &lt;action android:name=""com.google.firebase.INSTANCE_ID_EVENT""/&gt;
+ &lt;/intent-filter&gt;
+ &lt;/service&gt;
+ &lt;service android:name=""io.invertase.firebase.messaging.RNFirebaseBackgroundMessagingService"" /&gt;
+&lt;/application&gt;
+
+&lt;/manifest&gt;
+</code></pre>
+","['I am writing a mobile app using react-native. Even though I did not touch any native side of my code, App started to be stopped just after running. I did some changes in react native components, but I did not use anything new. I debugged it in Android studio and here is the error:', 'Worst part of the problem is everyone keeps suggesting cleaning project or enabling multidex, which are done by me, yet no effect.', 'Here is my app level <code>build.gradle</code>:', 'Also other build.gradle:', 'Lastly here is My <code>MainApplication.java</code> file(I added <code>attachBaseContext()</code> method so that I use MultiDex):', 'Sorry If there is a mistake here. I am exhausted due to fighting with this for 2 days. \nEdit: I tried all of these in possible duplicate questions. None of them helped. Here is my AndroidManifest.xml file:']",0,0,1
+99,41677868,Angular2: runtime error when binding a <select> combo box to a list of objects retrieved from an API in ngOnInit(),"<p>I am busy with a angular2 web app, I have a select html combo box which i'm trying to bind to an array  of Active Stock take objects.  My app seems to compile without any issues but I get the following runtime error.  Any idea what this means?  Am I going about this the wrong way?  is it possible to do this with safe navigation using ? </p>
+
+<p>My error:</p>
+
+<pre><code>zone.js:420
+Unhandled Promise rejection:Cannot set property 'stack' of undefined; Zone:&lt;root&gt;; Task:Promise.then; Value:TypeError: Cannot set property 'stack' of undefined
+    at SyntaxError.set [as stack] (
+http://localhost:4200/vendor.bundle.js:75980:61)
+    at assignAll (
+http://localhost:4200/vendor.bundle.js:111629:29)
+    at SyntaxError.ZoneAwareError (
+http://localhost:4200/vendor.bundle.js:111700:16)
+    at SyntaxError.BaseError [as constructor] (
+http://localhost:4200/vendor.bundle.js:75942:16)
+    at new SyntaxError (
+http://localhost:4200/vendor.bundle.js:6861:16)
+    at TemplateParser.parse (
+http://localhost:4200/vendor.bundle.js:21436:19)
+    at JitCompiler._compileTemplate (
+http://localhost:4200/vendor.bundle.js:55485:68)
+    at 
+http://localhost:4200/vendor.bundle.js:55368:62
+
+    at Set.forEach (native)
+    at JitCompiler._compileComponents (
+http://localhost:4200/vendor.bundle.js:55368:19)
+    at createResult (
+http://localhost:4200/vendor.bundle.js:55251:19)
+    at ZoneDelegate.invoke (
+http://localhost:4200/vendor.bundle.js:111167:26)
+    at Zone.run (
+http://localhost:4200/vendor.bundle.js:111038:43)
+    at 
+http://localhost:4200/vendor.bundle.js:111460:57
+
+    at ZoneDelegate.invokeTask (
+http://localhost:4200/vendor.bundle.js:111200:35)
+TypeError: Cannot set property 'stack' of undefined
+    at SyntaxError.set [as stack] (
+http://localhost:4200/vendor.bundle.js:75980:61)
+    at assignAll (
+http://localhost:4200/vendor.bundle.js:111629:29)
+    at SyntaxError.ZoneAwareError (
+http://localhost:4200/vendor.bundle.js:111700:16)
+    at SyntaxError.BaseError [as constructor] (
+http://localhost:4200/vendor.bundle.js:75942:16)
+    at new SyntaxError (
+http://localhost:4200/vendor.bundle.js:6861:16)
+    at TemplateParser.parse (
+http://localhost:4200/vendor.bundle.js:21436:19)
+    at JitCompiler._compileTemplate (
+http://localhost:4200/vendor.bundle.js:55485:68)
+    at 
+http://localhost:4200/vendor.bundle.js:55368:62
+
+    at Set.forEach (native)
+    at JitCompiler._compileComponents (
+http://localhost:4200/vendor.bundle.js:55368:19)
+    at createResult (
+http://localhost:4200/vendor.bundle.js:55251:19)
+    at ZoneDelegate.invoke (
+http://localhost:4200/vendor.bundle.js:111167:26)
+    at Zone.run (
+http://localhost:4200/vendor.bundle.js:111038:43)
+    at 
+http://localhost:4200/vendor.bundle.js:111460:57
+
+    at ZoneDelegate.invokeTask (
+http://localhost:4200/vendor.bundle.js:111200:35)
+zone.js:422
+list of 1 items
+aaZoneAwareError{stack: ""Error: Uncaught (in promise): TypeError: Cannot se…calhost:4200/vendor.bundle.js:111358:35) [&lt;root&gt;]"", message: ""Uncaught (in
+promise): TypeError: Cannot set prope…http://localhost:4200/vendor.bundle.js:111200:35)"", originalStack: ""Error: Uncaught (in promise): TypeError: Cannot
+se…http://localhost:4200/vendor.bundle.js:111358:35)"", zoneAwareStack: ""Error: Uncaught (in promise): TypeError: Cannot se…calhost:4200/vendor.bundl
+</code></pre>
+
+<p>My html:</p>
+
+<pre><code>&lt;select class=""form-control"" [(ngModel)]=""activeStockTakes?""&gt;
+    &lt;option *ngFor=""let activeStockTake of activeStockTakes"" [ngValue]=""activeStockTake""&gt;{{activeStockTake.UserCode}} - {{activeStockTake.Comment}}
+    &lt;/option&gt;
+&lt;/select&gt;
+</code></pre>
+
+<p>My ngOninit of my stock-takeComponent.ts:</p>
+
+<pre><code>this.restService.getActiveStockTakes()
+  .subscribe(
+   res =&gt; {
+    this.activeStockTakes = res;
+    console.log(this.activeStockTakes);
+   },
+   res =&gt; {
+    console.log(res);
+   }
+  );
+}
+</code></pre>
+","[""I am busy with a angular2 web app, I have a select html combo box which i'm trying to bind to an array  of Active Stock take objects.  My app seems to compile without any issues but I get the following runtime error.  Any idea what this means?  Am I going about this the wrong way?  is it possible to do this with safe navigation using ? "", 'My error:', 'My html:', 'My ngOninit of my stock-takeComponent.ts:']",0,1,0
+1559,72471309,how to build and export next js application with getServerSideProps in it?,"<p>I am new to next js and I have been trying to build and export my next js application with getServerSideProps in it, but there occurres an error.</p>
+<p>Here is my package.json:</p>
+<pre><code>  &quot;scripts&quot;: {
+    &quot;dev&quot;: &quot;next dev&quot;,
+    &quot;build&quot;: &quot;next build&quot;,
+    &quot;start&quot;: &quot;next start&quot;,
+    &quot;lint&quot;: &quot;next lint&quot;,
+    &quot;export&quot;: &quot;npm run build &amp;&amp; npm run export&quot;
+  },
+</code></pre>
+<p>I tried building with <code>npm run build</code>,</p>
+<pre><code>    info  - Checking validity of types
+info  - Disabled SWC as replacement for Babel because of custom Babel configuration &quot;.babelrc&quot; https://nextjs.org/docs/messages/swc-disabled
+info  - Creating an optimized production build
+info  - Compiled successfully
+info  - Collecting page data
+info  - Generating static pages (8/8)
+info  - Finalizing page optimization
+
+Page                                       Size     First Load JS
+┌ ○ /                                      4.09 kB         102 kB
+├   /_app                                  0 B            97.5 kB
+├ λ /[id]                                  4.25 kB         102 kB
+├ ○ /404                                   495 B            98 kB
+├ λ /about                                 780 B          98.3 kB
+├ λ /additional                            798 B          98.3 kB
+├ ○ /cart                                  2.82 kB         100 kB
+├ λ /contact                               1.38 kB        98.9 kB
+├ λ /deliver                               796 B          98.3 kB
+├ λ /faq                                   792 B          98.3 kB
+├ ○ /history                               2.79 kB         100 kB
+├ ○ /login                                 1.9 kB         99.4 kB
+├ λ /payment                               789 B          98.3 kB
+├ ○ /register                              6.76 kB         104 kB
+└ ○ /saved                                 2.05 kB        99.6 kB
++ First Load JS shared by all              97.5 kB
+  ├ chunks/framework-5f4595e5518b5600.js   42 kB
+  ├ chunks/main-a0853fbc3d9f629b.js        25.6 kB
+  ├ chunks/pages/_app-24619101f90696a4.js  28.4 kB
+  ├ chunks/webpack-a27b2f7f3b9841c4.js     1.51 kB
+  └ css/27d177a30947857b.css               194 B
+
+λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
+○  (Static)  automatically rendered as static HTML (uses no initial props)
+</code></pre>
+<p>after this I tried <code>npm run export</code>, it does the same and doesnt give any <code>html</code> file in <code>out</code></p>
+<p>Then I tried <code>next build</code>, and here is the error of this:</p>
+<pre><code>Error occurred prerendering page &quot;/saved&quot;. Read more: https://nextjs.org/docs/messages/prerender-error
+Error: Minified React error #321; visit https://reactjs.org/docs/error-decoder.html?invariant=321 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
+    at S (C:\Users\User\Desktop\kuba-motors\node_modules\react\cjs\react.production.min.js:18:327)
+    at exports.useMemo (C:\Users\User\Desktop\kuba-motors\node_modules\react\cjs\react.production.min.js:23:109)
+    at Provider (C:\Users\User\Desktop\kuba-motors\node_modules\react-redux\lib\components\Provider.js:24:41)
+    at d (C:\Users\User\AppData\Roaming\npm\node_modules\next\node_modules\react-dom\cjs\react-dom-server.node.production.min.js:33:498)
+    at bb (C:\Users\User\AppData\Roaming\npm\node_modules\next\node_modules\react-dom\cjs\react-dom-server.node.production.min.js:36:16)
+    at a.b.render (C:\Users\User\AppData\Roaming\npm\node_modules\next\node_modules\react-dom\cjs\react-dom-server.node.production.min.js:42:43)
+    at a.b.read (C:\Users\User\AppData\Roaming\npm\node_modules\next\node_modules\react-dom\cjs\react-dom-server.node.production.min.js:41:83)
+    at Object.exports.renderToString (C:\Users\User\AppData\Roaming\npm\node_modules\next\node_modules\react-dom\cjs\react-dom-server.node.production.min.js:52:138)
+    at Object.renderPage (C:\Users\User\AppData\Roaming\npm\node_modules\next\dist\server\render.js:736:46)
+    at Object.defaultGetInitialProps (C:\Users\User\AppData\Roaming\npm\node_modules\next\dist\server\render.js:368:51)
+
+info  - Generating static pages (8/8)
+
+&gt; Build error occurred
+Error: Export encountered errors on following paths:
+        /
+        /404
+        /_error: /500
+        /cart
+        /history
+        /login
+        /register
+        /saved
+    at C:\Users\User\AppData\Roaming\npm\node_modules\next\dist\export\index.js:499:19
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async Span.traceAsyncFn (C:\Users\User\AppData\Roaming\npm\node_modules\next\dist\trace\trace.js:75:20)
+    at async C:\Users\User\AppData\Roaming\npm\node_modules\next\dist\build\index.js:1015:17
+    at async Span.traceAsyncFn (C:\Users\User\AppData\Roaming\npm\node_modules\next\dist\trace\trace.js:75:20)
+    at async C:\Users\User\AppData\Roaming\npm\node_modules\next\dist\build\index.js:889:13
+    at async Span.traceAsyncFn (C:\Users\User\AppData\Roaming\npm\node_modules\next\dist\trace\trace.js:75:20)
+    at async Object.build [as default] (C:\Users\User\AppData\Roaming\npm\node_modules\next\dist\build\index.js:82:25)
+</code></pre>
+<p>Then I tried <code>next export</code> and here is the error of this:</p>
+<pre><code>info  - Exporting (14/14)
+Error: Export encountered errors on following paths:
+        /
+        /404
+        /[id]
+        /about
+        /additional
+        /cart
+        /contact
+        /deliver
+        /faq
+        /history
+        /login
+        /payment
+        /register
+        /saved
+    at C:\Users\User\AppData\Roaming\npm\node_modules\next\dist\export\index.js:499:19
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async Span.traceAsyncFn (C:\Users\User\AppData\Roaming\npm\node_modules\next\dist\trace\trace.js:75:20)
+</code></pre>
+","['I am new to next js and I have been trying to build and export my next js application with getServerSideProps in it, but there occurres an error.', 'Here is my package.json:', 'I tried building with <code>npm run build</code>,', 'after this I tried <code>npm run export</code>, it does the same and doesnt give any <code>html</code> file in <code>out</code>', 'Then I tried <code>next build</code>, and here is the error of this:', 'Then I tried <code>next export</code> and here is the error of this:']",0,0,1
+651,51327159,Rails-like autoload in javascript - Allow dependency to require from root package in webpack,"<p>I am writing a framework package which I'd like to make it able to auto require modules from the main projects src/. If you are familiar with rails, this is akin to its autoload feature.</p>
+
+<p>So if in your web app you follow a directory convention, say <code>src/models/my-model.js</code>, then the framework can require the <code>my-model</code> module on its own. The framework, which is a dependency of the web app, only need know the name of the relation (ie ""todos"") in order to require the model (ie. <code>src/models/todo.js</code>)</p>
+
+<p>I've tried adding my web apps src directory in my web apps webpack chain <code>config.resolve.modules.add(path.resolve(__dirname, 'src'))</code> but it does not seem to apply to the search paths for dependencies (not sure) so my framework lib still can't find modules in my web app.</p>
+
+<p>I've also (desperately) tried passing <code>require</code> from the web app to the dependency and then in the dependency code I call <code>var MyModel = this.thePassedInRequireFn(""./models/"" + modelName)</code>, but it errors:</p>
+
+<pre><code>(`Uncaught Error: Cannot find module './models/my-model'
+    at MyFramework.webpackEmptyContext
+</code></pre>
+
+<p>Anybody have ideas how this can be done?</p>
+
+<p>If the solution can be independent of the use of webpack, that would be ideal, but webpack compatibility is what is most important to me.</p>
+","[""I am writing a framework package which I'd like to make it able to auto require modules from the main projects src/. If you are familiar with rails, this is akin to its autoload feature."", 'So if in your web app you follow a directory convention, say <code>src/models/my-model.js</code>, then the framework can require the <code>my-model</code> module on its own. The framework, which is a dependency of the web app, only need know the name of the relation (ie ""todos"") in order to require the model (ie. <code>src/models/todo.js</code>)', ""I've tried adding my web apps src directory in my web apps webpack chain <code>config.resolve.modules.add(path.resolve(__dirname, 'src'))</code> but it does not seem to apply to the search paths for dependencies (not sure) so my framework lib still can't find modules in my web app."", 'I\'ve also (desperately) tried passing <code>require</code> from the web app to the dependency and then in the dependency code I call <code>var MyModel = this.thePassedInRequireFn(""./models/"" + modelName)</code>, but it errors:', 'Anybody have ideas how this can be done?', 'If the solution can be independent of the use of webpack, that would be ideal, but webpack compatibility is what is most important to me.']",0,0,1
+809,75562630,Unable to make Cucumber plugin in WebStorm IDE to work for test steps written in TypeScript with on-the-fly ESM transpilation,"<p>I don't find a way to correctly configure the Cucumber plugin in WebStorm IDE to work with my TypeScript configuration.</p>
+<p>The setup I would like is the following:</p>
+<ul>
+<li>CucumberJs should be able to run either through CLI (to generate nice reports) or through the WebStorm IDE Cucumber plugin (to have a smoother visualisation of all test execution and be able to navigate easily from failed tests to the faulty code).</li>
+<li>In addition, I don't want to generate JavaScript files related to test files (to keep my project as clean as possible and facilitate the generation of a clean build). Therefore, I would like to transpile the TypeScript Cucumber step files on the fly through ts-node.</li>
+<li>Finally, due to external constraints I cannot change, the whole project should work with &quot;import&quot; dependencies rather than &quot;require&quot; dependencies.</li>
+</ul>
+<p>I have been able to set up correctly CucumberJs through CLI with the following configuration (with Node.js v19.7.0):</p>
+<ul>
+<li>package.json:</li>
+</ul>
+<pre class=""lang-json prettyprint-override""><code>{
+  &quot;name&quot;: &quot;Test config&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;&quot;,
+  &quot;main&quot;: &quot;src/calculator.ts&quot;,
+  &quot;scripts&quot;: {
+    &quot;test1&quot;: &quot;SET NODE_OPTIONS=--loader ts-node/esm --no-warnings --experimental-specifier-resolution=node &amp;&amp; cucumber-js&quot;,
+  },
+  &quot;type&quot;: &quot;module&quot;,
+  &quot;devDependencies&quot;: {
+    &quot;@cucumber/cucumber&quot;: &quot;8.11.1&quot;,
+    &quot;@types/node&quot;: &quot;18.13.0&quot;,
+    &quot;ts-node&quot;: &quot;10.9.1&quot;,
+    &quot;typescript&quot;: &quot;4.9.5&quot;
+  }
+}
+</code></pre>
+<ul>
+<li>cucumber.json:</li>
+</ul>
+<pre class=""lang-json prettyprint-override""><code>{
+  &quot;default&quot;: {
+    &quot;paths&quot;: [&quot;src/*.feature&quot;],
+    &quot;import&quot;: [&quot;src/support/*.steps.ts&quot;],
+    &quot;parallel&quot;: 1,
+    &quot;format&quot;: [&quot;html:cucumber-report.html&quot;],
+    &quot;publishQuiet&quot;: true
+  }
+}
+</code></pre>
+<p>Alas, when I run the feature file through the Cucumber plugin with the following environment variables configured, <code>NODE_OPTIONS=--loader ts-node/esm --no-warnings --experimental-specifier-resolution=node</code> I get the following error:</p>
+<pre><code>&quot;C:\Program Files\nodejs\node.exe&quot; C:\Users\DS\WebstormProjects\cc2\node_modules\@cucumber\cucumber\bin\cucumber-js C:\Users\DS\WebstormProjects\cc2\src\calculator.feature esm --format C:\Users\DS\AppData\Local\JetBrains\Toolbox\apps\WebStorm\ch-0\223.8617.44\plugins\javascript-cucumber\lib\cucumberjs_formatter_v7.js --format-options &quot;{\&quot;cucumberLibPath\&quot;: \&quot;C:/Users/DS/WebstormProjects/cc2/node_modules/@cucumber/cucumber/lib\&quot;}&quot; --format-options &quot;{\&quot;colorsEnabled\&quot;: true}&quot; --publish-quiet --require C:/Users/DS/WebstormProjects/cc2/src
+Testing started at 01:22 ...
+TypeError [ERR_UNKNOWN_FILE_EXTENSION]: Unknown file extension &quot;&quot; for C:\Users\DS\WebstormProjects\cc2\node_modules\@cucumber\cucumber\bin\cucumber-js
+    at new NodeError (node:internal/errors:399:5)
+    at Object.getFileProtocolModuleFormat [as file:] (node:internal/modules/esm/get_format:74:9)
+    at defaultGetFormat (node:internal/modules/esm/get_format:114:38)
+    at defaultLoad (node:internal/modules/esm/load:81:20)
+    at nextLoad (node:internal/modules/esm/loader:163:28)
+    at C:\Users\DS\WebstormProjects\cc2\node_modules\ts-node\src\esm.ts:255:45
+    at async addShortCircuitFlag (C:\Users\DS\WebstormProjects\cc2\node_modules\ts-node\src\esm.ts:409:15)
+    at async nextLoad (node:internal/modules/esm/loader:163:22)
+    at async ESMLoader.load (node:internal/modules/esm/loader:597:20)
+    at async ESMLoader.moduleProvider (node:internal/modules/esm/loader:449:11) {
+  code: 'ERR_UNKNOWN_FILE_EXTENSION'
+}
+
+Process finished with exit code 1
+</code></pre>
+<p>As soon as I rename the <code>C:\Users\DS\WebstormProjects\cc2\node_modules\@cucumber\cucumber\bin\cucumber-js</code> file to <code>[..]\cucumber-js.js</code>, then the plugin work without any problem. Thankfully, then CLI command continue to work too after such modification.</p>
+<p>I am not confident at all that manually renaming a file in the <code>node_module</code> folder won't break something in a near future when I will have totally forgotten this exotic manipulation...</p>
+<p>Does anyone know another way to fix this strange behaviour?</p>
+","[""I don't find a way to correctly configure the Cucumber plugin in WebStorm IDE to work with my TypeScript configuration."", 'The setup I would like is the following:', ""\nCucumberJs should be able to run either through CLI (to generate nice reports) or through the WebStorm IDE Cucumber plugin (to have a smoother visualisation of all test execution and be able to navigate easily from failed tests to the faulty code).\nIn addition, I don't want to generate JavaScript files related to test files (to keep my project as clean as possible and facilitate the generation of a clean build). Therefore, I would like to transpile the TypeScript Cucumber step files on the fly through ts-node.\nFinally, due to external constraints I cannot change, the whole project should work with &quot;import&quot; dependencies rather than &quot;require&quot; dependencies.\n"", 'I have been able to set up correctly CucumberJs through CLI with the following configuration (with Node.js v19.7.0):', '\npackage.json:\n', '\ncucumber.json:\n', 'Alas, when I run the feature file through the Cucumber plugin with the following environment variables configured, <code>NODE_OPTIONS=--loader ts-node/esm --no-warnings --experimental-specifier-resolution=node</code> I get the following error:', 'As soon as I rename the <code>C:\\Users\\DS\\WebstormProjects\\cc2\\node_modules\\@cucumber\\cucumber\\bin\\cucumber-js</code> file to <code>[..]\\cucumber-js.js</code>, then the plugin work without any problem. Thankfully, then CLI command continue to work too after such modification.', ""I am not confident at all that manually renaming a file in the <code>node_module</code> folder won't break something in a near future when I will have totally forgotten this exotic manipulation..."", 'Does anyone know another way to fix this strange behaviour?']",0,0,1
+1313,65857298,Jest: node_module dependency uses import statement and crashes the test,"<h2>TL;DR</h2>
+<p>My Jest test crashes with</p>
+<pre><code>    SyntaxError: Cannot use import statement outside a module
+</code></pre>
+<p>because a <code>node_module</code> uses an <code>import</code> statement. How can I fix this error?</p>
+<h2>Context</h2>
+<p>I'm writing a Next.js app, use Jest as my test runner and <a href=""http://magic.link/"" rel=""nofollow noreferrer"">Magic</a> for authentication. I have <code>ts-node</code> installed to run my Jest tests in TypeScript.</p>
+<p>I want to test a serverless function that uses the <code>@magic-sdk/admin</code> package, which in turn uses <a href=""https://github.com/ethereum/js-ethereum-cryptography"" rel=""nofollow noreferrer"">ethereum-cryptography</a> for its keccak hash algorithm.</p>
+<p>When I run the test it crashes because the <code>ethereum-cryptography</code> package uses an <code>import</code> statement.</p>
+<pre><code> FAIL  src/features/user-authentication/login-handler.test.ts
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    This usually means that you are trying to import a file which Jest cannot parse, e.g. it's not plain JavaScript.
+
+    By default, if Jest sees a Babel config, it will use that to transform your files, ignoring &quot;node_modules&quot;.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/en/ecmascript-modules for how to enable it.
+     • To have some of your &quot;node_modules&quot; files transformed, you can specify a custom &quot;transformIgnorePatterns&quot; in your config.
+     • If you need a custom transformation specify a &quot;transform&quot; option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the &quot;moduleNameMapper&quot; config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/en/configuration.html
+
+    Details:
+
+    /Users/my-computer/dev/my-app/node_modules/ethereum-cryptography/src/keccak.ts:1
+    ({&quot;Object.&lt;anonymous&gt;&quot;:function(module,exports,require,__dirname,__filename,global,jest){import { createHashFunction } from &quot;./hash-utils&quot;;
+                                                                                             ^^^^^^
+
+    SyntaxError: Cannot use import statement outside a module
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1350:14)
+      at Object.&lt;anonymous&gt; (node_modules/ethereum-cryptography/src/keccak.ts:3:26)
+
+Test Suites: 1 failed, 1 total
+Tests:       0 total
+Snapshots:   0 total
+Time:        2.292 s
+Ran all test suites related to changed files.
+</code></pre>
+<p>My <code>tsconfig.json</code> is</p>
+<pre class=""lang-json prettyprint-override""><code>{
+  &quot;compilerOptions&quot;: {
+    &quot;allowJs&quot;: true,
+    &quot;baseUrl&quot;: &quot;./src&quot;,
+    &quot;esModuleInterop&quot;: true,
+    &quot;forceConsistentCasingInFileNames&quot;: true,
+    &quot;isolatedModules&quot;: true,
+    &quot;jsx&quot;: &quot;preserve&quot;,
+    &quot;lib&quot;: [&quot;dom&quot;, &quot;dom.iterable&quot;, &quot;esnext&quot;],
+    &quot;module&quot;: &quot;esnext&quot;,
+    &quot;moduleResolution&quot;: &quot;node&quot;,
+    &quot;noEmit&quot;: true,
+    &quot;resolveJsonModule&quot;: true,
+    &quot;skipLibCheck&quot;: true,
+    &quot;strict&quot;: true,
+    &quot;target&quot;: &quot;es5&quot;
+  },
+  &quot;exclude&quot;: [&quot;node_modules&quot;],
+  &quot;include&quot;: [&quot;next-env.d.ts&quot;, &quot;**/*.ts&quot;, &quot;**/*.tsx&quot;]
+}
+</code></pre>
+<p>My <code>jest.config.ts</code> looks like this.</p>
+<pre><code>export default {
+  moduleDirectories: ['node_modules', 'src'],
+  moduleNameMapper: {
+    '\\.(css|less)$': '&lt;rootDir&gt;/src/tests/mocks/style-mock.js',
+  },
+  setupFilesAfterEnv: ['./jest.setup.ts'],
+  setupFiles: ['&lt;rootDir&gt;/src/tests/setup-environment-variables.js'],
+};
+</code></pre>
+<h2>What I Tried</h2>
+<p>It looks like this is a common error with tons of Google results, but none of them worked. Here is what I tried.</p>
+<p>I tried including the folder in <code>transformIgnorePatterns</code>.</p>
+<pre><code>const esModules = ['ethereum-cryptography', '@magic-sdk/admin'].join('|');
+
+export default {
+  moduleDirectories: ['node_modules', 'src'],
+  moduleNameMapper: {
+    '\\.(css|less)$': '&lt;rootDir&gt;/src/tests/mocks/style-mock.js',
+  },
+  setupFilesAfterEnv: ['./jest.setup.ts'],
+  setupFiles: ['&lt;rootDir&gt;/src/tests/setup-environment-variables.js'],
+  transformIgnorePatterns: [`/node_modules/(?!${esModules})`],
+};
+</code></pre>
+<p>It did not work.</p>
+<p>I tried explicitly transforming it using <code>transform</code> and <code>ts-jest</code>.</p>
+<pre><code>transform: { '^.+\\.(ts|tsx|js|jsx)?$': 'ts-jest' },
+</code></pre>
+<p>I also tried changing the module to <code>commonjs</code> in the <code>tsconfig.json</code>, which didn't work either.</p>
+<p>How can I fix this and get the test to run?</p>
+","['My Jest test crashes with', 'because a <code>node_module</code> uses an <code>import</code> statement. How can I fix this error?', 'I\'m writing a Next.js app, use Jest as my test runner and <a href=""http://magic.link/"" rel=""nofollow noreferrer"">Magic</a> for authentication. I have <code>ts-node</code> installed to run my Jest tests in TypeScript.', 'I want to test a serverless function that uses the <code>@magic-sdk/admin</code> package, which in turn uses <a href=""https://github.com/ethereum/js-ethereum-cryptography"" rel=""nofollow noreferrer"">ethereum-cryptography</a> for its keccak hash algorithm.', 'When I run the test it crashes because the <code>ethereum-cryptography</code> package uses an <code>import</code> statement.', 'My <code>tsconfig.json</code> is', 'My <code>jest.config.ts</code> looks like this.', 'It looks like this is a common error with tons of Google results, but none of them worked. Here is what I tried.', 'I tried including the folder in <code>transformIgnorePatterns</code>.', 'It did not work.', 'I tried explicitly transforming it using <code>transform</code> and <code>ts-jest</code>.', ""I also tried changing the module to <code>commonjs</code> in the <code>tsconfig.json</code>, which didn't work either."", 'How can I fix this and get the test to run?']",0,0,1
+1905,58670722,Axios GET request working on my local build but failing on Heroku - Uncaught (in promise) Error: Request failed with status code 500,"<p>I'm building an application using Django/Python backend and React/JavaScript frontend.  The application is using Axios to import data from another application using an API.  I have deployed the application to Heroku and 4 of the 5 imports are working successfully but one is failing on Heroku (but is working locally).  The import contains a reasonable amount of data and takes the longest of the 5 imports.  Can anyone help me pin down the problem?</p>
+
+<p>This is the error:</p>
+
+<pre><code>createError.js:16 Uncaught (in promise) Error: Request failed with status code 500
+    at e.exports (createError.js:16)
+    at e.exports (settle.js:17)
+    at XMLHttpRequest.f.onreadystatechange (xhr.js:59)
+
+</code></pre>
+
+<p>This is the React component:</p>
+
+<pre><code>import React, { Component } from 'react'
+import axios from 'axios'
+import { formatTimeDate } from '../../lib/helpers'
+
+class CrewLoader extends Component {
+  constructor() {
+    super()
+
+    this.state = {
+      loading: false,
+      crewDataUpdated: ''
+    }
+
+    this.getData = this.getData.bind(this)
+
+  }
+
+  async getData() {
+    this.cancelTokenSource = axios.CancelToken.source()
+    this.setState({ loading: true })
+
+    try {
+
+      const crews = await axios.get('/api/crew-data-import', {
+        cancelToken: this.cancelTokenSource.token
+      })
+      console.log(crews.data)
+
+      this.setState({ crewDataUpdated: Date.now(), loading: false })
+
+    } catch (err) {
+      if (axios.isCancel(err)) {
+        // ignore
+      } else {
+        // propegate
+        throw err
+      }
+    } finally {
+      this.cancelTokenSource = null
+    }
+  }
+  componentWillUnmount() {
+    this.cancelTokenSource &amp;&amp; this.cancelTokenSource.cancel()
+  }
+
+  render() {
+    const { loading } = this.state
+
+    return (
+      &lt;div&gt;
+        &lt;button className=""button is-primary"" onClick={this.getData} disabled={loading}&gt;
+
+          {loading &amp;&amp; &lt;span className=""spinner""&gt;&lt;i
+            className=""fas fa-spinner fa-spin""
+          /&gt; Loading ...&lt;/span&gt;}
+          {!loading &amp;&amp; &lt;span&gt;Get Crew data&lt;/span&gt;}
+
+        &lt;/button&gt;
+        &lt;p&gt;&lt;small&gt;{!this.state.crewDataUpdated ? '' : `Updated: ${formatTimeDate(this.state.crewDataUpdated)}`}&lt;/small&gt;&lt;/p&gt;
+      &lt;/div&gt;
+    )
+  }
+}
+
+export default CrewLoader
+
+</code></pre>
+
+<p>This is the view.py:</p>
+
+<pre><code>class CrewDataImport(APIView):
+
+    def get(self, _request):
+        # Start by deleting all existing crews and times
+        Crew.objects.all().delete()
+        RaceTime.objects.all().delete()
+
+        Meeting = os.getenv(""MEETING2019"") # Competition Meeting API from the Information --&gt; API Key menu
+        UserAPI = os.getenv(""USERAPI"") # As supplied in email
+        UserAuth = os.getenv(""USERAUTH"") # As supplied in email
+
+        header = {'Authorization':UserAuth}
+        request = {'api_key':UserAPI, 'meetingIdentifier':Meeting}
+
+        url = 'https://webapi.britishrowing.org/api/OE2CrewInformation' # change ENDPOINTNAME for the needed endpoint eg OE2MeetingSetup
+
+        r = requests.post(url, json=request, headers=header)
+        if r.status_code == 200:
+            # pprint(r.json())
+
+            for crew in r.json()['crews']:
+
+                data = {
+                    'name': crew['name'],
+                    'id': crew['id'],
+                    'composite_code': crew['compositeCode'],
+                    'club': crew['clubId'],
+                    'rowing_CRI': crew['rowingCRI'],
+                    'rowing_CRI_max': crew['rowingCRIMax'],
+                    'sculling_CRI': crew['scullingCRI'],
+                    'sculling_CRI_max': crew['scullingCRIMax'],
+                    'event': crew['eventId'],
+                    'status': crew['status'],
+                    'bib_number': crew['customCrewNumber'],
+                    'band': crew['bandId'],
+                }
+
+                serializer = WriteCrewSerializer(data=data)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+
+            crews = Crew.objects.all()
+            serializer = WriteCrewSerializer(crews, many=True)
+            return Response(serializer.data)
+
+        return Response(status=400)
+
+</code></pre>
+
+<p>Project urls:</p>
+
+<pre><code>from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('django-admin/', admin.site.urls),
+    path('auth/', include('rest_framework.urls')),
+    path('api/', include('results.urls')),
+    path('api/', include('jwt_auth.urls')),
+    path('', include('frontend.urls')),
+]
+
+</code></pre>
+","[""I'm building an application using Django/Python backend and React/JavaScript frontend.  The application is using Axios to import data from another application using an API.  I have deployed the application to Heroku and 4 of the 5 imports are working successfully but one is failing on Heroku (but is working locally).  The import contains a reasonable amount of data and takes the longest of the 5 imports.  Can anyone help me pin down the problem?"", 'This is the error:', 'This is the React component:', 'This is the view.py:', 'Project urls:']",0,1,0
+968,41459814,electron with angular 2 having issues,"<p><strong>main.desktop.ts</strong></p>
+
+<pre><code>import { UniversalModule, isBrowser, isNode, REQUEST_URL, ORIGIN_URL } from 'angular2-universal';
+
+import { App } from './app/app';
+
+
+@NgModule({
+  bootstrap: [ App ],
+  declarations: [
+    App
+  ],
+  imports: [
+    routing,
+    // Univesal module
+    UniversalModule, // BrowserModule, HttpModule, and JsonpModule are included
+  ],
+  providers: [
+  ],
+  entryComponents: [
+    App
+  ]
+})
+</code></pre>
+
+<p><strong>desktop.ts</strong></p>
+
+<pre><code> // the polyfills must be the first thing imported
+ import 'angular2-universal-polyfills';
+ import 'ts-helpers';
+ import './__workaround.browser.ts';
+
+// Angular 2
+import { enableProdMode } from '@angular/core';
+import { platformUniversalDynamic } from 'angular2-universal/browser';
+import { bootloader } from '@angularclass/bootloader';
+
+import { load as loadWebFont } from 'webfontloader';
+
+// enable prod for faster renders
+enableProdMode();
+
+import { MainModule } from './main.desktop';
+
+const platformRef = platformUniversalDynamic();
+
+// on document ready bootstrap Angular 2
+export function main() {
+  // Load fonts async
+  // https://github.com/typekit/webfontloader#configuration
+  loadWebFont({
+    google: {
+      families: ['Droid Sans']
+    }
+  });
+
+  return platformRef.bootstrapModule(MainModule);
+}
+
+// support async tag or hmr
+bootloader(main);
+</code></pre>
+
+<p>Am getting an error unable to resolve it.. Please help ..... !!! 
+Is that something to do with <strong>angular2-universal</strong> ?</p>
+
+<p><strong>Note:</strong></p>
+
+<p>1.If need any other description please let me know i will provide it.
+2.I am getting the following error;</p>
+
+<blockquote>
+  <p>Unhandled Promise rejection: Parameter 'url' must be a string, not 
+   undefined ; Zone:  ; Task: Promise.then ; Value: TypeError:
+  Parameter 'url' must be a string, not undefined(…) TypeError:
+  Parameter 'url' must be a string, not undefined
+      at Url.parse (url.js:90:11)
+      at urlParse (url.js:84:5)
+      at Object.urlResolve [as resolve] (url.js:422:10)</p>
+</blockquote>
+
+<p>When I comment the <strong>angular2-universal</strong> I get; </p>
+
+<blockquote>
+  <p>Unhandled Promise rejection: No provider for ApplicationRef! ; Zone:
+   ; Task: Promise.then ; Value: NoProviderError Error: No
+  provider for ApplicationRef!
+      at NoProviderError.Error (native)
+      at NoProviderError.BaseError [as constructor]</p>
+</blockquote>
+","['main.desktop.ts', 'desktop.ts', 'Am getting an error unable to resolve it.. Please help ..... !!! \nIs that something to do with angular2-universal ?', 'Note:', '1.If need any other description please let me know i will provide it.\n2.I am getting the following error;', ""Unhandled Promise rejection: Parameter 'url' must be a string, not \n   undefined ; Zone:  ; Task: Promise.then ; Value: TypeError:\n  Parameter 'url' must be a string, not undefined(…) TypeError:\n  Parameter 'url' must be a string, not undefined\n      at Url.parse (url.js:90:11)\n      at urlParse (url.js:84:5)\n      at Object.urlResolve [as resolve] (url.js:422:10)"", 'When I comment the angular2-universal I get; ', 'Unhandled Promise rejection: No provider for ApplicationRef! ; Zone:\n   ; Task: Promise.then ; Value: NoProviderError Error: No\n  provider for ApplicationRef!\n      at NoProviderError.Error (native)\n      at NoProviderError.BaseError [as constructor]']",0,0,1
+585,72519044,You should not use Route outside a router,"<p>I've got a .net 5 app with a ReactJS front-end (v16.14.0), created from the Visual Studio ReactJS + Redux template.
+The app will be accessible from MS Teams and I want to implement single sign on, so I am copying some code from another project that does exactly that (the ProtectedRoute class) however I get the following errors even though I have stripped the project back to bare bones</p>
+<pre><code>Uncaught Error: Invariant failed: You should not use &lt;Route&gt; outside a &lt;Router&gt;
+    at invariant (tiny-invariant.esm.js:12:1)
+    at Route.js:35:1
+    at updateContextConsumer (react-dom.development.js:18304:1)
+    at beginWork (react-dom.development.js:18661:1)
+    at HTMLUnknownElement.callCallback (react-dom.development.js:188:1)
+    at Object.invokeGuardedCallbackDev (react-dom.development.js:237:1)
+    at invokeGuardedCallback (react-dom.development.js:292:1)
+    at beginWork$1 (react-dom.development.js:23203:1)
+    at performUnitOfWork (react-dom.development.js:22154:1)
+    at workLoopSync (react-dom.development.js:22130:1)
+</code></pre>
+<pre><code>The above error occurred in the &lt;Context.Consumer&gt; component:
+    in Route (at ProtectedRoute.tsx:25)
+    in ProtectedRoute (created by Connect(ProtectedRoute))
+    in Connect(ProtectedRoute) (at App.tsx:28)
+    in Switch (at App.tsx:26)
+    in div (at Layout.tsx:11)
+    in div (created by Container)
+    in Container (at Layout.tsx:10)
+    in Layout (at App.tsx:25)
+    in App (at src/index.tsx:40)
+    in Router (created by ConnectedRouter)
+    in ConnectedRouter (created by Context.Consumer)
+    in ConnectedRouterWithContext (created by Connect(ConnectedRouterWithContext))
+    in Connect(ConnectedRouterWithContext) (at src/index.tsx:39)
+    in Provider (at src/index.tsx:38)
+</code></pre>
+<pre><code>Uncaught Error: Invariant failed: You should not use &lt;Route&gt; outside a &lt;Router&gt;
+    at invariant (tiny-invariant.esm.js:12:1)
+    at Route.js:35:1
+    at updateContextConsumer (react-dom.development.js:18304:1)
+    at beginWork (react-dom.development.js:18661:1)
+    at HTMLUnknownElement.callCallback (react-dom.development.js:188:1)
+    at Object.invokeGuardedCallbackDev (react-dom.development.js:237:1)
+    at invokeGuardedCallback (react-dom.development.js:292:1)
+    at beginWork$1 (react-dom.development.js:23203:1)
+    at performUnitOfWork (react-dom.development.js:22154:1)
+    at workLoopSync (react-dom.development.js:22130:1)
+</code></pre>
+<p>The error says that the Route should not be outside the Router, but from the 2nd stack trace and the code below I think it is inside of a ConnectedRouter in the index.tsx.</p>
+<p><strong>Index.tsx</strong></p>
+<pre><code>import 'bootstrap/dist/css/bootstrap.css';
+
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
+
+import configureStore from './store/configureStore';
+import { App } from './App';
+import registerServiceWorker from './registerServiceWorker';
+import { history } from './helpers';
+
+// Get the application-wide store instance, prepopulating with state from the server where available.
+const store = configureStore(history);
+
+ReactDOM.render(
+    &lt;Provider store={store}&gt;
+        &lt;ConnectedRouter history={history}&gt;
+            &lt;App /&gt;
+        &lt;/ConnectedRouter&gt;
+    &lt;/Provider&gt;,
+    document.getElementById('root'));
+
+registerServiceWorker();
+</code></pre>
+<p><strong>App.tsx</strong></p>
+<pre><code>import * as React from 'react';
+import { Route, Switch } from 'react-router';
+
+import Layout from './components/Layout';
+import ProtectedRoute from './components/ProtectedRoute';
+import LoginPage from './pages/LoginPage';
+import WizardPage from './pages/WizardPage';
+import RequestsPage from './pages/RequestsPage';
+
+import './App.scss'
+
+export class App extends React.Component {
+    public render() {
+        const sharedRouteProps = { exact: true, authenticationPath: '/login' };
+        const wizardRouteProps = { ...sharedRouteProps, path: &quot;/&quot;, component: WizardPage };
+        const requestsRouteProps = { ...sharedRouteProps, path: &quot;/requests&quot;, component: RequestsPage };
+
+        return (
+            &lt;Layout&gt;
+                &lt;Switch&gt;
+                    &lt;Route exact path='/login' component={LoginPage} /&gt;
+                    &lt;ProtectedRoute {...wizardRouteProps} /&gt;
+                    &lt;ProtectedRoute {...requestsRouteProps} /&gt;
+                &lt;/Switch&gt;
+            &lt;/Layout&gt;
+        );
+    }
+}
+</code></pre>
+<p><strong>ProtectedRoute.tsx</strong></p>
+<pre><code>import * as React from 'react'
+import { connect } from 'react-redux';
+import { Redirect, Route } from 'react-router-dom';
+import { ApplicationState } from '../store';
+import * as AppConfigStore from '../store/AppConfig';
+
+export interface IProtectedRouteProps {
+    authenticationPath: string;
+    component: any;
+    path?: string;
+    exact?: boolean;
+    user: AppConfigStore.User | undefined;
+}
+
+class ProtectedRoute extends React.Component&lt;IProtectedRouteProps&gt; {
+    public render() {
+        if (this.props.user) {
+            return (
+                &lt;Route {...this.props} /&gt;
+            );
+        } else {
+            const redirectComponent = () =&gt; &lt;Redirect to={{ pathname: this.props.authenticationPath }} /&gt;;
+
+            return (
+                &lt;Route {...this.props} component={redirectComponent} render={undefined} /&gt;
+            );
+        }
+    }
+}
+
+const mapStateToProps = (state: ApplicationState) =&gt; ({
+    user: state.appConfig ? (state.appConfig as AppConfigStore.AppConfigState).user : undefined
+});
+
+export default connect(
+    mapStateToProps,
+    AppConfigStore.actionCreators
+)(ProtectedRoute as any); // eslint-disable-line @typescript-eslint/no-explicit-any
+</code></pre>
+<p>why does it think the Route is outside the Router?</p>
+","[""I've got a .net 5 app with a ReactJS front-end (v16.14.0), created from the Visual Studio ReactJS + Redux template.\nThe app will be accessible from MS Teams and I want to implement single sign on, so I am copying some code from another project that does exactly that (the ProtectedRoute class) however I get the following errors even though I have stripped the project back to bare bones"", 'The error says that the Route should not be outside the Router, but from the 2nd stack trace and the code below I think it is inside of a ConnectedRouter in the index.tsx.', 'Index.tsx', 'App.tsx', 'ProtectedRoute.tsx', 'why does it think the Route is outside the Router?']",1,0,0
+887,67741286,"Next.js Webviewer Reference Error on build, window is not defined","<p>I am creating a website where I have a pdf viewer inside my page imported dynamically.
+the code runs locally without errors, but during the &quot;npm run build&quot; command I find the following error:</p>
+<pre><code>&gt; Build error occurred
+ReferenceError: window is not defined
+    at Object.&lt;anonymous&gt; (C:\Users\GustavoMorilla\MyProfile\node_modules\@pdftron\webviewer\webviewer.min.js:1:224)
+    at Object.g7Pv (C:\Users\Gustavo Morilla\MyProfile\.next\server\pages\resume\viewer.js:121:18)    
+    at __webpack_require__ (C:\Users\Gustavo Morilla\MyProfile\.next\server\pages\resume\viewer.js:23:31)
+    at Module.vRHl (C:\Users\Gustavo Morilla\MyProfile\.next\server\pages\resume\viewer.js:134:76) {  
+  type: 'ReferenceError'
+info  - Collecting page data .npm ERR! code ELIFECYCLE }
+</code></pre>
+<p>viewer.js code:</p>
+<pre><code>import React, { useRef, useEffect } from &quot;react&quot;;
+import WebViewer from &quot;@pdftron/webviewer&quot;;
+
+const Viewer = () =&gt; {
+  const viewer = useRef(null);
+
+  useEffect(() =&gt; {   
+    WebViewer(
+      {
+        path: '/lib',
+        initialDoc: &quot;/pdf/GustavoMorilla.pdf&quot;,
+      },
+      viewer.current
+    ).then(function (instance) {
+      instance.setTheme(&quot;dark&quot;);
+    });
+  }, []);
+
+  return (
+    &lt;div&gt;      
+        &lt;div className=&quot;Viewer&quot;&gt;  
+        &lt;div className=&quot;header flex justify-between&quot;&gt;          
+          &lt;a&gt;Resume&lt;/a&gt;
+          &lt;a className=&quot;text-sm&quot;&gt;You can download the file on &quot;Settings&quot; button&lt;/a&gt;         
+        &lt;/div&gt;    
+        &lt;div className=&quot;Webviewer&quot; ref={viewer}&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default Viewer;
+</code></pre>
+<p>resume.js code:</p>
+<pre><code>import SiteLayout from &quot;../../components/SiteLayout&quot;;
+import React from &quot;react&quot;;
+import dynamic from &quot;next/dynamic&quot;;
+const Viewer = dynamic(() =&gt; import(&quot;../resume/viewer.js&quot;), { ssr: false });
+
+export default function Resume({ resume }) {
+  return (
+    &lt;div&gt;
+      &lt;SiteLayout&gt;    
+      &lt;div className=&quot;main w-screen&quot;&gt;                         
+          &lt;Viewer /&gt;     
+        &lt;/div&gt;               
+      &lt;/SiteLayout&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+<p>should be something related with the SSR or lifecycle... i dont know.</p>
+","['I am creating a website where I have a pdf viewer inside my page imported dynamically.\nthe code runs locally without errors, but during the &quot;npm run build&quot; command I find the following error:', 'viewer.js code:', 'resume.js code:', 'should be something related with the SSR or lifecycle... i dont know.']",0,1,0
+,,,,,,,

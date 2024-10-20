@@ -1,0 +1,2721 @@
+,QId,QTitle,QBody,Text,Why,What,How
+1368,38757308,Running React-Native App locally (FB F8 App) - Build Failed Error,"<p>I am trying to run a the react-native app that was used at F8 locally.  I am following the instructions here: <a href=""http://makeitopen.com/tutorials/building-the-f8-app/local-setup/"" rel=""nofollow"">http://makeitopen.com/tutorials/building-the-f8-app/local-setup/</a></p>
+
+<p>I have everything work correctly (I can go to <a href=""http://localhost:8080/dashboard/apps"" rel=""nofollow"">http://localhost:8080/dashboard/apps</a> and <a href=""http://localhost:8080/graphql"" rel=""nofollow"">http://localhost:8080/graphql</a> and see data and run queries)</p>
+
+<p>However, when I try to run the builds for iOS and Android, I am running into errors.</p>
+
+<p>Android Error:</p>
+
+<pre><code>FAILURE: Build failed with an exception.
+
+* Where:
+Build file '/Users/thisuser/f8app/android/app/build.gradle' line: 124
+
+* What went wrong:
+A problem occurred evaluating project ':app'.
+&gt; SDK location not found. Define location with sdk.dir in the local.properties file or with an ANDROID_HOME environment variable.
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output.
+
+BUILD FAILED
+
+Total time: 1 mins 4.006 secs
+Could not install the app on the device, read the error above for details.
+Make sure you have an Android emulator running or a device connected and have
+set up your Android development environment:
+https://facebook.github.io/react-native/docs/android-setup.html
+</code></pre>
+
+<p>iOS Error:</p>
+
+<pre><code>=== BUILD TARGET CodePush OF PROJECT Pods WITH CONFIGURATION Debug ===
+
+Check dependencies
+
+** BUILD FAILED **
+
+
+The following build commands failed:
+    CompileC /Users/thisuser/f8app/ios/build/Build/Intermediates/Pods.build/Debug-iphonesimulator/react-native-fbsdk.build/Objects-normal/x86_64/RCTConvert+FBSDKSharingContent.o /Users/thisuser/f8app/node_modules/react-native-fbsdk/iOS/RCTFBSDK/share/RCTConvert+FBSDKSharingContent.m normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+(1 failure)
+Installing build/Build/Products/Debug-iphonesimulator/F8v2.app
+An error was encountered processing the command (domain=NSPOSIXErrorDomain, code=2):
+Failed to install the requested application
+An application bundle was not found at the provided path.
+Provide a valid path to the desired application bundle.
+Print: Entry, "":CFBundleIdentifier"", Does Not Exist
+/Users/thisuser/f8app/node_modules/react-native/node_modules/promise/lib/done.js:10
+      throw err;
+      ^
+
+Error: Command failed: /usr/libexec/PlistBuddy -c Print:CFBundleIdentifier build/Build/Products/Debug-iphonesimulator/F8v2.app/Info.plist
+Print: Entry, "":CFBundleIdentifier"", Does Not Exist
+
+    at checkExecSyncError (child_process.js:464:13)
+    at Object.execFileSync (child_process.js:484:13)
+    at _runIOS (/Users/thisuser/f8app/node_modules/react-native/local-cli/runIOS/runIOS.js:82:32)
+    at /Users/thisuser/f8app/node_modules/react-native/local-cli/runIOS/runIOS.js:24:5
+    at tryCallTwo (/Users/thisuser/f8app/node_modules/react-native/node_modules/promise/lib/core.js:45:5)
+    at doResolve (/Users/thisuser/f8app/node_modules/react-native/node_modules/promise/lib/core.js:200:13)
+    at new Promise (/Users/thisuser/f8app/node_modules/react-native/node_modules/promise/lib/core.js:66:3)
+    at Array.runIOS (/Users/thisuser/f8app/node_modules/react-native/local-cli/runIOS/runIOS.js:23:10)
+    at Object.run (/Users/thisuser/f8app/node_modules/react-native/local-cli/cliEntry.js:96:13)
+    at Object.&lt;anonymous&gt; (/usr/local/lib/node_modules/react-native-cli/index.js:88:7)
+</code></pre>
+
+<p>How do I make these work?</p>
+","['I am trying to run a the react-native app that was used at F8 locally.  I am following the instructions here: <a href=""http://makeitopen.com/tutorials/building-the-f8-app/local-setup/"" rel=""nofollow"">http://makeitopen.com/tutorials/building-the-f8-app/local-setup/</a>', 'I have everything work correctly (I can go to <a href=""http://localhost:8080/dashboard/apps"" rel=""nofollow"">http://localhost:8080/dashboard/apps</a> and <a href=""http://localhost:8080/graphql"" rel=""nofollow"">http://localhost:8080/graphql</a> and see data and run queries)', 'However, when I try to run the builds for iOS and Android, I am running into errors.', 'Android Error:', 'iOS Error:', 'How do I make these work?']",0,0,1
+86,48223713,angular-calendar subFn is not a function,"<p>I having troubles using the angular 5 calendar component  <a href=""https://mattlewis92.github.io/angular-calendar"" rel=""noreferrer"">https://mattlewis92.github.io/angular-calendar</a></p>
+
+<p>The calendar renders perfectly, including events etc.
+However, Using <em>mwlCalendarPreviousView</em> and <em>mwlCalendarNextView</em> directives do not work.</p>
+
+<p>Clicking on then do give the following error:</p>
+
+<pre><code>ERROR TypeError: subFn is not a function
+    at CalendarPreviousViewDirective.onClick (angular-calendar.js:239)
+    at Object.eval [as handleEvent] (PlanningOverview.html:58)
+    at handleEvent (core.js:13581)
+    at callWithDebugContext (core.js:15090)
+    at Object.debugHandleEvent [as handleEvent] (core.js:14677)
+</code></pre>
+
+<p>Navigating to the source of that <em>onClick</em> method shows me the following:</p>
+
+<pre><code> /**
+  * @hidden
+  * @return {?}
+  */
+  CalendarNextViewDirective.prototype.onClick = function () {
+        var /** @type {?} */ addFn = {
+            day: addDays,
+            week: addWeeks,
+            month: addMonths
+        }[this.view];
+        this.viewDateChange.emit(addFn(this.viewDate, 1));
+    };
+    return CalendarNextViewDirective;
+</code></pre>
+
+<p>Which shows that <em>subFn</em> is indeed not a function.</p>
+
+<p>I must be doing something wrong, but I can't find what...</p>
+
+<p>(I'm using angular-calendar 0.23.2 on Angular 5.0.00)</p>
+","['I having troubles using the angular 5 calendar component  <a href=""https://mattlewis92.github.io/angular-calendar"" rel=""noreferrer"">https://mattlewis92.github.io/angular-calendar</a>', 'The calendar renders perfectly, including events etc.\nHowever, Using <em>mwlCalendarPreviousView</em> and <em>mwlCalendarNextView</em> directives do not work.', 'Clicking on then do give the following error:', 'Navigating to the source of that <em>onClick</em> method shows me the following:', 'Which shows that <em>subFn</em> is indeed not a function.', ""I must be doing something wrong, but I can't find what..."", ""(I'm using angular-calendar 0.23.2 on Angular 5.0.00)""]",0,1,0
+199,56405257,intent-filter build two apps instead of one in Android Studio,"<p>I have a react native Project that's integrated with onesignal notification, in Android app when I built my app using Android Studio it installs two apps one called onesignal and the other one my main app and app runs perfect </p>
+
+<p>I tried to remove the intent from my activity </p>
+
+<pre><code>       &lt;activity android:name=""bkholdnews.beonews.MainActivity"" android:label=""OneSignal Example"" android:launchMode=""singleTop"" &gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name=""android.intent.action.MAIN"" /&gt;
+                &lt;category android:name=""android.intent.category.LAUNCHER"" /&gt;
+            &lt;/intent-filter&gt;
+        &lt;/activity&gt;
+</code></pre>
+
+<p>and rebuilt the app, it installs one app but when I open it it says app keeps stooping!</p>
+
+<p>my MainActivity code</p>
+
+<pre><code>&lt;manifest xmlns:android=""http://schemas.android.com/apk/res/android""
+    package=""com.hhz20.bkholdnews""
+    android:versionCode=""29""
+    android:versionName=""1.0""&gt;
+
+    &lt;uses-permission android:name=""android.permission.INTERNET"" /&gt;
+    &lt;uses-permission android:name=""android.permission.SYSTEM_ALERT_WINDOW""/&gt;
+    &lt;uses-permission android:name=""android.permission.ACCESS_COARSE_LOCATION""/&gt; &lt;!-- Approximate location - If you want to use promptLocation for letting OneSignal know the user location. --&gt;
+    &lt;uses-permission android:name=""android.permission.ACCESS_FINE_LOCATION""/&gt; &lt;!--  Precise location If you want to use promptLocation for letting OneSignal know the user location. --&gt;
+
+    &lt;uses-sdk
+        android:minSdkVersion=""16""
+        android:targetSdkVersion=""22"" /&gt;
+
+    &lt;application
+        android:name=""bkholdnews.beonews.MainApplication""
+        android:allowBackup=""true""
+        android:hardwareAccelerated=""true""
+        android:usesCleartextTraffic=""true""
+        android:largeHeap=""true""
+        android:supportsRtl=""true""
+        android:label=""@string/app_name""
+        android:icon=""@drawable/icon""
+        android:theme=""@style/SplashTheme""&gt;
+
+        &lt;activity
+            android:launchMode=""singleTop""
+            android:name=""bkholdnews.beonews.SplashActivity""
+            android:label=""@string/app_name""
+            android:configChanges=""keyboard|keyboardHidden|orientation|screenSize""
+            android:windowSoftInputMode=""adjustResize""&gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name=""android.intent.action.MAIN"" /&gt;
+                &lt;category android:name=""android.intent.category.LAUNCHER"" /&gt;
+            &lt;/intent-filter&gt;
+        &lt;/activity&gt;
+
+        &lt;activity android:name=""bkholdnews.beonews.MainActivity"" android:label=""OneSignal Example"" android:launchMode=""singleTop"" &gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name=""android.intent.action.MAIN"" /&gt;
+                &lt;category android:name=""android.intent.category.LAUNCHER"" /&gt;
+            &lt;/intent-filter&gt;
+        &lt;/activity&gt;
+        &lt;activity android:name=""com.facebook.react.devsupport.DevSettingsActivity"" /&gt;
+        &lt;meta-data android:name=""com.facebook.sdk.ApplicationId"" android:value=""@string/facebook_app_id""/&gt;
+    &lt;/application&gt;
+
+&lt;/manifest&gt;
+
+</code></pre>
+
+<p>CRASH LOGCAT</p>
+
+<pre><code>    --------- beginning of crash
+2019-06-01 17:31:18.598 30803-30803/com.hhz20.bkholdnews E/AndroidRuntime: FATAL EXCEPTION: main
+    Process: com.hhz20.bkholdnews, PID: 30803
+    java.lang.RuntimeException: Unable to start activity ComponentInfo{com.hhz20.bkholdnews/bkholdnews.beonews.SplashActivity}: android.content.res.Resources$NotFoundException: Drawable com.hhz20.bkholdnews:drawable/splash_screen with resource ID #0x7f0700b1
+        at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2913)
+        at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:3048)
+        at android.app.servertransaction.LaunchActivityItem.execute(LaunchActivityItem.java:78)
+        at android.app.servertransaction.TransactionExecutor.executeCallbacks(TransactionExecutor.java:108)
+        at android.app.servertransaction.TransactionExecutor.execute(TransactionExecutor.java:68)
+        at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1808)
+        at android.os.Handler.dispatchMessage(Handler.java:106)
+        at android.os.Looper.loop(Looper.java:193)
+        at android.app.ActivityThread.main(ActivityThread.java:6669)
+        at java.lang.reflect.Method.invoke(Native Method)
+        at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:493)
+        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:858)
+     Caused by: android.content.res.Resources$NotFoundException: Drawable com.hhz20.bkholdnews:drawable/splash_screen with resource ID #0x7f0700b1
+     Caused by: android.content.res.Resources$NotFoundException: File res/drawable/splash_screen.xml from drawable resource ID #0x7f0700b1
+        at android.content.res.ResourcesImpl.loadDrawableForCookie(ResourcesImpl.java:847)
+        at android.content.res.ResourcesImpl.loadDrawable(ResourcesImpl.java:631)
+        at android.content.res.Resources.getDrawableForDensity(Resources.java:888)
+        at android.content.res.Resources.getDrawable(Resources.java:827)
+        at android.content.Context.getDrawable(Context.java:626)
+        at android.support.v4.content.ContextCompat.getDrawable(ContextCompat.java:463)
+        at android.support.v7.widget.AppCompatDrawableManager.getDrawable(AppCompatDrawableManager.java:203)
+        at android.support.v7.widget.TintTypedArray.getDrawableIfKnown(TintTypedArray.java:86)
+        at android.support.v7.app.AppCompatDelegateImpl.&lt;init&gt;(AppCompatDelegateImpl.java:260)
+        at android.support.v7.app.AppCompatDelegate.create(AppCompatDelegate.java:182)
+        at android.support.v7.app.AppCompatActivity.getDelegate(AppCompatActivity.java:520)
+        at android.support.v7.app.AppCompatActivity.onCreate(AppCompatActivity.java:71)
+        at bkholdnews.beonews.SplashActivity.onCreate(SplashActivity.java:9)
+        at android.app.Activity.performCreate(Activity.java:7136)
+        at android.app.Activity.performCreate(Activity.java:7127)
+        at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1271)
+        at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2893)
+        at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:3048)
+        at android.app.servertransaction.LaunchActivityItem.execute(LaunchActivityItem.java:78)
+        at android.app.servertransaction.TransactionExecutor.executeCallbacks(TransactionExecutor.java:108)
+        at android.app.servertransaction.TransactionExecutor.execute(TransactionExecutor.java:68)
+        at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1808)
+        at android.os.Handler.dispatchMessage(Handler.java:106)
+        at android.os.Looper.loop(Looper.java:193)
+        at android.app.ActivityThread.main(ActivityThread.java:6669)
+        at java.lang.reflect.Method.invoke(Native Method)
+        at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:493)
+        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:858)
+     Caused by: org.xmlpull.v1.XmlPullParserException: Binary XML file line #4: &lt;bitmap&gt; requires a valid 'src' attribute
+        at android.graphics.drawable.BitmapDrawable.updateStateFromTypedArray(BitmapDrawable.java:849)
+        at android.graphics.drawable.BitmapDrawable.inflate(BitmapDrawable.java:770)
+        at android.graphics.drawable.DrawableInflater.inflateFromXmlForDensity(DrawableInflater.java:142)
+2019-06-01 17:31:18.599 30803-30803/com.hhz20.bkholdnews E/AndroidRuntime:     at android.graphics.drawable.Drawable.createFromXmlInnerForDensity(Drawable.java:1332)
+        at android.graphics.drawable.Drawable.createFromXmlInner(Drawable.java:1321)
+        at android.graphics.drawable.LayerDrawable.inflateLayers(LayerDrawable.java:279)
+        at android.graphics.drawable.LayerDrawable.inflate(LayerDrawable.java:194)
+        at android.graphics.drawable.DrawableInflater.inflateFromXmlForDensity(DrawableInflater.java:142)
+        at android.graphics.drawable.Drawable.createFromXmlInnerForDensity(Drawable.java:1332)
+        at android.graphics.drawable.Drawable.createFromXmlForDensity(Drawable.java:1291)
+        at android.content.res.ResourcesImpl.loadDrawableForCookie(ResourcesImpl.java:833)
+            ... 27 more
+2019-06-01 17:31:18.612 30803-30803/com.hhz20.bkholdnews I/Process: Sending signal. PID: 30803 SIG: 9
+</code></pre>
+","[""I have a react native Project that's integrated with onesignal notification, in Android app when I built my app using Android Studio it installs two apps one called onesignal and the other one my main app and app runs perfect "", 'I tried to remove the intent from my activity ', 'and rebuilt the app, it installs one app but when I open it it says app keeps stooping!', 'my MainActivity code', 'CRASH LOGCAT']",0,0,1
+1337,48710814,redux-observable error: Uncaught TypeError: You provided an invalid object where a stream was expected,"<p>I'm using react native, redux, and redux-observables(with rxjs5), and making an ajax request. the problem is I can't return actions when an error happens.</p>
+
+<p>here is my code:</p>
+
+<p><div class=""snippet"" data-lang=""js"" data-hide=""false"" data-console=""true"" data-babel=""false"">
+<div class=""snippet-code"">
+<pre class=""snippet-code-js lang-js prettyprint-override""><code>//action creators
+export const loginSucceeded = token =&gt; {
+ return {
+  type: Types.LOGIN_SUCCEEDED,
+  payload: {
+   token
+  }
+ };
+};
+
+export const login = (username, password) =&gt; {
+ return {
+  type: Types.LOGIN,
+  pauload: {
+   username,
+   password
+  }
+ };
+};
+
+export const loginFailed = () =&gt; {
+ return {
+  type: Types.LOGIN_FAILED
+ };
+};
+
+
+//epic
+const authEpic = (action$, store$) =&gt;
+ action$.ofType(Types.LOGIN).mergeMap(action =&gt; {
+  const authBody = {..};
+  const headers = {..};
+  return ajax
+   .post(API.LOGIN, authBody, headers)
+   .map(result =&gt; {
+    return Actions.loginSucceeded(result.response.access_token);
+   })
+   .catch(err =&gt; {
+    return Actions.loginFailed();
+   });
+ });</code></pre>
+</div>
+</div>
+</p>
+
+<p>apparently, the problem is with this line:</p>
+
+<p><code>return Observable.of(Actions.loginFailed());</code></p>
+
+<p>if I change it to return each of these sentences, I still get the same error</p>
+
+<p><div class=""snippet"" data-lang=""js"" data-hide=""false"" data-console=""true"" data-babel=""false"">
+<div class=""snippet-code"">
+<pre class=""snippet-code-js lang-js prettyprint-override""><code>Observable.of(Actions.loginFailed);
+Observable.of(Actions.loginFailed());
+Actions.loginFailed;
+Actions.loginFailed();</code></pre>
+</div>
+</div>
+</p>
+
+<p>and here  is the error:</p>
+
+<p><div class=""snippet"" data-lang=""js"" data-hide=""false"" data-console=""true"" data-babel=""false"">
+<div class=""snippet-code"">
+<pre class=""snippet-code-html lang-html prettyprint-override""><code>index.bundle?platform=ios&amp;dev=true&amp;minify=false:78220 Uncaught TypeError: You provided an invalid object where a stream was expected. You can provide an Observable, Promise, Array, or Iterable.
+    at Object.subscribeToResult (index.bundle?platform=ios&amp;dev=true&amp;minify=false:78220)
+    at CatchSubscriber.error (Button.js:88)
+    at MergeMapSubscriber.OuterSubscriber.notifyError (index.js:19)
+    at InnerSubscriber._error (Button.js:15)
+    at InnerSubscriber.Subscriber.error (observable.js:13)
+    at MapSubscriber._next (Rx.js:55)
+    at MapSubscriber.Subscriber.next (observable.js:5)
+    at MapSubscriber._next (Rx.js:57)
+    at MapSubscriber.Subscriber.next (observable.js:5)
+    at AjaxSubscriber.next (ReplaySubject.js:82)</code></pre>
+</div>
+</div>
+</p>
+
+<p>and I read lots of StackOverflow questions about it, but almost all of them had the wrong functioncalls, and none applied to or worked on my problem.</p>
+","[""I'm using react native, redux, and redux-observables(with rxjs5), and making an ajax request. the problem is I can't return actions when an error happens."", 'here is my code:', '<div class=""snippet"" data-lang=""js"" data-hide=""false"" data-console=""true"" data-babel=""false"">\r\n<div class=""snippet-code"">\r\n<pre class=""snippet-code-js lang-js prettyprint-override""><code>//action creators\r\nexport const loginSucceeded = token =&gt; {\r\n return {\r\n  type: Types.LOGIN_SUCCEEDED,\r\n  payload: {\r\n   token\r\n  }\r\n };\r\n};\r\n\r\nexport const login = (username, password) =&gt; {\r\n return {\r\n  type: Types.LOGIN,\r\n  pauload: {\r\n   username,\r\n   password\r\n  }\r\n };\r\n};\r\n\r\nexport const loginFailed = () =&gt; {\r\n return {\r\n  type: Types.LOGIN_FAILED\r\n };\r\n};\r\n\r\n\r\n//epic\r\nconst authEpic = (action$, store$) =&gt;\r\n action$.ofType(Types.LOGIN).mergeMap(action =&gt; {\r\n  const authBody = {..};\r\n  const headers = {..};\r\n  return ajax\r\n   .post(API.LOGIN, authBody, headers)\r\n   .map(result =&gt; {\r\n    return Actions.loginSucceeded(result.response.access_token);\r\n   })\r\n   .catch(err =&gt; {\r\n    return Actions.loginFailed();\r\n   });\r\n });</code></pre>\r\n</div>\r\n</div>\r\n', 'apparently, the problem is with this line:', '<code>return Observable.of(Actions.loginFailed());</code>', 'if I change it to return each of these sentences, I still get the same error', '<div class=""snippet"" data-lang=""js"" data-hide=""false"" data-console=""true"" data-babel=""false"">\r\n<div class=""snippet-code"">\r\n<pre class=""snippet-code-js lang-js prettyprint-override""><code>Observable.of(Actions.loginFailed);\r\nObservable.of(Actions.loginFailed());\r\nActions.loginFailed;\r\nActions.loginFailed();</code></pre>\r\n</div>\r\n</div>\r\n', 'and here  is the error:', '<div class=""snippet"" data-lang=""js"" data-hide=""false"" data-console=""true"" data-babel=""false"">\r\n<div class=""snippet-code"">\r\n<pre class=""snippet-code-html lang-html prettyprint-override""><code>index.bundle?platform=ios&amp;dev=true&amp;minify=false:78220 Uncaught TypeError: You provided an invalid object where a stream was expected. You can provide an Observable, Promise, Array, or Iterable.\r\n    at Object.subscribeToResult (index.bundle?platform=ios&amp;dev=true&amp;minify=false:78220)\r\n    at CatchSubscriber.error (Button.js:88)\r\n    at MergeMapSubscriber.OuterSubscriber.notifyError (index.js:19)\r\n    at InnerSubscriber._error (Button.js:15)\r\n    at InnerSubscriber.Subscriber.error (observable.js:13)\r\n    at MapSubscriber._next (Rx.js:55)\r\n    at MapSubscriber.Subscriber.next (observable.js:5)\r\n    at MapSubscriber._next (Rx.js:57)\r\n    at MapSubscriber.Subscriber.next (observable.js:5)\r\n    at AjaxSubscriber.next (ReplaySubject.js:82)</code></pre>\r\n</div>\r\n</div>\r\n', 'and I read lots of StackOverflow questions about it, but almost all of them had the wrong functioncalls, and none applied to or worked on my problem.']",1,0,0
+1424,47079523,Localization using Angular CLI with i18n results in error regarding MissingTranslationStrategy,"<p>I am trying to execute this command from:</p>
+
+<pre><code>./node_modules/.bin/ngc -p ./Root --i18nFile=./Root/Localization/Resources.es.xlf --locale=es --i18nFormat=xlf --missingTranslation=warning
+</code></pre>
+
+<p>But I get the following error:</p>
+
+<pre><code>Error: TypeError: Cannot read property 'MissingTranslationStrategy' of undefined
+    at getAotCompilerOptions (...\node_modules\@angular\compiler-cli\src\transformers\program.js:611:45)
+    at AngularCompilerProgram._createCompiler (...\node_modules\@angular\compiler-cli\src\transformers\program.js:390:26)
+    at AngularCompilerProgram.get [as hostAdapter] (...\node_modules\@angular\compiler-cli\src\transformers\program.js:319:22)
+    at AngularCompilerProgram._createProgramWithBasicStubs (...\node_modules\@angular\compiler-cli\src\transformers\program.js:431:72)
+    at AngularCompilerProgram.initSync (...\node_modules\@angular\compiler-cli\src\transformers\program.js:373:27)
+    at AngularCompilerProgram.get [as tsProgram] (...\node_modules\@angular\compiler-cli\src\transformers\program.js:349:22)
+    at AngularCompilerProgram.getTsOptionDiagnostics (...\node_modules\@angular\compiler-cli\src\transformers\program.js:104:20)
+    at defaultGatherDiagnostics (...\node_modules\@angular\compiler-cli\src\perform_compile.js:181:34)
+    at Object.performCompilation (...\node_modules\@angular\compiler-cli\src\perform_compile.js:138:51)
+    at main (...\node_modules\@angular\compiler-cli\src\main.js:29:42)
+</code></pre>
+
+<p>It seems like <code>core</code> is undefined in <code>compiler-cli/src/transformers/program.ts</code>.</p>
+
+<pre><code>import { ..., core, ... } from '@angular/compiler';
+
+function getAotCompilerOptions(options: CompilerOptions): AotCompilerOptions {
+    let missingTranslation = core.MissingTranslationStrategy.Warning;
+    ...
+}
+</code></pre>
+
+<p>Hopefully someone knows or have experienced the same and are able to help.</p>
+
+<p>Thanks in advance.</p>
+","['I am trying to execute this command from:', 'But I get the following error:', 'It seems like <code>core</code> is undefined in <code>compiler-cli/src/transformers/program.ts</code>.', 'Hopefully someone knows or have experienced the same and are able to help.', 'Thanks in advance.']",0,0,1
+962,39512288,Angular 2 module (Fuel-ui) doesn't work if it's loaded from another directory,"<p>We're using Gulp (just migrated from ng-cli) to build our angular<strong>2</strong> project where I use Fuel-ui. </p>
+
+<p>I have a strange error. I use Fuel-ui's alert component in one of our components. If we reference fuel-ui from 
+ node_modules/fuel-ui folder in system.config.js everything is fine. If I reference it from build/vendor/fuel-ui, it fails with the following error: </p>
+
+<pre><code>    EXCEPTION: Unexpected directive value 'undefined' on the View of component 'MyAlertComponent'
+platform-browser.umd.js:1900 EXCEPTION: Unexpected directive value 'undefined' on the View of component 'MyAlertComponent'BrowserDomAdapter.logError @ platform-browser.umd.js:1900
+platform-browser.umd.js:1900 STACKTRACE:BrowserDomAdapter.logError @ platform-browser.umd.js:1900
+platform-browser.umd.js:1900 Error: Unexpected directive value 'undefined' on the View of component 'MyAlertComponent'
+    at new BaseException$1 (http://127.0.0.1:3000/node_modules/@angular/compiler/bundles/compiler.umd.js:971:27)
+    at CompileMetadataResolver.getViewDirectivesMetadata (http://127.0.0.1:3000/node_modules/@angular/compiler/bundles/compiler.umd.js:12539:27)
+    at RuntimeCompiler._getCompiledTemplate (http://127.0.0.1:3000/node_modules/@angular/compiler/bundles/compiler.umd.js:14619:40)
+    at RuntimeCompiler._getTransitiveCompiledTemplates (http://127.0.0.1:3000/node_modules/@angular/compiler/bundles/compiler.umd.js:14637:84)
+    at eval (http://127.0.0.1:3000/node_modules/@angular/compiler/bundles/compiler.umd.js:14640:81)
+    at Array.forEach (native)
+    at RuntimeCompiler._getTransitiveCompiledTemplates (http://127.0.0.1:3000/node_modules/@angular/compiler/bundles/compiler.umd.js:14640:45)
+    at eval (http://127.0.0.1:3000/node_modules/@angular/compiler/bundles/compiler.umd.js:14640:81)
+    at Array.forEach (native)
+    at RuntimeCompiler._getTransitiveCompiledTemplates (http://127.0.0.1:3000/node_modules/@angular/compiler/bundles/compiler.umd.js:14640:45)BrowserDomAdapter.logError @ platform-browser.umd.js:1900
+zone.min.js:1 Error: Error: Unexpected directive value 'undefined' on the View of component 'MyAlertComponent'
+</code></pre>
+
+<p>Relevant part of systemjs.config.js:
+works, no error:</p>
+
+<pre><code>var map = {
+        ...
+
+    ""fuel-ui"":                     ""node_modules/fuel-ui/bundles"",
+    ...
+        };
+</code></pre>
+
+<p>doesn't work, gives exception:</p>
+
+<pre><code>var map = {
+        ...
+
+    ""fuel-ui"":                     ""build/vendor/fuel-ui/bundles"",
+    ...
+        };
+</code></pre>
+
+<p>Relevant part of the component:</p>
+
+<pre><code>import {Component, Input,ElementRef} from '@angular/core';
+import {Alert} from 'fuel-ui/fuel-ui';
+
+@Component({
+  host: {
+    '(document:click)': 'onClick($event)',
+  },
+  selector: 'my-alert',
+  templateUrl: './app/components/shared/my-alert.component.html',
+  directives: [ Alert ]  
+})
+export class MyAlertComponent {
+</code></pre>
+
+<p>A part of package.json:</p>
+
+<pre><code>    ""fuel-ui"": ""0.3.9"",
+    ""jquery"": ""2.1.3"",
+    ""ng2-bootstrap"": ""1.0.24"",
+    ""node-sass"": ""^3.7.0"",
+    ""reflect-metadata"": ""0.1.3"",
+    ""rxjs"": ""5.0.0-beta.6"",
+    ""systemjs"": ""0.19.26"",
+    ""ts-node"": ""^0.5.5"",
+    ""tslint"": ""^3.6.0"",
+    ""typescript"": ""^1.8.10"",
+    ""typings"": ""^1.3.2"",
+""typings"": ""^1.3.2"",
+</code></pre>
+
+<p>The files are identical in both locations. The fuel-ui.js is loaded in both cases. No 404 errors anywhere. The load order of the loaded js files is the same in both cases.</p>
+
+<p>Still the first config works, the second doesn't. 
+ I tried to do the same with all the other referenced packages in system.config.js, everything works with any location I want to use, except fuel-ui.</p>
+
+<p>Do you have any ideas what went wrong here? </p>
+","[""We're using Gulp (just migrated from ng-cli) to build our angular2 project where I use Fuel-ui. "", ""I have a strange error. I use Fuel-ui's alert component in one of our components. If we reference fuel-ui from \n node_modules/fuel-ui folder in system.config.js everything is fine. If I reference it from build/vendor/fuel-ui, it fails with the following error: "", 'Relevant part of systemjs.config.js:\nworks, no error:', ""doesn't work, gives exception:"", 'Relevant part of the component:', 'A part of package.json:', 'The files are identical in both locations. The fuel-ui.js is loaded in both cases. No 404 errors anywhere. The load order of the loaded js files is the same in both cases.', ""Still the first config works, the second doesn't. \n I tried to do the same with all the other referenced packages in system.config.js, everything works with any location I want to use, except fuel-ui."", 'Do you have any ideas what went wrong here? ']",0,1,0
+931,58722691,Could not load settings in AuthorizeService in .net core 3 + angular application,"<p>I've been trying to set up a .net core 3 angular application with default identity authentication using the below command:</p>
+
+<p>dotnet new angular -o  -au Individual</p>
+
+<p>I was able to build and run the application succesfully but with set of error messages as below:</p>
+
+<p>Uncaught (in promise): Error: Could not load settings for 'pos_app'
+Error: Could not load settings for 'pos_app'
+    at AuthorizeService. (authorize.service.ts:179)</p>
+
+<p>when I go into the AuthorizeService to check the error, it breaks on the below line:</p>
+
+<pre><code>const response = await fetch(ApplicationPaths.ApiAuthorizationClientConfigurationUrl);
+if (!response.ok) {
+  throw new Error(`Could not load settings for '${ApplicationName}'`);
+}
+</code></pre>
+
+<p>I also get some error messages as below:</p>
+
+<p>GET <a href=""http://localhost:50059/_configuration/pos_app"" rel=""nofollow noreferrer"">http://localhost:50059/_configuration/pos_app</a> 404 (Not Found)</p>
+
+<p>And when I hit the default Register button, i get the below error message:</p>
+
+<p>Uncaught (in promise): Error: Cannot match any routes. URL Segment: 'Identity/Account/Register'
+Error: Cannot match any routes. URL Segment: 'Identity/Account/Register'</p>
+
+<p>I wonder what Im missing, since I didnt change anything and the default application should work.
+Please help.</p>
+
+<p>I am using Mac if that makes a difference</p>
+","[""I've been trying to set up a .net core 3 angular application with default identity authentication using the below command:"", 'dotnet new angular -o  -au Individual', 'I was able to build and run the application succesfully but with set of error messages as below:', ""Uncaught (in promise): Error: Could not load settings for 'pos_app'\nError: Could not load settings for 'pos_app'\n    at AuthorizeService. (authorize.service.ts:179)"", 'when I go into the AuthorizeService to check the error, it breaks on the below line:', 'I also get some error messages as below:', 'GET <a href=""http://localhost:50059/_configuration/pos_app"" rel=""nofollow noreferrer"">http://localhost:50059/_configuration/pos_app</a> 404 (Not Found)', 'And when I hit the default Register button, i get the below error message:', ""Uncaught (in promise): Error: Cannot match any routes. URL Segment: 'Identity/Account/Register'\nError: Cannot match any routes. URL Segment: 'Identity/Account/Register'"", 'I wonder what Im missing, since I didnt change anything and the default application should work.\nPlease help.', 'I am using Mac if that makes a difference']",0,1,0
+389,55847744,Importing plain JS code inside angular - 7,"<p>I trying to import for the first time <a href=""https://github.com/not-implemented/hocr-proofreader"" rel=""nofollow noreferrer"">this</a> plain JS code inside my angular app.<br>
+I created a js file inside the App folder and I passed there all the code that located <a href=""https://github.com/not-implemented/hocr-proofreader/blob/master/hocr-proofreader.js"" rel=""nofollow noreferrer"">here</a> . 
+I added the script inside my <code>scripts</code> Array in the angular.json file and set <code>allowJs</code> to <code>true</code>.<br>
+Inside my component JS file I importing the methods like that: </p>no-referrer
+
+<pre><code>import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Util, HocrProofreader} from '../hocr';
+
+const Utils = Util;
+const Hocr = HocrProofreader;
+
+@Component({
+  selector: 'app-ocr-compiler',
+  templateUrl: './ocr-compiler.component.html',
+  styleUrls: ['./ocr-compiler.component.css']
+})
+export class OcrCompilerComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+      Utils.onReady(() =&gt; {
+        var hocrProofreader = new HocrProofreader({
+            layoutContainer: 'layout-container',
+            editorContainer: 'editor-container'
+        });
+      })
+
+      const hocr = '../../assets/1.jpg';
+      Hocr.prototype.setHocr(hocr)
+  }
+}
+</code></pre>
+
+<p>And the HTML file looks like that</p>
+
+<pre><code>&lt;div class=""viewport""&gt;
+  &lt;div class=""toolbar""&gt;
+      &lt;div class=""logo""&gt;hOCR-Proofreader&lt;/div&gt;
+
+      &lt;button id=""toggle-layout-image""&gt;Image/Text&lt;/button&gt;
+      &lt;div class=""separator""&gt;&lt;/div&gt;
+
+      &lt;span&gt;Zoom:&lt;/span&gt;
+      &lt;button id=""zoom-page-full""&gt;Full Page&lt;/button&gt;
+      &lt;button id=""zoom-page-width""&gt;Page Width&lt;/button&gt;
+      &lt;button id=""zoom-original""&gt;Original&lt;/button&gt;
+      &lt;div class=""separator""&gt;&lt;/div&gt;
+
+      &lt;button id=""button-save""&gt;Save&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;div id=""layout-container"" class=""container""&gt;&lt;/div&gt;
+  &lt;div id=""editor-container"" class=""container""&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>The import work fine but I facing with an error:</p>
+
+<pre><code>AppComponent.html:1 ERROR TypeError: Cannot read property 'contentDocument' of undefined
+    at Object.push../src/app/hocr.js.HocrProofreader.setHocr (hocr.js:106)
+</code></pre>
+
+<p>That refers to this code:</p>
+
+<pre><code>HocrProofreader.prototype.setHocr = function (hocr, baseUrl) {
+    this.hocrBaseUrl = baseUrl;
+    var hocrDoc = this.editorIframe.contentDocument; &lt;===== Here
+
+    // TODO: use baseUrl for images/components in hOCR - use &lt;base&gt;?
+
+    hocrDoc.open();
+    hocrDoc.write(hocr);
+    hocrDoc.close();
+
+    var self = this;
+    var hocrRoot = hocrDoc.documentElement;
+    hocrRoot.addEventListener('mousemove', function (event) {
+        self.mousePosition = {container: 'editor', x: event.clientX, y: event.clientY};
+        self.onHover(event.target, true);
+    });
+    hocrRoot.addEventListener('mouseleave', function (event) {
+        self.mousePosition = null;
+        self.onHover(null, true);
+    });
+    hocrDoc.addEventListener('scroll', function (event) {
+        if (!self.mousePosition || self.mousePosition.container !== 'editor') return;
+        self.onHover(hocrDoc.elementFromPoint(self.mousePosition.x, self.mousePosition.y), true);
+    });
+
+    this.editorStylesheet = Util.createElem('link', {'type': 'text/css', 'rel': 'stylesheet', 'href': 'editor.css'});
+    hocrDoc.head.appendChild(this.editorStylesheet);
+
+    hocrDoc.body.contentEditable = true;
+
+    this.setPage('first');
+};
+</code></pre>
+","['I trying to import for the first time <a href=""https://github.com/not-implemented/hocr-proofreader"" rel=""nofollow noreferrer"">this</a> plain JS code inside my angular app.\nI created a js file inside the App folder and I passed there all the code that located <a href=""https://github.com/not-implemented/hocr-proofreader/blob/master/hocr-proofreader.js"" rel=""nofollow noreferrer"">here</a> . \nI added the script inside my <code>scripts</code> Array in the angular.json file and set <code>allowJs</code> to <code>true</code>.\nInside my component JS file I importing the methods like that: ', 'And the HTML file looks like that', 'The import work fine but I facing with an error:', 'That refers to this code:']",1,0,0
+460,51198157,Clarification on this Jasmine Error: this.http.get is not a function clarification,"<p>I keep running into this error when I try unit testing any of my functions that use a service in my component class. Here is a part of my function. </p>
+
+<pre><code>loadUser() {
+this.httpService.getData(AppConfig.URL_UserById + ""?UserID="" + this.userId)
+  .catch((error: Response | any) =&gt; {
+    this.showAlertWindow(this.exceptionMessage);
+    console.error(error.message || error);
+    return Observable.throw(error.message || error);
+  })
+</code></pre>
+
+<p>This part retrieves the data from a url and throws an error if there is a problem. getData is a service that makes a get request .I am just trying to test if the method showAlertWindow is being called. Now I am pretty sure my test code is correct but I have to be missing something to be receiving this error. I am guessing that jasmine does not know what to do with the line <code>this.httpService.getData(...)</code> Thank you.</p>
+
+<p>Test:</p>
+
+<pre><code>  fit('should have getUsers() call showAlertWindow', () =&gt; {
+
+ let window = spyOn(userComponent, 'showAlertWindow');
+
+ userComponent.loadUser(); //Fails here
+
+ expect(window).toHaveBeenCalled();
+</code></pre>
+
+<p>})</p>
+
+<p>Full Error:</p>
+
+<pre><code>    Error: Cannot call Promise.then from within a sync test.
+Error: Cannot call Promise.then from within a sync test.
+    at SyncTestZoneSpec.webpackJsonp../node_modules/zone.js/dist/zone-testing.js.SyncTestZoneSpec.onScheduleTask (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/dist/zone-testing.js:365:1)
+    at ZoneDelegate.webpackJsonp../node_modules/zone.js/dist/zone.js.ZoneDelegate.scheduleTask (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/dist/zone.js:401:1)
+    at Zone.webpackJsonp../node_modules/zone.js/dist/zone.js.Zone.scheduleTask (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/dist/zone.js:232:1)
+    at Zone.webpackJsonp../node_modules/zone.js/dist/zone.js.Zone.scheduleMicroTask (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/dist/zone.js:252:1)
+    at scheduleResolveOrReject (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/dist/zone.js:862:1)
+    at ZoneAwarePromise.then (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/dist/zone.js:962:1)
+    at ApplicationInitStatus.webpackJsonp../node_modules/@angular/core/esm5/core.js.ApplicationInitStatus.runInitializers (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@angular/core/esm5/core.js:3580:1)
+    at TestBed.webpackJsonp../node_modules/@angular/core/esm5/testing.js.TestBed._initIfNeeded (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@angular/core/esm5/testing.js:1011:1)
+    at TestBed.webpackJsonp../node_modules/@angular/core/esm5/testing.js.TestBed.get (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@angular/core/esm5/testing.js:1050:1)
+    at Function.webpackJsonp../node_modules/@angular/core/esm5/testing.js.TestBed.get (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@angular/core/esm5/testing.js:834:1)
+</code></pre>
+
+<p>If somebody can give me some insight on the meaning behind this error, that would be great. Thanks.</p>
+
+<p>Test config:</p>
+
+<pre><code>import { HttpService } from '../../services/http.service';
+import { TestBed, async, inject, fakeAsync, ComponentFixture } from ""@angular/core/testing"";
+import { UserComponent } from './user.component';
+import { Observable } from 'rxjs';
+
+
+    fdescribe('User Component', () =&gt; {
+    let httpService: HttpService;
+    let userComponent: UserComponent
+
+beforeEach(async() =&gt; {
+    TestBed.configureTestingModule({
+      declarations: [
+        UserComponent, 
+      ],
+ providers: [
+  HttpService,
+ ],
+ }).compileComponents();
+  });
+   beforeEach(() =&gt; {
+ userComponent = fixture.componentInstance;
+ httpService = TestBed.get(HttpService);
+
+ fit('should have getUsers() call showAlertWindow', () =&gt; {
+
+     let window = spyOn(userComponent, 'showAlertWindow');
+
+     userComponent.loadUser();
+
+     expect(window).toHaveBeenCalled();
+
+
+   })
+</code></pre>
+
+<p>Edit: There are two possible solutions. I solved the error by spying on my service and returning an observable. <code>spyOn(httpService, 'getData).and.returnValue(Observable.of('test'));</code> Or JanRecker's solution, which is more practical. </p>
+","['I keep running into this error when I try unit testing any of my functions that use a service in my component class. Here is a part of my function. ', 'This part retrieves the data from a url and throws an error if there is a problem. getData is a service that makes a get request .I am just trying to test if the method showAlertWindow is being called. Now I am pretty sure my test code is correct but I have to be missing something to be receiving this error. I am guessing that jasmine does not know what to do with the line <code>this.httpService.getData(...)</code> Thank you.', 'Test:', '})', 'Full Error:', 'If somebody can give me some insight on the meaning behind this error, that would be great. Thanks.', 'Test config:', ""Edit: There are two possible solutions. I solved the error by spying on my service and returning an observable. <code>spyOn(httpService, 'getData).and.returnValue(Observable.of('test'));</code> Or JanRecker's solution, which is more practical. ""]",0,1,0
+952,49673355,unable to verify babel for the file I'm trying to create.?,"<p>I tried to install both React and babel.</p>
+
+<pre><code>C:\Users\Desktop\React Course Projects\Indecision App&gt;babel src\app.js --out-file=public/scripts\app.js --presets=env,react
+</code></pre>
+
+<p>I'm getting the below error .</p>
+
+<pre><code>Error: ENOENT: no such file or directory, open 'C:\Users\Desktop\React Course Projects\Indecision App\public\scripts\app.js'
+at Object.fs.openSync (fs.js:646:18)
+at Object.fs.writeFileSync (fs.js:1299:33)
+at output (C:\Users\AppData\Local\Yarn\Data\global\node_modules\babel-cli\lib\babel\file.js:90:10)
+at walk (C:\Users\AppData\Local\Yarn\Data\global\node_modules\babel-cli\lib\babel\file.js:150:5)
+at files (C:\Users\AppData\Local\Yarn\Data\global\node_modules\babel-cli\lib\babel\file.js:156:7)
+at module.exports (C:\Users\AppData\Local\Yarn\Data\global\node_modules\babel-cli\lib\babel\file.js:184:5)
+at Object.&lt;anonymous&gt; (C:\Users\AppData\Local\Yarn\Data\global\node_modules\babel-cli\lib\babel\index.js:129:1)
+at Module._compile (module.js:652:30)
+at Object.Module._extensions..js (module.js:663:10)
+at Module.load (module.js:565:32)
+</code></pre>
+
+<p>I have installed both Babel and yarn in My system</p>
+
+<pre><code>babel -V
+6.24.1 (babel-core 6.26.0)
+
+yarn -v
+1.5.1
+</code></pre>
+
+<p>Is there something I should know about the mistake I'm making?</p>
+","['I tried to install both React and babel.', ""I'm getting the below error ."", 'I have installed both Babel and yarn in My system', ""Is there something I should know about the mistake I'm making?""]",0,1,0
+231,70041205,TypeScript - Getting prototype in class's static method,"<p>I'm working on a multiplayer game and need to serialize and deserialize entities while sending client &lt;-&gt; server. To do it, I'm just sending the object as JSON, then parsing it and <strong>assigning to an object's instance</strong> got by registry name. In the registry I put to array string with callback to create object:</p>
+<pre class=""lang-ts prettyprint-override""><code>static create(registryName: string, args: {}) {
+   const object = Object.assign(this.prototype,args);
+   object.registryName = registryName;
+   return object;
+}
+</code></pre>
+<p>while args is my deserialized object, and the whole method is <strong>in my abstract entity class</strong> that all entities extend.<br />
+So what I want to get here is certain (defined in the registry) <strong>entity instance</strong>. However, when running the code, it throws me an <strong>exception</strong>, that <code>this.prototype</code> is undefined:</p>
+<pre><code>const object = Object.assign(this.prototype,args);
+                      ^
+TypeError: Cannot convert undefined or null to object
+    at Function.assign (&lt;anonymous&gt;)
+    at Array.IGameEntity.create [as x_wing] 
+</code></pre>
+<p>And now, is there any other method that would allow me to do that? I guess current prototype does not exists because it's static method (however PhpStorm says it is valid). Of course I could just put that method in every entity class and put the class name instead of <code>this</code>, but I'm curious if the current way could work somehow.</p>
+<h3>Code to reproduce:</h3>
+<pre class=""lang-ts prettyprint-override""><code>export namespace Test{
+    export abstract class IGameEntity{
+        registryName: string;
+        readonly id: number;
+        vec: {
+            x: number;
+            y: number;
+        };
+        rotation: number = 0;
+        scale: number = 1;
+        
+        static ids = 0;
+
+        protected constructor(vec: {x: number, y: number}, rotation: number = 0, scale: number = 1) {
+            this.id = IGameEntity.ids++;
+            this.vec = vec;
+            this.rotation = rotation;
+            this.scale = scale;
+        }
+        
+        abstract tick(time: number);
+        
+        static create(registryName: string, args: {}) {
+            const object = Object.assign(this.prototype,args);
+            object.registryName = registryName;
+            return object;
+        }
+    }
+    
+    export class XWingEntity extends IGameEntity{
+        tick(time: number) {
+            //something here...
+        }
+    }
+    
+    export class EntityRegistry {
+        static instance: EntityRegistry;
+        entities: Array&lt;(registryName: string, data: {}) =&gt; IGameEntity&gt; = [];
+
+        static readonly ENTITY_X_WING: string = &quot;x_wing&quot;;
+
+        constructor() {
+            EntityRegistry.instance = this;
+
+            this.register();
+        }
+
+        register(){
+            this.reg(EntityRegistry.ENTITY_X_WING,XWingEntity.create);
+        }
+
+        private reg(registryName: string, caller: (registryName: string, args: {}) =&gt; Object) {
+            this.entities[registryName] = caller;
+        }
+
+        create(registryName: string, args: {}): IGameEntity | null {
+            if(this.entities[registryName]){
+                return this.entities[registryName](registryName, args);
+            }
+            return null;
+        }
+    }
+}
+</code></pre>
+<p>And now sending:</p>
+<pre class=""lang-ts prettyprint-override""><code>    //server code
+    const registry = new EntityRegistry();
+    let entityServer = registry.create(EntityRegistry.ENTITY_X_WING, {x: 5, y: 3})
+    //add to world, etc
+
+    //then send
+    let json = JSON.stringify(entityServer);
+    //send json
+    
+    //client code
+    //get json
+    let object = JSON.parse(json);
+    let entityClient = registry.create(object['registryName'],object);
+</code></pre>
+<p>Thanks for any help.</p>
+","[""I'm working on a multiplayer game and need to serialize and deserialize entities while sending client &lt;-&gt; server. To do it, I'm just sending the object as JSON, then parsing it and assigning to an object's instance got by registry name. In the registry I put to array string with callback to create object:"", 'while args is my deserialized object, and the whole method is in my abstract entity class that all entities extend.<br />\nSo what I want to get here is certain (defined in the registry) entity instance. However, when running the code, it throws me an exception, that <code>this.prototype</code> is undefined:', ""And now, is there any other method that would allow me to do that? I guess current prototype does not exists because it's static method (however PhpStorm says it is valid). Of course I could just put that method in every entity class and put the class name instead of <code>this</code>, but I'm curious if the current way could work somehow."", 'And now sending:', 'Thanks for any help.']",0,0,1
+348,51555899,Error in build procces in webpack,"<p>Well I'm using amberframework and it have built-in webpack building the issue is that when I'm trying to import an image via scss it can't handle the image file and can't find as I understand it.</p>
+
+<p>The thing is most of the source cod located in folder called src and so are the assets. During build step it should transfer the files to the public folder but it doesn't and instead output this weird error.</p>
+
+<p>The error:</p>
+
+<pre><code>ERROR in ./src/assets/stylesheets/main.scss
+    Module build failed: ModuleNotFoundError: Module not found: Error: Can't resolve './images/transparent.jpg' in '/Users/niko/code/blog/src/assets/stylesheets'
+        at factoryCallback (/Users/niko/code/blog/node_modules/webpack/lib/Compilation.js:282:40)
+        at factory (/Users/niko/code/blog/node_modules/webpack/lib/NormalModuleFactory.js:237:20)
+        at resolver (/Users/niko/code/blog/node_modules/webpack/lib/NormalModuleFactory.js:60:20)
+        at asyncLib.parallel (/Users/niko/code/blog/node_modules/webpack/lib/NormalModuleFactory.js:127:20)
+        at /Users/niko/code/blog/node_modules/async/dist/async.js:3888:9
+        at /Users/niko/code/blog/node_modules/async/dist/async.js:473:16
+        at iteratorCallback (/Users/niko/code/blog/node_modules/async/dist/async.js:1062:13)
+        at /Users/niko/code/blog/node_modules/async/dist/async.js:969:16
+        at /Users/niko/code/blog/node_modules/async/dist/async.js:3885:13
+        at resolvers.normal.resolve (/Users/niko/code/blog/node_modules/webpack/lib/NormalModuleFactory.js:119:22)
+        at onError (/Users/niko/code/blog/node_modules/enhanced-resolve/lib/Resolver.js:65:10)
+        at loggingCallbackWrapper (/Users/niko/code/blog/node_modules/enhanced-resolve/lib/createInnerCallback.js:31:19)
+        at runAfter (/Users/niko/code/blog/node_modules/enhanced-resolve/lib/Resolver.js:158:4)
+        at innerCallback (/Users/niko/code/blog/node_modules/enhanced-resolve/lib/Resolver.js:146:3)
+        at loggingCallbackWrapper (/Users/niko/code/blog/node_modules/enhanced-resolve/lib/createInnerCallback.js:31:19)
+        at next (/Users/niko/code/blog/node_modules/tapable/lib/Tapable.js:252:11)
+        at /Users/niko/code/blog/node_modules/enhanced-resolve/lib/UnsafeCachePlugin.js:40:4
+        at loggingCallbackWrapper (/Users/niko/code/blog/node_modules/enhanced-resolve/lib/createInnerCallback.js:31:19)
+        at runAfter (/Users/niko/code/blog/node_modules/enhanced-resolve/lib/Resolver.js:158:4)
+        at innerCallback (/Users/niko/code/blog/node_modules/enhanced-resolve/lib/Resolver.js:146:3)
+        at loggingCallbackWrapper (/Users/niko/code/blog/node_modules/enhanced-resolve/lib/createInnerCallback.js:31:19)
+        at next (/Users/niko/code/blog/node_modules/tapable/lib/Tapable.js:252:11)
+        at innerCallback (/Users/niko/code/blog/node_modules/enhanced-resolve/lib/Resolver.js:144:11)
+        at loggingCallbackWrapper (/Users/niko/code/blog/node_modules/enhanced-resolve/lib/createInnerCallback.js:31:19)
+        at next (/Users/niko/code/blog/node_modules/tapable/lib/Tapable.js:249:35)
+        at resolver.doResolve.createInnerCallback (/Users/niko/code/blog/node_modules/enhanced-resolve/lib/DescriptionFilePlugin.js:44:6)
+        at loggingCallbackWrapper (/Users/niko/code/blog/node_modules/enhanced-resolve/lib/createInnerCallback.js:31:19)
+        at afterInnerCallback (/Users/niko/code/blog/node_modules/enhanced-resolve/lib/Resolver.js:168:10)
+        at loggingCallbackWrapper (/Users/niko/code/blog/node_modules/enhanced-resolve/lib/createInnerCallback.js:31:19)
+        at next (/Users/niko/code/blog/node_modules/tapable/lib/Tapable.js:252:11)
+     @ ./src/assets/stylesheets/main.scss
+
+    ERROR in ./node_modules/css-loader!./node_modules/sass-loader/lib/loader.js!./src/assets/stylesheets/main.scss
+    Module not found: Error: Can't resolve './images/transparent.jpg' in '/Users/niko/code/blog/src/assets/stylesheets'
+     @ ./node_modules/css-loader!./node_modules/sass-loader/lib/loader.js!./src/assets/stylesheets/main.scss 7:83-118
+     @ ./src/assets/stylesheets/main.scss
+</code></pre>
+
+<p>The code webpack file: </p>
+
+<pre><code>const webpack = require('webpack');
+const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+let config = {
+  entry: {
+    'main.bundle.js': './src/assets/javascripts/main.js',
+    'main.bundle.css': './src/assets/stylesheets/main.scss'
+  },
+  output: {
+    filename: '[name]',
+    path: path.resolve(__dirname, '../../public/dist'),
+    publicPath: '/dist'
+  },
+  resolve: {
+    alias: {
+      amber: path.resolve(__dirname, '../../lib/amber/assets/js/amber.js')
+    }
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader'
+        })
+      },
+      {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'sass-loader']
+        })
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        exclude: /node_modules/,
+        use: [
+          'file-loader?name=/images/[name].[ext]'
+        ]
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        exclude: /node_modules/,
+        use: [
+          'file-loader?name=/[name].[ext]'
+        ]
+      },
+      {
+        test: /\.js?$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['env']
+        }
+      }
+    ]
+  },
+  plugins: [
+    new ExtractTextPlugin('main.bundle.css'),
+  ],
+  // For more info about webpack logs see: https://webpack.js.org/configuration/stats/
+  stats: 'errors-only'
+};
+
+module.exports = config;
+</code></pre>
+","[""Well I'm using amberframework and it have built-in webpack building the issue is that when I'm trying to import an image via scss it can't handle the image file and can't find as I understand it."", ""The thing is most of the source cod located in folder called src and so are the assets. During build step it should transfer the files to the public folder but it doesn't and instead output this weird error."", 'The error:', 'The code webpack file: ']",1,0,0
+366,53086412,TypeError: Cannot read property 'toString' of undefined Angular 6,"<p>I'm  trying to build a library with angular 6 but I'm facing some problems.</p>
+
+<p>Before adding --SoumissionStructComponent-- to my library module nothing wrong happens</p>
+
+<p>But once I add it i got this one </p>
+
+<pre><code>TypeError: Cannot read property 'toString' of undefined
+ at new Input (C:\Users\taha.manar\Documents\workspace\Adjucation-Ihm\node_modules\ng-packagr\node_modules\postcss\lib\input.js:53:20)
+ at parse (C:\Users\taha.manar\Documents\workspace\Adjucation-Ihm\node_modules\ng-packagr\node_modules\postcss\lib\parse.js:13:15)
+ at new LazyResult (C:\Users\taha.manar\Documents\workspace\Adjucation-Ihm\node_modules\ng-packagr\node_modules\postcss\lib\lazy-result.js:60:16)
+ at Processor.&lt;anonymous&gt; (C:\Users\taha.manar\Documents\workspace\Adjucation-Ihm\node_modules\ng-packagr\node_modules\postcss\lib\processor.js:138:12)
+...
+</code></pre>
+
+<p>SoumissionStructComponent.ts</p>
+
+<pre><code>import { Component, OnInit } from '@angular/core';
+import { SoumissionService } from './soumission.service';
+import { ListElements, ElementList } from './../Common/root-page/model/ElementList';
+
+@Component({
+  selector: 'app-soumission-struct',
+  templateUrl: './soumission-struct.component.html',
+  styleUrls: ['./soumission-struct.component.css']
+})
+export class SoumissionStructComponent implements OnInit {
+  listElements: ListElements;
+  elementsList: ElementList[] = [];
+  constructor(private soumissionService: SoumissionService) {
+soumissionService.getActivatedSoumission().subscribe((r: any) =&gt; {
+
+  this.listElements = new ListElements();
+  this.listElements.listElts = [];
+  if (r) {
+    this.listElements.listElts.push({ key: r.id, value: r.seanceDate });
+  }
+});
+  }
+
+  ngOnInit() {
+  }
+
+}
+</code></pre>
+
+<p>Hope i've described the problem clearly</p>
+","[""I'm  trying to build a library with angular 6 but I'm facing some problems."", 'Before adding --SoumissionStructComponent-- to my library module nothing wrong happens', 'But once I add it i got this one ', 'SoumissionStructComponent.ts', ""Hope i've described the problem clearly""]",1,0,0
+1294,56419039,Axios - Uncaught (in promise) Error: Request failed with status code 500,"<p>I have written code for adding new articles but the Axios post request is not going through, the error I am getting is : 
+Failed to load resource: the server responded with a status of 500 
+(Internal Server Error)
+createError.js:17 Uncaught (in promise) Error: Request failed with status code 500
+    at createError (createError.js:17)
+    at settle (settle.js:19)</p>
+
+<p>I have compared it with a similar project to compare which looks fine.</p>
+
+<pre><code>    const mongoose = require('mongoose');
+
+const Schema = mongoose.Schema;
+
+const Articles = new Schema({
+    title: {
+        type:String
+    },
+    content: {
+        type: String
+    },
+    author: {
+        type:String
+    },
+})
+
+module.exports = mongoose.model('Articles', Articles);
+
+</code></pre>
+
+<p>Database model</p>
+
+<pre><code>const express = require('express');
+const app = express();
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const PORT = 4000;
+const routes = express.Router();
+const Articles = require('./db');
+
+mongoose.connect(""mongodb://127.0.0.1:27017/dummies"", { useNewUrlParser: true });
+const connection = mongoose.connection
+
+app.use(cors());
+app.use(bodyParser.json());
+
+connection.on(""open"", () =&gt; {
+    console.log(""Connected to the database"");
+});
+
+routes.route('/').get((req, res) =&gt; {
+    Articles.find((err, articles) =&gt; {
+        if (!err) { res.json(articles);}       
+    }
+    )
+})
+
+routes.route('/add').post((req, res) =&gt; {
+    let article = new Articles(req.body);
+    article.save().then(() =&gt; {
+        res.status(200).json({ ""article"": ""article saved"" })
+    });
+})
+
+app.use('/dummies', routes);
+
+app.listen(PORT, () =&gt; {
+    console.log('Listening...')
+})
+
+</code></pre>
+
+<p>index.js</p>
+
+<pre><code>import React, { Component } from 'react';
+import Navbar from './Navbar';
+import 'bootstrap/dist/css/bootstrap.css';
+import axios from 'axios';
+
+class AddArticle extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            title:"""",
+            content:"""",
+            author:""""
+        };
+
+        this.onChangeTitle = this.onChangeTitle.bind(this);
+        this.onChangeContent = this.onChangeContent.bind(this);
+        this.onChangeAuthor = this.onChangeAuthor.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    onChangeTitle = (event) =&gt; {
+        this.setState({
+            title:event.target.value
+        })
+    }
+
+    onChangeContent = (event) =&gt; {
+        this.setState({
+            content:event.target.value
+        })
+    }
+
+    onChangeAuthor = (event) =&gt; {
+        this.setState({
+            author:event.target.value
+        })
+    }
+
+    onSubmit = (event) =&gt; {
+        event.preventDefault();
+
+        let article = {
+            title: this.state.title,
+            content: this.state.content,
+            author: this.state.author
+        }
+
+        axios.post(""http://localhost:4000/dummies/add"", article).then(res =&gt; {
+            console.log(res.data);
+        });
+    }
+
+    render() {
+        return (
+            &lt;React.Fragment&gt;
+                &lt;Navbar /&gt;
+                &lt;div&gt;
+                    &lt;form onSubmit={this.onSubmit}&gt;
+                        &lt;input type=""text"" onChange={this.onChangeTitle} value={this.state.title}/&gt;
+                        &lt;input type=""textarea"" onChange={this.onChangeContent} value={this.state.content} /&gt;
+                        &lt;input type=""text"" onChange={this.onChangeAuthor} value={this.state.author}/&gt;
+                        &lt;input type=""submit"" value=""Add Article""/&gt;
+                    &lt;/form&gt;
+                &lt;/div&gt;
+            &lt;/React.Fragment&gt;
+        );
+    }
+}
+
+export default AddArticle;
+</code></pre>
+
+<p>AddArticle.js</p>
+","['I have written code for adding new articles but the Axios post request is not going through, the error I am getting is : \nFailed to load resource: the server responded with a status of 500 \n(Internal Server Error)\ncreateError.js:17 Uncaught (in promise) Error: Request failed with status code 500\n    at createError (createError.js:17)\n    at settle (settle.js:19)', 'I have compared it with a similar project to compare which looks fine.', 'Database model', 'index.js', 'AddArticle.js']",0,1,0
+1412,63800964,ERROR TypeError: Cannot read property 'loadChildren' of undefined,"<p>I just added some module + routing + AuthGuard to redirect to those (login)pages.</p>
+<p>Everything seems to work(I can navigate to them, the links between the pages works, the AuthGuard properly redirects), but I get this error in the chrome logs:</p>
+<pre><code>core.js:4197 ERROR TypeError: Cannot read property 'loadChildren' of undefined
+    at RouterPreloader.processRoutes (router.js:5220)
+    at RouterPreloader.processRoutes (router.js:5222)
+    at RouterPreloader.preload (router.js:5208)
+    at MergeMapSubscriber.project (router.js:5203)
+    at MergeMapSubscriber._tryNext (mergeMap.js:46)
+    at MergeMapSubscriber._next (mergeMap.js:36)
+    at MergeMapSubscriber.next (Subscriber.js:49)
+    at FilterSubscriber._next (filter.js:33)
+    at FilterSubscriber.next (Subscriber.js:49)
+    at Subject.next (Subject.js:39)
+</code></pre>
+<p>I'm using angular 10.0.14, not sure what is causing this issue?</p>
+<p>The issue happens only when I'm in one of those new page.</p>
+<p>Here is my auth module:</p>
+<pre><code>import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { LoginComponent } from './login/login.component';
+import { AuthRoutingModule } from './auth-routing.module';
+import { LostPasswordComponent } from './lost-password/lost-password.component';
+import { SignupComponent } from './signup/signup.component';
+
+
+
+@NgModule({
+  declarations: [LoginComponent, SignupComponent, LostPasswordComponent, SignupComponent],
+  imports: [
+    CommonModule,
+    AuthRoutingModule
+  ]
+})
+export class AuthModule { }
+</code></pre>
+<p>Here is the AuthRoutingModule:</p>
+<pre><code>import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { LoginComponent } from './login/login.component';
+import { LostPasswordComponent } from './lost-password/lost-password.component';
+import { SignupComponent } from './signup/signup.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'signin',
+    pathMatch: 'full',
+  },
+  {
+    path: 'signin',
+    component: LoginComponent,
+  },
+  {
+    path: 'signup',
+    component: SignupComponent,
+  },
+  ,
+  {
+    path: 'lost-password',
+    component: LostPasswordComponent,
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export class AuthRoutingModule {}
+</code></pre>
+<p>The pages are just empty pages with links between each other, like:</p>
+<pre><code>&lt;p&gt;login works!&lt;/p&gt;
+&lt;a [routerLink]=&quot;['/auth/signup']&quot; routerLinkActive=&quot;router-link-active&quot; &gt;Sign up instead&lt;/a&gt;
+&lt;a [routerLink]=&quot;['/auth/lost-password']&quot; routerLinkActive=&quot;router-link-active&quot; &gt;Password lost?&lt;/a&gt;
+</code></pre>
+<p>If I go in one of the page of my other modules, no errors.</p>
+<p>The AppRouting module:</p>
+<pre><code>import { NgModule } from '@angular/core';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth/auth.guard';
+const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'folder/Inbox',
+    pathMatch: 'full',
+  },
+  {
+    path: 'folder/:id',
+    loadChildren: () =&gt; import('./folder/folder.module').then((m) =&gt; m.FolderPageModule),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'auth',
+    loadChildren: () =&gt; import('./auth/auth.module').then((m) =&gt; m.AuthModule),
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
+  exports: [RouterModule],
+})
+export class AppRoutingModule {}
+</code></pre>
+<p>Any idea what is the issue? Or how to fix it?</p>
+","['I just added some module + routing + AuthGuard to redirect to those (login)pages.', 'Everything seems to work(I can navigate to them, the links between the pages works, the AuthGuard properly redirects), but I get this error in the chrome logs:', ""I'm using angular 10.0.14, not sure what is causing this issue?"", ""The issue happens only when I'm in one of those new page."", 'Here is my auth module:', 'Here is the AuthRoutingModule:', 'The pages are just empty pages with links between each other, like:', 'If I go in one of the page of my other modules, no errors.', 'The AppRouting module:', 'Any idea what is the issue? Or how to fix it?']",0,0,1
+950,76737239,Expo build android throw an erro "Execution failed for task ':app:bundleReleaseJsAndAssets'.","<pre class=""lang-bash prettyprint-override""><code>&gt; Task :expo-font:parseReleaseLocalResources
+
+&gt; Task :expo-image:parseReleaseLocalResources
+
+&gt; Task :expo-image-loader:parseReleaseLocalResources
+
+&gt; Task :expo-image-picker:parseReleaseLocalResources
+
+&gt; Task :expo-keep-awake:parseReleaseLocalResources
+
+&gt; Task :expo-media-library:parseReleaseLocalResources
+
+&gt; Task :expo-secure-store:parseReleaseLocalResources
+
+&gt; Task :expo-splash-screen:parseReleaseLocalResources
+
+&gt; Task :expo-application:compileReleaseLibraryResources
+
+&gt; Task :expo-clipboard:compileReleaseLibraryResources
+
+&gt; Task :expo-constants:compileReleaseLibraryResources
+
+&gt; Task :expo-error-recovery:compileReleaseLibraryResources
+
+&gt; Task :expo-file-system:compileReleaseLibraryResources
+
+&gt; Task :expo-font:compileReleaseLibraryResources
+
+&gt; Task :expo-image:compileReleaseLibraryResources
+
+&gt; Task :expo-image-loader:compileReleaseLibraryResources
+
+&gt; Task :expo-image-picker:compileReleaseLibraryResources
+
+&gt; Task :expo-keep-awake:compileReleaseLibraryResources
+
+&gt; Task :expo-media-library:compileReleaseLibraryResources
+
+&gt; Task :expo-secure-store:compileReleaseLibraryResources
+
+&gt; Task :expo-splash-screen:compileReleaseLibraryResources
+
+&gt; Task :lottie-react-native:compileReleaseLibraryResources
+
+&gt; Task :lottie-react-native:parseReleaseLocalResources
+
+&gt; Task :expo-modules-core:generateReleaseRFile
+
+&gt; Task :lottie-react-native:generateReleaseRFile
+
+&gt; Task :expo-clipboard:generateReleaseRFile
+
+&gt; Task :expo-application:generateReleaseRFile
+
+&gt; Task :expo-constants:generateReleaseRFile
+
+&gt; Task :expo-error-recovery:generateReleaseRFile
+
+&gt; Task :expo-font:generateReleaseRFile
+
+&gt; Task :app:bundleReleaseJsAndAssets
+
+warning: the transform cache was reset.
+
+                Welcome to Metro v0.72.4
+
+              Fast - Scalable - Integrated
+
+&gt; Task :expo-file-system:generateReleaseRFile
+
+&gt; Task :expo-image:generateReleaseRFile
+
+&gt; Task :expo-image-loader:generateReleaseRFile
+
+&gt; Task :expo-keep-awake:generateReleaseRFile
+
+&gt; Task :expo-media-library:generateReleaseRFile
+
+&gt; Task :expo-secure-store:generateReleaseRFile
+
+&gt; Task :expo-image-picker:generateReleaseRFile
+
+&gt; Task :expo-modules-core:compileReleaseLibraryResources
+
+&gt; Task :expo-splash-screen:generateReleaseRFile
+
+&gt; Task :react-native-async-storage_async-storage:compileReleaseLibraryResources
+
+&gt; Task :react-native-async-storage_async-storage:parseReleaseLocalResources
+
+&gt; Task :react-native-async-storage_async-storage:generateReleaseRFile
+
+&gt; Task :react-native-camera-roll_camera-roll:compileReleaseLibraryResources
+
+&gt; Task :react-native-camera-roll_camera-roll:parseReleaseLocalResources
+
+&gt; Task :expo:generateReleaseRFile
+
+&gt; Task :react-native-clipboard_clipboard:compileReleaseLibraryResources
+
+&gt; Task :react-native-clipboard_clipboard:parseReleaseLocalResources
+
+&gt; Task :react-native-camera-roll_camera-roll:generateReleaseRFile
+
+&gt; Task :react-native-community_datetimepicker:compileReleaseLibraryResources
+
+&gt; Task :react-native-community_datetimepicker:parseReleaseLocalResources
+
+&gt; Task :react-native-clipboard_clipboard:generateReleaseRFile
+
+&gt; Task :react-native-community_netinfo:compileReleaseLibraryResources
+
+&gt; Task :react-native-community_datetimepicker:generateReleaseRFile
+
+&gt; Task :react-native-community_netinfo:parseReleaseLocalResources
+
+&gt; Task :react-native-gesture-handler:compileReleaseLibraryResources
+
+&gt; Task :react-native-gesture-handler:parseReleaseLocalResources
+
+&gt; Task :react-native-community_netinfo:generateReleaseRFile
+
+&gt; Task :react-native-gesture-handler:generateReleaseRFile
+
+&gt; Task :react-native-safe-area-context:compileReleaseLibraryResources
+
+&gt; Task :react-native-pager-view:compileReleaseLibraryResources
+
+&gt; Task :react-native-pager-view:parseReleaseLocalResources
+
+&gt; Task :react-native-safe-area-context:parseReleaseLocalResources
+
+&gt; Task :react-native-safe-area-context:generateReleaseRFile
+
+&gt; Task :react-native-pager-view:generateReleaseRFile
+
+&gt; Task :react-native-screens:compileReleaseLibraryResources
+
+&gt; Task :react-native-svg:compileReleaseLibraryResources
+
+&gt; Task :react-native-screens:parseReleaseLocalResources
+
+&gt; Task :react-native-svg:parseReleaseLocalResources
+
+&gt; Task :react-native-svg:generateReleaseRFile
+
+&gt; Task :react-native-vector-icons:compileReleaseLibraryResources
+
+&gt; Task :react-native-vector-icons:parseReleaseLocalResources
+
+&gt; Task :react-native-vector-icons:generateReleaseRFile
+
+&gt; Task :react-native-webview:compileReleaseLibraryResources
+
+&gt; Task :react-native-webview:parseReleaseLocalResources
+
+&gt; Task :react-native-screens:generateReleaseRFile
+
+&gt; Task :react-native-webview:generateReleaseRFile
+
+&gt; Task :expo:generateReleaseBuildConfig
+
+&gt; Task :expo-application:generateReleaseBuildConfig
+
+&gt; Task :expo-modules-core:generateReleaseBuildConfig
+
+&gt; Task :expo-application:javaPreCompileRelease
+
+&gt; Task :expo-clipboard:generateReleaseBuildConfig
+
+&gt; Task :expo-clipboard:javaPreCompileRelease
+
+&gt; Task :expo-constants:generateReleaseBuildConfig
+
+&gt; Task :expo-constants:javaPreCompileRelease
+
+&gt; Task :expo-error-recovery:generateReleaseBuildConfig
+
+&gt; Task :expo-error-recovery:javaPreCompileRelease
+
+&gt; Task :expo-file-system:generateReleaseBuildConfig
+
+&gt; Task :expo-file-system:javaPreCompileRelease
+
+&gt; Task :expo-font:generateReleaseBuildConfig
+
+&gt; Task :expo-font:javaPreCompileRelease
+
+&gt; Task :expo-image:generateReleaseBuildConfig
+
+&gt; Task :expo-image:javaPreCompileRelease
+
+&gt; Task :expo-image-loader:generateReleaseBuildConfig
+
+&gt; Task :expo-image-loader:javaPreCompileRelease
+
+&gt; Task :expo-image-picker:generateReleaseBuildConfig
+
+&gt; Task :expo-image-picker:javaPreCompileRelease
+
+&gt; Task :expo-keep-awake:generateReleaseBuildConfig
+
+&gt; Task :expo-keep-awake:javaPreCompileRelease
+
+&gt; Task :expo-media-library:generateReleaseBuildConfig
+
+&gt; Task :expo-media-library:javaPreCompileRelease
+
+&gt; Task :expo-secure-store:generateReleaseBuildConfig
+
+&gt; Task :expo-secure-store:javaPreCompileRelease
+
+&gt; Task :expo-splash-screen:generateReleaseBuildConfig
+
+&gt; Task :expo-splash-screen:javaPreCompileRelease
+
+&gt; Task :expo:javaPreCompileRelease
+
+&gt; Task :lottie-react-native:generateReleaseBuildConfig
+
+&gt; Task :lottie-react-native:javaPreCompileRelease
+
+&gt; Task :lottie-react-native:compileReleaseJavaWithJavac
+
+[stderr] 
+Note: /home/expo/workingdir/build/node_modules/lottie-react-native/src/android/src/main/java/com/airbnb/android/react/lottie/LottieAnimationViewManager.java uses or overrides a deprecated API.
+
+[stderr] 
+Note: Recompile with -Xlint:deprecation for details.
+
+[stderr] 
+Note: /home/expo/workingdir/build/node_modules/lottie-react-native/src/android/src/main/java/com/airbnb/android/react/lottie/LottieAnimationViewManager.java uses unchecked or unsafe operations.
+
+[stderr] 
+Note: Recompile with -Xlint:unchecked for details.
+
+&gt; Task :expo-modules-core:javaPreCompileRelease
+
+&gt; Task :lottie-react-native:bundleLibCompileToJarRelease
+
+&gt; Task :react-native-async-storage_async-storage:generateReleaseBuildConfig
+
+&gt; Task :react-native-async-storage_async-storage:javaPreCompileRelease
+
+&gt; Task :app:bundleReleaseJsAndAssets FAILED
+
+Error: /home/expo/workingdir/build/App.tsx: Use process(css).then(cb) to work with async plugins
+
+    at LazyResult.getAsyncError (/home/expo/workingdir/build/node_modules/nativewind/node_modules/postcss/lib/lazy-result.js:182:11)
+
+    at LazyResult.sync (/home/expo/workingdir/build/node_modules/nativewind/node_modules/postcss/lib/lazy-result.js:401:20)
+
+    at LazyResult.stringify (/home/expo/workingdir/build/node_modules/nativewind/node_modules/postcss/lib/lazy-result.js:369:10)
+
+    at LazyResult.get css [as css] (/home/expo/workingdir/build/node_modules/nativewind/node_modules/postcss/lib/lazy-result.js:174:17)
+
+    at extractStyles (/home/expo/workingdir/build/node_modules/nativewind/dist/postcss/extract-styles.js:32:54)
+
+    at PluginPass.enter (/home/expo/workingdir/build/node_modules/nativewind/dist/babel/index.js:100:67)
+
+    at newFn (/home/expo/workingdir/build/node_modules/@babel/traverse/lib/visitors.js:159:14)
+
+    at NodePath._call (/home/expo/workingdir/build/node_modules/@babel/traverse/lib/path/context.js:46:20)
+
+    at NodePath.call (/home/expo/workingdir/build/node_modules/@babel/traverse/lib/path/context.js:36:17)
+
+    at NodePath.visit (/home/expo/workingdir/build/node_modules/@babel/traverse/lib/path/context.js:82:31)
+
+    at TraversalContext.visitQueue (/home/expo/workingdir/build/node_modules/@babel/traverse/lib/context.js:86:16)
+
+    at TraversalContext.visitSingle (/home/expo/workingdir/build/node_modules/@babel/traverse/lib/context.js:65:19)
+
+    at TraversalContext.visit (/home/expo/workingdir/build/node_modules/@babel/traverse/lib/context.js:109:19)
+
+    at traverseNode (/home/expo/workingdir/build/node_modules/@babel/traverse/lib/traverse-node.js:18:17)
+
+    at traverse (/home/expo/workingdir/build/node_modules/@babel/traverse/lib/index.js:49:34)
+
+    at transformFile (/home/expo/workingdir/build/node_modules/@babel/core/lib/transformation/index.js:81:29)
+
+    at transformFile.next (&lt;anonymous&gt;)
+
+    at run (/home/expo/workingdir/build/node_modules/@babel/core/lib/transformation/index.js:24:12)
+
+    at run.next (&lt;anonymous&gt;)
+
+    at /home/expo/workingdir/build/node_modules/@babel/core/lib/transform-ast.js:23:41
+
+    at Generator.next (&lt;anonymous&gt;)
+
+    at evaluateSync (/home/expo/workingdir/build/node_modules/gensync/index.js:251:28)
+
+    at sync (/home/expo/workingdir/build/node_modules/gensync/index.js:89:14)
+
+    at stopHiding - secret - don't use this - v1 (/home/expo/workingdir/build/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+
+    at transformFromAstSync (/home/expo/workingdir/build/node_modules/@babel/core/lib/transform-ast.js:44:83)
+
+    at Object.transform (/home/expo/workingdir/build/node_modules/metro-react-native-babel-transformer/src/index.js:199:20)
+
+    at Object.module.exports.transform (/home/expo/workingdir/build/node_modules/react-native-svg-transformer/index.js:39:30)
+
+    at transformJSWithBabel (/home/expo/workingdir/build/node_modules/metro-transform-worker/src/index.js:399:45)
+
+    at Object.transform (/home/expo/workingdir/build/node_modules/metro-transform-worker/src/index.js:572:18)
+
+    at transformFile (/home/expo/workingdir/build/node_modules/metro/src/DeltaBundler/Worker.flow.js:82:36)
+
+    at Object.transform (/home/expo/workingdir/build/node_modules/metro/src/DeltaBundler/Worker.flow.js:55:10)
+
+    at execFunction (/home/expo/workingdir/build/node_modules/jest-worker/build/workers/processChild.js:137:17)
+
+    at execHelper (/home/expo/workingdir/build/node_modules/jest-worker/build/workers/processChild.js:116:5)
+
+    at execMethod (/home/expo/workingdir/build/node_modules/jest-worker/build/workers/processChild.js:120:5)
+
+    at process.messageListener (/home/expo/workingdir/build/node_modules/jest-worker/build/workers/processChild.js:38:7)
+
+    at process.emit (node:events:513:28)
+
+    at emit (node:internal/child_process:946:14)
+
+info Run CLI with --verbose flag for more details.
+
+[stderr] 
+error App.tsx: /home/expo/workingdir/build/App.tsx: Use process(css).then(cb) to work with async plugins.
+
+&gt; Task :react-native-async-storage_async-storage:compileReleaseJavaWithJavac
+
+[stderr] 
+Note: /home/expo/workingdir/build/node_modules/@react-native-async-storage/async-storage/android/src/main/java/com/reactnativecommunity/asyncstorage/AsyncStorageModule.java uses or overrides a deprecated API.
+
+[stderr] 
+Note: Recompile with -Xlint:deprecation for details.
+
+[stderr] 
+Note: /home/expo/workingdir/build/node_modules/@react-native-async-storage/async-storage/android/src/javaPackage/java/com/reactnativecommunity/asyncstorage/AsyncStoragePackage.java uses unchecked or unsafe operations.
+
+[stderr] 
+Note: Recompile with -Xlint:unchecked for details.
+
+&gt; Task :expo-modules-core:compileReleaseKotlin
+
+w: /home/expo/workingdir/build/node_modules/expo-modules-core/android/src/main/java/expo/modules/core/utilities/EmulatorUtilities.kt: (30, 13): 'SERIAL: String!' is deprecated. Deprecated in Java
+
+w: /home/expo/workingdir/build/node_modules/expo-modules-core/android/src/main/java/expo/modules/kotlin/activityresult/ActivityResultsManager.kt: (52, 24): Parameter 'activity' is never used
+
+w: /home/expo/workingdir/build/node_modules/expo-modules-core/android/src/main/java/expo/modules/kotlin/events/KModuleEventEmitterWrapper.kt: (90, 7): 'constructor Event&lt;T : Event&lt;(raw) Event&lt;*&gt;&gt;!&gt;(Int)' is deprecated. Deprecated in Java
+
+w: /home/expo/workingdir/build/node_modules/expo-modules-core/android/src/main/java/expo/modules/kotlin/jni/JavaScriptObject.kt: (59, 33): Parameter 'null' is never used
+
+w: /home/expo/workingdir/build/node_modules/expo-modules-core/android/src/main/java/expo/modules/kotlin/jni/JavaScriptObject.kt: (100, 5): Parameter 'null' is never used
+
+w: /home/expo/workingdir/build/node_modules/expo-modules-core/android/src/main/java/expo/modules/kotlin/modules/Module.kt: (43, 7): 'coroutineScope: CoroutineScope' is deprecated. Use a scope from the AppContext
+
+w: /home/expo/workingdir/build/node_modules/expo-modules-core/android/src/main/java/expo/modules/kotlin/types/Either.kt: (24, 11): Parameter 'type' is never used
+
+w: /home/expo/workingdir/build/node_modules/expo-modules-core/android/src/main/java/expo/modules/kotlin/types/Either.kt: (27, 11): Parameter 'type' is never used
+
+w: /home/expo/workingdir/build/node_modules/expo-modules-core/android/src/main/java/expo/modules/kotlin/types/Either.kt: (44, 11): Parameter 'type' is never used
+
+w: /home/expo/workingdir/build/node_modules/expo-modules-core/android/src/main/java/expo/modules/kotlin/types/Either.kt: (59, 11): Parameter 'type' is never used
+
+[stderr] 
+FAILURE: Build completed with 2 failures.
+
+[stderr] 
+1: Task failed with an exception.
+
+[stderr] 
+-----------
+
+[stderr] 
+* What went wrong:
+
+[stderr] 
+Execution failed for task ':app:bundleReleaseJsAndAssets'.
+
+[stderr] 
+&gt; Process 'command 'node'' finished with non-zero exit value 1
+
+[stderr] 
+* Try:
+
+[stderr] 
+&gt; Run with --stacktrace option to get the stack trace.
+
+[stderr] 
+&gt; Run with --info or --debug option to get more log output.
+
+[stderr] 
+&gt; Run with --scan
+
+[stderr] 
+to get full insights.
+
+[stderr] 
+==============================================================================
+
+[stderr] 
+2: Task failed with an exception.
+
+[stderr] 
+-----------
+
+[stderr] 
+* What went wrong:
+
+[stderr] 
+java.lang.StackOverflowError (no error message)
+
+[stderr] 
+* Try:
+
+[stderr] 
+&gt; Run with --stacktrace option to get the stack trace.
+
+[stderr] 
+&gt; Run with --info or --debug option to get more log output.
+
+[stderr] 
+&gt; Run with --scan to get full insights.
+
+[stderr] 
+==============================================================================
+
+[stderr] 
+* Get more help at https://help.gradle.org
+
+[stderr] 
+BUILD FAILED in 3m 52s
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 8.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+See https://docs.gradle.org/7.5.1/userguide/command_line_interface.html#sec:command_line_warnings
+
+Execution optimizations have been disabled for 1 invalid unit(s) of work during this build to ensure correctness.
+
+Please consult deprecation warnings for more details.
+
+328 actionable tasks: 328 executed
+
+Error: Gradle build failed with unknown error. See logs for the &quot;Run gradlew&quot; phase for more information.
+</code></pre>
+<p>my package.json</p>
+<pre class=""lang-json prettyprint-override""><code>{
+  &quot;name&quot;: &quot;com.hfuthole.app&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;scripts&quot;: {
+    &quot;start&quot;: &quot;expo start&quot;,
+    &quot;android&quot;: &quot;expo start --android&quot;,
+    &quot;ios&quot;: &quot;expo start --ios&quot;,
+    &quot;web&quot;: &quot;npx cross-env NODE_OPTIONS=--openssl-legacy-provider expo start --web&quot;,
+    &quot;build:android&quot;: &quot;eas build -p android --profile production&quot;,
+    &quot;update&quot;: &quot;eas update --channel production --message \&quot;update\&quot;&quot;
+  },
+  &quot;resolutions&quot;: {
+    &quot;react-error-overlay&quot;: &quot;6.0.9&quot;,
+    &quot;@react-native-community/cli-platform-android&quot;: &quot;^11.3.6&quot;
+  },
+  &quot;dependencies&quot;: {
+    &quot;@expo/webpack-config&quot;: &quot;^0.17.2&quot;,
+    &quot;@gorhom/bottom-sheet&quot;: &quot;^4.4.5&quot;,
+    &quot;@gorhom/portal&quot;: &quot;^1.0.14&quot;,
+    &quot;@hookform/resolvers&quot;: &quot;^2.9.11&quot;,
+    &quot;@react-native-async-storage/async-storage&quot;: &quot;^1.17.11&quot;,
+    &quot;@react-native-camera-roll/camera-roll&quot;: &quot;^5.3.1&quot;,
+    &quot;@react-native-clipboard/clipboard&quot;: &quot;^1.11.2&quot;,
+    &quot;@react-native-community/datetimepicker&quot;: &quot;6.5.2&quot;,
+    &quot;@react-native-community/netinfo&quot;: &quot;9.3.5&quot;,
+    &quot;@react-navigation/bottom-tabs&quot;: &quot;^6.5.7&quot;,
+    &quot;@react-navigation/material-bottom-tabs&quot;: &quot;^6.2.12&quot;,
+    &quot;@react-navigation/material-top-tabs&quot;: &quot;^6.6.2&quot;,
+    &quot;@react-navigation/native&quot;: &quot;^6.1.3&quot;,
+    &quot;@react-navigation/native-stack&quot;: &quot;^6.9.12&quot;,
+    &quot;@reduxjs/toolkit&quot;: &quot;^1.9.5&quot;,
+    &quot;ahooks&quot;: &quot;^3.7.4&quot;,
+    &quot;axios&quot;: &quot;^1.3.2&quot;,
+    &quot;class-transformer&quot;: &quot;^0.5.1&quot;,
+    &quot;class-validator&quot;: &quot;^0.14.0&quot;,
+    &quot;date-fns&quot;: &quot;^2.29.3&quot;,
+    &quot;dayjs&quot;: &quot;^1.11.7&quot;,
+    &quot;expo-asset&quot;: &quot;~8.7.0&quot;,
+    &quot;expo-clipboard&quot;: &quot;~4.0.1&quot;,
+    &quot;expo-file-system&quot;: &quot;~15.1.1&quot;,
+    &quot;expo-image&quot;: &quot;^1.2.3&quot;,
+    &quot;expo-image-picker&quot;: &quot;~14.0.2&quot;,
+    &quot;expo-media-library&quot;: &quot;~15.0.0&quot;,
+    &quot;expo-secure-store&quot;: &quot;~12.0.0&quot;,
+    &quot;hox&quot;: &quot;^2.1.0&quot;,
+    &quot;immer&quot;: &quot;^9.0.21&quot;,
+    &quot;lottie-react-native&quot;: &quot;5.1.4&quot;,
+    &quot;native-base&quot;: &quot;^3.4.28&quot;,
+    &quot;nativewind&quot;: &quot;^2.0.11&quot;,
+    &quot;qaq-font&quot;: &quot;^1.0.2&quot;,
+    &quot;react&quot;: &quot;18.1.0&quot;,
+    &quot;react-dom&quot;: &quot;18.1.0&quot;,
+    &quot;react-hook-form&quot;: &quot;^7.43.1&quot;,
+    &quot;react-native&quot;: &quot;0.70.8&quot;,
+    &quot;react-native-gesture-handler&quot;: &quot;~2.8.0&quot;,
+    &quot;react-native-image-zoom-viewer&quot;: &quot;^3.0.1&quot;,
+    &quot;react-native-modal-datetime-picker&quot;: &quot;^15.0.0&quot;,
+    &quot;react-native-pager-view&quot;: &quot;6.0.1&quot;,
+    &quot;react-native-paper&quot;: &quot;^5.1.2&quot;,
+    &quot;react-native-paper-dropdown&quot;: &quot;^1.0.7&quot;,
+    &quot;react-native-popover-view&quot;: &quot;^5.1.7&quot;,
+    &quot;react-native-reanimated&quot;: &quot;~2.12.0&quot;,
+    &quot;react-native-safe-area-context&quot;: &quot;4.4.1&quot;,
+    &quot;react-native-screens&quot;: &quot;~3.18.0&quot;,
+    &quot;react-native-svg&quot;: &quot;13.4.0&quot;,
+    &quot;react-native-tab-view&quot;: &quot;^3.5.1&quot;,
+    &quot;react-native-toast-message&quot;: &quot;^2.1.6&quot;,
+    &quot;react-native-vector-icons&quot;: &quot;^9.2.0&quot;,
+    &quot;react-native-web&quot;: &quot;~0.18.9&quot;,
+    &quot;react-native-webview&quot;: &quot;11.23.1&quot;,
+    &quot;react-query&quot;: &quot;^3.39.3&quot;,
+    &quot;react-redux&quot;: &quot;^8.0.5&quot;,
+    &quot;redux-persist&quot;: &quot;^6.0.0&quot;,
+    &quot;redux-persist-expo-securestore&quot;: &quot;^2.0.0&quot;,
+    &quot;reflect-metadata&quot;: &quot;^0.1.13&quot;,
+    &quot;use-immer&quot;: &quot;^0.8.1&quot;
+  },
+  &quot;devDependencies&quot;: {
+    &quot;@babel/core&quot;: &quot;^7.12.9&quot;,
+    &quot;@types/date-fns&quot;: &quot;^2.6.0&quot;,
+    &quot;@types/react&quot;: &quot;^18.0.27&quot;,
+    &quot;@types/react-native&quot;: &quot;^0.71.2&quot;,
+    &quot;@types/react-native-tags&quot;: &quot;^2.2.1&quot;,
+    &quot;@types/react-native-vector-icons&quot;: &quot;^6.4.13&quot;,
+    &quot;@typescript-eslint/eslint-plugin&quot;: &quot;^5.51.0&quot;,
+    &quot;@typescript-eslint/parser&quot;: &quot;^5.51.0&quot;,
+    &quot;babel-plugin-module-resolver&quot;: &quot;^5.0.0&quot;,
+    &quot;eslint&quot;: &quot;^8.34.0&quot;,
+    &quot;eslint-config-prettier&quot;: &quot;^8.6.0&quot;,
+    &quot;eslint-plugin-prettier&quot;: &quot;^4.2.1&quot;,
+    &quot;eslint-plugin-promise&quot;: &quot;^6.1.1&quot;,
+    &quot;eslint-plugin-react&quot;: &quot;^7.32.2&quot;,
+    &quot;eslint-plugin-react-hooks&quot;: &quot;^4.6.0&quot;,
+    &quot;eslint-plugin-react-native&quot;: &quot;^4.0.0&quot;,
+    &quot;expo&quot;: &quot;~47.0.12&quot;,
+    &quot;prettier&quot;: &quot;^2.8.2&quot;,
+    &quot;react-native-svg-transformer&quot;: &quot;^1.0.0&quot;,
+    &quot;tailwindcss&quot;: &quot;^3.2.6&quot;,
+    &quot;typescript&quot;: &quot;^4.9.5&quot;
+  },
+  &quot;private&quot;: true
+}
+</code></pre>
+<p>eas.json</p>
+<pre class=""lang-json prettyprint-override""><code>{
+  &quot;build&quot;: {
+    &quot;production&quot;: {
+      &quot;android&quot;: {
+        &quot;buildType&quot;: &quot;apk&quot;,
+        &quot;image&quot;: &quot;latest&quot;
+      },
+      &quot;channel&quot;: &quot;production&quot;
+    },
+    &quot;preview2&quot;: {
+      &quot;android&quot;: {
+        &quot;gradleCommand&quot;: &quot;:app:assembleRelease&quot;
+      },
+      &quot;channel&quot;: &quot;preview2&quot;
+    },
+    &quot;preview3&quot;: {
+      &quot;developmentClient&quot;: true,
+      &quot;channel&quot;: &quot;preview3&quot;
+    }
+  }
+}
+</code></pre>
+<p>app.json</p>
+<pre class=""lang-bash prettyprint-override""><code>{
+  &quot;expo&quot;: {
+    &quot;name&quot;: &quot;??????&quot;,
+    &quot;slug&quot;: &quot;hfuthole&quot;,
+    &quot;version&quot;: &quot;0.0.1&quot;,
+    &quot;orientation&quot;: &quot;portrait&quot;,
+    &quot;icon&quot;: &quot;./assets/splash.png&quot;,
+    &quot;userInterfaceStyle&quot;: &quot;automatic&quot;,
+    &quot;splash&quot;: {
+      &quot;image&quot;: &quot;./assets/bg.png&quot;,
+      &quot;backgroundColor&quot;: &quot;#ffffff&quot;
+    },
+    &quot;assetBundlePatterns&quot;: [
+      &quot;**/*&quot;
+    ],
+    &quot;ios&quot;: {
+      &quot;supportsTablet&quot;: true,
+      &quot;bundleIdentifier&quot;: &quot;com.hfuthole.app&quot;
+    },
+    &quot;android&quot;: {
+      &quot;adaptiveIcon&quot;: {
+        &quot;foregroundImage&quot;: &quot;./assets/splash.png&quot;
+      },
+      &quot;permissions&quot;: [
+        &quot;WRITE_EXTERNAL_STORAGE&quot;,
+        &quot;READ_EXTERNAL_STORAGE&quot;
+      ],
+      &quot;package&quot;: &quot;com.hfuthole.app&quot;
+    },
+    &quot;web&quot;: {
+      &quot;favicon&quot;: &quot;./assets/splash.png&quot;
+    },
+    &quot;extra&quot;: {
+      &quot;eas&quot;: {
+        &quot;projectId&quot;: &quot;xxxxx&quot;
+      }
+    },
+    &quot;owner&quot;: &quot;snowingfox&quot;
+  }
+}
+</code></pre>
+<p>my repo: <a href=""https://github.com/HFUTHole/HFUTHoleApp"" rel=""nofollow noreferrer"">https://github.com/HFUTHole/HFUTHoleApp</a></p>
+<p>may be it caused by nativewind because of error
+<code>Use process(css).then(cb) to work with async plugins</code>
+<code>at LazyResult.getAsyncError (/home/expo/workingdir/build/node_modules/nativewind/node_modules/postcss/lib/lazy-result.js:182:11)</code></p>
+<p>and</p>
+<p>react-async-storage</p>
+<pre class=""lang-bash prettyprint-override""><code>[stderr] 
+error App.tsx: /home/expo/workingdir/build/App.tsx: Use process(css).then(cb) to work with async plugins.
+
+&gt; Task :react-native-async-storage_async-storage:compileReleaseJavaWithJavac
+</code></pre>
+<p>I'm using lottie, nativewind and some may caused error packages, but idk what happened, could some one help me?</p>
+","['my package.json', 'eas.json', 'app.json', 'my repo: <a href=""https://github.com/HFUTHole/HFUTHoleApp"" rel=""nofollow noreferrer"">https://github.com/HFUTHole/HFUTHoleApp</a>', 'may be it caused by nativewind because of error\n<code>Use process(css).then(cb) to work with async plugins</code>\n<code>at LazyResult.getAsyncError (/home/expo/workingdir/build/node_modules/nativewind/node_modules/postcss/lib/lazy-result.js:182:11)</code>', 'and', 'react-async-storage', ""I'm using lottie, nativewind and some may caused error packages, but idk what happened, could some one help me?""]",0,1,0
+70,57158964,angular material TimePicker ngx-material-timepicker Error Uncaught (in promise): TypeError: Object(...) is not a function,"<p>I use ngx-material-timepicker timePicker install from <a href=""https://www.npmjs.com/package/ngx-material-timepicker"" rel=""nofollow noreferrer"">here</a>
+with command <code>npm install --save ngx-material-timepicker</code>
+also i install dependencies luxon and tslib 
+and according to npm </p>
+
+<pre><code>   import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+    @NgModule({
+      imports: [NgxMaterialTimepickerModule]
+    })
+</code></pre>
+
+<p>and in my html file</p>
+
+<pre><code>&lt;input [ngxTimepicker]=""picker""&gt;
+&lt;ngx-material-timepicker #picker&gt;&lt;/ngx-material-timepicker&gt;
+</code></pre>
+
+<p>but error </p>
+
+<pre><code>core.js:15724 ERROR Error: Uncaught (in promise): TypeError: Object(...) is not a function
+TypeError: Object(...) is not a function
+    at ngx-material-timepicker.js:231
+    at Module../node_modules/ngx-material-timepicker/fesm5/ngx-material-timepicker.js (ngx-material-timepicker.js:238)
+    at __webpack_require__ (bootstrap:83)
+    at Module../src/app/modules/management/admin/admin.module.ts (admin-routing.module.ts:145)
+    at __webpack_require__ (bootstrap:83)
+    at $_lazy_route_resource lazy namespace object:34
+    at ZoneDelegate.push../node_modules/zone.js/dist/zone.js.ZoneDelegate.invoke (zone.js:391)
+    at Object.onInvoke (core.js:17299)
+    at ZoneDelegate.push../node_modules/zone.js/dist/zone.js.ZoneDelegate.invoke (zone.js:390)
+    at Zone.push../node_modules/zone.js/dist/zone.js.Zone.run (zone.js:150)
+    at resolvePromise (zone.js:831)
+    at resolvePromise (zone.js:788)
+    at zone.js:892
+    at ZoneDelegate.push../node_modules/zone.js/dist/zone.js.ZoneDelegate.invokeTask (zone.js:423)
+    at Object.onInvokeTask (core.js:17290)
+    at ZoneDelegate.push../node_modules/zone.js/dist/zone.js.ZoneDelegate.invokeTask (zone.js:422)
+    at Zone.push../node_modules/zone.js/dist/zone.js.Zone.runTask (zone.js:195)
+    at drainMicroTaskQueue (zone.js:601)
+</code></pre>
+","['I use ngx-material-timepicker timePicker install from <a href=""https://www.npmjs.com/package/ngx-material-timepicker"" rel=""nofollow noreferrer"">here</a>\nwith command <code>npm install --save ngx-material-timepicker</code>\nalso i install dependencies luxon and tslib \nand according to npm ', 'and in my html file', 'but error ']",1,0,0
+1725,61277302,Discord Bot doesnt send message when user reacts,"<p>So my bot doesn't send a message when the user reacts even though he should, and then there are the errors... btw I put so many .catch error in the code because of the promise rejection error</p>
+<pre><code>client.on(&quot;guildMemberAdd&quot;, member =&gt; {
+    try {
+        member.send(`Hello ${member}, welcome to the PotatoHost Server! 
+I want to help you and so my question is: Do you want to buy a server or do you need more informations first? \n
+A: I want to buy a server
+B: I need more informations first \n
+Please react to this message with A or B.`)
+        .catch(err =&gt; console.log('err1'))
+        .then(function (message) {
+            message.react(&quot;&quot;)
+            .catch(err =&gt; console.log(err));
+            message.react(&quot;&quot;)
+            .catch(err =&gt; console.log(err));
+            message.awaitReactions((reaction, user) =&gt; user.id == message.author.id &amp;&amp; (reaction.emoji.name == '' || reaction.emoji.name == ''),
+                { max: 1})
+                .catch(err =&gt; console.log(err))
+                .then(collected =&gt; {
+                    if (collected.first().emoji.name == '') {
+                        message.send('Ok, so you want to buy a server. Let me recommend you to visit &lt;#699374469977735208&gt;.')
+                        .catch(err =&gt; console.log(err));
+                    }
+                    else
+                      message.send('Ok, so you need more informations first. Let me recommend you to visit &lt;#699374469977735208&gt;.')
+                      .catch(err =&gt; console.log(err));
+                })
+        });
+    }catch (err) {
+         console.log(err)
+    }
+})
+</code></pre>
+<p>Here are the errors that i dont know how to fix:</p>
+<pre><code>(node:31944) UnhandledPromiseRejectionWarning: TypeError: message.send is not a function
+    at C:\Users\nicos\OneDrive\Documents\Discord Bots\PotatoHost Bot\index.js:27:33
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+(node:31944) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+(node:31944) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+</code></pre>
+","[""So my bot doesn't send a message when the user reacts even though he should, and then there are the errors... btw I put so many .catch error in the code because of the promise rejection error"", 'Here are the errors that i dont know how to fix:']",0,0,1
+1915,61490899,don't start Android application in React native,"<p>Finally i could resolve by making new project.
+and copy code and add library one by one.
+i could clean my project.
+it means i could throw unneeded libraries and something.</p>
+
+<p>thank you!</p>
+
+<p>i'm trying to use react-native-webview for my application.
+In iOS,it works well.
+In Android ,it doesn't.
+And unfortunatelly,i don know the reason.
+i reserched a lot.
+unfortunatelly,i still have a problem.
+it produced this error on Android studio.
+because it doesn't produces any error by running this command.</p>
+
+<pre><code>react-native run-android
+</code></pre>
+
+<p>so i can't understand why it doesn't work.
+so i tried to build it on android studio,then it produced this error.</p>
+
+<pre><code>2020-04-29 00:34:25.444 19491-19530/com.hiratsuka_react_native_test E/SoLoader: couldn't find DSO to load: libhermes.so
+2020-04-29 00:34:25.446 19491-19530/com.hiratsuka_react_native_test E/AndroidRuntime: FATAL EXCEPTION: create_react_context
+Process: com.hiratsuka_react_native_test, PID: 19491
+java.lang.UnsatisfiedLinkError: couldn't find DSO to load: libhermes.so
+    at com.facebook.soloader.SoLoader.doLoadLibraryBySoName(SoLoader.java:789)
+    at com.facebook.soloader.SoLoader.loadLibraryBySoName(SoLoader.java:639)
+    at com.facebook.soloader.SoLoader.loadLibrary(SoLoader.java:577)
+    at com.facebook.soloader.SoLoader.loadLibrary(SoLoader.java:525)
+    at com.facebook.hermes.reactexecutor.HermesExecutor.&lt;clinit&gt;(HermesExecutor.java:20)
+    at com.facebook.hermes.reactexecutor.HermesExecutorFactory.create(HermesExecutorFactory.java:27)
+    at com.facebook.react.ReactInstanceManager$5.run(ReactInstanceManager.java:952)
+    at java.lang.Thread.run(Thread.java:764)
+</code></pre>
+
+<p>my env is here.</p>
+
+<pre><code>react-native-cli: 2.0.1
+react-native: 0.61.5
+
+      {
+    ""name"": ""hiratsuka_react_native_test"",
+    ""version"": ""0.0.1"",
+    ""private"": true,
+    ""scripts"": {
+      ""android"": ""react-native run-android"",
+      ""ios"": ""react-native run-ios"",
+      ""start"": ""react-native start"",
+      ""test"": ""jest"",
+      ""lint"": ""eslint ."",
+      ""storybook"": ""start-storybook -p 7007""
+    },
+    ""dependencies"": {
+      ""@expo/vector-icons"": ""^10.0.6"",
+      ""@react-native-community/masked-view"": ""^0.1.7"",
+      ""@react-navigation/bottom-tabs"": ""^5.2.0"",
+      ""@react-navigation/native"": ""^5.0.9"",
+      ""@react-navigation/stack"": ""^5.1.1"",
+      ""@unimodules/core"": ""^5.0.0"",
+      ""axios"": ""^0.19.2"",
+      ""expo-asset"": ""^8.0.0"",
+      ""expo-constants"": ""^8.0.0"",
+      ""expo-font"": ""^8.0.0"",
+      ""jest-worker"": ""^25.2.6"",
+      ""react"": ""16.9.0"",
+      ""react-native"": ""0.61.5"",
+      ""react-native-elements"": ""^1.2.7"",
+      ""react-native-fast-image"": ""^8.1.5"",
+      ""react-native-gesture-handler"": ""^1.6.0"",
+      ""react-native-get-random-values"": ""^1.4.0"",
+      ""react-native-reanimated"": ""^1.7.0"",
+      ""react-native-safe-area-context"": ""^0.7.3"",
+      ""react-native-screens"": ""^2.2.0"",
+      ""react-native-unimodules"": ""^0.8.1"",
+      ""react-native-webview"": ""^9.3.0"",
+      ""react-navigation"": ""^4.3.4"",
+      ""realm"": ""5.0.0"",
+      ""typescript"": ""^3.7.0-beta""
+    },
+    ""devDependencies"": {
+      ""@babel/core"": ""7.8.7"",
+      ""@babel/runtime"": ""7.8.7"",
+      ""@react-native-community/eslint-config"": ""0.0.5"",
+      ""@storybook/addon-actions"": ""^5.3.17"",
+      ""@storybook/addon-links"": ""^5.3.17"",
+      ""@storybook/addons"": ""^5.3.17"",
+      ""@storybook/react-native"": ""^5.3.17"",
+      ""@storybook/react-native-server"": ""^5.3.17"",
+      ""babel-jest"": ""24.9.0"",
+      ""babel-loader"": ""^8.0.6"",
+      ""eslint"": ""^5.0.0"",
+      ""jest"": ""24.9.0"",
+      ""metro-react-native-babel-preset"": ""0.56.4"",
+      ""react-dom"": ""^16.9.0"",
+      ""react-native-storybook-loader"": ""^1.8.1"",
+      ""react-test-renderer"": ""16.9.0""
+    },
+    ""jest"": {
+      ""preset"": ""react-native""
+    }
+  }
+</code></pre>
+
+<p>i tried to clean cache,change gradle,or something.but it didn't work.</p>
+
+<p>before using react-native-webview,it worked well.<br>
+please help.</p>
+
+<p>app/build.gradle is here.</p>
+
+<pre><code>      apply plugin: ""com.android.application""
+
+  import com.android.build.OutputFile
+
+  /**
+   * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
+   * and bundleReleaseJsAndAssets).
+   * These basically call `react-native bundle` with the correct arguments during the Android build
+   * cycle. By default, bundleDebugJsAndAssets is skipped, as in debug/dev mode we prefer to load the
+   * bundle directly from the development server. Below you can see all the possible configurations
+   * and their defaults. If you decide to add a configuration block, make sure to add it before the
+   * `apply from: ""../../node_modules/react-native/react.gradle""` line.
+   *
+   * project.ext.react = [
+   *   // the name of the generated asset file containing your JS bundle
+   *   bundleAssetName: ""index.android.bundle"",
+   *
+   *   // the entry file for bundle generation
+   *   entryFile: ""index.android.js"",
+   *
+   *   // https://facebook.github.io/react-native/docs/performance#enable-the-ram-format
+   *   bundleCommand: ""ram-bundle"",
+   *
+   *   // whether to bundle JS and assets in debug mode
+   *   bundleInDebug: false,
+   *
+   *   // whether to bundle JS and assets in release mode
+   *   bundleInRelease: true,
+   *
+   *   // whether to bundle JS and assets in another build variant (if configured).
+   *   // See http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Build-Variants
+   *   // The configuration property can be in the following formats
+   *   //         'bundleIn${productFlavor}${buildType}'
+   *   //         'bundleIn${buildType}'
+   *   // bundleInFreeDebug: true,
+   *   // bundleInPaidRelease: true,
+   *   // bundleInBeta: true,
+   *
+   *   // whether to disable dev mode in custom build variants (by default only disabled in release)
+   *   // for example: to disable dev mode in the staging build type (if configured)
+   *   devDisabledInStaging: true,
+   *   // The configuration property can be in the following formats
+   *   //         'devDisabledIn${productFlavor}${buildType}'
+   *   //         'devDisabledIn${buildType}'
+   *
+   *   // the root of your project, i.e. where ""package.json"" lives
+   *   root: ""../../"",
+   *
+   *   // where to put the JS bundle asset in debug mode
+   *   jsBundleDirDebug: ""$buildDir/intermediates/assets/debug"",
+   *
+   *   // where to put the JS bundle asset in release mode
+   *   jsBundleDirRelease: ""$buildDir/intermediates/assets/release"",
+   *
+   *   // where to put drawable resources / React Native assets, e.g. the ones you use via
+   *   // require('./image.png')), in debug mode
+   *   resourcesDirDebug: ""$buildDir/intermediates/res/merged/debug"",
+   *
+   *   // where to put drawable resources / React Native assets, e.g. the ones you use via
+   *   // require('./image.png')), in release mode
+   *   resourcesDirRelease: ""$buildDir/intermediates/res/merged/release"",
+   *
+   *   // by default the gradle tasks are skipped if none of the JS files or assets change; this means
+   *   // that we don't look at files in android/ or ios/ to determine whether the tasks are up to
+   *   // date; if you have any other folders that you want to ignore for performance reasons (gradle
+   *   // indexes the entire tree), add them here. Alternatively, if you have JS files in android/
+   *   // for example, you might want to remove it from here.
+   *   inputExcludes: [""android/**"", ""ios/**""],
+   *
+   *   // override which node gets called and with what additional arguments
+   *   nodeExecutableAndArgs: [""node""],
+   *
+   *   // supply additional arguments to the packager
+   *   extraPackagerArgs: []
+   * ]
+   */
+
+  project.ext.react = [
+      entryFile: ""index.js"",
+      root: ""../../"",
+      enableHermes: true,  // clean and rebuild if changing
+  ]
+
+  apply from: ""../../node_modules/react-native/react.gradle""
+
+  apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
+
+
+  /**
+   * Set this to true to create two separate APKs instead of one:
+   *   - An APK that only works on ARM devices
+   *   - An APK that only works on x86 devices
+   * The advantage is the size of the APK is reduced by about 4MB.
+   * Upload all the APKs to the Play Store and people will download
+   * the correct one based on the CPU architecture of their device.
+   */
+  def enableSeparateBuildPerCPUArchitecture = false
+
+  /**
+   * Run Proguard to shrink the Java bytecode in release builds.
+   */
+  def enableProguardInReleaseBuilds = false
+  def useIntlJsc = false
+
+  /**
+   * The preferred build flavor of JavaScriptCore.
+   *
+   * For example, to use the international variant, you can use:
+   * `def jscFlavor = 'org.webkit:android-jsc-intl:+'`
+   *
+   * The international variant includes ICU i18n library and necessary data
+   * allowing to use e.g. `Date.toLocaleString` and `String.localeCompare` that
+   * give correct results when using with locales other than en-US.  Note that
+   * this variant is about 6MiB larger per architecture than default.
+   */
+  def jscFlavor = 'org.webkit:android-jsc:+'
+
+  /**
+   * Whether to enable the Hermes VM.
+   *
+   * This should be set on project.ext.react and mirrored here.  If it is not set
+   * on project.ext.react, JavaScript will not be compiled to Hermes Bytecode
+   * and the benefits of using Hermes will therefore be sharply reduced.
+   */
+  def enableHermes = project.ext.react.get(""enableHermes"", false);
+
+  android {
+      compileSdkVersion rootProject.ext.compileSdkVersion
+
+      compileOptions {
+          sourceCompatibility JavaVersion.VERSION_1_8
+          targetCompatibility JavaVersion.VERSION_1_8
+      }
+
+      defaultConfig {
+          applicationId ""com.hiratsuka_react_native_test""
+          minSdkVersion rootProject.ext.minSdkVersion
+          targetSdkVersion rootProject.ext.targetSdkVersion
+          versionCode 1
+          versionName ""1.0""
+      }
+      splits {
+          abi {
+              reset()
+              enable enableSeparateBuildPerCPUArchitecture
+              universalApk false  // If true, also generate a universal APK
+              include ""armeabi-v7a"", ""x86"", ""arm64-v8a"", ""x86_64""
+          }
+      }
+      signingConfigs {
+          debug {
+              storeFile file('debug.keystore')
+              storePassword 'android'
+              keyAlias 'androiddebugkey'
+              keyPassword 'android'
+          }
+      }
+      buildTypes {
+          debug {
+              signingConfig signingConfigs.debug
+          }
+          release {
+              // Caution! In production, you need to generate your own keystore file.
+              // see https://facebook.github.io/react-native/docs/signed-apk-android.
+              signingConfig signingConfigs.debug
+              minifyEnabled enableProguardInReleaseBuilds
+              proguardFiles getDefaultProguardFile(""proguard-android.txt""), ""proguard-rules.pro""
+          }
+      }
+      // applicationVariants are e.g. debug, release
+      applicationVariants.all { variant -&gt;
+          variant.outputs.each { output -&gt;
+              // For each separate APK per architecture, set a unique version code as described here:
+              // https://developer.android.com/studio/build/configure-apk-splits.html
+              def versionCodes = [""armeabi-v7a"": 1, ""x86"": 2, ""arm64-v8a"": 3, ""x86_64"": 4]
+              def abi = output.getFilter(OutputFile.ABI)
+              if (abi != null) {  // null for the universal-debug, universal-release variants
+                  output.versionCodeOverride =
+                          versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
+              }
+
+          }
+      }
+  }
+
+  dependencies {
+      implementation project(':react-native-webview')
+      implementation fileTree(dir: ""libs"", include: [""*.jar""])
+      implementation ""com.facebook.react:react-native:+""  // From node_modules
+      addUnimodulesDependencies()
+      api project(':unimodules-core')
+
+      if (enableHermes) {
+          def hermesPath = ""../../node_modules/hermes-engine/android/"";
+          debugImplementation files(hermesPath + ""hermes-debug.aar"")
+          releaseImplementation files(hermesPath + ""hermes-release.aar"")
+      } else {
+          implementation jscFlavor
+      }
+
+
+      // If your app supports Android versions before Ice Cream Sandwich (API level 14)
+      implementation 'com.facebook.fresco:animated-base-support:1.3.0'
+
+      // For animated GIF support
+      implementation 'com.facebook.fresco:animated-gif:2.0.0'
+
+      // For WebP support, including animated WebP
+      implementation 'com.facebook.fresco:animated-webp:2.1.0'
+      implementation 'com.facebook.fresco:webpsupport:2.0.0'
+
+      // For WebP support, without animations
+      implementation 'com.facebook.fresco:webpsupport:2.0.0'
+  }
+
+  // Run this once to be able to run the application with BUCK
+  // puts all compile dependencies into folder libs for BUCK to use
+  task copyDownloadableDepsToLibs(type: Copy) {
+      from configurations.compile
+      into 'libs'
+  }
+
+
+  apply from: file(""../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle""); applyNativeModulesAppBuildGradle(project)
+</code></pre>
+","['Finally i could resolve by making new project.\nand copy code and add library one by one.\ni could clean my project.\nit means i could throw unneeded libraries and something.', 'thank you!', ""i'm trying to use react-native-webview for my application.\nIn iOS,it works well.\nIn Android ,it doesn't.\nAnd unfortunatelly,i don know the reason.\ni reserched a lot.\nunfortunatelly,i still have a problem.\nit produced this error on Android studio.\nbecause it doesn't produces any error by running this command."", ""so i can't understand why it doesn't work.\nso i tried to build it on android studio,then it produced this error."", 'my env is here.', ""i tried to clean cache,change gradle,or something.but it didn't work."", 'before using react-native-webview,it worked well.\nplease help.', 'app/build.gradle is here.']",1,0,0
+959,46445697,TypeError: Cannot read property 'coverNaming' of undefined,"<p>I am writing unit test for reactjs web application using mocha,chai and enzyme .. I am often getting this error..</p>
+
+<blockquote>
+  <p>TypeError: Cannot read property 'coverNaming' of undefined   at
+  Cover.render (src/components/cover.js:31:30)</p>
+</blockquote>
+
+<p>Here's my code in cover.js</p>
+
+<pre><code>    let signatureEco = this.state.signatureEcoCoverType;    
+    let secondColor = this.state.secondColor;    
+    let catalogSubCategory = this.props.catalogType;    
+    let namingVisibility=catalogSubCategory.coverNaming;
+</code></pre>
+
+<p>Next error I often  get is </p>
+
+<blockquote>
+  <p>TypeError: Cannot read property 'length' of undefined
+   at Papertype.render
+  (src/components/layoutcomponents/papertype.js:50:23)</p>
+</blockquote>
+
+<p>Here is code in <strong>papertype.js</strong></p>
+
+<pre><code>    let validLayoutPaperType=this.props.validLayoutPaperType;
+    let paperTypeOptions = [];    
+    let paperTypeOpts = common.paperTypeOpts;    
+    for(let i=0;i&lt;validLayoutPaperType.length;i++){    
+       let paper = paperTypeOpts[validLayoutPaperType[i]]    
+       paperTypeOptions.push(&lt;option label={paper}                 
+       value={paper} key={i}&gt;{paper}&lt;/option&gt;)
+    }
+</code></pre>
+
+<p>I don't get errors  while running the application , it only happens when i run test .. basically i have written snapshot test for now.</p>
+","['I am writing unit test for reactjs web application using mocha,chai and enzyme .. I am often getting this error..', ""TypeError: Cannot read property 'coverNaming' of undefined   at\n  Cover.render (src/components/cover.js:31:30)"", ""Here's my code in cover.js"", 'Next error I often  get is ', ""TypeError: Cannot read property 'length' of undefined\n   at Papertype.render\n  (src/components/layoutcomponents/papertype.js:50:23)"", 'Here is code in papertype.js', ""I don't get errors  while running the application , it only happens when i run test .. basically i have written snapshot test for now.""]",1,0,0
+1036,67440282,"modify-config-helper.js:40env.run(generatorName).on(""end"", () => {^ TypeError: env.run(...).on is not a function","<pre><code>TypeError: env.run(...).on is not a function
+   at modifyHelperUtil (C:\Users\AppData\Roaming\npm\node_modules\webpack-cli\lib\utils\modify-config- 
+   helper.js:40:25)
+   at initializeInquirer (C:\Users\AppData\Roaming\npm\node_modules\webpack- 
+   cli\lib\commands\init.js:22:10)
+   at initialize (C:\Users\AppData\Roaming\npm\node_modules\webpack-cli\lib\index.js:20:41)    
+   at C:\Users\shekhd2\AppData\Roaming\npm\node_modules\webpack-cli\bin\webpack.js:45:26
+   at Object.&lt;anonymous&gt; (C:\Users\shekhd2\AppData\Roaming\npm\node_modules\webpack- 
+   cli\bin\webpack.js:514:3)
+    at Module._compile (internal/modules/cjs/loader.js:1063:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1092:10)
+    at Module.load (internal/modules/cjs/loader.js:928:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:769:14)
+    at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)
+</code></pre>
+<p>my node: '14.15.5' npm: '6.14.11' BTW. I am new to web development and not sure if I have to install some different versions or not or if there is a compatibility issue with my version of node and webpack which i tried is npm i -g webpack-cli@2.0.14.</p>
+",["my node: '14.15.5' npm: '6.14.11' BTW. I am new to web development and not sure if I have to install some different versions or not or if there is a compatibility issue with my version of node and webpack which i tried is npm i -g webpack-cli@2.0.14."],0,1,0
+1785,54966419,D3 Angular Tree,"<p>I have a working D3 tree that I am trying to convert to Angular. It's a v3 tree. </p>
+
+<p>The component code is:</p>
+
+<pre><code>import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, ViewEncapsulation } from '@angular/core';
+declare var d3: any;
+
+@Component({
+  selector: 'app-tree-view',
+  template: '&lt;div #chart id=""chart""&gt;&lt;/div&gt;',
+  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./tree-view.component.scss']
+})
+export class TreeViewComponent implements AfterViewInit, OnInit {
+
+  ngOnInit(): void {
+    this.createChart();
+  }
+
+  constructor(){
+
+  }
+
+  ngAfterViewInit(): void {
+    this.root.update = this.update;
+    this.update(this.root);
+  }
+
+private treeData: any[] = [{...data here}],
+
+tree: any;
+i = 0;
+duration = 750;
+root:any = {};
+svg:any = {};
+diagonal: any;
+
+@ViewChild('chart')
+private chartContainer: ElementRef;
+
+
+private createChart(): void {
+  var margin = {top: 20, right: 120, bottom: 20, left: 120},
+    width = 1560 - margin.right - margin.left,
+    height = 1000 - margin.top - margin.bottom;
+
+ this.tree = d3.layout.tree()
+    .size([height, width]);
+
+  const element = this.chartContainer.nativeElement;
+
+ this.diagonal = d3.svg.diagonal().projection((d) =&gt; { return [d.y, d.x]; });
+
+ this.svg = d3.select(element).append(""svg"")
+    .attr(""width"", width + margin.right + margin.left)
+    .attr(""height"", height + margin.top + margin.bottom)
+  .append(""g"")
+    .attr(""transform"", ""translate("" + margin.left + "","" + margin.top + "")"");
+
+this.root = this.treeData[0];
+this.root.x0 = height / 2;
+this.root.y0 = 0;
+
+this.hideChildren(this.root);
+
+console.log(this.root);
+
+d3.select(self.frameElement).style(""height"", ""1000px"");
+}
+
+ private hideChildren(node) {
+    if(node.children) {
+        node._children = node.children;
+        node.children = null;
+        node._children.forEach((a) =&gt;  { this.hideChildren});
+    }
+}
+
+ private update(source) {
+
+  // Compute the new tree layout.
+  var nodes = this.tree.nodes(this.root).reverse(),
+      links = this.tree.links(nodes);
+
+  // Normalize for fixed-depth.
+  nodes.forEach((d) =&gt; { d.y = d.depth * 180; });
+
+  // Update the nodes??  var node = this.svg.selectAll(""g.node"")
+      .data(nodes, (d) =&gt; { return d.id || (d.id = ++this.i ); });
+
+  // Enter any new nodes at the parent's previous position.
+  var nodeEnter = node.enter().append(""g"")
+      .attr(""class"", ""node"")
+      .attr(""transform"", (d) =&gt; { return ""translate("" + source.y0 + "","" + source.x0 + "")""; })
+      .on(""click"", this.click);
+
+  nodeEnter.append(""circle"")
+      .attr(""r"", 1e-6)
+      .style(""fill"", (d) =&gt; { return d._children ? ""lightsteelblue"" : ""#fff""; });
+
+  nodeEnter.append(""text"")
+      .attr(""x"", (d) =&gt; { return d.children || d._children ? -13 : 13; })
+      .attr(""dy"", "".35em"")
+      .attr(""text-anchor"", (d) =&gt; { return d.children || d._children ? ""end"" : ""start""; })
+      .text((d) =&gt; { return d.name; })
+      .style(""fill-opacity"", 1e-6);
+
+  // Transition nodes to their new position.
+  var nodeUpdate = node.transition()
+      .duration(this.duration)
+      .attr(""transform"", (d) =&gt; { return ""translate("" + d.y + "","" + d.x + "")""; });
+
+  nodeUpdate.select(""circle"")
+      .attr(""r"", 10)
+      .style(""fill"", (d) =&gt; { return d._children ? ""lightsteelblue"" : ""#fff""; });
+
+  nodeUpdate.select(""text"")
+      .style(""fill-opacity"", 1);
+
+  // Transition exiting nodes to the parent's new position.
+  var nodeExit = node.exit().transition()
+      .duration(this.duration)
+      .attr(""transform"", (d) =&gt; { return ""translate("" + source.y + "","" + source.x + "")""; })
+      .remove();
+
+  nodeExit.select(""circle"")
+      .attr(""r"", 1e-6);
+
+  nodeExit.select(""text"")
+      .style(""fill-opacity"", 1e-6);
+
+  // Update the links??  var link = this.svg.selectAll(""path.link"")
+      .data(links, (d) =&gt; { return d.target.id; });
+
+  // Enter any new links at the parent's previous position.
+  link.enter().insert(""path"", ""g"")
+      .attr(""class"", ""link"")
+      .attr(""d"", (d) =&gt; {
+        var o = {x: source.x0, y: source.y0};
+        return this.diagonal({source: o, target: o});
+      });
+
+  // Transition links to their new position.
+  link.transition()
+      .duration(this.duration)
+      .attr(""d"", this.diagonal);
+
+  // Transition exiting nodes to the parent's new position.
+  link.exit().transition()
+      .duration(this.duration)
+      .attr(""d"", (d) =&gt; {
+        var o = {x: source.x, y: source.y};
+        return this.diagonal({source: o, target: o});
+      })
+      .remove();
+
+  // Stash the old positions for transition.
+  nodes.forEach((d) =&gt; {
+    d.x0 = d.x;
+    d.y0 = d.y;
+  });
+
+  console.log('end creating chart');
+}
+
+// Toggle children on click.
+click(d, item) {
+  if (d.children) {
+    d._children = d.children;
+    d.children = null;
+  } else {
+    d.children = d._children;
+    d._children = null;
+  }
+
+  this.update(d);
+}
+
+
+}
+</code></pre>
+
+<p>The script is compiled into the angular.json file using</p>
+
+<p><code>""scripts"": [""src/scripts/d3.js""]</code></p>
+
+<p>However, when I expand a node I am getting an error of </p>
+
+<blockquote>
+  <p>5core.js:14597 ERROR TypeError: this.update is not a function
+      at SVGGElement.push../src/app/tree-view/tree-view.component.ts.TreeViewComponent.click
+  (tree-view.component.ts:69898)
+      at SVGGElement.__onclick (d3.js:1)
+      at ZoneDelegate.push../node_modules/zone.js/dist/zone.js.ZoneDelegate.invokeTask
+  (zone.js:423)
+      at Object.onInvokeTask (core.js:16147)
+      at ZoneDelegate.push../node_modules/zone.js/dist/zone.js.ZoneDelegate.invokeTask
+  (zone.js:422)
+      at Zone.push../node_modules/zone.js/dist/zone.js.Zone.runTask (zone.js:195)
+      at ZoneTask.push../node_modules/zone.js/dist/zone.js.ZoneTask.invokeTask
+  [as invoke] (zone.js:498)
+      at invokeTask (zone.js:1744)
+      at SVGGElement.globalZoneAwareCallback (zone.js:1770)</p>
+</blockquote>
+
+<p>Clearly this is as scoping issue - with<code>this</code>, but I don't know how to get around this. <code>this</code> refers to the node, not the class. </p>
+
+<p>Any help would be much appreciated</p>
+
+<p>Cheers
+KH</p>
+","[""I have a working D3 tree that I am trying to convert to Angular. It's a v3 tree. "", 'The component code is:', 'The script is compiled into the angular.json file using', '<code>""scripts"": [""src/scripts/d3.js""]</code>', 'However, when I expand a node I am getting an error of ', '5core.js:14597 ERROR TypeError: this.update is not a function\n      at SVGGElement.push../src/app/tree-view/tree-view.component.ts.TreeViewComponent.click\n  (tree-view.component.ts:69898)\n      at SVGGElement.__onclick (d3.js:1)\n      at ZoneDelegate.push../node_modules/zone.js/dist/zone.js.ZoneDelegate.invokeTask\n  (zone.js:423)\n      at Object.onInvokeTask (core.js:16147)\n      at ZoneDelegate.push../node_modules/zone.js/dist/zone.js.ZoneDelegate.invokeTask\n  (zone.js:422)\n      at Zone.push../node_modules/zone.js/dist/zone.js.Zone.runTask (zone.js:195)\n      at ZoneTask.push../node_modules/zone.js/dist/zone.js.ZoneTask.invokeTask\n  [as invoke] (zone.js:498)\n      at invokeTask (zone.js:1744)\n      at SVGGElement.globalZoneAwareCallback (zone.js:1770)', ""Clearly this is as scoping issue - with<code>this</code>, but I don't know how to get around this. <code>this</code> refers to the node, not the class. "", 'Any help would be much appreciated', 'Cheers\nKH']",0,0,1
+1883,31580842,React-router server-side error,"<p>I'm trying to make my client-side webapp isomorphic.
+I get this as a pattern: <a href=""https://stackoverflow.com/questions/28553904/client-routing-using-react-router-and-server-side-routing"">Client Routing (using react-router) and Server-Side Routing</a></p>
+
+<p>Here what i've got.</p>
+
+<p>server.js:</p>
+
+<pre><code>var React = require('react'),
+express = require('express'),
+Router = require('react-router'),
+routes = require('./src/js/main'),
+path = require('path'),
+app = express(),
+port = 5555,
+bodyParser = require('body-parser');
+
+// Make sure to include the JSX transpiler
+require(""node-jsx"").install();
+
+// Include static assets. Not advised for production
+app.use(express.static(path.join(__dirname, 'dist')));
+// Set view path
+app.set('views', path.join(__dirname, 'views'));
+// set up ejs for templating. You can use whatever
+app.set('view engine', 'ejs');
+
+
+// ...express config...
+
+app.use(function(req, res, next) {
+  var router = Router.create({location: req.url, routes: routes})
+  router.run(function(Handler, state) {
+    var reactHtml = React.renderToString(&lt;Handler/&gt;)
+    return res.render('index.ejs', {reactOutput: reactHtml})
+  })
+})
+
+app.listen(port);
+console.log('Server is Up and Running at Port : ' + port);
+</code></pre>
+
+<p>main.js:</p>
+
+<pre><code>var React = require('react');
+var Router = require('react-router');
+var Route = Router.Route;
+var RouteHandler = Router.RouteHandler;
+var Link = Router.Link;
+var APPLICATION_ID = '',
+    SECRET_KEY = '',
+    VERSION = 'v1'; //default application version;
+Backendless.initApp(APPLICATION_ID, SECRET_KEY, VERSION);
+
+
+
+// wrapper
+APP = require('./components/app').APP;
+
+// pages
+var Frontpage = require('./components/frontpage/app-frontpage'); // homepage
+var NewEstate = require('./components/new-estate/app-newestate');
+var NewEstateDetails = require('./components/new-estate/app-newestatedetails');
+var Contacts = require('./components/static/app-contacts');
+var About = require('./components/static/app-about');
+
+var SecondEstate = require('./components/second-estate/app-secondestate');
+var SecondEstateDetails = require('./components/second-estate/app-secondestatedetails');
+var CommerceEstate = require('./components/commerce-estate/app-commerceestate');
+var CommerceEstateDetails = require('./components/commerce-estate/app-commerceestatedetails');
+
+
+
+var routes = (
+  &lt;Route handler={APP}&gt;
+    &lt;Route handler={Frontpage}/&gt;
+    &lt;Route name=""NewEstate"" ignoreScrollBehavior={true} handler={NewEstate}/&gt;
+    &lt;Route name=""NewEstateDetails"" ignoreScrollBehavior={true} path=""/NewEstate/:itemId"" params={{routeType: ""NewEstateDetails"" }} handler={NewEstateDetails}/&gt;
+    &lt;Route name=""SecondEstate"" ignoreScrollBehavior={true} handler={SecondEstate}/&gt;
+    &lt;Route name=""SecondEstateDetails"" ignoreScrollBehavior={true} path=""/SecondEstate/:itemId"" params={{routeType: ""SecondEstateDetails"" }} handler={NewEstateDetails}/&gt;
+    &lt;Route name=""CommerceEstate"" ignoreScrollBehavior={true} handler={CommerceEstate}/&gt;
+    &lt;Route name=""CommerceEstateDetails"" ignoreScrollBehavior={true} path=""/CommerceEstate/:itemId"" params={{routeType: ""CommerceEstateDetails"" }} handler={NewEstateDetails}/&gt;
+    &lt;Route name=""Contacts"" handler={Contacts}/&gt;
+    &lt;Route name=""About"" handler={About}/&gt;    
+  &lt;/Route&gt;
+);
+
+Router.run(routes, function (Handler) {
+  React.render(&lt;Handler/&gt;, document.getElementById('main'));
+});
+</code></pre>
+
+<p>and index.ejs:</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=""ru""&gt;
+&lt;head&gt;
+  &lt;meta charset=""UTF-8""&gt;
+  &lt;title&gt;?????? - ????????? ????????????&lt;/title&gt;
+  &lt;meta name=""viewport"" content=""width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no""/&gt;
+  &lt;link rel=""stylesheet"" href=""css/styles.css""&gt;
+&lt;/head&gt;
+&lt;body &gt;
+&lt;div id=""main""&gt;&lt;%- reactOutput %&gt;&lt;div class=""""&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;script src=""https://maps.googleapis.com/maps/api/js?key=AIzaSyA7F9cOuVNV6_RRAdLowrz9elBbRuXFy2Y&amp;libraries=drawing""&gt;&lt;/script&gt;
+&lt;script src=""js/scripts.js""&gt;&lt;/script&gt;
+&lt;script src=""js/main.js""&gt;&lt;/script&gt;
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>I'm trying to run server.js and getting this error:</p>
+
+<pre><code>//web/react-balkit/server.js:28
+    var reactHtml = React.renderToString(&lt;Handler/&gt;)
+                                         ^
+SyntaxError: Unexpected token &lt;
+    at Module._compile (module.js:439:25)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Function.Module.runMain (module.js:497:10)
+    at startup (node.js:119:16)
+    at node.js:935:3
+</code></pre>
+
+<p>I've tried to fix it, but i'm getting further from the pattern and getting more errors. </p>
+","['I\'m trying to make my client-side webapp isomorphic.\nI get this as a pattern: <a href=""https://stackoverflow.com/questions/28553904/client-routing-using-react-router-and-server-side-routing"">Client Routing (using react-router) and Server-Side Routing</a>', ""Here what i've got."", 'server.js:', 'main.js:', 'and index.ejs:', ""I'm trying to run server.js and getting this error:"", ""I've tried to fix it, but i'm getting further from the pattern and getting more errors. ""]",1,0,0
+1242,48546402,How to install Evernote android-job on React Native?,"<hr>
+
+<p>I've created a repo in which the error can be easily reproducible:
+<a href=""https://github.com/yaronlevi/android_job_with_react_native"" rel=""nofollow noreferrer"">https://github.com/yaronlevi/android_job_with_react_native</a></p>
+
+<hr>
+
+<p>I am trying to install Evernote's library <a href=""https://github.com/evernote/android-job"" rel=""nofollow noreferrer"">android-job</a> for scheduling jobs in a React Native project (with Play Services also installed).</p>
+
+<p>When I run the project I get an error in the Dex phase:</p>
+
+<p><strong>Multiple dex files define Landroid/support/v4/app/BundleUtil</strong></p>
+
+<pre><code>Dex: Error converting bytecode to dex:
+Cause: com.android.dex.DexException: Multiple dex files define Landroid/support/v4/app/BundleUtil;
+    UNEXPECTED TOP-LEVEL EXCEPTION:
+    com.android.dex.DexException: Multiple dex files define Landroid/support/v4/app/BundleUtil;
+        at com.android.dx.merge.DexMerger.readSortableTypes(DexMerger.java:596)
+        at com.android.dx.merge.DexMerger.getSortedTypes(DexMerger.java:554)
+        at com.android.dx.merge.DexMerger.mergeClassDefs(DexMerger.java:535)
+        at com.android.dx.merge.DexMerger.mergeDexes(DexMerger.java:171)
+        at com.android.dx.merge.DexMerger.merge(DexMerger.java:189)
+        at com.android.dx.command.dexer.Main.mergeLibraryDexBuffers(Main.java:502)
+        at com.android.dx.command.dexer.Main.runMonoDex(Main.java:334)
+        at com.android.dx.command.dexer.Main.run(Main.java:277)
+        at com.android.dx.command.dexer.Main.main(Main.java:245)
+        at com.android.dx.command.Main.main(Main.java:106)
+</code></pre>
+
+<p>It seems like several libraries are trying to fetch different versions of a support library.</p>
+
+<p>What I did is just added <a href=""https://github.com/evernote/android-job"" rel=""nofollow noreferrer"">android-job</a> to the gradle file:</p>
+
+<pre><code>dependencies {
+    compile fileTree(dir: ""libs"", include: [""*.jar""])
+    compile ""com.android.support:appcompat-v7:23.0.1""
+    compile ""com.facebook.react:react-native:+""  // From node_modules
+    compile 'com.evernote:android-job:1.2.2'
+}
+</code></pre>
+
+<p>The exact steps I took can be seen in the repo link above. (You can clone it and run easily).</p>
+
+<p>How can I solve the conflict that occurs regarding the support library.</p>
+
+<p>Thanks in advance (-:</p>
+","['I\'ve created a repo in which the error can be easily reproducible:\n<a href=""https://github.com/yaronlevi/android_job_with_react_native"" rel=""nofollow noreferrer"">https://github.com/yaronlevi/android_job_with_react_native</a>', 'I am trying to install Evernote\'s library <a href=""https://github.com/evernote/android-job"" rel=""nofollow noreferrer"">android-job</a> for scheduling jobs in a React Native project (with Play Services also installed).', 'When I run the project I get an error in the Dex phase:', 'Multiple dex files define Landroid/support/v4/app/BundleUtil', 'It seems like several libraries are trying to fetch different versions of a support library.', 'What I did is just added <a href=""https://github.com/evernote/android-job"" rel=""nofollow noreferrer"">android-job</a> to the gradle file:', 'The exact steps I took can be seen in the repo link above. (You can clone it and run easily).', 'How can I solve the conflict that occurs regarding the support library.', 'Thanks in advance (-:']",0,0,1
+161,64015272,metro boundler does not work - expo/react native,"<p>I want to run a react native app by those commands:</p>
+<pre><code>npm i -g expo-cli
+expo init myapp
+cd myapp
+npm start
+</code></pre>
+<p>but I get the following error and the metro boundler not work:</p>
+<pre><code>Opening DevTools in the browser... (press shift-d to disable)
+Error: spawn powershell ENOENT
+    at Process.ChildProcess._handle.onexit (internal/child_process.js:267:19)
+    at onErrorNT (internal/child_process.js:469:16)
+    at processTicksAndRejections (internal/process/task_queues.js:84:21)
+npm ERR! code ELIFECYCLE
+npm ERR! errno 1
+npm ERR! @ start: `expo start`
+npm ERR! Exit status 1
+npm ERR!
+npm ERR! Failed at the @ start script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     C:\Users\nathan-hp\AppData\Roaming\npm-cache\_logs\2020-09-22T14_48_10_269Z-debug.log
+</code></pre>
+<p>I added this to the path:</p>
+<pre><code>C:\Windows\System32
+</code></pre>
+<p>but I still get the error above</p>
+","['I want to run a react native app by those commands:', 'but I get the following error and the metro boundler not work:', 'I added this to the path:', 'but I still get the error above']",1,0,0

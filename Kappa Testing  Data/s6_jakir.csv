@@ -1,0 +1,1544 @@
+,QId,QTitle,QBody,Why,What,How,Other
+3878,76796214,Trying to connect ASPNET Core WebAPI to new Ubuntu Server 22.04 Database for an Angular Project,"<p>I know this has been asked a few times on these boards so I am sorry to post another one. Also, this is my first time posting so I'm nervous but mostly, I am so confused.  I have an Angular 16 frontend website that uses ASPNET.Core 7 backend which **USED **to connect to a MSSQL database locally. I have recently purchased a server and I'm trying to get it running.</p>
+<pre><code>Server is Ubuntu: 22.04
+Database: mysql 8
+EntityFrameworkCore version 6
+ASP.NET Core 7
+</code></pre>
+<p>Everything worked great locally.</p>
+<ul>
+<li>Do I still use Cors() in my Program.cs?</li>
+</ul>
+<p>Program.cs file:</p>
+<pre><code>            var connectionString = builder.Configuration.GetConnectionString(&quot;DefaultConnection&quot;) ??       throw new InvalidOperationException();
+            builder.Services.AddDbContext&lt;ItemDetailContext&gt;(options =&gt;     options.UseSqlServer(connectionString));
+            
+            // Add services to the container.
+
+            builder.Services.AddControllers();
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+
+            //ANGULAR
+            builder.Services.AddCors();
+            var configuration = builder.Configuration;
+
+            var app = builder.Build();
+
+            //ANGULAR
+            app.UseCors(options =&gt; options.WithOrigins(&quot;https://localhost:4200&quot;).AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+</code></pre>
+<p>Per tutorials, I commented out <strong>bind-address</strong></p>
+<pre><code>    $ grep 'bind-address' vim /etc/mysql/mysql.conf.d/mysqld.cnf
+    /etc/mysql/mysql.conf.d/mysqld.cnf:#bind-address   = 127.0.0.1
+    /etc/mysql/mysql.conf.d/mysqld.cnf:#bind-address = 0.0.0.0```
+</code></pre>
+<pre><code>    $ sudo systemctl status mysql
+    ●  mysql.service - MySQL Community Server
+         Loaded: loaded (/lib/systemd/system/mysql.service; enabled; vendor preset: enabled)
+         Active: **active** (running) since Sun 2023-07-30 03:02:40 UTC; 2min 2s ago
+</code></pre>
+<p>I am using csf, not ufw:</p>
+<pre><code>    $ grep 3306 /etc/csf/csf.conf
+    TCP_IN = &quot;3306&quot;
+    TCP_OUT = &quot;3306&quot;
+    UDP_IN = &quot;3306&quot;
+    UDP_OUT = &quot;3306&quot;
+</code></pre>
+<p>appsettings.json:</p>
+<pre><code>    $ grep -i 'defaultconnection' appsettings.json
+    &quot;DefaultConnection&quot;: &quot;Server=localhost;User Id=&lt;mysql user&gt;;Password=&lt;password&gt;;Database=   &lt;datebasename&quot;
+</code></pre>
+<p>The dotnet ef migration add InitialCreate works fine.
+When I get to updating the database:</p>
+<pre><code>    $ dotnet ef database update
+    Build started...
+    Build succeeded.
+    Microsoft.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error      occurred while establishing a connection to SQL Server. The server was not found or was not     accessible. Verify that the instance name is correct and that SQL Server is configured to allow     remote connections. (provider: TCP Provider, error: 40 - Could not open a connection to SQL Server:     Could not open a connection to SQL Server)
+       at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean     breakConnection, Action`1 wrapCloseInAction)
+       at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj,     Boolean callerHasConnectionLock, Boolean asyncClose)
+       at Microsoft.Data.SqlClient.TdsParser.Connect(ServerInfo serverInfo, SqlInternalConnectionTds      connHandler, Boolean ignoreSniOpenTimeout, Int64 timerExpire, SqlConnectionString connectionOptions,    Boolean withFailover)
+       at Microsoft.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo,    String newPassword, SecureString newSecurePassword, Boolean ignoreSniOpenTimeout, TimeoutTimer    timeout, Boolean withFailover)
+       at Microsoft.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo,   String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance,   SqlConnectionString connectionOptions, SqlCredential credential, TimeoutTimer timeout)
+       at Microsoft.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(TimeoutTimer timeout,    SqlConnectionString connectionOptions, SqlCredential credential, String newPassword, SecureString   newSecurePassword, Boolean redirectedUserInstance)
+       at Microsoft.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String   newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString   userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String   accessToken, DbConnectionPool pool)
+       at Microsoft.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions     options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool,    DbConnection owningConnection, DbConnectionOptions userOptions)
+       at Microsoft.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey,  DbConnectionOptions userOptions)
+       at Microsoft.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+       at Microsoft.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+       at Microsoft.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection,   DbConnectionOptions userOptions, DbConnectionInternal&amp; connection)
+       at Microsoft.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal&amp; connection)
+       at Microsoft.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection  owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions,  DbConnectionInternal oldConnection, DbConnectionInternal&amp; connection)
+       at Microsoft.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry,    DbConnectionOptions userOptions)
+       at Microsoft.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection   outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry,   DbConnectionOptions userOptions)
+       at Microsoft.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry, SqlConnectionOverrides overrides)
+       at Microsoft.Data.SqlClient.SqlConnection.Open(SqlConnectionOverrides overrides)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerConnection.OpenDbConnection(Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternal(Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.Open(Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerDatabaseCreator.&lt;&gt;c__DisplayClass18_0.&lt;Exists&gt;b__0(DateTime giveUp)
+   at Microsoft.EntityFrameworkCore.ExecutionStrategyExtensions.&lt;&gt;c__DisplayClass12_0`2.&lt;Execute&gt;b__0(DbContext _, TState s)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.ExecutionStrategyExtensions.Execute[TState,TResult](IExecutionStrategy strategy, TState state, Func`2 operation, Func`2 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerDatabaseCreator.Exists(Boolean retryOnNotExists)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerDatabaseCreator.Exists()
+   at Microsoft.EntityFrameworkCore.Migrations.HistoryRepository.Exists()
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.Migrate(String targetMigration)
+   at Microsoft.EntityFrameworkCore.Design.Internal.MigrationsOperations.UpdateDatabase(String targetMigration, String connectionString, String contextType)
+   at Microsoft.EntityFrameworkCore.Design.OperationExecutor.UpdateDatabaseImpl(String targetMigration, String connectionString, String contextType)
+   at Microsoft.EntityFrameworkCore.Design.OperationExecutor.UpdateDatabase.&lt;&gt;c__DisplayClass0_0.&lt;.ctor&gt;b__0()
+   at Microsoft.EntityFrameworkCore.Design.OperationExecutor.OperationBase.Execute(Action action)
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: TCP Provider, error: 40 - Could not open a connection to SQL Server: Could not open a connection to SQL Server)
+</code></pre>
+<p>Thank you in advance if you can help or show me another thread. I've been through so many though already.</p>
+<p>[UPDATE]: I never ran Publish on the application. That MIGHT be it.</p>
+",0,0,1,0
+2318,74793164,"""Class extends value undefined is not a constructor or null"" when import CoreCompletionCore","<p>Codes:</p>
+<pre><code>
+import { InputStream, CommonTokenStream, Lexer, Token } from 'antlr4';
+import antlr4 from 'antlr4';
+import PrestoSqlLexer from '../lib/presto/PrestoSqlLexer';
+import PrestoSqlParser from '../lib/presto/PrestoSqlParser';
+import BaseParser from './common/baseParser';
+import {CodeCompletionCore} from &quot;antlr4-c3&quot;;
+
+
+public suggest(sqlScript: string, atIndex?: number): AutocompleteOption[] {
+    ...
+    // core
+    const core = new CodeCompletionCore(parser);
+    // core.ignoredTokens = new Set([
+    // ]);
+
+    return [];
+}
+
+</code></pre>
+<p>I got errors like</p>
+<pre><code>    TypeError: Class extends value undefined is not a constructor or null
+
+       9 | } from './common/parserErrorListener';
+      10 | import { AutocompleteOption } from './common/AutocompleteOption';
+    &gt; 11 | import { CodeCompletionCore } from 'antlr4-c3';
+         | ^
+      12 |
+      13 | export default class PrestoSQL extends BaseParser {
+      14 |     public createLexer(input: string): antlr4.Lexer {
+
+      at Object.&lt;anonymous&gt; (../../../../../../.yarn/cache/antlr4ts-npm-0.5.0-dev-7e0fc8988a-640dae2229.zip/node_modules/src/tree/xpath/XPathLexer.ts:18:33)
+      at Object.&lt;anonymous&gt; (../../../../../../.yarn/cache/antlr4ts-npm-0.5.0-dev-7e0fc8988a-640dae2229.zip/node_modules/src/tree/xpath/XPath.ts:16:1)
+      at Object.&lt;anonymous&gt; (../../../../../../.yarn/cache/antlr4ts-npm-0.5.0-dev-7e0fc8988a-640dae2229.zip/node_modules/src/tree/xpath/index.ts:6:1)
+      at Object.&lt;anonymous&gt; (../../../../../../.yarn/cache/antlr4ts-npm-0.5.0-dev-7e0fc8988a-640dae2229.zip/node_modules/src/tree/index.ts:18:1)
+      at Object.&lt;anonymous&gt; (../../../../../../.yarn/cache/antlr4ts-npm-0.5.0-dev-7e0fc8988a-640dae2229.zip/node_modules/src/index.ts:9:1)
+      at Object.&lt;anonymous&gt; (../../../../../../.yarn/cache/antlr4-c3-npm-2.2.1-db3ae1db96-8dd44825f3.zip/node_modules/antlr4-c3/src/CodeCompletionCore.ts:10:1)
+      at Object.&lt;anonymous&gt; (../../../../../../.yarn/cache/antlr4-c3-npm-2.2.1-db3ae1db96-8dd44825f3.zip/node_modules/antlr4-c3/index.ts:8:1)
+      at Object.&lt;anonymous&gt; (src/parser/presto.ts:11:1)
+      at Object.&lt;anonymous&gt; (src/parser/index.ts:3:1)
+      at Object.&lt;anonymous&gt; (src/index.ts:1:1)
+
+</code></pre>
+<p>any idea why? thanks</p>
+<p>I tried to change the import syntax, but failed.</p>
+<p>can someone take a look? thank.</p>
+<p>is this related to typescript version?</p>
+<p>btw, below are deps versions</p>
+<pre><code>  &quot;dependencies&quot;: {
+    &quot;@types/antlr4&quot;: &quot;4.7.0&quot;,
+    &quot;antlr4&quot;: &quot;^4.9.3&quot;,
+    &quot;antlr4-c3&quot;: &quot;^2.2.1&quot;,
+    &quot;antlr4ts&quot;: &quot;^0.5.0-alpha.4&quot;,
+  },
+</code></pre>
+<p><strong>UPDATE</strong></p>
+<pre><code>    TypeError: Class extends value undefined is not a constructor or null
+
+      at Object.&lt;anonymous&gt; (../../../../../../.yarn/cache/antlr4ts-npm-0.5.0-dev-7e0fc8988a-640dae2229.zip/node_modules/src/tree/xpath/XPathLexer.ts:18:33)
+      at Object.&lt;anonymous&gt; (../../../../../../.yarn/cache/antlr4ts-npm-0.5.0-dev-7e0fc8988a-640dae2229.zip/node_modules/src/tree/xpath/XPath.ts:16:1)
+</code></pre>
+<p><a href=""https://github.com/tunnelvisionlabs/antlr4ts/blob/master/src/tree/xpath/XPath.ts#L16"" rel=""nofollow noreferrer"">tree/xpath/XPath.ts:16:1</a> is pointing to rc/tree/xpath/XPathLexer.ts:18:33</p>
+<p>but I did not find the XPatchLexer.ts in <a href=""https://github.com/tunnelvisionlabs/antlr4ts/tree/0.5.0-alpha.4/src/tree/xpath"" rel=""nofollow noreferrer"">https://github.com/tunnelvisionlabs/antlr4ts/tree/0.5.0-alpha.4/src/tree/xpath</a></p>
+<p>anything wrong with my package installing?
+thanks</p>
+<p>but but in my POC node_modules, I saw XPathLexer.d.js (see the attached screenshoot)</p>
+<p><a href=""https://i.stack.imgur.com/X9Bud.png"" rel=""nofollow noreferrer"">enter image description here</a></p>
+",1,0,0,0
+2716,75347831,how to fix ERR_UNSUPPORTED_DIR_IMPORT importing @lens-protocol/wagmi?,"<p>importing @lens-protocol/wagmi on next.js raises the following error:</p>
+<blockquote>
+<p>Error [ERR_UNSUPPORTED_DIR_IMPORT]: Directory import '/Users/......./node_modules/@apollo/client/link/context' is not supported resolving ES modules imported from /Users/....../node_modules/@lens-protocol/api-bindings/dist/index.js
+Did you mean to import @apollo/client/link/context/context.cjs?
+at new NodeError (node:internal/errors:371:5)
+at finalizeResolution (node:internal/modules/esm/resolve:412:17)
+at moduleResolve (node:internal/modules/esm/resolve:932:10)
+at defaultResolve (node:internal/modules/esm/resolve:1044:11)
+at ESMLoader.resolve (node:internal/modules/esm/loader:422:30)
+at ESMLoader.getModuleJob (node:internal/modules/esm/loader:222:40)
+at ModuleWrap. (node:internal/modules/esm/module_job:76:40)
+at link (node:internal/modules/esm/module_job:75:36) {
+code: 'ERR_UNSUPPORTED_DIR_IMPORT',
+url: 'file:///Users/sebastianserrano/projects/rpsocial/node_modules/@apollo/client/link/context',
+page: '/'
+}</p>
+</blockquote>
+",0,0,0,1
+1288,72870105,REACT JS APP IS NOT SHOWING IN LOCALSERVER,"<p>I have created a React js app but I am getting this code now when I try and run it.</p>
+<pre><code>  Error: error:0308010C:digital envelope routines::unsupported
+at new Hash (node:internal/crypto/hash:67:19)
+at Object.createHash (node:crypto:133:10)
+at module.exports (/Users/ritamiranda/Desktop/mern/client/node_modules/webpack/lib/util/createHash.js:135:53)
+at NormalModule._initBuildHash (/Users/ritamiranda/Desktop/mern/client/node_modules/webpack/lib/NormalModule.js:417:16)
+at handleParseError (/Users/ritamiranda/Desktop/mern/client/node_modules/webpack/lib/NormalModule.js:471:10)
+at/Users/ritamiranda/Desktop/mern/client/node_modules/webpack/lib/NormalModule.js:503:5
+at /Users/ritamiranda/Desktop/mern/client/node_modules/webpack/lib/NormalModule.js:358:12
+at /Users/ritamiranda/Desktop/mern/client/node_modules/loader-runner/lib/LoaderRunner.js:373:3
+at iterateNormalLoaders (/Users/ritamiranda/Desktop/mern/client/node_modules/loader-runner/lib/LoaderRunner.js:214:10)
+at iterateNormalLoaders (/Users/ritamiranda/Desktop/mern/client/node_modules/loader-runner/lib/LoaderRunner.js:221:10)
+/Users/ritamiranda/Desktop/mern/client/node_modules/react-scripts/scripts/start.js:19
+  throw err;
+ ^
+
+ Error: error:0308010C:digital envelope routines::unsupported
+at new Hash (node:internal/crypto/hash:67:19)
+at Object.createHash (node:crypto:133:10)
+at module.exports (/Users/ritamiranda/Desktop/mern/client/node_modules/webpack/lib/util/createHash.js:135:53)
+at NormalModule._initBuildHash (/Users/ritamiranda/Desktop/mern/client/node_modules/webpack/lib/NormalModule.js:417:16)
+at /Users/ritamiranda/Desktop/mern/client/node_modules/webpack/lib/NormalModule.js:452:10
+at /Users/ritamiranda/Desktop/mern/client/node_modules/webpack/lib/NormalModule.js:323:13
+at /Users/ritamiranda/Desktop/mern/client/node_modules/loader-runner/lib/LoaderRunner.js:367:11
+at /Users/ritamiranda/Desktop/mern/client/node_modules/loader-runner/lib/LoaderRunner.js:233:18
+at context.callback (/Users/ritamiranda/Desktop/mern/client/node_modules/loader-runner/lib/LoaderRunner.js:111:13)
+at /Users/ritamiranda/Desktop/mern/client/node_modules/babel-loader/lib/index.js:59:103 {
+  opensslErrorStack: [ 'error:03000086:digital envelope routines::initialization error' ],
+  library: 'digital envelope routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_EVP_UNSUPPORTED'
+  }
+
+  Node.js v18.4.0
+  ritamiranda@Ritas-MacBook-Air client % 
+</code></pre>
+<p>I am pretty clueless what could have possibly gone wrong, so any suggestions?</p>
+",0,0,1,0
+3142,75935912,React Native Notify - Possible Unhandled Promise Rejection,"<p>I just followed the Native Notify website for implementing notifications in React Native.</p>
+<p>I'm testing it with Expo start in iOS device. First, I registered my Push Token. Then tried to send notifications and I can see the notifications in my device.</p>
+<p>However, when I try to send a data object a problem occurs. I followed exactly the indications, and my App.js looks like in the example:</p>
+<pre><code>import { StyleSheet, Text, View } from &quot;react-native&quot;;
+import React, { useState, useEffect } from &quot;react&quot;;
+import { getPushDataObject } from &quot;native-notify&quot;;
+import registerNNPushToken from &quot;native-notify&quot;;
+
+export default function App() {
+  registerNNPushToken(7141, &quot;Xy4gdSRWQlE1DUBmwuS3x0&quot;);
+
+  let pushDataObject = getPushDataObject();
+
+  useEffect(() =&gt; {
+    console.log(pushDataObject);
+  }, [pushDataObject]);
+
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;Text&gt;Hello world.&lt;/Text&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+<p>When sending data in the notification, I get the data printed out in the console but also this warn:</p>
+<pre><code> WARN  Possible Unhandled Promise Rejection (id: 0):
+Error: Another async call to this method is in progress. Await the first Promise.
+Error: Another async call to this method is in progress. Await the first Promise.
+    at construct (native)
+    at apply (native)
+    at _construct (http://100.64.1.14:19000/node_modules/expo/AppEntry.bundle?platform=ios&amp;dev=true&amp;hot=false:3348:28)
+    at Wrapper (http://100.64.1.14:19000/node_modules/expo/AppEntry.bundle?platform=ios&amp;dev=true&amp;hot=false:3310:25)
+    at construct (native)
+    at _createSuperInternal (http://100.64.1.14:19000/node_modules/expo/AppEntry.bundle?platform=ios&amp;dev=true&amp;hot=false:96959:322)
+    at call (native)
+    at CodedError (http://100.64.1.14:19000/node_modules/expo/AppEntry.bundle?platform=ios&amp;dev=true&amp;hot=false:96967:26)
+</code></pre>
+<p>I first implemented it in an app with already Expo notifications system and got the same message, so I tried from 0 in a newly created app. Which Promise is it referring to? How can await that Promise?</p>
+",0,0,1,0
+465,71364128,Getting the error: Invalid hook call. Hooks can only be called inside of the body of a function component. react-router-dom@6,"<blockquote>
+<p>Uncaught Error: Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
+The above error occurred in the <code>&lt;BrowserRouter&gt;</code> component:
+at BrowserRouter
+at div
+at App.</p>
+</blockquote>
+<p>I am getting only blank page throwing out this error.</p>
+<p>How to solve this?</p>
+<pre class=""lang-jsx prettyprint-override""><code>const App = () =&gt; {
+  const [contacts, setContacts] = useState([]);
+
+  const addContactHandler = (contact) =&gt; {
+    setContacts([...contacts, { id: uniqid(), ...contact }]);
+  };
+
+  const removeContactList = (id) =&gt; {
+    const newContactList = contacts.filter((contact) =&gt; {
+      return contact.id !== id;
+    });
+    setContacts(newContactList);
+  };
+
+  const LOCAL_STORAGE_KEY = &quot;contacts&quot;;
+
+  useEffect(() =&gt; {
+    const retrieveContacts = JSON.parse(
+      localStorage.getItem(LOCAL_STORAGE_KEY)
+    );
+    if (retrieveContacts) setContacts(retrieveContacts);
+  }, []);
+
+  useEffect(() =&gt; {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(contacts));
+  }, [contacts]);
+
+  return (
+    &lt;div className=&quot;ui container&quot;&gt;
+      &lt;Router&gt;
+        &lt;Header /&gt;
+        &lt;Routes&gt;
+          &lt;Route
+            path=&quot;/&quot;
+            exact
+            element={
+              &lt;ContactList
+                contacts={contacts}
+                getContactId={removeContactList}
+              /&gt;
+            }
+          /&gt;
+          &lt;Route
+            path=&quot;/add&quot;
+            element={&lt;AddContact addContactHandler={addContactHandler} /&gt;}
+          /&gt;
+        &lt;/Routes&gt;
+      &lt;/Router&gt;
+    &lt;/div&gt;
+  );
+};
+export default App;
+</code></pre>
+<p>AddContact.js</p>
+<pre><code>    class AddContact extends React.Component{
+        state={
+            name:'',
+            mail:''
+        }
+        add =(e)=&gt;{
+            e.preventDefault();
+            if (this.state.name===''||this.state.mail===''){
+                alert('All fields are mandatory!')
+                return;
+            }
+            this.props.addContactHandler(this.state)
+            this.setState({name:'',mail:''})
+        }
+        render(){
+            return(
+                &lt;div className='ui main'&gt;
+                &lt;h2&gt;Add Contact&lt;/h2&gt;
+                    &lt;form className='ui form' onSubmit={this.add}&gt;
+                        &lt;div className='field'&gt;
+                            &lt;label&gt;Name&lt;/label&gt;
+                            &lt;input 
+                            type='text' 
+                            name='name' 
+                            placeholder='Name'
+                            value={this.state.name}
+                            onChange={(e)=&gt;{this.setState({name:e.target.value})}} 
+                            &gt;&lt;/input&gt;
+                        &lt;/div&gt;
+                        &lt;div className='field'&gt;
+                            &lt;label&gt;Email&lt;/label&gt;
+                            &lt;input 
+                            type='text' 
+                            name='email' 
+                            placeholder='Email'
+                            value={this.state.mail}
+                            onChange={(e)=&gt;{this.setState({mail:e.target.value})}} 
+                            &gt;&lt;/input&gt;
+                        &lt;/div&gt;
+                        &lt;button className='ui button blue'&gt;Add&lt;/button&gt;
+                    &lt;/form&gt;
+                &lt;/div&gt;
+            );
+        }
+    }
+    export default AddContact;
+</code></pre>
+<p>ContactList.js</p>
+<pre><code>const ContactList = (props) =&gt;{
+    const deleteContactHandler=(id)=&gt;{
+        return props.getContactId(id)
+    }
+    const renderContactList=props.contacts.map((contact)=&gt;{
+        return(
+            &lt;ContactCard contact={contact} clickContactHandler={deleteContactHandler} key={contact.id}/&gt;
+        )})
+    return(
+        &lt;div className='main'&gt;
+            &lt;h2&gt;
+                Contact list
+                &lt;Link to='/add'&gt;
+                    &lt;button className='ui button blue right'&gt;Add Contact&lt;/button&gt;
+                &lt;/Link&gt;
+            &lt;/h2&gt;
+            &lt;div className='ui celled list'&gt;
+                {renderContactList}
+            &lt;/div&gt;
+        &lt;/div&gt;
+    )}
+export default ContactList;
+</code></pre>
+<p>Index.js</p>
+<pre><code>  import App from './components/App';
+  ReactDOM.render(
+    &lt;React.StrictMode&gt;
+      &lt;App /&gt;
+    &lt;/React.StrictMode&gt;,
+    document.getElementById('root')
+  );
+</code></pre>
+<p>ContactCard.js</p>
+<pre><code>const ContactCard=(props)=&gt;{
+const  {id,name,mail}=props.contact;
+    return(
+        &lt;div className='item'&gt;
+        &lt;img className='ui avatar image' src={user} alt='user'/&gt;
+        &lt;div className='content'&gt;
+            &lt;div className='header'&gt;{name}&lt;/div&gt;
+            &lt;div&gt;{mail}&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;i 
+        className='trash alternate outline icon' 
+        style={{color:'red',marginTop:'7px'}}
+        onClick={()=&gt;props.clickContactHandler(id)}
+        &gt;&lt;/i&gt;
+    &lt;/div&gt;
+)
+}
+export default ContactCard;
+</code></pre>
+",0,0,1,0
+1945,74081290,How to navigate to another component after subscription has finished?,"<p>I am sending a GET/POST request and wait for the response. After I get the response I would like to navigate to the &quot;patients&quot; page from dashboard page:</p>
+<pre><code>this.api.getData(body).subscribe((res) =&gt; {
+    this.router.navigate(['/patients']);
+});
+</code></pre>
+<p>However, I get the following error when router.navigate() is executed:</p>
+<pre><code>ERROR Error: Uncaught (in promise): TypeError: control._registerOnCollectionChange is not a function at cleanUpControl (forms.mjs:1614:17)
+at FormControlDirective.ngOnDestroy (forms.mjs:5143:13)
+at executeOnDestroys (core.mjs:7357:1)
+at cleanUpView (core.mjs:7260:1)
+at destroyViewTree (core.mjs:7093:1)
+at destroyLView (core.mjs:7238:1)
+at RootViewRef.destroy (core.mjs:21238:1)
+at ComponentRef.destroy (core.mjs:21640:1)
+at RouterOutlet.deactivate (router.mjs:2504:28)
+at ActivateRoutes.deactivateRouteAndOutlet (router.mjs:2098:28)
+at resolvePromise (zone.js:1211:1)
+at resolvePromise (zone.js:1165:1)
+at zone.js:1278:1
+at _ZoneDelegate.invokeTask (zone.js:406:1)
+at Object.onInvokeTask (core.mjs:25535:1)
+at _ZoneDelegate.invokeTask (zone.js:405:1)
+at Zone.runTask (zone.js:178:1)
+at drainMicroTaskQueue (zone.js:585:1)
+at ZoneTask.invokeTask [as invoke] (zone.js:491:1)
+at invokeTask (zone.js:1661:1)
+</code></pre>
+<p>These are the routes:</p>
+<pre><code>const routes: Routes = [
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: 'dashboard', component: MainComponent },
+  { path: 'patients', pathMatch: 'full', component: PatientsListComponent }
+];
+</code></pre>
+<p>This is the parent component:</p>
+<pre><code>&lt;app-header&gt;&lt;/app-header&gt;
+&lt;div class=&quot;main-container&quot;&gt;
+  &lt;router-outlet&gt;&lt;/router-outlet&gt;
+&lt;/div&gt;
+
+</code></pre>
+<p>Couldn't find anything about the error. What am I doing wrong here?</p>
+",1,0,0,0
+551,71510931,How to retrieve SmartContract details in react,"<p>I'm working on a blockchain project and currently facing the interaction between front-end (react) and smartcontract. I need to retrieve my places that have been pushed on the blockchain to show them on the website:</p>
+<p>The smart contract piece that I'm interested interacting to atm:</p>
+<pre><code>contract Prenotation {
+    struct Place{
+        string name;
+        string description;
+        bool isActive; //tells if the place is active
+        uint256 price; //price per day in wei
+        address owner; //owner of the place
+
+        //keeps score if the place is booked on a particular day
+        //example: isBooked[4] will denote that the place has been booked on th 3th of Jan
+        //example 2: isBooked[31] -&gt; the place is booked for the 1th of Feb
+        bool[] isBooked;
+    }
+    
+    //Sequential unique placeId for every new Place
+    uint256 public placeId;
+    
+    mapping(uint256 =&gt; Place) public places;
+    ...
+</code></pre>
+<p>That's how I tried to retrieve those Places (inside PrenotationContext.jsx):</p>
+<pre><code>const getEthereumContract = () =&gt; {
+    const provider = new ethers.providers.Web3Provider(ethereum);
+    const signer = provider.getSigner();
+    const prenotationContract = new ethers.Contract(contractAddress, contractABI, signer);
+
+    return prenotationContract;
+}
+export const PrenotationProvider = ({children}) =&gt; {
+    ...
+    const [places, setPlaces] = useState([]);
+    ...
+    const fetchAllPlaces = async () =&gt; {
+        try {
+            if(!ethereum) return alert(&quot;Please install MetaMask&quot;);
+            const prenotationContract = getEthereumContract();
+            
+            const placeId = await prenotationContract.methods.placeId().call()
+            console.log(placeId)
+
+            //return object containing places object
+            const places = [];
+            for (var i = 0; i &lt; placeId; i++) {
+                const place = await prenotationContract.methods.places(i).call();
+                places.push({
+                    id: i,
+                    name: place.name,
+                    description: place.description,
+                    price: parseInt(place.price._hex) / (10 ** 18)
+                })
+            }
+            setPlaces(places)
+
+        } catch (error) {
+            console.log(error);
+            throw new Error(&quot;No ethereum object&quot;);
+        }
+    }
+</code></pre>
+<p>I fall into the catch with this error:</p>
+<blockquote>
+<p>TypeError: Cannot read properties of undefined (reading 'placeId')
+at fetchAllPlaces (PrenotationContext.jsx:55:57)
+at checkIfWalletConnected (PrenotationContext.jsx:82:31)</p>
+</blockquote>
+<p>I tried to verify if I correctly retrieve the contract and logging it on console after calling <code>getEthereumContract</code> I can successfully see it.</p>
+<p><a href=""https://i.stack.imgur.com/ApJmv.png"" rel=""nofollow noreferrer"">Contract inside the web console</a></p>
+<p>In the checkIfWalletConnected I simply call the fetchAllPlaces method.
+It's my first project working with solidity, react and all this so I really don't know how to solve it.</p>
+",0,0,1,0
+838,72046433,Cannot read property 'main' of undefined in MUI v5,"<p>I was following the tutorial to add page pagination for my Table and now I have this error in my browser :</p>
+<pre><code>   Uncaught TypeError: Cannot read property 'main' of undefined
+    at ButtonRoot.ownerState.ownerState (Button.js:80)
+    at transformedStyleArg (createStyled.js:189)
+    at handleInterpolation (emotion-serialize.browser.esm.js:137)
+    at serializeStyles (emotion-serialize.browser.esm.js:262)
+    at emotion-styled-base.browser.esm.js:131
+    at emotion-element-cbed451f.browser.esm.js:36
+    at renderWithHooks (react-dom.development.js:14985)
+    at updateForwardRef (react-dom.development.js:17044)
+    at beginWork (react-dom.development.js:19098)
+    at HTMLUnknownElement.callCallback (react-dom.development.js:3945)
+</code></pre>
+<p>Which completely prevents me from displaying my page.
+I know there are big style changes from mui v4 to mui v5, I managed to &quot;dodge&quot; them by using simple CSS. So I don't understand my mistake at all. Especially since the error seems to be located in a &quot;ButtonRoot&quot; ? :</p>
+<pre><code>backgroundColor: alpha(theme.palette[ownerState.color].main, theme.palette.action.hoverOpacity),
+</code></pre>
+<p>So here is my code where I use a &quot;theme&quot; (I normally have the same code as the tutorial) :</p>
+<p><div class=""snippet"" data-lang=""js"" data-hide=""false"" data-console=""true"" data-babel=""false"">
+<div class=""snippet-code"">
+<pre class=""snippet-code-js lang-js prettyprint-override""><code>import { useTheme } from '@mui/material';
+
+import LastPageOutlinedIcon from ""@mui/icons-material/LastPageOutlined"";
+import FirstPageIcon from ""@mui/icons-material/FirstPage"";
+import KeyboardArrowLeftIcon from ""@mui/icons-material/KeyboardArrowLeft"";
+import KeyboardArrowRightIcon from ""@mui/icons-material/KeyboardArrowRight"";
+
+function TablePaginationActions(props) {
+  const theme = useTheme();
+  const { count, page, rowsPerPage, onPageChange } = props;
+
+  const handleFirstPageButtonClick = (event) =&gt; {
+    onPageChange(event, 0);
+  };
+
+  const handleBackButtonClick = (event) =&gt; {
+    onPageChange(event, page - 1);
+  };
+
+  const handleNextButtonClick = (event) =&gt; {
+    onPageChange(event, page + 1);
+  };
+
+  const handleLastPageButtonClick = (event) =&gt; {
+    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+  };
+
+  return (
+    &lt;div style={{ flexShrink: 0, marginLeft: 2.5 }}&gt;
+      &lt;IconButton
+        onClick={handleFirstPageButtonClick}
+        disabled={page === 0}
+        aria-label=""Première page""
+      &gt;
+        {theme.direction === ""rtl"" ? (
+          &lt;LastPageOutlinedIcon /&gt;
+        ) : (
+          &lt;FirstPageIcon /&gt;
+        )}
+      &lt;/IconButton&gt;
+
+      &lt;IconButton
+        onClick={handleBackButtonClick}
+        disabled={page === 0}
+        aria-label=""Page précédente""
+      &gt;
+        {theme.direction === ""rtl"" ? (
+          &lt;KeyboardArrowRightIcon /&gt;
+        ) : (
+          &lt;KeyboardArrowLeftIcon /&gt;
+        )}
+      &lt;/IconButton&gt;
+
+      &lt;IconButton
+        onClick={handleNextButtonClick}
+        disabled={page &gt;= Math.ceil(count / rowsPerPage) - 1}
+        aria-label=""Page suivante""
+      &gt;
+        {theme.direction === ""rtl"" ? (
+          &lt;KeyboardArrowLeftIcon /&gt;
+        ) : (
+          &lt;KeyboardArrowRightIcon /&gt;
+        )}
+      &lt;/IconButton&gt;
+
+      &lt;IconButton
+        onClick={handleLastPageButtonClick}
+        disabled={page &gt;= Math.ceil(count / rowsPerPage) - 1}
+        aria-label=""Dernière page""
+      &gt;
+        {theme.direction === ""rtl"" ? (
+          &lt;FirstPageIcon /&gt;
+        ) : (
+          &lt;LastPageOutlinedIcon /&gt;
+        )}
+      &lt;/IconButton&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default function Importation() {
+
+  // Pagination
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  TablePaginationActions.propTypes = {
+    count: PropTypes.number.isRequired,
+    onPageChange: PropTypes.func.isRequired,
+    page: PropTypes.number.isRequired,
+    rowsPerPage: PropTypes.number.isRequired,
+  };
+
+  // Permet de changer de page
+  const handleChangePage = (event, newPage) =&gt; {
+    setPage(newPage);
+  };
+
+  return (
+    &lt;Grid
+      container
+      style={{ width: ""100%"", minHeight: ""90vh"" }}
+      {...getRootProps()}
+    &gt;
+ 
+      &lt;TablePagination
+        component=""div""
+        rowsPerPageOptions={[]}
+        count={fichiers.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        ActionsComponent={TablePaginationActions}
+      /&gt;
+    &lt;/Grid&gt;
+  );
+}</code></pre>
+</div>
+</div>
+</p>
+<p>Note : It's note the full page (+1000 lines) but I think my problem comes from this &quot;theme&quot; style.</p>
+<p>Finally, the code of the tutorial, on which I base myself :
+<a href=""https://codesandbox.io/s/ccw8hm?file=/demo.js"" rel=""nofollow noreferrer"">https://codesandbox.io/s/ccw8hm?file=/demo.js</a></p>
+",0,1,0,0
+1511,73251245,Firebase Google Authentication Constructor undefined Error,"<p>Soo. I have been trying to implement Firebase google auth in my project, Unfortunately I ran into the following error on the console</p>
+<pre><code>Uncaught (in promise) TypeError: Cannot read properties of undefined (reading 'constructor')
+    at _assertInstanceOf (assert.ts:101:1)
+    at signInWithPopup (popup.ts:86:1)
+    at signInWithGoogle (App.js:52:1)
+    at HTMLUnknownElement.callCallback (react-dom.development.js:4164:1)
+    at Object.invokeGuardedCallbackDev (react-dom.development.js:4213:1)
+    at invokeGuardedCallback (react-dom.development.js:4277:1)
+    at invokeGuardedCallbackAndCatchFirstError (react-dom.development.js:4291:1)
+    at executeDispatch (react-dom.development.js:9041:1)
+    at processDispatchQueueItemsInOrder (react-dom.development.js:9073:1)
+    at processDispatchQueue (react-dom.development.js:9086:1) 
+</code></pre>
+<p>The Code goes as followed</p>
+<pre><code>import React from &quot;react&quot;;
+import { initializeApp } from &quot;firebase/app&quot;;
+import { getAuth , GoogleAuthProvider , signInWithPopup } from &quot;firebase/auth&quot;
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+function Home() {
+    const [user] = useAuthState(auth);
+    return (
+        &lt;div className=&quot;App&quot;&gt;
+            &lt;header&gt;Welcome to PixShare&lt;/header&gt;
+            &lt;h1&gt;
+                Home
+                &lt;section&gt;
+                    {user ? &lt;Home /&gt; : &lt;SignIn /&gt;}
+                &lt;/section&gt;
+            &lt;/h1&gt;
+        &lt;/div&gt;
+    );
+}
+
+const SignIn = () =&gt; {
+    const signInWithGoogle = () =&gt; {
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(provider)
+    }
+
+    return (
+        &lt;button onClick={ signInWithGoogle }&gt;
+            Sign In With Google
+        &lt;/button&gt;
+    );
+};
+
+export default Home;
+</code></pre>
+<p>Can someone help me with what went wrong?
+The package.json file is as shown below</p>
+<pre><code>{
+  &quot;name&quot;: &quot;pixshare&quot;,
+  &quot;version&quot;: &quot;0.1.0&quot;,
+  &quot;private&quot;: true,
+  &quot;dependencies&quot;: {
+    &quot;@testing-library/jest-dom&quot;: &quot;^5.16.5&quot;,
+    &quot;@testing-library/react&quot;: &quot;^13.3.0&quot;,
+    &quot;@testing-library/user-event&quot;: &quot;^13.5.0&quot;,
+    &quot;firebase&quot;: &quot;^9.9.2&quot;,
+    &quot;react&quot;: &quot;^18.2.0&quot;,
+    &quot;react-dom&quot;: &quot;^18.2.0&quot;,
+    &quot;react-firebase-hooks&quot;: &quot;^5.0.3&quot;,
+    &quot;react-router-dom&quot;: &quot;^6.3.0&quot;,
+    &quot;react-scripts&quot;: &quot;5.0.1&quot;,
+    &quot;web-vitals&quot;: &quot;^2.1.4&quot;
+  },
+  &quot;scripts&quot;: {
+    &quot;start&quot;: &quot;react-scripts start&quot;,
+    &quot;build&quot;: &quot;react-scripts build&quot;,
+    &quot;test&quot;: &quot;react-scripts test&quot;,
+    &quot;eject&quot;: &quot;react-scripts eject&quot;
+  },
+  &quot;eslintConfig&quot;: {
+    &quot;extends&quot;: [
+      &quot;react-app&quot;,
+      &quot;react-app/jest&quot;
+    ]
+  },
+  &quot;browserslist&quot;: {
+    &quot;production&quot;: [
+      &quot;&gt;0.2%&quot;,
+      &quot;not dead&quot;,
+      &quot;not op_mini all&quot;
+    ],
+    &quot;development&quot;: [
+      &quot;last 1 chrome version&quot;,
+      &quot;last 1 firefox version&quot;,
+      &quot;last 1 safari version&quot;
+    ]
+  }
+}
+
+</code></pre>
+<p>Does anyone know where I went wrong? Could really use some help</p>
+",0,1,0,0
+3297,76134748,My Next.js application is not acknowledging changes and not refreshing when I edit my files,"<p>I start my project, and so far so good.</p>
+<pre><code>npm run start                                        
+
+&gt; mk-market@0.1.0 start
+&gt; next start
+
+ready - started server on 0.0.0.0:3000, url: http://localhost:3000
+info  - Loaded env from /Users/...../market/.env.local
+warn  - You have enabled experimental feature (appDir) in next.config.js.
+warn  - Experimental features are not covered by semver, and may cause unexpected or broken application behavior. Use at your own risk.
+
+info  - Thank you for testing `appDir` please leave your feedback at https://nextjs.link/app-feedback
+</code></pre>
+<p>But after this no more console output, not when making requests and not saving changes in my files, it will, however, output server side <code>console.logs()</code>.</p>
+<p>The page works in my browser (at <code>localhost:3000</code>). But when I save changes (let's say add a <code>&lt;h1&gt;Hello&lt;/h1&gt;</code>) I don't get auto re-compilation. And <code>npm run start</code> doesn't make any changes either. The only way to get my newly saved changes is to run  <code>npm run build</code> followed by <code>npm run start</code></p>
+<p>This has happened to me in the past, the only way for me to get it working again was to start a completely new project. But I have gotten a little too far for that now.</p>
+<p>I've googled like crazy, but the only thing I could find being somewhat closely related was about capital letters in the naming of my pages in my app folder, but that's not the case here.</p>
+<p>Also, I just created a brand new project with <code>npm create-next-app</code>, but the same thing is happening. When running <code>npm run start</code> I get:</p>
+<pre><code>Error: Could not find a production build in the '/Users/erikingman/MK/mk-test/.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at NextNodeServer.getBuildId (/Users/erikingman/MK/mk-test/node_modules/next/dist/server/next-server.js:352:23)
+    at new Server (/Users/erikingman/MK/mk-test/node_modules/next/dist/server/base-server.js:146:29)
+    at new NextNodeServer (/Users/erikingman/MK/mk-test/node_modules/next/dist/server/next-server.js:166:9)
+    at NextServer.createServer (/Users/erikingman/MK/mk-test/node_modules/next/dist/server/next.js:167:24)
+    at async /Users/erikingman/MK/mk-test/node_modules/next/dist/server/next.js:187:31
+    at async NextServer.prepare (/Users/erikingman/MK/mk-test/node_modules/next/dist/server/next.js:149:24)
+    at async Server.&lt;anonymous&gt; (/Users/erikingman/MK/mk-test/node_modules/next/dist/server/lib/render-server.js:109:17) {
+    type: 'Error'
+}
+</code></pre>
+<p>I have to run <code>npm run build</code> before I can run it, I have no recollection of doing that for new projects in the past.</p>
+",0,0,1,0
+1592,73410268,Npm run build on my react app project doesn't work,"<p>When i start my react project all seems good, but when i try to build this, it doesn't work, i have this error :</p>
+<pre><code>node:internal/fs/utils:344
+    throw err;
+    ^
+
+Error: UNKNOWN: unknown error, lstat 'C:\Users\darkx\Bureau\mlvojobs\mlvojobs\node_modules\fs-extra\lib\util'
+    at Object.realpathSync (node:fs:2490:7)
+    at toRealPath (node:internal/modules/cjs/loader:394:13)
+    at tryFile (node:internal/modules/cjs/loader:390:10)
+    at tryExtensions (node:internal/modules/cjs/loader:402:22)
+    at Function.Module._findPath (node:internal/modules/cjs/loader:558:20)
+    at Function.Module._resolveFilename (node:internal/modules/cjs/loader:919:27)
+    at Function.Module._load (node:internal/modules/cjs/loader:778:27)
+    at Module.require (node:internal/modules/cjs/loader:1005:19)
+    at require (node:internal/modules/cjs/helpers:102:18)
+    at Object.&lt;anonymous&gt; (C:\Users\darkx\Bureau\mlvojobs\mlvojobs\node_modules\fs-extra\lib\copy\copy.js:7:22) {
+  errno: -4094,
+  syscall: 'lstat',
+  code: 'UNKNOWN',
+  path: 'C:\\Users\\darkx\\Bureau\\mlvojobs\\mlvojobs\\node_modules\\fs-extra\\lib\\util'
+}
+npm ERR! code ELIFECYCLE
+npm ERR! errno 1
+npm ERR! mlvojobs@0.1.0 build: `react-scripts build`
+npm ERR! Exit status 1
+npm ERR!
+npm ERR! Failed at the mlvojobs@0.1.0 build script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     C:\Users\darkx\AppData\Roaming\npm-cache\_logs\2022-08-18T22_53_48_493Z-debug.log
+PS C:\Users\darkx\Bureau\mlvojobs\mlvojobs&gt; npm install fs-extra
+npm ERR! cb.apply is not a function
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     C:\Users\darkx\AppData\Roaming\npm-cache\_logs\2022-08-18T22_54_15_541Z-debug.log
+</code></pre>
+<p>And when i try to install something with npm it says :</p>
+<pre><code>npm ERR! cb.apply is not a function
+</code></pre>
+",0,0,0,1
+2323,74798386,node:internal/modules/cjs/loader:998 throw err; ^ Cannot find solution to this error,"<p>Just opened my IDE for my project on react and this weird stubborn error popped up on my nodemon server.</p>
+<pre><code>node:internal/modules/cjs/loader:998
+  throw err;
+  ^
+
+Error: Cannot find module 'C:\Users\Hammad\ngo_project\index.js'
+    at Module._resolveFilename (node:internal/modules/cjs/loader:995:15)
+    at Module._load (node:internal/modules/cjs/loader:841:27)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:81:12)
+    at node:internal/main/run_main_module:23:47 {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v18.12.1
+[nodemon] app crashed - waiting for file changes before starting...
+
+</code></pre>
+<p>I tried deleting and reinstalling node_modules folder and even package_lock but still the same error is popping.</p>
+",0,0,0,1
+1921,74034888,window is not defined Angular SSR,"<p>I'm using AGM Maps and I'm loading the map key dynamically from API.</p>
+<p>In App Module.ts</p>
+<pre><code>export function agmConfigFactory(http: HttpClient, config: LazyMapsAPILoaderConfigLiteral) {
+  const id = window.location.pathname.replace(/\//g, &quot;&quot;);
+  return () =&gt; http.get&lt;any&gt;(`API`).pipe(
+    map(response =&gt; {
+      config.apiKey = response['mapkey'];
+      console.log(response['mapkey']);
+      return response;
+    })
+  ).toPromise();
+}
+
+ providers: [
+      {
+        provide: APP_INITIALIZER,
+        useFactory: agmConfigFactory,
+        deps: [HttpClient, LAZY_MAPS_API_CONFIG],
+        multi: true
+      }
+    ],
+</code></pre>
+<p>Because of the above code, while running the <code>npm run prerender</code> I'm getting the below error,</p>
+<pre><code>ask: Promise.then ; Value: ReferenceError: window is not defined
+    at Object.agmConfigFactory [as useFactory] 
+</code></pre>
+<p>How can I fix it ? Please help</p>
+",0,0,1,0
+3849,76761715,Issue with npx exp publish in Expo Go: 404 Error during Uploading Assets Phase,"<p>I've created a brand new Expo Go app and signed up with an Expo Go account, logged in using exp login.</p>
+<p>My App.json is below.</p>
+<pre><code>{
+  &quot;expo&quot;: {
+    &quot;name&quot;: &quot;SampleApp&quot;,
+    &quot;slug&quot;: &quot;SampleApp&quot;,
+    &quot;version&quot;: &quot;1.0.0&quot;,
+    &quot;sdkVersion&quot;: &quot;49.0.0&quot;,
+    &quot;orientation&quot;: &quot;portrait&quot;,
+    &quot;icon&quot;: &quot;./assets/icon.png&quot;,
+    &quot;userInterfaceStyle&quot;: &quot;light&quot;,
+    &quot;splash&quot;: {
+      &quot;image&quot;: &quot;./assets/splash.png&quot;,
+      &quot;resizeMode&quot;: &quot;contain&quot;,
+      &quot;backgroundColor&quot;: &quot;#ffffff&quot;
+    },
+    &quot;assetBundlePatterns&quot;: [
+      &quot;./assets/*&quot;
+    ],
+    &quot;ios&quot;: {
+      &quot;supportsTablet&quot;: true
+    },
+    &quot;android&quot;: {
+      &quot;adaptiveIcon&quot;: {
+        &quot;foregroundImage&quot;: &quot;./assets/adaptive-icon.png&quot;,
+        &quot;backgroundColor&quot;: &quot;#ffffff&quot;
+      },
+      &quot;package&quot;: &quot;com.abywatson.SampleApp&quot;
+    },
+    &quot;web&quot;: {
+      &quot;favicon&quot;: &quot;./assets/favicon.png&quot;
+    }
+  }
+}
+</code></pre>
+<p>I try to publish my app using following command.</p>
+<pre><code>npx exp publish
+</code></pre>
+<p>I get the following errors when I run 'npx exp publish'</p>
+<pre><code>We've built a brand new CLI for Expo!
+Expo CLI is a drop in replacement for exp.
+Install: npm install -g expo-cli
+Use: expo --help
+Read more: https://blog.expo.io/expo-cli-2-0-released-a7a9c250e99c
+[11:09:14] Publishing to channel 'default'...
+[11:09:15] Building iOS bundle
+[11:09:15] Building Android bundle
+[11:09:15] Analyzing assets
+[11:09:18] Uploading assets
+[11:09:18] Request failed with status code 404
+[11:09:18] Error: Request failed with status code 404
+    at createError (C:\Users\aby\AppData\Roaming\npm\node_modules\exp\node_modules\axios\lib\core\createError.js:16:15)
+    at settle (C:\Users\aby\AppData\Roaming\npm\node_modules\exp\node_modules\axios\lib\core\settle.js:17:12)
+    at IncomingMessage.handleStreamEnd (C:\Users\aby\AppData\Roaming\npm\node_modules\exp\node_modules\axios\lib\adapters\http.js:236:11)
+    at IncomingMessage.emit (node:events:525:35)
+    at endReadableNT (node:internal/streams/readable:1359:12)
+    at processTicksAndRejections (node:internal/process/task_queues:82:21)
+</code></pre>
+<p>Notes: I made sure all the assets are in the assets folder. Any help appreciated.</p>
+",0,0,1,0
+1731,73666156,Is there a verbose mode that can be enabled for even more verbose error stacks?,"<p>I have a production only error appearing in my <code>pm2</code> logs that is giving me absolutely no helpful information - the callstack is not deep enough to view where it started in my own codebase, and I know of no environment variables that can be modified for more verbose stack tracing</p>
+<p>does anyone know of any settings that can effect the callstack</p>
+<pre><code>App [backgroundExcelIntegration:1] exited with code [0] via signal [SIGTERM]
+App [backgroundExcelIntegration:1] starting in -fork mode-
+TypeError [ERR_INVALID_ARG_TYPE]: The &quot;data&quot; argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received type number (18583)
+    at Object.writeFileSync (fs.js:1522:5)
+    at /usr/lib/node_modules/pm2/lib/God/ForkMode.js:258:12
+    at wrapper (/usr/lib/node_modules/pm2/node_modules/async/internal/once.js:12:16)
+    at next (/usr/lib/node_modules/pm2/node_modules/async/waterfall.js:96:20)
+    at /usr/lib/node_modules/pm2/node_modules/async/internal/onlyOnce.js:12:16
+    at WriteStream.&lt;anonymous&gt; (/usr/lib/node_modules/pm2/lib/Utility.js:186:13)
+    at WriteStream.emit (events.js:400:28)
+    at WriteStream.emit (domain.js:537:15)
+    at internal/fs/streams.js:340:12
+    at FSReqCallback.oncomplete (fs.js:180:23)
+App [backgroundExcelIntegration:1] online
+pid=18547 msg=process killed
+Deleting process 1
+Stopping app:backgroundExcelIntegration id:1
+App [backgroundExcelIntegration:1] exited with code [0] via signal [SIGINT]
+pid=18583 msg=process killed
+Exited peacefully
+</code></pre>
+",0,0,1,0
+109,70720828,node PostgresSQL,"<p>Im trying to query a postgres db but my query isnt returning anything useful. It works when I dont use parameter sub i.e. <code>const sql = &quot;SELECT acronym, definition FROM terms WHERE acronym='Thing'&quot;</code> but im not to sure how this should be done. I tried the obvious way but no bueno. I think it might be because postgres sql &quot;does not support parameters for identifies&quot; whatever that means  Anyone know why my query isnt working?</p>
+<pre><code>app.get(&quot;/terms&quot;, async (req, res) =&gt; {
+  let values = req.query.term;
+  const sql = &quot;SELECT acronym,definition FROM terms WHERE acronym($1)&quot;;
+  
+  const terms = await pgClient.query(sql, values);
+
+  res.send(terms);
+  pgClient.end();
+});
+</code></pre>
+<h1>When Working</h1>
+<pre><code>{data: {…}, status: 200, statusText: 'OK', headers: {…}, config: {…}, …}
+config: {transformRequest: {…}, transformResponse: {…}, timeout: 0, xsrfCookieName: 'XSRF-TOKEN', adapter: ƒ, …}
+data: {command: 'SELECT', rowCount: 46, oid: null, rows: Array(46), fields: Array(2), …}
+headers: {access-control-allow-origin: '*', connection: 'keep-alive', content-length: '10023', content-type: 'application/json; charset=utf-8', date: 'Sat, 15 Jan 2022 10:41:45 GMT', …}
+request: XMLHttpRequest {readyState: 4, timeout: 0, withCredentials: false, upload: XMLHttpRequestUpload, onreadystatechange: ƒ, …}
+status: 200
+statusText: &quot;OK&quot;
+[[Prototype]]: Object...
+</code></pre>
+<h1>Not Working</h1>
+<pre><code>xhr.js:178 POST http://localhost:8080/api/values 502 (Bad Gateway)
+dispatchXhrRequest @ xhr.js:178
+xhrAdapter @ xhr.js:12
+dispatchRequest @ dispatchRequest.js:59
+Promise.then (async)
+request @ Axios.js:51
+Axios.&lt;computed&gt; @ Axios.js:71
+wrap @ bind.js:9
+...
+xhr.js:178 GET http://localhost:8080/api/terms/all?term=Word 502 (Bad Gateway)
+
+dispatchDiscreteEvent @ react-dom.development.js:4168
+createError.js:16 Uncaught (in promise) Error: Request failed with status code 502
+    at createError (createError.js:16)
+    at settle (settle.js:18)
+    at XMLHttpRequest.handleLoad (xhr.js:77)
+</code></pre>
+",1,0,0,0
+2281,74711724,Debugging Typescript in VS Code - doesn't work when using an import,"<p>I have a simple file to debug, index.ts.</p>
+<p>It will debug fine until I add this line to the top of the code page:</p>
+<blockquote>
+<p>import * as dotenv from 'dotenv';</p>
+</blockquote>
+<p>Then I can see it starts to go into debug mode and then exits wihtout hitting a breakpoint.</p>
+<p>Is there a work-around for this?</p>
+<hr />
+<p>New Info:</p>
+<p>I added the line debugger;</p>
+<p>and this was the output in the debug console:</p>
+<blockquote>
+<p>Uncaught SyntaxError d:\Apps\TS\ts_01_AD\index.ts:1 import * as dotenv
+from 'dotenv'; ^^^^^^</p>
+<p>SyntaxError: Cannot use import statement outside a module
+at compileFunction (vm:360:18)
+at wrapSafe (internal/modules/cjs/loader:1055:15)
+at Module._compile (internal/modules/cjs/loader:1090:27)
+at Module._extensions..js (internal/modules/cjs/loader:1180:10)
+at Module.load (internal/modules/cjs/loader:1004:32)
+at Module._load (internal/modules/cjs/loader:839:12)
+at executeUserEntryPoint (internal/modules/run_main:81:12)
+at  (internal/main/run_main_module:17:47) No debugger available, can not send 'variables'</p>
+</blockquote>
+",0,0,1,0
+2669,75282017,How to get rid of error when using class inside class in TypeScript?,"<p>I'm not much in TypeScript and encounter an issue. The code looks as following:</p>
+<p><strong>1) Main.ts:</strong></p>
+<pre><code>import gpbApi from '@/utils/api/gpbApi';
+
+@Component
+export default class ExtendedDetailAccountComponent extends mixins(CurrentUserMixin) {
+  ...
+  async created() {
+    try {
+      console.log('gpbApi =', gpbApi);
+      const result = await gpbApi.leadService.getReqtypes();
+      console.log('result =', result);
+    } catch (error) {
+      console.log('error = ', error);
+    }
+  }
+  ...
+</code></pre>
+<p><strong>2) vue.d.ts:</strong></p>
+<pre><code>import gpbApi from './utils/api/gpbApi';
+
+declare module 'vue/types/vue' {
+  interface Vue {
+    $gpbApi: typeof gpbApi;
+  }
+}
+</code></pre>
+<p><strong>3) gpbApi.ts:</strong></p>
+<pre><code>import leadService from '@/utils/api/leadService';
+
+class GpbApi {
+  leadService!: typeof leadService;
+}
+
+const instance = new GpbApi();
+export default instance;
+</code></pre>
+<p><strong>4) leadService.ts:</strong></p>
+<pre><code>import axios from 'axios';
+
+const path = '...';
+
+class LeadService {
+  async getReqtypes() {
+    const { data } = await axios.get(`${path}/Reqtype`, { withCredentials: true });
+    return data.data;
+  }
+}
+
+const instance = new LeadService();
+export default instance;
+</code></pre>
+<p>I get an error:</p>
+<pre><code>leadService: undefined
+</code></pre>
+<pre><code>error =  TypeError: Cannot read properties of undefined (reading 'getReqtypes')
+    at VueComponent.created
+</code></pre>
+<p>How to get rid of this error?</p>
+",0,0,1,0
+1714,73641580,Issue with React Flow and Zoom Pane error,"<p>I am having some issues with React Flow working in my react project. I had it working in another project and I wanted to migrate some of the functionality to another, but when I do I get the following...</p>
+<pre><code>Uncaught TypeError: selection.interrupt is not a function
+    at zoom.transform (zoom.js:91:1)
+    at slicedToArray.js:8:1
+    at invokePassiveEffectCreate (react-dom.development.js:23487:1)
+    at HTMLUnknownElement.callCallback (react-dom.development.js:3945:1)
+    at Object.invokeGuardedCallbackDev (react-dom.development.js:3994:1)
+    at invokeGuardedCallback (react-dom.development.js:4056:1)
+    at flushPassiveEffectsImpl (react-dom.development.js:23574:1)
+    at unstable_runWithPriority (scheduler.development.js:468:1)
+    at runWithPriority$1 (react-dom.development.js:11276:1)
+    at flushPassiveEffects (react-dom.development.js:23447:1)
+    at performSyncWorkOnRoot (react-dom.development.js:22269:1)
+    at react-dom.development.js:11327:1
+    at unstable_runWithPriority (scheduler.development.js:468:1)
+    at runWithPriority$1 (react-dom.development.js:11276:1)
+    at flushSyncCallbackQueueImpl (react-dom.development.js:11322:1)
+    at workLoop (scheduler.development.js:417:1)
+    at flushWork (scheduler.development.js:390:1)
+    at MessagePort.performWorkUntilDeadline (scheduler.development.js:157:1)
+index.js:1 
+        
+       The above error occurred in the &lt;ZoomPane&gt; component:
+
+    at ZoomPane (http://localhost:3000/static/js/61.chunk.js:3828:21)
+    at FlowRenderer (http://localhost:3000/static/js/61.chunk.js:4650:23)
+    at GraphView (http://localhost:3000/static/js/61.chunk.js:5460:24)
+    at Provider (http://localhost:3000/static/js/61.chunk.js:9897:29)
+    at Wrapper (http://localhost:3000/static/js/61.chunk.js:5836:23)
+    at div
+    at http://localhost:3000/static/js/61.chunk.js:5904:20
+    at div
+    at div
+    at div
+    at Card (http://localhost:3000/static/js/53.chunk.js:123322:75)
+    at div
+    at http://localhost:3000/static/js/53.chunk.js:128284:75
+    at div
+    at http://localhost:3000/static/js/53.chunk.js:128474:34
+    at div
+    at form
+    at Form (http://localhost:3000/static/js/53.chunk.js:170528:19)
+    at SizeContextProvider (http://localhost:3000/static/js/53.chunk.js:124433:23)
+    at InternalForm (http://localhost:3000/static/js/53.chunk.js:127126:69)
+    at AddEditForm (http://localhost:3000/78.bd17ba31b4ff8371d2e4.hot-update.js:195:86)
+    at Edit (http://localhost:3000/static/js/78.chunk.js:1360:18)
+    at Route (http://localhost:3000/static/js/53.chunk.js:247458:29)
+    at Switch (http://localhost:3000/static/js/53.chunk.js:247660:29)
+    at Index (http://localhost:3000/static/js/78.chunk.js:1941:5)
+    at Route (http://localhost:3000/static/js/53.chunk.js:247458:29)
+    at Switch (http://localhost:3000/static/js/53.chunk.js:247660:29)
+    at Suspense
+    at AppViews
+    at main
+    at Basic (http://localhost:3000/static/js/53.chunk.js:130693:25)
+    at Adapter (http://localhost:3000/static/js/53.chunk.js:130676:79)
+    at div
+    at section
+    at BasicLayout (http://localhost:3000/static/js/53.chunk.js:130708:76)
+    at Adapter (http://localhost:3000/static/js/53.chunk.js:130676:79)
+    at section
+    at BasicLayout (http://localhost:3000/static/js/53.chunk.js:130708:76)
+    at Adapter (http://localhost:3000/static/js/53.chunk.js:130676:79)
+    at section
+    at BasicLayout (http://localhost:3000/static/js/53.chunk.js:130708:76)
+    at Adapter (http://localhost:3000/static/js/53.chunk.js:130676:79)
+    at AppLayout (http://localhost:3000/static/js/main.chunk.js:6211:5)
+    at ConnectFunction (http://localhost:3000/static/js/53.chunk.js:244507:75)
+    at Route (http://localhost:3000/static/js/53.chunk.js:247458:29)
+    at RouteInterceptor (http://localhost:3000/static/js/main.chunk.js:9118:5)
+    at Switch (http://localhost:3000/static/js/53.chunk.js:247660:29)
+    at FormProvider (http://localhost:3000/static/js/53.chunk.js:170681:31)
+    at LocaleProvider (http://localhost:3000/static/js/53.chunk.js:131362:94)
+    at ProviderChildren (http://localhost:3000/static/js/53.chunk.js:124715:24)
+    at LocaleReceiver (http://localhost:3000/static/js/53.chunk.js:131233:94)
+    at ConfigProvider (http://localhost:3000/static/js/53.chunk.js:124823:13)
+    at IntlProvider (http://localhost:3000/static/js/53.chunk.js:243112:43)
+    at Views (http://localhost:3000/static/js/main.chunk.js:9152:5)
+    at ConnectFunction (http://localhost:3000/static/js/53.chunk.js:244507:75)
+    at C (http://localhost:3000/static/js/53.chunk.js:247715:37)
+    at Route (http://localhost:3000/static/js/53.chunk.js:247458:29)
+    at Switch (http://localhost:3000/static/js/53.chunk.js:247660:29)
+    at Router (http://localhost:3000/static/js/53.chunk.js:247089:30)
+    at BrowserRouter (http://localhost:3000/static/js/53.chunk.js:246710:35)
+    at ThemeSwitcherProvider (http://localhost:3000/static/js/53.chunk.js:212584:23)
+    at Provider (http://localhost:3000/static/js/53.chunk.js:244218:20)
+    at div
+    at App (http://localhost:3000/static/js/main.chunk.js:68:97)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+</code></pre>
+<p>I decided maybe what I had before had some sort of flaw, and I had mui in the original and ant in the other, so I used an example to test out if it was that or not. I used <a href=""https://reactflow.dev/docs/examples/overview/"" rel=""nofollow noreferrer"">this</a> and nothing worked I still recieved the same interrupt error as before. I know I have done an npm i react-flow-renderer. I copied the example line for line and I am still not getting anywhere. Anyone have any suggestions or work arounds?</p>
+<p>React is 17.0.1
+React-Flow-Renderer is 10.3.16</p>
+<p>Both are the same as my other project.</p>
+",0,0,1,0
+2771,75401908,why npm start throws an ENOENT error when trying to start my react project,"<p>I've created only two projects with npx create-react-app. The first one started perfectly with npm start. Yesterday I created a second project and when I tried to start it with npm start throws the following error:</p>
+<pre><code>Error: ENOENT: no such file or directory, lstat 'C:\Users\divah_000\AppData\Local\Temp;C:'
+    at Object.realpathSync (node:fs:2552:7)
+    at Object.&lt;anonymous&gt; (C:\Users\divah_000\Desktop\ReactCourse\lists_in_react\node_modules\temp-dir\index.js:9:13)
+    at Module._compile (node:internal/modules/cjs/loader:1226:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1280:10)
+    at Module.load (node:internal/modules/cjs/loader:1089:32)
+    at Module._load (node:internal/modules/cjs/loader:930:12)
+    at Module.require (node:internal/modules/cjs/loader:1113:19)
+    at require (node:internal/modules/cjs/helpers:103:18)
+    at Object.&lt;anonymous&gt; (C:\Users\divah_000\Desktop\ReactCourse\lists_in_react\node_modules\tempy\index.js:5:17)
+    at Module._compile (node:internal/modules/cjs/loader:1226:14) {
+  errno: -4058,
+  syscall: 'lstat',
+  code: 'ENOENT',
+  path: 'C:\\Users\\divah_000\\AppData\\Local\\Temp;C:'
+}
+</code></pre>
+<p>The thing is that now my first project also throws the same error.</p>
+<p>I tried uninstall node and reinstall but it shows the same error, also cleaned the cache for node but I keep getting the same error.
+My node and npm version are:</p>
+<pre><code>npm --version
+9\.3.1
+</code></pre>
+<pre><code>node --version
+v18.14.0
+</code></pre>
+",0,0,0,1
+2948,75641059,Reactjs - Following tutorial but getting the error: Uncaught ReferenceError: require is not defined,"<p>I'm new to React, Nodejs etc and am unable to get a simple web page running. Could someone be kind enough to help?</p>
+<p>The error is (from browser console) ...</p>
+<pre><code>Inline Babel script:2 Uncaught ReferenceError: require is not defined
+    at &lt;anonymous&gt;:3:14
+    at _ve (transformScriptTags.ts:99:10)
+    at n (transformScriptTags.ts:173:9)
+    at Ove (transformScriptTags.ts:221:3)
+    at transformScriptTags.ts:257:3
+    at Xve (index.ts:230:3)
+    at qve (index.ts:214:3)
+
+</code></pre>
+<p>My index.html is ...</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;My Site&lt;/title&gt;
+        &lt;meta charset=&quot;UTF-8&quot;&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;link rel=&quot;shortcut icon&quot; href=&quot;images/favicon.ico&quot;&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/main.css&quot;&gt;
+    &lt;link rel=&quot;manifest&quot; href=&quot;gpsaustrack.webmanifest&quot;&gt;
+
+    &lt;!-- Note: when deploying, replace &quot;development.js&quot; with &quot;production.min.js&quot;. --&gt;
+        &lt;script src=&quot;https://unpkg.com/react@18/umd/react.development.js&quot; crossorigin&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://unpkg.com/react-dom@18/umd/react-dom.development.js&quot; crossorigin&gt;&lt;/script&gt;         
+        &lt;script src=&quot;https://unpkg.com/@babel/standalone/babel.min.js&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;main-div&quot;&gt;&lt;/div&gt;
+        &lt;script type=&quot;text/jsx&quot;&gt;
+            import { createRoot } from 'react-dom/client';
+            const app = document.getElementById('main-div');
+            const root = createRoot(app);
+            root.render(&lt;h1&gt;Develop. Preview. Ship. &lt;/h1&gt;);
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>I'm using Apache httpd web server running on Oracle Linux 8. For some reason I'm also running ...
+npx babel --watch src --out-dir . --presets react-app/prod --presets=@babel/preset-env
+I think this is supposed to do the conversion work from JSX to Javascript.</p>
+<p>I would also like to put the Javascript into a file but when I try that I get a syntax error on the &quot;&lt;&quot; on the root.render line and that'll be due to not being able to specify type=&quot;text/jsx&quot; so I don't think Babel knows to translate it. Could anyone explain this?</p>
+<p>I'm working through the React tutorial as well as the Next tutorial as well as the Nodejs tutorial but I'm now a bit stuck! Thanks in advance for any help.</p>
+<p>I tried searching for others with the same error, but was unable to find help. People refer to using Webpack or Commonjs or similar additional libraries but I can't think why they would be necessary. I don't want to add more and more stuff without reason.</p>
+",0,0,1,0
+990,72345755,My Depth First Search function seems not to return list of visited nodes i need to Visualize on front-end,"<p>I am writing my own visualizer based on this tutorial here <a href=""https://github.com/clementmihailescu/Pathfinding-Visualizer-Tutorial"" rel=""nofollow noreferrer"">https://github.com/clementmihailescu/Pathfinding-Visualizer-Tutorial</a>,
+I created a depth-first algorithm based on the javascript example in the Oreilly Book, data structures, and algorithms, example below here</p>
+<pre><code>    function dfs(v) {
+        this.marked[v] = true;
+        // if statement for print is not required
+        if (this.adj[v] != undefined)
+            print(&quot;Visited vertex: &quot; + v);
+        for each(var w in this.adj[v]) {
+            if (!this.marked[w]) {
+                this.dfs(w);
+            }
+        }
+    }
+</code></pre>
+<p>Below is my implementation of the algorithm in my own react app is below here, the <strong>grid</strong> parameter is simply a 2-dimensional array of nodes, the <strong>closestNode</strong> being the start node to begin from, and the <strong>finishNode</strong> is the node to cancel the operation once reached, <strong>visitedNodesInOrder</strong> is an array to kept track of nodes being visited</p>
+<pre><code>export function startDfs(grid, closestNode, finishNode, visitedNodesInOrder) {
+  // console.log(closestNode);
+  closestNode.isVisited = true;
+  if (closestNode !== undefined) {
+    visitedNodesInOrder.push(closestNode);
+  }
+
+  var unvisitedNeighbors = getUnvisitedNeighbors(closestNode, grid);
+
+  for (var x = 0; x &lt; unvisitedNeighbors.length; x++) {
+    if (!unvisitedNeighbors[x].isVisited) {
+      if (unvisitedNeighbors[x].isWall) {
+        continue;
+      }
+      if (unvisitedNeighbors[x] === finishNode) {
+        return visitedNodesInOrder; // RETURN VISITED NODES HERE
+      }
+      startDfs(grid, unvisitedNeighbors[x], finishNode, visitedNodesInOrder);
+    }
+  }
+}
+
+
+
+function getUnvisitedNeighbors(node, grid) {
+  const neighbors = [];
+  const {col, row} = node;
+  if (row &gt; 0) neighbors.push(grid[row - 1][col]);
+  if (row &lt; grid.length - 1) neighbors.push(grid[row + 1][col]);
+  if (col &gt; 0) neighbors.push(grid[row][col - 1]);
+  if (col &lt; grid[0].length - 1) neighbors.push(grid[row][col + 1]);
+  return neighbors.filter(neighbor =&gt; !neighbor.isVisited);
+}
+</code></pre>
+<p>My final intention is to collect the <strong>visitedNodesInOrder</strong> array and animate the list of nodes on the grid i created on the front end, the 2D array is an exact reflection of the grid i made on the front end using a map function to map the original 2D List with nodes to  an HTML, CSS DOM layout, my final implementation that's giving me an error is below</p>
+<pre><code> visualizeDijkstra() {
+    var nodesInShortestPathOrder = [];
+    var visitedNodesInOrder = [];
+    const {grid} = this.state;
+    const startNode = grid[START_NODE_ROW][START_NODE_COL];
+    const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
+    var start = new Date().getTime();
+    visitedNodesInOrder = startDfs(
+      grid,
+      startNode,
+      finishNode,
+      visitedNodesInOrder,
+    );
+    console.log(visitedNodesInOrder);
+    boardToClear = visitedNodesInOrder;
+    //nodesInShortestPathOrder = getNodesInShulortestPathOrder(finishNode);
+    var stop = new Date().getTime();
+    elasped = stop - start;
+
+    this.animateDijkstra2(visitedNodesInOrder);
+  }
+</code></pre>
+<p>this is the error i am getting below, i don't understand what happened to the array</p>
+<pre><code>PathfindingVisualizer.jsx:113 Uncaught TypeError: Cannot read properties of undefined (reading 'length')
+    at PathfindingVisualizer.animateDijkstra2
+</code></pre>
+",0,1,0,0
+3509,76379043,Why do I get a 'TypeError: Cannot read properties of null (reading 'useState')' error when installing my React UI package through an absolute path?,"<p>I have written a ui package for react and I am compiling them through rollup package manager. When I publish to my personal bitbucket repo and install them from the cloud eg: <code>npm i https:lik-to-the-repo</code> the package works fine but when I am doing an install it through the absolute path eg; `npm i / Users/myname/Projects/Work/project-name&quot;.</p>
+<p>I am using <code>external: [/node_modules/]</code> to let rollup know that all all my packages are external and should imported on the run-time.</p>
+<p><strong>But it works fine when i pack my package using <code>npm pack</code> and link the packed file in my repo ie. 'file:../pack-dir/pack-name.tgz'</strong></p>
+<p>I am facing this error</p>
+<pre><code>
+TypeError: Cannot read properties of null (reading 'useState')
+    at Object.useState (http://localhost:5173/node_modules/.vite/deps/chunk-ONATIWGS.js?v=e6bdb091:1066:29)
+</code></pre>
+<p>The project directory I specify for npm to install is where my package.json file exists. Inside /Work/project-name/package.json, It successfully installs my package in node_modules with the name specified in my package.json</p>
+<p>Added the entry path in package.json</p>
+<pre><code>    &quot;main&quot;: &quot;dist/index.cjs&quot;,
+    &quot;module&quot;: &quot;dist/index.js&quot;,
+    &quot;files&quot;: [
+        &quot;dist&quot;
+    ],
+    &quot;types&quot;: &quot;dist/index.d.ts&quot;,
+    &quot;peerDependencies&quot;: {
+        &quot;react&quot;: &quot;^18.0.0&quot;,
+        &quot;react-dom&quot;: &quot;&gt;=16.6.0&quot;
+    },
+</code></pre>
+<p>my roll-up config</p>
+<pre><code>export default [
+  {
+    input: 'src/index.ts',
+    output: [
+      {
+        dir: 'dist',
+        format: 'cjs',
+        entryFileNames: '[name].cjs',
+        exports: 'auto',
+        ...outputOptions,
+      },
+      {
+        dir: 'dist',
+        format: 'esm',
+        ...outputOptions,
+      },
+    ],
+    external: [/node_modules/],
+    plugins: [
+      peerDepsExternal({ includeDependencies: true }),
+      resolve(),
+      commonjs(),
+      preserveDirectives(),
+      terser(),
+      typescript({
+        tsconfig: './tsconfig.json',
+        exclude: [
+          'node_modules',
+          'src/icons',
+          '**/icons/**',
+          '**/examples/**',
+          '**/stories/**',
+          '**/*/stories/**',
+          '**/tests/**',
+          './styles.css',
+          '**/*.stories.ts',
+          '**/*.stories.tsx',
+        ],
+      }),
+      typescriptPaths(),
+    ],
+  },
+  //   Icons
+  {
+    input: 'src/icons/index.ts',
+    output: [
+      {
+        dir: 'dist/icons',
+        format: 'cjs',
+        entryFileNames: '[name].cjs',
+        exports: 'auto',
+        preserveModules: true,
+      },
+      {
+        dir: 'dist/icons',
+        format: 'esm',
+        preserveModules: true,
+      },
+    ],
+    external: [/node_modules/],
+    plugins: [
+      resolve(),
+      peerDepsExternal({ includeDependencies: true }),
+      commonjs(),
+      preserveDirectives(),
+      terser(),
+      typescript({
+        tsconfig: './tsconfig.json',
+        declarationDir: 'dist/icons',
+        rootDir: 'src/icons',
+        exclude: [
+          '**/examples/**',
+          '**/stories/**',
+          '**/*/stories/**',
+          '**/tests/**',
+          './styles.css',
+          '**/*.stories.ts',
+          '**/*.stories.tsx',
+        ],
+      }),
+      //   typescriptPaths(),
+    ],
+  },
+  {
+    input: 'src/assets/scss/imports.scss',
+    output: [
+      {
+        file: 'dist/lib-ui.css',
+      },
+    ],
+    plugins: [
+      postcss({
+        plugins: [postcssImport()],
+        extract: path.resolve('dist/lib-ui.css'),
+        minimize: true,
+        modules: false,
+      }),
+    ],
+  },
+  {
+    input: 'dist/index.d.ts',
+    output: [{ file: 'dist/index.d.ts', format: 'esm' }],
+    plugins: [dts()],
+    external: [/\.css$/, /\.scss$/],
+  },
+];
+</code></pre>
+<p>I tried using <code>npm link</code> then too I face the same issue. I am using react with vite and swc modules.</p>
+",0,0,0,1
+3956,76875502,Uncaught TypeError: Cannot read properties of undefined (reading 'connect'),"<p>I use <code>mqqtjs</code> package in reactjs and get the error
+<code>Uncaught TypeError: Cannot read properties of undefined (reading 'connect')</code>
+at this line of code:</p>
+<pre><code>const mqttClient = mqtt.connect('ws://broker.emqx.io:8084/mqtt', mqttOptions);
+</code></pre>
+<p>Here is all my code:</p>
+<pre><code>function S2(props) {
+      //mqtt connect attribute and function
+     
+          const [client, setClient] = useState(null);
+
+          useEffect(() =&gt; {
+            const mqttOptions = {
+            clientId: 'emqx_react_' + Math.random().toString(16).substring(2, 8),
+            username: 'emqx_test',
+            password: 'emqx_test',
+            clean: true,
+            reconnectPeriod: 1000, 
+            connectTimeout: 30 * 1000, 
+            };
+        
+            const mqttClient = mqtt.connect('ws://broker.emqx.io:8084/mqtt', mqttOptions);
+        
+            mqttClient.on('connect', () =&gt; {
+              console.log('Component A connected to MQTT');
+              mqttClient.subscribe('testtopic/react', { qos: 0 });
+            });
+        
+            mqttClient.on('message', (topic, message) =&gt; {
+              console.log(`Received message in Component A from topic ${topic}: ${message.toString()}`);
+            });
+        
+            setClient(mqttClient);
+        
+            return () =&gt; {
+              mqttClient.end();
+            };
+          }, []);
+      
+      return (
+        &lt;div&gt;
+                  
+        &lt;/div&gt;
+            
+      );
+}
+
+export default S2;
+</code></pre>
+<p>Can you show me why it doesn't work?</p>
+<p>I have reinstalled mqtt package many time and it still does not work.
+I want it to connect to mqtt and publish a message to the topic above.</p>
+",1,0,0,0

@@ -1,0 +1,3130 @@
+,QBody,QTitle,Why,What,How
+717023,"<p>I am trying to create and run a simple TypeScript NodeJS project. Followings are my codes:</p>
+<p>server.ts:</p>
+<pre><code>import express from 'express';
+
+const app = express();
+const PORT = 3000;
+
+app.listen(PORT , ()=&gt;{
+    console.log('Server is listening on port $PORT');
+});
+</code></pre>
+<p>tsconfig.json:</p>
+<pre><code>{
+  &quot;compilerOptions&quot;: {
+  
+    &quot;target&quot;: &quot;esnext&quot;,                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+
+    &quot;module&quot;: &quot;commonjs&quot;,                                /* Specify what module code is generated. */
+    &quot;rootDir&quot;: &quot;./src&quot;,                                  /* Specify the root folder within your source files. */
+    &quot;moduleResolution&quot;: &quot;node&quot;,                       /* Specify how TypeScript looks up a file from a given module specifier. */
+
+    &quot;outDir&quot;: &quot;./build&quot;,                                   /* Specify an output folder for all emitted files. */
+    &quot;esModuleInterop&quot;: true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
+    &quot;forceConsistentCasingInFileNames&quot;: true,            /* Ensure that casing is correct in imports. */
+
+    &quot;strict&quot;: true,                                      /* Enable all strict type-checking options. */
+    &quot;skipLibCheck&quot;: true                                 /* Skip type checking all .d.ts files. */
+  }
+}
+</code></pre>
+<p>package.json:</p>
+<pre><code>{
+  &quot;name&quot;: &quot;back&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;&quot;,
+  &quot;main&quot;: &quot;index.js&quot;,
+  &quot;scripts&quot;: {
+    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;,
+    &quot;start&quot;: &quot;nodemon build/server.js&quot;
+  },
+  &quot;author&quot;: &quot;&quot;,
+  &quot;license&quot;: &quot;ISC&quot;,
+  &quot;dependencies&quot;: {
+    &quot;@types/express&quot;: &quot;^4.17.13&quot;,
+    &quot;express&quot;: &quot;^4.18.1&quot;,
+    &quot;mongoose&quot;: &quot;^6.5.0&quot;,
+    &quot;nodemon&quot;: &quot;^2.0.19&quot;
+  }
+}
+</code></pre>
+<p>When I try <code>npm start</code> I get the following error message:</p>
+<pre><code>&gt; back@1.0.0 start       
+&gt; nodemon build/server.js
+
+[nodemon] 2.0.19
+[nodemon] to restart at any time, enter `rs`      
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,json        
+[nodemon] starting `node build/server.js index.js`
+node:internal/modules/cjs/loader:936
+  throw err;
+  ^
+
+Error: Cannot find module 'C:\Users\A\\Test\back\index.js'
+    at Function.Module._resolveFilename (node:internal/modules/cjs/loader:933:15)
+    at Function.Module._load (node:internal/modules/cjs/loader:778:27)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:77:12)
+    at node:internal/main/run_main_module:17:47 {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: []
+}
+[nodemon] app crashed - waiting for file changes before starting...
+</code></pre>
+",How to create/config a NodeTS(TypeScript NodeJS) project?,1,0,0
+705681,"<p>I have the following code:</p>
+<pre><code>import { sha256 } from 'react-native-sha256'
+....
+....
+
+function doSomething(someString) {
+  // ....
+  const hash = await sha256(someString);
+  // ...do something with the hash
+}
+</code></pre>
+<p>For the tests that I want to write, I want to test using the original implementation of <code>sha256</code> that the function behaves the same for lowerCase and upperCase parameter. However, when running following test:</p>
+<pre><code>import { sha256 } from 'react-native-sha256';
+
+jest.mock('react-native-sha256', () =&gt; {
+   return {
+       ...jest.requireActual('react-native-sha256')
+   }
+});
+
+describe('Tests for sha256', () =&gt; {
+    it('Lower case and upper case strings throw the same hash', async () =&gt; {
+        const a = await sha256('parameter');
+        const b = await sha256('PaRaMeTeR');
+        expect(a).toEqual(b);
+    })
+});
+</code></pre>
+<p>I get the following error:</p>
+<pre><code>TypeError: Cannot read property 'sha256' of undefined
+
+    at sha256 (/Users/home/app/node_modules/react-native-sha256/sha256.js:12:20)
+</code></pre>
+<p>and the particular file has the following:</p>
+<pre><code>/**
+ * react-native-sha256
+ * @flow
+ */
+
+'use strict';
+
+const {NativeModules} = require('react-native')
+const sha256Lib = NativeModules.sha256Lib;
+
+export function sha256(data: string) {
+  return sha256Lib.sha256(data);
+}
+
+export function sha1(data: string) {
+  return sha256Lib.sha1(data);
+}
+</code></pre>
+<p>How can I test this function?</p>
+",Test original sha256 implementation using jest in React Native,0,0,1
+670389,"<p>I'm using React Native and Expo and I'm trying to use Firebase V9 (Modular version). I'm running into an error whenever I try to use a firebase function outside of my config file. For example, I have the <code>signUpWithEmail</code> function in firebase.tsx, but when I try to use it in my SignUpScreen.tsx, it gives me a<br />
+<em>Can't find variable: IDBIndex</em>.<br />
+Seems like it has to do with my node_modules??<br />
+Maybe the wrong versions?<br />
+I also don't have Google Analytics enabled.</p>
+<p>Here are my code files:</p>
+<p>firestore.ts:</p>
+<pre><code>import { initializeApp } from 'firebase/app';
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import Constants from 'expo-constants';
+
+const firebaseConfig = {
+  apiKey: Constants.manifest?.extra?.firebaseApiKey,
+  authDomain: Constants.manifest?.extra?.firebaseAuthDomain,
+  projectId: Constants.manifest?.extra?.firebaseProjectId,
+  storageBucket: Constants.manifest?.extra?.firebaseStorageBucket,
+  messagingSenderId: Constants.manifest?.extra?.firebaseMessagingSenderId,
+  appId: Constants.manifest?.extra?.firebaseAppId,
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// AUTHENTICATION // ---------------------------------------------------------
+export const signUpWithEmail = async (fName: string, lName: string, email: string, password: string) =&gt; {
+    try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        console.log('Success!')
+    } catch (e) {
+        console.log(e);
+    }
+}
+</code></pre>
+<p>SignUpScreen.tsx:</p>
+<pre><code>import React, { useState } from 'react';
+import { StyleSheet, View} from 'react-native';
+import MyButton from '../components/MyButton';
+import MyField from '../components/MyField';
+import { signUpWithEmail } from '../services/firebase';
+
+
+export default function SignUpScreen() {
+  const [fName, setFName] = useState(&quot;&quot;);
+  const [lName, setLName] = useState(&quot;&quot;);
+  const [email, setEmail] = useState(&quot;&quot;);
+  const [password, setPassword] = useState(&quot;&quot;);
+
+  return (
+    &lt;View style={styles.container}&gt;
+        &lt;MyField title='First Name' type='text' onChangeFn={setFName}/&gt;
+        &lt;MyField title='Last Name' type='text' onChangeFn={setLName}/&gt;
+        &lt;MyField title='Email' type='text' onChangeFn={setEmail}/&gt;
+        &lt;MyField title='Password' type='text' onChangeFn={setPassword}/&gt;
+        &lt;MyButton text=&quot;Sign Up&quot; type=&quot;primary&quot; size=&quot;large&quot; onPressFn={
+          () =&gt; { signUpWithEmail(fName, lName, email, password) }} /&gt;
+    &lt;/View&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  fixToText: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+});
+</code></pre>
+<p>Here is my error when I run the app:</p>
+<blockquote>
+<p>ReferenceError: Can't find variable: IDBIndex<br />
+at node_modules/react-native/Libraries/Core/ExceptionsManager.js:104:6 in reportException<br />
+at node_modules/react-native/Libraries/Core/ExceptionsManager.js:172:19 in handleException<br />
+at node_modules/react-native/Libraries/Core/setUpErrorHandling.js:24:6 in handleError<br />
+at node_modules/@react-native/polyfills/error-guard.js:49:36 in ErrorUtils.reportFatalError<br />
+at node_modules/metro-runtime/src/polyfills/require.js:204:6 in guardedLoadModule<br />
+at <a href=""http://192.168.1.189:19000/node_modules/expo/AppEntry.bundle?platform=ios&amp;dev=true&amp;hot=false&amp;strict=false&amp;minify=false:140947:3"" rel=""nofollow noreferrer"">http://192.168.1.189:19000/node_modules/expo/AppEntry.bundle?platform=ios&amp;dev=true&amp;hot=false&amp;strict=false&amp;minify=false:140947:3</a> in global code</p>
+</blockquote>
+",Firebase v9 modular - Can't find variable: IDBIndex,1,0,0
+269875,"<p>I am trying to host my app on DigitalOcean and getting it running with pm2 but run into this error:</p>
+
+<pre><code>/home/bcavenagh/social/src/index.js:1
+(function (exports, require, module, __filename, __dirname) { import React from 'react';
+                                                              ^^^^^^
+
+SyntaxError: Unexpected token import
+    at createScript (vm.js:56:10)
+    at Object.runInThisContext (vm.js:97:10)
+    at Module._compile (module.js:549:28)
+    at Object.Module._extensions..js (module.js:586:10)
+    at Module.load (module.js:494:32)
+    at tryModuleLoad (module.js:453:12)
+    at Function.Module._load (module.js:445:3)
+    at Object.&lt;anonymous&gt; (/usr/lib/node_modules/pm2/lib/ProcessContainerFork.js:27:21)
+    at Module._compile (module.js:577:32)
+    at Object.Module._extensions..js (module.js:586:10)
+</code></pre>
+
+<p>I can get everything to run when using npm start but it doesnt work for pm2. In npm I am running from the ~/social folder but for pm2 I cd into ~/social/src and run:  </p>
+
+<pre><code>pm2 start index.js
+</code></pre>
+
+<p>How do I get past this error?</p>
+",Unexpected token import when trying to use pm2 on my react app digitalocean droplet,0,0,1
+26962,"<p>In my project I use gulp to run task, with webpack to compile js modules, which uses babel loader to transform react and ES6. Now I want to add relay transformation. I went by this instructions: <a href=""https://facebook.github.io/relay/docs/guides-babel-plugin.html#advanced-usage"" rel=""nofollow"">https://facebook.github.io/relay/docs/guides-babel-plugin.html#advanced-usage</a> but they doesnt' seem right.</p>
+
+<p>I had to do some little reverse engineering and i produced following gulp task:</p>
+
+<pre class=""lang-js prettyprint-override""><code>gulp.task('js', () =&gt; {
+    // Compile babel (react)
+    gulp.src(paths.js)
+        .pipe(er(webpack({
+            module: {
+                plugins: [
+                    new require('webpack/lib/ProvidePlugin')({
+                        React: ""React"",
+                        Relay: 'Relay'
+                    })
+                ],
+                loaders: [
+                    {
+                        test: /\.jsx?$/,
+                        exclude: /(node_modules)/,
+                        loader: 'babel',
+                        query: {
+                            presets: ['es2015', 'stage-0', 'react'],
+                            plugins: [require('babel-relay-plugin')(require(paths.db_schema).data)]
+                        }
+                    }
+                ]
+            },
+            output: {
+                filename: paths.js_output
+            }
+        })))
+        .pipe(gulp.dest(paths.dist));
+});
+</code></pre>
+
+<p>Now I get such error for every processed file:</p>
+
+<pre><code>ERROR in (filename)
+Module build failed: TypeError: Falsy value found in plugins
+    at d:\Node\organize.me\node_modules\babel-core\lib\transformation\file\options\option-manager.js:187:15
+    at Array.map (native)
+    at Function.normalisePlugins (d:\Node\organize.me\node_modules\babel-core\lib\transformation\file\options\option-manager.js:182:20)
+    at OptionManager.mergeOptions (d:\Node\organize.me\node_modules\babel-core\lib\transformation\file\options\option-manager.js:298:36)
+    at OptionManager.init (d:\Node\organize.me\node_modules\babel-core\lib\transformation\file\options\option-manager.js:481:10)
+    at File.initOptions (d:\Node\organize.me\node_modules\babel-core\lib\transformation\file\index.js:211:75)
+    at new File (d:\Node\organize.me\node_modules\babel-core\lib\transformation\file\index.js:129:22)
+    at Pipeline.transform (d:\Node\organize.me\node_modules\babel-core\lib\transformation\pipeline.js:48:16)
+    at transpile (d:\Node\organize.me\node_modules\babel-loader\index.js:14:22)
+    at Object.module.exports (d:\Node\organize.me\node_modules\babel-loader\index.js:88:12)
+ @ multi main
+</code></pre>
+
+<p>I did wome more of reverse engineering and i found out that array in plugins is just <code>[ null ]</code> when i replace that line with </p>
+
+<pre><code>plugins: [new (require('babel-relay-plugin')(require(paths.db_schema).data))()]
+</code></pre>
+
+<p>I get error</p>
+
+<pre><code>TypeError: Cannot read property 'Plugin' of undefined
+</code></pre>
+
+<p>So how can i make gulp, webpack, babel and relay work together?
+Thanks.</p>
+","Relay, webpack and babel doesn't work as described",0,0,1
+583291,"<p>I don't understand why it's not working.I'm just trying to print the content of my database using an entity with TypeScript/ TypeOrm.</p>
+<p><strong>Main file  :</strong></p>
+<pre><code>import { createConnection, getManager ,getConnectionOptions } from 'typeorm';
+//import {ReleaseController} from &quot;./controller/ReleaseController.js&quot;;
+//import { attachControllers } from '@decorators/express';
+import express from &quot;express&quot;;
+import { createExpressServer } from 'routing-controllers';
+import &quot;reflect-metadata&quot;;
+
+import { Release } from &quot;./entity/Release&quot;;
+
+const connectionOptions = await getConnectionOptions();
+
+console.log(connectionOptions)
+
+await createConnection(connectionOptions).then(async connection =&gt; {
+
+  const entityManager = getManager();   
+  let releases        = await entityManager.find(Release);
+
+  console.log(&quot;All releases from the db: &quot;, releases);
+
+}).catch(error =&gt; console.log(error));
+
+const app = createExpressServer({
+  //controllers: [ReleaseController], // we specify controllers we want to use
+});
+
+app.listen(3000);
+</code></pre>
+<p><strong>Entity Release :</strong></p>
+<pre><code>import {Entity, PrimaryGeneratedColumn, Column} from &quot;typeorm&quot;;
+
+@Entity()
+export class Release {
+
+    @PrimaryGeneratedColumn()
+    release_id: number;
+
+    @Column({ type: 'date' })
+    date: string;
+
+    @Column()
+    name: string;
+
+}
+</code></pre>
+<p><strong>TS config  :</strong></p>
+<pre><code>  {
+    &quot;compilerOptions&quot;: {
+        &quot;module&quot;: &quot;esnext&quot;,
+        &quot;moduleResolution&quot;: &quot;node&quot;,
+        &quot;target&quot;: &quot;esnext&quot;,
+         
+        &quot;esModuleInterop&quot;: true,
+        &quot;noImplicitAny&quot;: true,
+        &quot;sourceMap&quot;: false,
+        &quot;allowJs&quot;: false,
+        &quot;emitDecoratorMetadata&quot;: true,
+        &quot;experimentalDecorators&quot;: true,
+        &quot;baseUrl&quot;: &quot;.&quot;,
+            &quot;paths&quot;: {
+                &quot;*&quot;: [&quot;node_modules/*&quot;]
+            }
+    },
+    &quot;include&quot;: [ &quot;src/**/*&quot;],
+    &quot;logging&quot;: true,
+    &quot;logger&quot;: &quot;file&quot;,
+}
+</code></pre>
+<p><strong>Output Error :</strong></p>
+<pre><code> node --trace-warnings .
+
+node:internal/process/esm_loader:74
+    internalBinding('errors').triggerUncaughtException(
+                              ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/jp/eclipse-workspace/SingleCellSignal/src/entity/Release' imported from /home/jp/eclipse-workspace/SingleCellSignal/src/singlecellsignal.js
+    at new NodeError (node:internal/errors:363:5)
+    at finalizeResolution (node:internal/modules/esm/resolve:307:11)
+    at moduleResolve (node:internal/modules/esm/resolve:742:10)
+    at Loader.defaultResolve [as _resolve] (node:internal/modules/esm/resolve:853:11)
+    at Loader.resolve (node:internal/modules/esm/loader:89:40)
+    at Loader.getModuleJob (node:internal/modules/esm/loader:242:28)
+    at ModuleWrap.&lt;anonymous&gt; (node:internal/modules/esm/module_job:73:40)
+    at link (node:internal/modules/esm/module_job:72:36) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+</code></pre>
+",Error [ERR_MODULE_NOT_FOUND]: Cannot find module (TypeScript/TypeOrm),1,0,0
+330621,"<p>This Ionic3 (Angular 5) project had to be upgrade from an old AngularFire 3.x to  ""@angular/fire"": ""^5.2.1"";
+Since that ugprade, a strange behavior happens when running the app in Chrome using the ""device mode"" set to iPhone/iPad. Doesn't occur on Android simulation. At some point (which I can't identify), angularfire (I guess?) seems to add an iframe in the body element:</p>
+
+<pre><code>&lt;iframe ng-non-bindable="""" frameborder=""0"" hspace=""0"" marginheight=""0"" marginwidth=""0"" scrolling=""no"" tabindex=""0"" vspace=""0"" width=""100%"" 
+    id=""I0_1562593422051""
+    name=""I0_1562593422051"" 
+    src=""https://XXXXXXXXX.firebaseapp.com/__/auth/iframe?apiKey=YYYYYYYYYYYYYY&amp;amp;appName=ZZZZZZZZZZZZZZZ&amp;amp;v=6.2.4&amp;amp;usegapi=1&amp;amp;jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.en_GB.4xsMIUspm18.O%2Fam%3DwQE%2Fd%3D1%2Frs%3DAGLTcCO_dMVTlnY55ZJNnloXSQJ2GsU_yw%2Fm%3D__features__#id=I0_1562593422051&amp;amp;_gfid=I0_1562593422051&amp;amp;parent=http%3A%2F%2Flocalhost%3A8100&amp;amp;pfname=&amp;amp;rpctoken=33463188"" style=""position: absolute; top: -100px; width: 1px; height: 1px;""&gt;&lt;/iframe&gt;
+</code></pre>
+
+<p>Even though this works perfectly on the firebaseapp.com subdomain, the localhost (which is used in cordova) encounters the following problem with iOS only (not with android, not with chrome)...</p>
+
+<p>Any advice welcome, this is the 2nd day spent troubleshooting..! Thanks in advance.</p>
+
+<p>Some obscure stack suggests an error at core.js:1449:</p>
+
+<pre><code>core.js:1449 ERROR DOMException: Blocked a frame with origin ""http://localhost:8100"" from accessing a cross-origin frame.
+    at e (&lt;anonymous&gt;:1:62513)
+    at e (&lt;anonymous&gt;:1:63249)
+    at e (&lt;anonymous&gt;:1:63249)
+    at e (&lt;anonymous&gt;:1:63249)
+    at e (&lt;anonymous&gt;:1:63249)
+    at e (&lt;anonymous&gt;:1:63249)
+    at e (&lt;anonymous&gt;:1:63249)
+    at e (&lt;anonymous&gt;:1:63249)
+    at e (&lt;anonymous&gt;:1:63249)
+    at e (&lt;anonymous&gt;:1:63075)
+defaultErrorLogger  @   core.js:1449
+ErrorHandler.handleError    @   core.js:1510
+IonicErrorHandler.handleError   @   ionic-error-handler.js:61
+next    @   core.js:5508
+schedulerFn @   core.js:4342
+SafeSubscriber.__tryOrUnsub @   Subscriber.js:253
+SafeSubscriber.next @   Subscriber.js:191
+Subscriber._next    @   Subscriber.js:129
+Subscriber.next @   Subscriber.js:93
+Subject.next    @   Subject.js:53
+EventEmitter.emit   @   core.js:4322
+(anonymous) @   core.js:4782
+t.invoke    @   polyfills.js:3
+r.run   @   polyfills.js:3
+NgZone.runOutsideAngular    @   core.js:4708
+onHandleError   @   core.js:4782
+t.handleError   @   polyfills.js:3
+r.runTask   @   polyfills.js:3
+e.invokeTask    @   polyfills.js:3
+i.isUsingGlobalCallback.invoke  @   polyfills.js:3
+n   @   polyfills.js:3
+setTimeout (async)      
+o   @   polyfills.js:3
+t.scheduleTask  @   polyfills.js:3
+onScheduleTask  @   polyfills.js:3
+t.scheduleTask  @   polyfills.js:3
+r.scheduleTask  @   polyfills.js:3
+r.scheduleMacroTask @   polyfills.js:3
+(anonymous) @   polyfills.js:3
+o.&lt;computed&gt;    @   polyfills.js:2
+hostReportError @   hostReportError.js:8
+setTimeout (async)      
+o   @   polyfills.js:3
+t.scheduleTask  @   polyfills.js:3
+r.scheduleTask  @   polyfills.js:3
+r.scheduleMacroTask @   polyfills.js:3
+(anonymous) @   polyfills.js:3
+o.&lt;computed&gt;    @   polyfills.js:2
+AsyncObserver.scheduleEvent @   index.cjs.js:18817
+AsyncObserver.next  @   index.cjs.js:18806
+QueryListener.raiseInitialEvent @   index.cjs.js:16065
+QueryListener.onViewSnapshot    @   index.cjs.js:16007
+EventManager.onWatchChange  @   index.cjs.js:15944
+(anonymous) @   index.cjs.js:16653
+step    @   tslib.es6.js:99
+(anonymous) @   tslib.es6.js:80
+fulfilled   @   tslib.es6.js:70
+t.invoke    @   polyfills.js:3
+r.run   @   polyfills.js:3
+(anonymous) @   polyfills.js:3
+t.invokeTask    @   polyfills.js:3
+r.runTask   @   polyfills.js:3
+o   @   polyfills.js:3
+e.invokeTask    @   polyfills.js:3
+p   @   polyfills.js:2
+v   @   polyfills.js:2
+</code></pre>
+
+<p>My package.json dependencies:</p>
+
+<pre><code>   ""dependencies"": {
+        ""@angular/animations"": ""5.2.11"",
+        ""@angular/cdk"": ""^5.1.0"",
+        ""@angular/common"": ""5.2.11"",
+        ""@angular/compiler"": ""5.2.11"",
+        ""@angular/compiler-cli"": ""5.2.11"",
+        ""@angular/core"": ""5.2.11"",
+        ""@angular/fire"": ""^5.2.1"",
+        ""@angular/flex-layout"": ""^5.0.0-beta.15"",
+        ""@angular/forms"": ""5.2.11"",
+        ""@angular/http"": ""5.2.11"",
+        ""@angular/platform-browser"": ""5.2.11"",
+        ""@angular/platform-browser-dynamic"": ""5.2.11"",
+        ""@ionic-native/core"": ""~4.11.0"",
+        ""@ionic-native/splash-screen"": ""~4.11.0"",
+        ""@ionic-native/status-bar"": ""~4.11.0"",
+        ""@ionic/pro"": ""^2.0.3"",
+        ""@ionic/storage"": ""^2.2.0"",
+        ""@ngrx/effects"": ""^5.2.0"",
+        ""@ngrx/store"": ""^5.2.0"",
+        ""@ngrx/store-devtools"": ""^5.2.0"",
+        ""@types/cordova"": ""0.0.34"",
+        ""cordova-android"": ""^7.1.4"",
+        ""cordova-browser"": ""^5.0.4"",
+        ""cordova-ios"": ""^4.5.5"",
+        ""cordova-plugin-device"": ""^2.0.2"",
+        ""cordova-plugin-file"": ""^6.0.1"",
+        ""cordova-plugin-file-transfer"": ""^1.7.1"",
+        ""cordova-plugin-ionic"": ""^5.3.1"",
+        ""cordova-plugin-ionic-keyboard"": ""^2.1.3"",
+        ""cordova-plugin-ionic-webview"": ""^2.5.1"",
+        ""cordova-plugin-splashscreen"": ""^5.0.2"",
+        ""cordova-plugin-statusbar"": ""^2.4.2"",
+        ""cordova-plugin-whitelist"": ""^1.3.3"",
+        ""firebase"": ""^6.2.4"",
+        ""ionic-angular"": ""3.9.2"",
+        ""ionic2-auto-complete"": ""^1.6.2-alpha"",
+        ""ionicons"": ""3.0.0"",
+        ""ng2-nvd3"": ""^2.0.0"",
+        ""ngx-perfect-scrollbar"": ""^5.3.5"",
+        ""rxjs"": ""6.2.0"",
+        ""rxjs-compat"": ""6.2.0"",
+        ""sw-toolbox"": ""3.6.0"",
+        ""zone.js"": ""0.8.26""
+    },
+</code></pre>
+","Angular / Ionic with Angularfire: iOS: Blocked a frame with origin ""http://localhost:8100""",0,1,0
+194384,"<p>I've got a working rails 5.2.0 webpacker app, with a minimal angularjs app booted through the angular AppModule, using UpgradeModule.bootstrap function.</p>
+
+<p>I confirmed the angular app works fine before turning it into a hybrid app. And after initially adding a simple angularjs hybrid booted module, the angularjs booted module is running fine.</p>
+
+<p>I'm now trying to use downgradeComponent to hang an angular component within the booted angularjs root template, following the docs here:</p>
+
+<p><a href=""https://angular.io/guide/upgrade#using-angular-components-from-angularjs-code"" rel=""nofollow noreferrer"">https://angular.io/guide/upgrade#using-angular-components-from-angularjs-code</a></p>
+
+<p>What do I need to do to ensure the ComponentFactoryResolver is provided to the angular module?</p>
+
+<p>The angular module is still booting the angularjs module, which is still working, but the directive using the downgradeComponent function is failing with a console message suggesting that the angular AppModule where the component is declared does not have a provider for ComponentFactoryResolver.</p>
+
+<pre><code>angularjs:14961
+Error: StaticInjectorError(AppModule)[ComponentFactoryResolver]: 
+  StaticInjectorError(Platform: core)[ComponentFactoryResolver]: 
+    NullInjectorError: No provider for ComponentFactoryResolver!
+    at _NullInjector.get (core.js:1003)
+</code></pre>
+
+<p>Here's the angular module booting the angularjs module, and providing the entry point for the HelloAngularComponent to be used with downgradeComponent. The error is pointing at this angular (v5) typescript file:</p>
+
+<pre><code>import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { UpgradeModule } from '@angular/upgrade/static';
+
+import { HelloAngularComponent } from './hello_angular.component';
+
+@NgModule({
+  declarations: [
+    HelloAngularComponent
+  ],
+  entryComponents: [
+    HelloAngularComponent
+  ],
+  imports: [
+    BrowserModule,
+    UpgradeModule 
+  ],  
+  providers: [],
+})
+export class AppModule {
+  constructor(private upgrade: UpgradeModule) { }
+  ngDoBootstrap() {
+    this.upgrade.bootstrap(document.body, ['hello_angularjs'], {strictDi: true});
+  }
+}
+</code></pre>
+
+<p>And here is the hello_angularjs/index.ts module being bootstrapped:</p>
+
+<pre><code>import angular from 'angular';
+import uirouter from '@uirouter/angularjs';
+import { HelloAngularComponent } from '../hello_angular/app/hello_angular.component';
+import { downgradeComponent } from '@angular/upgrade/static';
+
+angular.module('hello_angularjs', [uirouter])
+  .controller('LoginMessage', ['$scope', function($scope) {
+    'ngInject'; 
+    $scope.message = 'Hello Angularjs';
+  }])
+  .config(['$stateProvider', ($stateProvider) =&gt; {
+    'ngInject';
+    $stateProvider
+      .state('home', {
+        url: '/',
+        template: `&lt;h1&gt;hello_angularjs home template.&lt;/h1&gt;
+        &lt;hello-angular&gt;Loading Angular component downgraded to angularjs...&lt;/hello-angular&gt;`
+      })
+  }])
+  .directive(
+    'helloAngular',
+    downgradeComponent({ component: HelloAngularComponent }) as angular.IDirectiveFactory
+  );
+</code></pre>
+
+<p>And the simple component being downgraded:</p>
+
+<pre><code>import { Component } from '@angular/core';
+
+@Component({
+  selector: 'hello-angular',
+  template: `&lt;h1&gt;Hello {{name}}&lt;/h1&gt;`
+})
+export class HelloAngularComponent {
+  name = 'Angular (v5)!';
+}   
+</code></pre>
+",StaticInjectorError(AppModule) no provider for ComponentFactoryResolver,0,1,0
+327033,"<p>The issue I am having is that I am unable to call <code>this.setState</code> inside of the callback of an external library's method, and I also cannot bind to that method.</p>
+
+<p>I am using a library called html2canvas, and I need to access the state of the class I'm using one of the methods in.</p>
+
+<p>Here is my class:</p>
+
+<pre><code>class Test extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+
+    html2canvas(document.getElementById(""target""), {
+        onrendered: function (canvas) {
+
+          var base64image = canvas.toDataURL(""image/png"");
+          document.body.appendChild(canvas);
+          this.setState({canvas: canvas} );
+        },
+        width:320,
+        height:220
+    }).bind(this);
+  }
+}
+</code></pre>
+
+<p>This returns the following errors:</p>
+
+<pre><code>Inline Babel script:23 Uncaught TypeError: html2canvas(...).bind is not a function
+    at Hello.componentDidMount (&lt;anonymous&gt;:22:8)
+    at commitLifeCycles (react-dom.development.js:17469)
+    at commitAllLifeCycles (react-dom.development.js:18871)
+    at HTMLUnknownElement.callCallback (react-dom.development.js:143)
+    at Object.invokeGuardedCallbackDev (react-dom.development.js:193)
+    at invokeGuardedCallback (react-dom.development.js:250)
+    at commitRoot (react-dom.development.js:19083)
+    at react-dom.development.js:20553
+    at unstable_runWithPriority (react.development.js:735)
+    at completeRoot (react-dom.development.js:20552)
+</code></pre>
+
+<p>which is on the <code>.bind(this)</code> call.</p>
+
+<pre><code>Inline Babel script:19 Uncaught TypeError: this.setState is not a function
+    at Object.onrendered (&lt;anonymous&gt;:18:14)
+    at Object.o.complete (html2canvas.min.js:8)
+    at o (html2canvas.min.js:7)
+    at Object.u.Preload (html2canvas.min.js:7)
+    at html2canvas.min.js:8
+</code></pre>
+
+<p>You can view the example on the JSFiddle here: <a href=""https://jsfiddle.net/michael_t/6q34ofws/125/"" rel=""nofollow noreferrer"">https://jsfiddle.net/michael_t/6q34ofws/125/</a></p>
+","this.setState is not a function, and .bind(this) is not a function",0,0,1
+519218,"<p>I've created a minimal reproduction app which demonstrates my issue based on the &quot;typescript + webpack&quot; <a href=""https://www.electronforge.io/templates/typescript-+-webpack-template"" rel=""nofollow noreferrer"">template for electron-forge</a>. I have made a few changes in order to demonstrate my issue and you can <a href=""https://github.com/taylorthurlow/electron-problem-min-repro"" rel=""nofollow noreferrer"">find the entire app here</a>. The README contains all necessary reproduction instructions (dead simple).</p>
+<p>Basically what I've done is create a <code>src/other.html</code> file, and my goal is to load the contents of this file and replace the <code>#main-content</code> div's contents (located in <code>src/index.html</code>) with the new contents. The code to do this is located in <code>src/renderer.ts</code> but here is the code in question:</p>
+<pre class=""lang-js prettyprint-override""><code>import fs from &quot;fs&quot;;
+import path from &quot;path&quot;;
+
+const contentElement = document.getElementById(&quot;main-content&quot;);
+const linkElement = document.getElementById(&quot;switch&quot;);
+
+if (!contentElement) throw &quot;Unable to find main content div.&quot;;
+if (!linkElement) throw &quot;Unable to find link element.&quot;;
+
+linkElement?.addEventListener(&quot;click&quot;, (event) =&gt; {
+  event.preventDefault();
+
+  const href = linkElement.getAttribute(&quot;href&quot;);
+
+  if (href) {
+    const fullPath = path.join(__dirname, href);
+
+    console.log(`Full path: ${fullPath}`);
+
+    fs.readFile(fullPath, (err, data) =&gt; {
+      if (err) throw err;
+
+      // show the selected page
+      contentElement.innerHTML = &quot;&quot;;
+      contentElement.insertAdjacentHTML(&quot;beforeend&quot;, data.toString());
+    });
+  }
+});
+</code></pre>
+<p>It adds a click handler which grabs the href attribute value and attempts to construct the new file's path with <code>__dirname</code>, given that the two HTML files are in the same directory.</p>
+<p>Instead of this code working as expected I encounter the following error in the dev console:</p>
+<p><a href=""https://i.stack.imgur.com/O7gWF.png"" rel=""nofollow noreferrer""><img src=""https://i.stack.imgur.com/O7gWF.png"" alt=""dev console error"" /></a></p>
+<pre><code>Uncaught Error: Invalid package /Users/taylorthurlow/Temp/electron-problem-min-repro/node_modules/electron/dist/Electron.app/Contents/Resources/electron.asar
+    at createError (electron/js2c/asar_bundle.js:5)
+    at Object.e.readFile (electron/js2c/asar_bundle.js:5)
+    at HTMLAnchorElement.&lt;anonymous&gt; (renderer.ts:50)
+createError @ electron/js2c/asar_bundle.js:5
+e.readFile @ electron/js2c/asar_bundle.js:5
+(anonymous) @ renderer.ts:50
+</code></pre>
+<p>The console log call prints:</p>
+<pre><code>Full path: /Users/taylorthurlow/Temp/electron-problem-min-repro/node_modules/electron/dist/Electron.app/Contents/Resources/electron.asar/renderer/other.html
+</code></pre>
+<p>I took a look at the <code>Resources</code> directory that <code>electron.asar</code> is expected to be inside of, but I only see <code>default_app.asar</code> and some other unrelated stuff. I assume this is why I'm getting the error. I don't understand enough about javascript/typescript or any of the ecosystem surrounding it to really understand what's going on here.</p>
+<p>Some version numbers:</p>
+<ul>
+<li><code>electron-forge</code> v6 beta 54</li>
+<li><code>electron</code> 11.0.3</li>
+<li><code>node</code> 12.20.0</li>
+</ul>
+",What is wrong with my call to Node's readFile method in an electron renderer?,0,1,0
+11882,"<p>Here is my <strong>Karma Config</strong></p>
+
+<pre><code>module.exports = function(config) {
+  config.set({
+    frameworks: ['jasmine', 'traceur'],
+
+    files: [
+      'app/**/**/httpMock/httpMock.interceptor.ts',
+        'app/**/**/httpMock/httpMock.module.ts',
+        'app/**/**/httpMock/httpMock.service.ts',
+        'app/**/**/httpMock/httpMock.config.ts'
+         ],
+     exclude: [
+        'modules/**/e2e_test/**',
+        'app/**/e2e/**/*.js',
+        'thirdparty/pioneer/featureFlag/**/*{t,T}est.js'
+    ],
+
+    preprocessors: {
+        //'app/**/*.js': ['traceur'],
+        '**/*.ts': ['typescript']
+    },
+    typescriptPreprocessor: {
+        options: {
+            sourceMap: false,
+            target: 'ES5',
+            module: 'commonjs',
+            noImplicitAny: true,
+            noResolve: true,
+            removeComments: true,
+            concatinateOutput: false
+        },
+        typings: [ 'typings/tsd.d.ts' ],
+        transformPath: function (path) {
+            return path.replace(/\.ts$/, '.js');
+        }
+    },
+    browsers: ['Chrome'],
+    reporters: ['spec', 'junit'],
+    specReporter: { maxLogLines: 5 },
+    junitReporter: {
+        outputFile: './build/work/jasmine/TEST-results.xml',
+        suite: 'COMP'
+    },
+    port: 9876
+});
+};
+</code></pre>
+
+<p>And I have the dev dependencies delcaed in package.Json and the preprocessor plugin installed. </p>
+
+<p>Here is the package.Json</p>
+
+<pre><code>""angular"": ""^1.3.5"",
+""definitely-typed-angular"": ""^1.0.1"",
+""karma"": ""^0.13.7"",
+""karma-chrome-launcher"": ""^0.1.4"",
+""karma-cli"": ""^0.0.4"",
+""karma-dart"": ""^0.2.8"",
+""karma-jasmine"": ""^0.2.2"",
+""karma-junit-reporter"": ""^0.2.2"",
+""karma-spec-reporter"": ""0.0.16"",
+""karma-traceur-preprocessor"": ""^0.4.0"",
+""karma-typescript-preprocessor"": ""0.0.20"",
+</code></pre>
+
+<p>I am not sure what causing the issue when i run the test task runner says.</p>
+
+<pre><code> 13 10 2015 10:19:50.276:ERROR [preprocessor.typescript]: Cannot find module 'angular' and namespace 'ng'.
+
+   at C:/*****.ts
+</code></pre>
+
+<p>for all the four files. Can anyone point out what is wrong?</p>
+",Karma TypeScript PreProcessor throws Error Cannot find module 'angular',0,1,0
+821056,"<p>I create an app with MERN stack and I have problem with GET request .  In the moment I have an app for cars and want to add search box in Nav bar to search a car. And I want after click button search , the app to shows the results and there is some filters in side bar too. The problem is , when I made that , and when the user search some model in the search box , the application shows empty page with filters in side bar. In the console of the browser , it told me :</p>
+<pre><code>GET http://localhost:3000/api/cars/categories 500 
+
+GET http://localhost:3000/api/cars/categories 500 (Internal Server Error)
+
+utils.js:2 Uncaught (in promise) TypeError: Cannot read properties of undefined (reading 'response')
+    at getError (utils.js:2:1)
+    at fetchData (SearchScreen.js:101:1)
+getError @ utils.js:2
+fetchData @ SearchScreen.js:101
+await in fetchData (async)
+(anonymous) @ SearchScreen.js:105
+commitHookEffectListMount @ react-dom.development.js:23150
+commitPassiveMountOnFiber @ react-dom.development.js:24926
+commitPassiveMountEffects_complete @ react-dom.development.js:24891
+commitPassiveMountEffects_begin @ react-dom.development.js:24878
+commitPassiveMountEffects @ react-dom.development.js:24866
+flushPassiveEffectsImpl @ react-dom.development.js:27039
+flushPassiveEffects @ react-dom.development.js:26984
+(anonymous) @ react-dom.development.js:26769
+workLoop @ scheduler.development.js:266
+flushWork @ scheduler.development.js:239
+performWorkUntilDeadline @ scheduler.development.js:533
+</code></pre>
+<p>Where is the problem ? Can you help me, please?</p>
+<p>I share my code below:</p>
+<p><strong>SearchScreen.js</strong></p>
+<pre><code>import React, { useEffect, useReducer, useState } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { getError } from '../utils';
+import { Helmet } from 'react-helmet-async';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Rating from '../components/Rating';
+import LoadingBox from '../components/LoadingBox';
+import MessageBox from '../components/MessageBox';
+import Button from 'react-bootstrap/Button';
+import Car from '../components/Car';
+import LinkContainer from 'react-router-bootstrap/LinkContainer';
+
+const reducer = (state, action) =&gt; {
+  switch (action.type) {
+    case 'FETCH_REQUEST':
+      return { ...state, loading: true };
+    case 'FETCH_SUCCESS':
+      return {
+        ...state,
+        cars: action.payload.cars,
+        page: action.payload.page,
+        pages: action.payload.pages,
+        countCars: action.payload.countCars,
+        loading: false,
+      };
+    case 'FETCH_FAIL':
+      return { ...state, loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
+const prices = [
+  {
+    name: '$1 to $50',
+    value: '1-50',
+  },
+  {
+    name: '$51 to $80',
+    value: '51-80',
+  },
+  {
+    name: '$80 to $160',
+    value: '80-160',
+  },
+];
+
+export const ratings = [
+  {
+    name: '4stars &amp; up',
+    rating: 4,
+  },
+
+  {
+    name: '3stars &amp; up',
+    rating: 3,
+  },
+
+  {
+    name: '2stars &amp; up',
+    rating: 2,
+  },
+
+  {
+    name: '1stars &amp; up',
+    rating: 1,
+  },
+];
+
+export default function SearchScreen() {
+  const navigate = useNavigate();
+  const { search } = useLocation();
+  const sp = new URLSearchParams(search); // /search?category=Jeep
+  const category = sp.get('category') || 'all';
+  const query = sp.get('query') || 'all';
+  const pricePerHour = sp.get('price Per Hour') || 'all';
+  const rating = sp.get('rating') || 'all';
+  const order = sp.get('order') || 'newest';
+  const page = sp.get('page') || 1;
+
+  const [{ loading, error, cars, pages, countCars }, dispatch] =
+    useReducer(reducer, {
+      loading: true,
+      error: '',
+    });
+
+  useEffect(() =&gt; {
+    const fetchData = async () =&gt; {
+      try {
+        const { data } = await axios.get(
+          `/api/cars/search?page=${page}&amp;query=${query}&amp;category=${category}&amp;pricePerHour=${pricePerHour}&amp;rating=${rating}&amp;order=${order}`
+        );
+        dispatch({ type: 'FETCH_SUCCESS', payload: data });
+      } catch (err) {
+        dispatch({
+          type: 'FETCH_FAIL',
+          payload: getError(error),
+        });
+      }
+    };
+    fetchData();
+  }, [category, error, order, page, pricePerHour, query, rating]);
+
+  const [categories, setCategories] = useState([]);
+  useEffect(() =&gt; {
+    const fetchCategories = async () =&gt; {
+      try {
+        const { data } = await axios.get(`/api/cars/categories`);
+        setCategories(data);
+      } catch (err) {
+        toast.error(getError(err));
+      }
+    };
+    fetchCategories();
+  }, [dispatch]);
+
+  const getFilterUrl = (filter, skipPathname) =&gt; {
+    const filterPage = filter.page || page;
+    const filterCategory = filter.category || category;
+    const filterQuery = filter.query || query;
+    const filterRating = filter.rating || rating;
+    const filterPricePerHour = filter.price || pricePerHour;
+    const sortOrder = filter.order || order;
+    return `${
+      skipPathname ? '' : '/search?'
+    }category=${filterCategory}&amp;query=${filterQuery}&amp;price=${filterPricePerHour}&amp;rating=${filterRating}&amp;order=${sortOrder}&amp;page=${filterPage}`;
+  };
+  return (
+    &lt;div&gt;
+      &lt;Helmet&gt;
+        &lt;title&gt;Search Products&lt;/title&gt;
+      &lt;/Helmet&gt;
+      &lt;Row&gt;
+        &lt;Col md={3}&gt;
+          &lt;h3&gt;Department&lt;/h3&gt;
+          &lt;div&gt;
+            &lt;ul&gt;
+              &lt;li&gt;
+                &lt;Link
+                  className={'all' === category ? 'text-bold' : ''}
+                  to={getFilterUrl({ category: 'all' })}
+                &gt;
+                  Any
+                &lt;/Link&gt;
+              &lt;/li&gt;
+              {categories.map((c) =&gt; (
+                &lt;li key={c}&gt;
+                  &lt;Link
+                    className={c === category ? 'text-bold' : ''}
+                    to={getFilterUrl({ category: c })}
+                  &gt;
+                    {c}
+                  &lt;/Link&gt;
+                &lt;/li&gt;
+              ))}
+            &lt;/ul&gt;
+          &lt;/div&gt;
+          &lt;div&gt;
+            &lt;h3&gt;Price&lt;/h3&gt;
+            &lt;ul&gt;
+              &lt;li&gt;
+                &lt;Link
+                  className={'all' === pricePerHour ? 'text-bold' : ''}
+                  to={getFilterUrl({ price: 'all' })}
+                &gt;
+                  Any
+                &lt;/Link&gt;
+              &lt;/li&gt;
+              {prices.map((p) =&gt; (
+                &lt;li key={p.value}&gt;
+                  &lt;Link
+                    to={getFilterUrl({ pricePerHour: p.value })}
+                    className={p.value === pricePerHour ? 'text-bold' : ''}
+                  &gt;
+                    {p.name}
+                  &lt;/Link&gt;
+                &lt;/li&gt;
+              ))}
+            &lt;/ul&gt;
+          &lt;/div&gt;
+          &lt;div&gt;
+            &lt;h3&gt;Avg. Customer Review&lt;/h3&gt;
+            &lt;ul&gt;
+              {ratings.map((r) =&gt; (
+                &lt;li key={r.name}&gt;
+                  &lt;Link
+                    to={getFilterUrl({ rating: r.rating })}
+                    className={`${r.rating}` === `${rating}` ? 'text-bold' : ''}
+                  &gt;
+                    &lt;Rating caption={' &amp; up'} rating={r.rating}&gt;&lt;/Rating&gt;
+                  &lt;/Link&gt;
+                &lt;/li&gt;
+              ))}
+              &lt;li&gt;
+                &lt;Link
+                  to={getFilterUrl({ rating: 'all' })}
+                  className={rating === 'all' ? 'text-bold' : ''}
+                &gt;
+                  &lt;Rating caption={' &amp; up'} rating={0}&gt;&lt;/Rating&gt;
+                &lt;/Link&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/div&gt;
+        &lt;/Col&gt;
+        &lt;Col md={9}&gt;
+          {loading ? (
+            &lt;LoadingBox&gt;&lt;/LoadingBox&gt;
+          ) : error ? (
+            &lt;MessageBox variant=&quot;danger&quot;&gt;{error}&lt;/MessageBox&gt;
+          ) : (
+            &lt;&gt;
+              &lt;Row className=&quot;justify-content-between mb-3&quot;&gt;
+                &lt;Col md={6}&gt;
+                  &lt;div&gt;
+                    {countCars === 0 ? 'No' : countCars} Results
+                    {query !== 'all' &amp;&amp; ' : ' + query}
+                    {category !== 'all' &amp;&amp; ' : ' + category}
+                    {pricePerHour !== 'all' &amp;&amp; ' : Price ' + pricePerHour}
+                    {rating !== 'all' &amp;&amp; ' : Rating ' + rating + ' &amp; up'}
+                    {query !== 'all' ||
+                    category !== 'all' ||
+                    rating !== 'all' ||
+                    pricePerHour !== 'all' ? (
+                      &lt;Button
+                        variant=&quot;light&quot;
+                        onClick={() =&gt; navigate('/search')}
+                      &gt;
+                        &lt;i className=&quot;fas fa-times-circle&quot;&gt;&lt;/i&gt;
+                      &lt;/Button&gt;
+                    ) : null}
+                  &lt;/div&gt;
+                &lt;/Col&gt;
+                &lt;Col className=&quot;text-end&quot;&gt;
+                  Sort by{' '}
+                  &lt;select
+                    value={order}
+                    onChange={(e) =&gt; {
+                      navigate(getFilterUrl({ order: e.target.value }));
+                    }}
+                  &gt;
+                    &lt;option value=&quot;newest&quot;&gt;Newest Arrivals&lt;/option&gt;
+                    &lt;option value=&quot;lowest&quot;&gt;Price: Low to High&lt;/option&gt;
+                    &lt;option value=&quot;highest&quot;&gt;Price: High to Low&lt;/option&gt;
+                    &lt;option value=&quot;toprated&quot;&gt;Avg. Customer Reviews&lt;/option&gt;
+                  &lt;/select&gt;
+                &lt;/Col&gt;
+              &lt;/Row&gt;
+              {cars?.length === 0 &amp;&amp; (
+                &lt;MessageBox&gt;No Product Found&lt;/MessageBox&gt;
+              )}
+
+              &lt;Row&gt;
+              {cars &amp;&amp; cars.length &gt; 0 &amp;&amp; cars.map((car) =&gt; (
+                  &lt;Col sm={6} lg={4} className=&quot;mb-3&quot; key={car._id}&gt;
+                    &lt;Car car={car}&gt;&lt;/Car&gt;
+                  &lt;/Col&gt;
+                ))}
+              &lt;/Row&gt;
+
+              &lt;div&gt;
+                {[...Array(pages).keys()].map((x) =&gt; (
+                  &lt;LinkContainer
+                    key={x + 1}
+                    className=&quot;mx-1&quot;
+                    to={{
+                      pathname: '/search',
+                      seacrh: getFilterUrl({ page: x + 1 }, true),
+                    }}
+                  &gt;
+                    &lt;Button
+                      className={Number(page) === x + 1 ? 'text-bold' : ''}
+                      variant=&quot;light&quot;
+                    &gt;
+                      {x + 1}
+                    &lt;/Button&gt;
+                  &lt;/LinkContainer&gt;
+                ))}
+              &lt;/div&gt;
+            &lt;/&gt;
+          )}
+        &lt;/Col&gt;
+      &lt;/Row&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+<p><strong>carRoutes.js</strong></p>
+<pre><code>import express from 'express';
+import Car from '../models/carModel.js';
+import expressAsyncHandler from 'express-async-handler';
+import { isAuth, isAdmin } from '../utils.js';
+
+const carRouter = express.Router();
+
+carRouter.get('/', async (req,res)=&gt;{
+    const cars = await Car.find();
+    res.send(cars);
+});
+
+
+carRouter.get('/search',expressAsyncHandler(async (req,res)=&gt;{
+  const {query} = req;
+  const pageSize = query.pageSize || PAGE_SIZE;
+  const page = query.page || 1;
+  const category = query.category || '';
+  const pricePerHour = query.pricePerHour || '';
+  const rating = query.rating || '';
+  const order = query.order || '';
+  const searchQuery = query.query || '';
+  
+
+  const queryFilter =
+        searchQuery &amp;&amp; searchQuery !== 'all'
+          ? {
+              name: {
+                $regex: searchQuery,
+                $options: 'i',
+              },
+            }
+          : {};
+      const categoryFilter = category &amp;&amp; category !== 'all' ? { category } : {};
+      const ratingFilter =
+        rating &amp;&amp; rating !== 'all'
+          ? {
+              rating: {
+                $gte: Number(rating),
+              },
+            }
+          : {};
+      const priceFilter =
+        pricePerHour &amp;&amp; pricePerHour !== 'all'
+          ? {
+              // 1-50
+              pricePerHour: {
+                $gte: Number(pricePerHour.split('-')[0]),
+                $lte: Number(pricePerHour.split('-')[1]),
+              },
+            }
+          : {};
+      const sortOrder =
+        order === 'featured'
+          ? { featured: -1 }
+          : order === 'lowest'
+          ? { pricePerHour: 1 }
+          : order === 'highest'
+          ? { pricePerHour: -1 }
+          : order === 'toprated'
+          ? { rating: -1 }
+          : order === 'newest'
+          ? { createdAt: -1 }
+          : { _id: -1 };
+
+      const cars = await Car.find({
+        ...queryFilter,
+        ...categoryFilter,
+        ...priceFilter,
+        ...ratingFilter,
+      })
+        .sort(sortOrder)
+        .skip(pageSize * (page - 1))
+        .limit(pageSize);
+
+      const countCars = await Car.countDocuments({
+        ...queryFilter,
+        ...categoryFilter,
+        ...priceFilter,
+        ...ratingFilter,
+      });
+      res.send({
+        cars,
+        countCars,
+        page,
+        pages: Math.ceil(countCars / pageSize),
+      });
+    })
+  );
+
+carRouter.post('/', isAuth, expressAsyncHandler(async (req,res)=&gt; {
+  const newCar = new Car({
+        mark: 'sample-name' + Date.now() ,
+        model: 'sample-name' + Date.now(),
+        year: 0,
+        category: 'sample-category',
+        capacity: 0,
+        fuelType: 'sample-name',
+        transmission: 'sample-name',
+        image: 'sample-image',
+        pricePerHour: 0,
+        pricePerDay: 0,
+        available: true,
+        location: 'sample-location',
+        description: 'sample description',
+  });
+  const car = await newCar.save();
+  res.send({message: 'Car created', car});
+})
+);
+
+
+  carRouter.put(
+        '/:id',
+        isAuth,
+        expressAsyncHandler(async (req, res) =&gt; {
+          const carId = req.params.id;
+          const car = await Car.findById(carId);
+          if (car) {
+            car.mark = req.body.mark;
+            car.model = req.body.model;
+            car.year = req.body.year;
+            car.capacity = req.body.capacity;
+            car.fuelType = req.body.fuelType;
+            car.transmission = req.body.transmission;
+            car.pricePerDay = req.body.pricePerDay;
+            car.pricePerHour = req.body.pricePerHour;
+            car.image = req.body.image;
+            car.category = req.body.category;
+            car.available = req.body.available;
+            car.description = req.body.description;
+            car.location = req.body.location;
+            await car.save();
+            res.send({ message: 'Car Updated' });
+          } else {
+            res.status(404).send({ message: 'Car Not Found' });
+          }
+        })
+      );
+
+  carRouter.delete(
+        '/:id',
+        isAuth,
+        expressAsyncHandler(async (req, res) =&gt; {
+          const car = await Car.findById(req.params.id);
+          if (car) {
+            await car.deleteOne();
+            res.send({ message: 'Car Deleted' });
+          } else {
+            res.status(404).send({ message: 'Car Not Found' });
+          }
+        })
+      );
+
+
+      carRouter.post(
+        '/:id/reviews',
+        isAuth,
+        expressAsyncHandler(async (req, res) =&gt; {
+          const carId = req.params.id;
+          const car = await Car.findById(carId);
+          if (car) {
+            if (car.reviews.find((x) =&gt; x.name === req.user.name)) {
+              return res
+                .status(400)
+                .send({ message: 'You already submitted a review' });
+            }
+      
+            const review = {
+              name: req.user.name,
+              rating: Number(req.body.rating),
+              comment: req.body.comment,
+            };
+            car.reviews.push(review);
+            car.numReviews = car.reviews.length;
+            car.rating =
+              car.reviews.reduce((a, c) =&gt; c.rating + a, 0) /
+              car.reviews.length;
+            const updatedCar = await car.save();
+            res.status(201).send({
+              message: 'Review Created',
+              review: updatedCar.reviews[updatedCar.reviews.length - 1],
+              numReviews: car.numReviews,
+              rating: car.rating,
+            });
+          } else {
+            res.status(404).send({ message: 'Car is Not Found' });
+          }
+        })
+      );
+
+const PAGE_SIZE = 3;
+
+carRouter.get(
+    '/admin',
+    isAuth , expressAsyncHandler(async (req,res)=&gt;{
+        const {query} = req;
+        const page = query.page || 1 ;
+        const pageSize = query.pageSize || PAGE_SIZE;
+
+        const cars = await Car.find()
+        .skip(pageSize * (page - 1))
+        .limit(pageSize);
+        const countCars = await Car.countDocuments();
+        res.send({
+            cars,
+            countCars,
+            page,
+            pages: Math.ceil(countCars / pageSize),
+        })
+    })
+)
+
+carRouter.get('/model/:model', async (req,res)=&gt;{
+    const car = await Car.findOne({model: req.params.model});
+    if(car){
+        res.send(car);
+    }else{
+        res.status(404).send({message: 'Car Not Found'});
+    }
+});
+
+carRouter.get('/:id', async (req, res) =&gt; {
+  const car = await Car.findById(req.params.id);
+  if (car) {
+    res.send(car);
+  } else {
+    res.status(404).send({ message: 'Car Not Found' });
+  }
+});
+
+
+export default carRouter;
+</code></pre>
+<p><strong>carModel.js</strong></p>
+<pre><code>import mongoose from 'mongoose';
+
+const reviewSchema = new mongoose.Schema(
+    {
+        name: {type: String, required: true},
+        comment: {type: String, required:true},
+        rating: {type: Number, required: true},
+    },
+    {
+        timestamps: true,
+    }
+);
+
+const carSchema = new mongoose.Schema(
+    {
+        mark: {type: String, required: true, unique: true},
+        model: {type: String, required: true, unique: true},
+        year: {type: Number, required: true},
+        category: {type: String, required: true},
+        capacity: {type: Number, required:true},
+        fuelType: {type: String, required: true},
+        transmission: {type: String, required: true},
+        image: {type: String, required: true},
+        pricePerHour: {type: Number, required: true},
+        pricePerDay: {type: Number, required: true},
+        available: {type: Boolean},
+        rating: {type: Number},
+        numReviews: {type: Number},
+        description: {type: String, required: true},
+        reviews: [reviewSchema]
+    },
+    {
+        timestamps: true
+    }
+);
+
+const Car = mongoose.model('Car',carSchema);
+export default Car;
+</code></pre>
+",Error with GET request 'api/cars/categories',1,0,0
+254764,"<p>I am trying to integrate Creative Tim's Material Kit Pro React frontend with the generator for the backend provided <a href=""https://github.com/prescottprue/generator-react-firebase"" rel=""nofollow noreferrer"">here</a> </p>
+
+<p>I generated a material ui react app using the back end yo generator. I then installed the additional dependencies specified in the Creative Tim file. At that point, I get an error. SCSS files that previously loaded in the original app now throw an error that says:</p>
+
+<p>Uncaught Error: Cannot find module ""./LoadingSpinner.scss""
+    at webpackMissingModule (LoadingSpinner.js:4)</p>
+
+<p>I have copied both webpack.config.js files but they are so different, I can't get a grip on where to start integrating them.</p>
+
+<p>Has anyone tried to use both packages?</p>
+
+<p>Material Kit Pro React webpack.config.js has:</p>
+
+<pre><code>const path = require('path');
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
+if (process.env.NODE_ENV === 'test') {
+  require('dotenv').config({ path: '.env.test'});
+} else if (process.env.NODE_ENV === 'development') {
+  require('dotenv').config({ path: '.env.development'});
+}
+
+module.exports =  (env) =&gt; {
+  const isProduction = env ==='production';
+  const CSSExtract = new ExtractTextPlugin('styles.css');
+  return {
+    entry: './src/index.js',
+    output: {
+      path: path.join(__dirname, 'public', 'dist'),
+      filename: 'bundle.js'
+    },
+    // resolve: { alias: { Assets: path.resolve(__dirname, 'src/assets') } },
+    module: {
+      rules: [{
+        loader: 'babel-loader',
+        test: /\.js$/,
+        exclude: /node_modules/
+      }, {
+        test: /\.s?css$/,
+        use: CSSExtract.extract({
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: true
+              }
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true
+              }
+            }
+          ]
+        })
+      }]
+    },
+    plugins: [
+      CSSExtract,
+      new webpack.DefinePlugin({
+        'process.env.REACT_APP_FIREBASE_API_KEY': JSON.stringify(process.env.REACT_APP_FIREBASE_API_KEY),
+        'process.env.REACT_APP_FIREBASE_AUTH_DOMAIN': JSON.stringify(process.env.REACT_APP_FIREBASE_AUTH_DOMAIN),
+        'process.env.REACT_APP_FIREBASE_DATABASE_URL': JSON.stringify(process.env.REACT_APP_FIREBASE_DATABASE_URL),
+        'process.env.REACT_APP_FIREBASE_PROJECT_ID': JSON.stringify(process.env.REACT_APP_FIREBASE_PROJECT_ID),
+        'process.env.REACT_APP_FIREBASE_STORAGE_BUCKET': JSON.stringify(process.env.REACT_APP_FIREBASE_STORAGE_BUCKET),
+        'process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID': JSON.stringify(process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID)
+      })
+    ],
+
+    devtool: isProduction ?  'source-map' : 'inline-source-map',
+    devServer: {
+      contentBase: path.join(__dirname, 'public'),
+      historyApiFallback: true,
+      publicPath: '/dist/'
+    }
+
+  };
+};
+</code></pre>
+
+<p>Backend generator has:</p>
+
+<pre><code>const path = require('path')
+const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const project = require('../project.config')
+
+const inProject = path.resolve.bind(path, project.basePath)
+const inProjectSrc = file =&gt; inProject(project.srcDir, file)
+
+const __DEV__ = project.env === 'development'
+const __TEST__ = project.env === 'test'
+const __PROD__ = project.env === 'production'
+
+const config = {
+  entry: {
+    normalize: [inProjectSrc('normalize')],
+    main: [inProjectSrc(project.main)]
+  },
+  devtool: project.sourcemaps ? 'source-map' : false,
+  output: {
+    path: inProject(project.outDir),
+    filename: __DEV__ ? '[name].js' : '[name].[chunkhash].js',
+    publicPath: project.publicPath
+  },
+  resolve: {
+    modules: [inProject(project.srcDir), 'node_modules'],
+    extensions: ['*', '.js', '.jsx', '.json']
+  },
+  externals: project.externals,
+  module: {
+    rules: []
+  },
+  plugins: [
+    new webpack.DefinePlugin(
+      Object.assign(
+        {
+          'process.env': { NODE_ENV: JSON.stringify(project.env) },
+          __DEV__,
+          __TEST__,
+          __PROD__
+        },
+        project.globals
+      )
+    )
+  ],
+  node: {
+    // disable node constants so constants.js file is used instead (see https://webpack.js.org/configuration/node/)
+    constants: false
+  }
+}
+
+// JavaScript
+// ------------------------------------
+config.module.rules.push({
+  test: /\.(js|jsx)$/,
+  exclude: [
+    /node_modules/,
+    /redux-firestore\/es/,
+    /react-redux-firebase\/es/
+    // Add other packages that you are npm linking here
+  ],
+  use: [
+    {
+      loader: 'babel-loader',
+      query: {
+        cacheDirectory: true,
+        // ignore root .babelrc (Check issue #59 for more details)
+        babelrc: false,
+
+        plugins: [
+          'lodash',
+          'transform-decorators-legacy',
+          'babel-plugin-transform-class-properties',
+          'babel-plugin-syntax-dynamic-import',
+          'babel-plugin-transform-export-extensions',
+          [
+            'babel-plugin-transform-runtime',
+            {
+              helpers: true,
+              polyfill: false, // we polyfill needed features in src/normalize.js
+              regenerator: true
+            }
+          ],
+          [
+            'babel-plugin-transform-object-rest-spread',
+            {
+              useBuiltIns: true // we polyfill Object.assign in src/normalize.js
+            }
+          ]
+        ],
+        presets: [
+          'babel-preset-react',
+          [
+            'babel-preset-env',
+            {
+              targets: {
+                ie9: true,
+                uglify: true,
+                modules: false
+              }
+            }
+          ]
+        ]
+      }
+    }
+  ]
+})
+
+// Styles
+// ------------------------------------
+const extractStyles = new ExtractTextPlugin({
+  filename: 'styles/[name].[contenthash].css',
+  allChunks: true,
+  disable: __DEV__
+})
+
+config.module.rules.push({
+  test: /\.(sass|scss)$/,
+  loader: extractStyles.extract({
+    fallback: 'style-loader',
+    use: [
+      {
+        loader: 'css-loader',
+        options: {
+          sourceMap: project.sourcemaps,
+          modules: true,
+          importLoaders: 2,
+          localIdentName: '[name]__[local]___[hash:base64:5]',
+          minimize: {
+            autoprefixer: {
+              add: true,
+              remove: true,
+              browsers: ['last 2 versions']
+            },
+            discardComments: {
+              removeAll: true
+            },
+            discardUnused: false,
+            mergeIdents: false,
+            reduceIdents: false,
+            safe: true,
+            sourcemap: project.sourcemaps
+          }
+        }
+      },
+      {
+        loader: 'sass-loader',
+        options: {
+          sourceMap: project.sourcemaps,
+          includePaths: [inProjectSrc('styles')]
+        }
+      }
+    ]
+  })
+})
+config.plugins.push(extractStyles)
+
+// Images
+// ------------------------------------
+config.module.rules.push({
+  test: /\.(png|jpg|gif)$/,
+  loader: 'url-loader',
+  options: {
+    limit: 8192
+  }
+})
+
+// Fonts
+// ------------------------------------
+;[
+  ['woff', 'application/font-woff'],
+  ['woff2', 'application/font-woff2'],
+  ['otf', 'font/opentype'],
+  ['ttf', 'application/octet-stream'],
+  ['eot', 'application/vnd.ms-fontobject'],
+  ['svg', 'image/svg+xml']
+].forEach(font =&gt; {
+  const extension = font[0]
+  const mimetype = font[1]
+
+  config.module.rules.push({
+    test: new RegExp(`\\.${extension}$`),
+    loader: 'url-loader',
+    options: {
+      name: 'fonts/[name].[ext]',
+      limit: 10000,
+      mimetype
+    }
+  })
+})
+
+// HTML Template
+// ------------------------------------
+config.plugins.push(
+  new HtmlWebpackPlugin({
+    template: inProjectSrc('index.html'),
+    inject: true,
+    minify: {
+      collapseWhitespace: true
+    }
+  })
+)
+
+// Development Tools
+// ------------------------------------
+if (__DEV__) {
+  config.entry.main.push(
+    `webpack-hot-middleware/client.js?path=${
+      config.output.publicPath
+    }__webpack_hmr`
+  )
+  config.plugins.push(
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin()
+  )
+}
+
+// Bundle Splitting
+// ------------------------------------
+if (!__TEST__) {
+  const bundles = ['normalize', 'manifest']
+
+  if (project.vendors &amp;&amp; project.vendors.length) {
+    bundles.unshift('vendor')
+    config.entry.vendor = project.vendors
+  }
+  config.plugins.push(
+    new webpack.optimize.CommonsChunkPlugin({ names: bundles })
+  )
+}
+
+// Production Optimizations
+// ------------------------------------
+if (__PROD__) {
+  config.plugins.push(
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+      debug: false
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: !!config.devtool,
+      comments: false,
+      compress: {
+        warnings: false,
+        screw_ie8: true,
+        conditionals: true,
+        unused: true,
+        comparisons: true,
+        sequences: true,
+        dead_code: true,
+        evaluate: true,
+        if_return: true,
+        join_vars: true
+      }
+    })
+  )
+}
+
+module.exports = config
+</code></pre>
+
+<p>I can see the css loaders are different, but I can't see what to do to make the Creative Tim files work with this backend. Has anyone figured this out?</p>
+
+<p>I have tried adding tests to the module exports statement in the generator so that it reads as follows:  </p>
+
+<pre><code>module: {
+    rules: [{
+      test: /\.scss$/,
+      use: [{
+          loader: ""style-loader""
+      }, {
+          loader: ""css-loader""
+      }, {
+          loader: ""sass-loader"",
+          // options: {
+          //     includePaths: [""absolute/path/a"", ""absolute/path/b""]
+          // }
+      }],
+    }],  
+  },
+</code></pre>
+
+<p>That attempt produces a new error that reads:</p>
+
+<pre><code>web.dom.iterable.js:19 Uncaught Error: Module build failed: 
+@import 'base';
+^
+      Invalid CSS after """": expected 1 selector or at-rule, was ""var content = requi""
+</code></pre>
+
+<p>I also tried adding style-loader as an additional loader to the webpack.config file (alongside css-loader and sass-loader), but that produces the following error:</p>
+
+<pre><code>      Invalid CSS after """": expected 1 selector or at-rule, was ""var content = requi""
+
+(line 1, column 1)
+    at Object../node_modules/css-loader/index.js!./node_modules/sass-loader/lib/loader.js!./node_modules/extract-text-webpack-plugin/dist/loader.js??ref--2-0!./node_modules/style-loader/index.js!./node_modules/css-loader/index.js??ref--2-2!./node_modules/sass-loader/lib/loader.js??ref--2-
+</code></pre>
+
+<p>Others who have had problems getting the css configured suggest that there may be config defined elsewhere. I don't seem to have that. I am about halfway through deleting all the references to css in the backend generated file. That was working (up to newProjectTile) but now that still generates failure to build css error. </p>
+
+<p>Driving me crazy that config is so complicated across these tools. If anyone has added a custom theme to the backend generator (regardless of whether it's the Creative Tim theme or otherwise), have you found a way to compile CSS? Any tips would be very much appreciated.</p>
+
+<p>Currently, my webpack.config file is as follows - errors galore in the console and still no closer to an idea for how to resolve them.</p>
+
+<pre><code>const path = require('path')
+const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const project = require('../project.config')
+
+const inProject = path.resolve.bind(path, project.basePath)
+const inProjectSrc = file =&gt; inProject(project.srcDir, file)
+
+const __DEV__ = project.env === 'development'
+const __TEST__ = project.env === 'test'
+const __PROD__ = project.env === 'production'
+const CSSExtract = new ExtractTextPlugin('styles.css');
+
+
+const config = {
+  entry: {
+    normalize: [inProjectSrc('normalize')],
+    main: [inProjectSrc(project.main)]
+  },
+  devtool: project.sourcemaps ? 'source-map' : false,
+  output: {
+    path: inProject(project.outDir),
+    filename: __DEV__ ? '[name].js' : '[name].[chunkhash].js',
+    publicPath: project.publicPath
+  },
+  resolve: {
+    modules: [inProject(project.srcDir), 'node_modules'],
+    extensions: ['*', '.js', '.jsx', '.json']
+  },
+  externals: project.externals,
+  module: {
+    rules: [{
+      loader: 'babel-loader',
+      test: /\.js$/,
+      exclude: /node_modules/
+    }, {
+      test: /\.s?css$/,
+      use: CSSExtract.extract({
+        use: [
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'style-loader',
+            options: {
+              sourceMap: true
+            }
+          },
+
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true
+            }
+          }
+        ]
+      })
+    }]
+  },
+  plugins: [
+    CSSExtract,
+    new webpack.DefinePlugin(
+      Object.assign(
+        {
+          'process.env': { NODE_ENV: JSON.stringify(project.env) },
+          __DEV__,
+          __TEST__,
+          __PROD__
+        },
+        project.globals
+      )
+    )
+  ],
+  node: {
+    // disable node constants so constants.js file is used instead (see https://webpack.js.org/configuration/node/)
+    constants: false
+  }
+}
+
+// JavaScript
+// ------------------------------------
+config.module.rules.push({
+  test: /\.(js|jsx)$/,
+  exclude: [
+    /node_modules/,
+    /redux-firestore\/es/,
+    /react-redux-firebase\/es/
+    // Add other packages that you are npm linking here
+  ],
+  use: [
+    {
+      loader: 'babel-loader',
+      query: {
+        cacheDirectory: true,
+        // ignore root .babelrc (Check issue #59 for more details)
+        babelrc: false,
+
+        plugins: [
+          'lodash',
+          'transform-decorators-legacy',
+          'babel-plugin-transform-class-properties',
+          'babel-plugin-syntax-dynamic-import',
+          'babel-plugin-transform-export-extensions',
+          [
+            'babel-plugin-transform-runtime',
+            {
+              helpers: true,
+              polyfill: false, // we polyfill needed features in src/normalize.js
+              regenerator: true
+            }
+          ],
+          [
+            'babel-plugin-transform-object-rest-spread',
+            {
+              useBuiltIns: true // we polyfill Object.assign in src/normalize.js
+            }
+          ]
+        ],
+        presets: [
+          'babel-preset-react',
+          [
+            'babel-preset-env',
+            {
+              targets: {
+                ie9: true,
+                uglify: true,
+                modules: false
+              }
+            }
+          ]
+        ]
+      }
+    }
+  ]
+})
+
+// Styles
+// ------------------------------------
+const extractStyles = new ExtractTextPlugin({
+  filename: 'styles/[name].[contenthash].css',
+  allChunks: true,
+  disable: __DEV__
+})
+
+config.module.rules.push({
+  test: /\.(sass|scss)$/,
+  loader: extractStyles.extract({
+    fallback: 'style-loader',
+    use: [
+      {
+        loader: 'css-loader',
+        options: {
+          sourceMap: project.sourcemaps,
+          modules: true,
+          importLoaders: 2,
+          localIdentName: '[name]__[local]___[hash:base64:5]',
+          minimize: {
+            autoprefixer: {
+              add: true,
+              remove: true,
+              browsers: ['last 2 versions']
+            },
+            discardComments: {
+              removeAll: true
+            },
+            discardUnused: false,
+            mergeIdents: false,
+            reduceIdents: false,
+            safe: true,
+            sourcemap: project.sourcemaps
+          }
+        }
+      },
+      {
+        loader: 'style-loader'
+      },
+      {
+        loader: 'sass-loader',
+        options: {
+          sourceMap: project.sourcemaps,
+          includePaths: [inProjectSrc('styles')]
+        }
+      }
+    ]
+  })
+})
+config.plugins.push(extractStyles)
+
+// Images
+// ------------------------------------
+config.module.rules.push({
+  test: /\.(png|jpg|gif)$/,
+  loader: 'url-loader',
+  options: {
+    limit: 8192
+  }
+})
+
+// Fonts
+// ------------------------------------
+;[
+  ['woff', 'application/font-woff'],
+  ['woff2', 'application/font-woff2'],
+  ['otf', 'font/opentype'],
+  ['ttf', 'application/octet-stream'],
+  ['eot', 'application/vnd.ms-fontobject'],
+  ['svg', 'image/svg+xml']
+].forEach(font =&gt; {
+  const extension = font[0]
+  const mimetype = font[1]
+
+  config.module.rules.push({
+    test: new RegExp(`\\.${extension}$`),
+    loader: 'url-loader',
+    options: {
+      name: 'fonts/[name].[ext]',
+      limit: 10000,
+      mimetype
+    }
+  })
+})
+
+// HTML Template
+// ------------------------------------
+config.plugins.push(
+  new HtmlWebpackPlugin({
+    template: inProjectSrc('index.html'),
+    inject: true,
+    minify: {
+      collapseWhitespace: true
+    }
+  })
+)
+
+// Development Tools
+// ------------------------------------
+if (__DEV__) {
+  config.entry.main.push(
+    `webpack-hot-middleware/client.js?path=${
+      config.output.publicPath
+    }__webpack_hmr`
+  )
+  config.plugins.push(
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin()
+  )
+}
+
+// Bundle Splitting
+// ------------------------------------
+if (!__TEST__) {
+  const bundles = ['normalize', 'manifest']
+
+  if (project.vendors &amp;&amp; project.vendors.length) {
+    bundles.unshift('vendor')
+    config.entry.vendor = project.vendors
+  }
+  config.plugins.push(
+    new webpack.optimize.CommonsChunkPlugin({ names: bundles })
+  )
+}
+
+// Production Optimizations
+// ------------------------------------
+if (__PROD__) {
+  config.plugins.push(
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+      debug: false
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: !!config.devtool,
+      comments: false,
+      compress: {
+        warnings: false,
+        screw_ie8: true,
+        conditionals: true,
+        unused: true,
+        comparisons: true,
+        sequences: true,
+        dead_code: true,
+        evaluate: true,
+        if_return: true,
+        join_vars: true
+      }
+    })
+  )
+}
+
+module.exports = config
+</code></pre>
+",Integrating Creative Tim's Material Kit Pro React frontend with React-Redux-Firebase generator backend,0,0,1
+477704,"<p>We've been pushing updates successfully to our Vue applications in recent weeks and after some very minimal changes yesterday (property name changes and removing some purely semantic characters) we are experiencing the following error:</p>
+<pre><code>Uncaught TypeError: Object(...) is not a function
+    at Module.fae3 (XCustomerServiceOptionsLibrary.umd.js:53612)
+    at n (XCustomerServiceOptionsLibrary.umd.js:30)
+    at 0012 (XCustomerServiceOptionsLibrary.umd.js:94)
+    at XCustomerServiceOptionsLibrary.umd.js:11
+    at XCustomerServiceOptionsLibrary.umd.js:3
+    at Object.e977 (XCustomerServiceOptionsLibrary.umd.js:1)
+    at o (app.2df3392d.js:formatted:39)
+    at CustomerServiceManagement.umd.js:3
+    at Object.7091 (CustomerServiceManagement.umd.js:1)
+    at o (app.2df3392d.js:formatted:39)
+</code></pre>
+<p>We debugged the code and found the error occurring on this line:</p>
+<pre><code>const _withId = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_[&quot;withScopeId&quot;])(&quot;data-v-569a422e&quot;)
+</code></pre>
+<p>We build Vue components into libraries, push them to a Verdaccio repo, and then add them as dependencies into a larger project. The library in questions (<code>XCustomerServiceOptionsLibrary</code>) and the larger Vue application build fine, but produce the above error when serving.</p>
+<p>I am starting to think there were a version change to one of our Vue dependencies that is causing issues. Here are our package.json files:</p>
+<p><em>Library</em></p>
+<pre><code>&quot;devDependencies&quot;: {
+    &quot;apollo-boost&quot;: &quot;^0.4.4&quot;,
+    &quot;autoprefixer&quot;: &quot;^9.6.1&quot;,
+    &quot;graphql&quot;: &quot;^14.2.1&quot;,
+    &quot;material-design-icons-iconfont&quot;: &quot;^5.0.1&quot;,
+    &quot;moment&quot;: &quot;^2.24.0&quot;,
+    &quot;stylus&quot;: &quot;^0.54.5&quot;,
+    &quot;stylus-loader&quot;: &quot;^3.0.2&quot;,
+    &quot;vue&quot;: &quot;^2.6.11&quot;,
+    &quot;vue-apollo&quot;: &quot;^3.0.0-beta.28&quot;,
+    &quot;vuetify&quot;: &quot;^1.5.16&quot;,
+    &quot;vuex&quot;: &quot;^3.0.1&quot;,
+    &quot;webpack&quot;: &quot;^4.36.1&quot;,
+    &quot;@vue/cli&quot;: &quot;^4.1.2&quot;,
+    &quot;@vue/cli-service&quot;: &quot;^4.1.2&quot;,
+    &quot;vue-template-compiler&quot;: &quot;^2.6.11&quot;
+  },
+</code></pre>
+<p>App</p>
+<pre><code>&quot;apollo-boost&quot;: &quot;^0.3.1&quot;,
+    &quot;autoprefixer&quot;: &quot;^9.6.1&quot;,
+    &quot;graphql&quot;: &quot;^14.2.1&quot;,
+    &quot;material-design-icons-iconfont&quot;: &quot;^5.0.1&quot;,
+    &quot;moment&quot;: &quot;^2.24.0&quot;,
+    &quot;stylus&quot;: &quot;^0.54.5&quot;,
+    &quot;stylus-loader&quot;: &quot;^3.0.2&quot;,
+    &quot;vue&quot;: &quot;^2.6.10&quot;,
+    &quot;vue-apollo&quot;: &quot;^3.0.0-beta.28&quot;,
+    &quot;vuetify&quot;: &quot;^1.5.16&quot;,
+    &quot;vuex&quot;: &quot;^3.0.1&quot;,
+    &quot;webpack&quot;: &quot;^4.36.1&quot;,
+    &quot;@vue/cli&quot;: &quot;^4.1.2&quot;,
+    &quot;@vue/cli-service&quot;: &quot;^4.1.2&quot;,
+    &quot;vue-template-compiler&quot;: &quot;^2.6.11&quot;
+</code></pre>
+","VueJs: TypeError: Object(...) is not a function, ""withScopeId""",0,0,1
+714038,"<p>On a new project when running on android I'm getting the following error</p>
+<pre><code>Jetifier found 945 file(s) to forward-jetify. Using 8 workers...
+info Starting JS server...
+info Installing the app...
+Downloading https://services.gradle.org/distributions/gradle-7.3.3-all.zip
+
+Exception in thread &quot;main&quot; javax.net.ssl.SSLHandshakeException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+        at java.base/sun.security.ssl.Alert.createSSLException(Alert.java:131)
+        at java.base/sun.security.ssl.TransportContext.fatal(TransportContext.java:353)
+        at java.base/sun.security.ssl.TransportContext.fatal(TransportContext.java:296)
+        at java.base/sun.security.ssl.TransportContext.fatal(TransportContext.java:291)
+        at java.base/sun.security.ssl.CertificateMessage$T12CertificateConsumer.checkServerCerts(CertificateMessage.java:654)
+        at java.base/sun.security.ssl.CertificateMessage$T12CertificateConsumer.onCertificate(CertificateMessage.java:473)
+        at java.base/sun.security.ssl.CertificateMessage$T12CertificateConsumer.consume(CertificateMessage.java:369)
+        at java.base/sun.security.ssl.SSLHandshake.consume(SSLHandshake.java:392)
+        at java.base/sun.security.ssl.HandshakeContext.dispatch(HandshakeContext.java:443)
+        at java.base/sun.security.ssl.HandshakeContext.dispatch(HandshakeContext.java:421)
+        at java.base/sun.security.ssl.TransportContext.dispatch(TransportContext.java:183)
+        at java.base/sun.security.ssl.SSLTransport.decode(SSLTransport.java:172)
+        at java.base/sun.security.ssl.SSLSocketImpl.decode(SSLSocketImpl.java:1506)
+        at java.base/sun.security.ssl.SSLSocketImpl.readHandshakeRecord(SSLSocketImpl.java:1416)
+        at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:456)
+        at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:427)
+        at java.base/sun.net.www.protocol.https.HttpsClient.afterConnect(HttpsClient.java:572)
+        at java.base/sun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.connect(AbstractDelegateHttpsURLConnection.java:197)
+        at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1592)
+        at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1520)
+        at java.base/sun.net.www.protocol.https.HttpsURLConnectionImpl.getInputStream(HttpsURLConnectionImpl.java:250)
+        at org.gradle.wrapper.Download.downloadInternal(Download.java:100)
+        at org.gradle.wrapper.Download.download(Download.java:80)
+        at org.gradle.wrapper.Install$1.call(Install.java:68)
+        at org.gradle.wrapper.Install$1.call(Install.java:48)
+        at org.gradle.wrapper.ExclusiveFileAccessManager.access(ExclusiveFileAccessManager.java:69)
+        at org.gradle.wrapper.Install.createDist(Install.java:48)
+        at org.gradle.wrapper.WrapperExecutor.execute(WrapperExecutor.java:107)
+        at org.gradle.wrapper.GradleWrapperMain.main(GradleWrapperMain.java:63)
+Caused by: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+        at java.base/sun.security.validator.PKIXValidator.doBuild(PKIXValidator.java:439)
+        at java.base/sun.security.validator.PKIXValidator.engineValidate(PKIXValidator.java:306)
+        at java.base/sun.security.validator.Validator.validate(Validator.java:264)
+        at java.base/sun.security.ssl.X509TrustManagerImpl.validate(X509TrustManagerImpl.java:313)
+        at java.base/sun.security.ssl.X509TrustManagerImpl.checkTrusted(X509TrustManagerImpl.java:222)
+        at java.base/sun.security.ssl.X509TrustManagerImpl.checkServerTrusted(X509TrustManagerImpl.java:129)
+        at java.base/sun.security.ssl.CertificateMessage$T12CertificateConsumer.checkServerCerts(CertificateMessage.java:638)
+        ... 24 more
+Caused by: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+        at java.base/sun.security.provider.certpath.SunCertPathBuilder.build(SunCertPathBuilder.java:141)
+        at java.base/sun.security.provider.certpath.SunCertPathBuilder.engineBuild(SunCertPathBuilder.java:126)
+        at java.base/java.security.cert.CertPathBuilder.build(CertPathBuilder.java:297)
+        at java.base/sun.security.validator.PKIXValidator.doBuild(PKIXValidator.java:434)
+        ... 30 more
+
+info Run CLI with --verbose flag for more details.
+</code></pre>
+<p>Android SDK 31 is installed
+ANDROID_HOME is set to %LOCALAPPDATA%\Android\Sdk
+JAVA_HOME is set to C:\Program Files\Android\Android Studio\jre</p>
+",React Native SSLHandshakeException when running on android,1,0,0
+48002,"<p>We're using Gulp (just migrated from ng-cli) to build our angular<strong>2</strong> project where I use Fuel-ui. </p>
+
+<p>I have a strange error. I use Fuel-ui's alert component in one of our components. If we reference fuel-ui from 
+ node_modules/fuel-ui folder in system.config.js everything is fine. If I reference it from build/vendor/fuel-ui, it fails with the following error: </p>
+
+<pre><code>    EXCEPTION: Unexpected directive value 'undefined' on the View of component 'MyAlertComponent'
+platform-browser.umd.js:1900 EXCEPTION: Unexpected directive value 'undefined' on the View of component 'MyAlertComponent'BrowserDomAdapter.logError @ platform-browser.umd.js:1900
+platform-browser.umd.js:1900 STACKTRACE:BrowserDomAdapter.logError @ platform-browser.umd.js:1900
+platform-browser.umd.js:1900 Error: Unexpected directive value 'undefined' on the View of component 'MyAlertComponent'
+    at new BaseException$1 (http://127.0.0.1:3000/node_modules/@angular/compiler/bundles/compiler.umd.js:971:27)
+    at CompileMetadataResolver.getViewDirectivesMetadata (http://127.0.0.1:3000/node_modules/@angular/compiler/bundles/compiler.umd.js:12539:27)
+    at RuntimeCompiler._getCompiledTemplate (http://127.0.0.1:3000/node_modules/@angular/compiler/bundles/compiler.umd.js:14619:40)
+    at RuntimeCompiler._getTransitiveCompiledTemplates (http://127.0.0.1:3000/node_modules/@angular/compiler/bundles/compiler.umd.js:14637:84)
+    at eval (http://127.0.0.1:3000/node_modules/@angular/compiler/bundles/compiler.umd.js:14640:81)
+    at Array.forEach (native)
+    at RuntimeCompiler._getTransitiveCompiledTemplates (http://127.0.0.1:3000/node_modules/@angular/compiler/bundles/compiler.umd.js:14640:45)
+    at eval (http://127.0.0.1:3000/node_modules/@angular/compiler/bundles/compiler.umd.js:14640:81)
+    at Array.forEach (native)
+    at RuntimeCompiler._getTransitiveCompiledTemplates (http://127.0.0.1:3000/node_modules/@angular/compiler/bundles/compiler.umd.js:14640:45)BrowserDomAdapter.logError @ platform-browser.umd.js:1900
+zone.min.js:1 Error: Error: Unexpected directive value 'undefined' on the View of component 'MyAlertComponent'
+</code></pre>
+
+<p>Relevant part of systemjs.config.js:
+works, no error:</p>
+
+<pre><code>var map = {
+        ...
+
+    ""fuel-ui"":                     ""node_modules/fuel-ui/bundles"",
+    ...
+        };
+</code></pre>
+
+<p>doesn't work, gives exception:</p>
+
+<pre><code>var map = {
+        ...
+
+    ""fuel-ui"":                     ""build/vendor/fuel-ui/bundles"",
+    ...
+        };
+</code></pre>
+
+<p>Relevant part of the component:</p>
+
+<pre><code>import {Component, Input,ElementRef} from '@angular/core';
+import {Alert} from 'fuel-ui/fuel-ui';
+
+@Component({
+  host: {
+    '(document:click)': 'onClick($event)',
+  },
+  selector: 'my-alert',
+  templateUrl: './app/components/shared/my-alert.component.html',
+  directives: [ Alert ]  
+})
+export class MyAlertComponent {
+</code></pre>
+
+<p>A part of package.json:</p>
+
+<pre><code>    ""fuel-ui"": ""0.3.9"",
+    ""jquery"": ""2.1.3"",
+    ""ng2-bootstrap"": ""1.0.24"",
+    ""node-sass"": ""^3.7.0"",
+    ""reflect-metadata"": ""0.1.3"",
+    ""rxjs"": ""5.0.0-beta.6"",
+    ""systemjs"": ""0.19.26"",
+    ""ts-node"": ""^0.5.5"",
+    ""tslint"": ""^3.6.0"",
+    ""typescript"": ""^1.8.10"",
+    ""typings"": ""^1.3.2"",
+""typings"": ""^1.3.2"",
+</code></pre>
+
+<p>The files are identical in both locations. The fuel-ui.js is loaded in both cases. No 404 errors anywhere. The load order of the loaded js files is the same in both cases.</p>
+
+<p>Still the first config works, the second doesn't. 
+ I tried to do the same with all the other referenced packages in system.config.js, everything works with any location I want to use, except fuel-ui.</p>
+
+<p>Do you have any ideas what went wrong here? </p>
+",Angular 2 module (Fuel-ui) doesn't work if it's loaded from another directory,0,1,0
+278263,"<p>i had an error with my React-Native Project for Android.</p>
+
+<p>My first error was the following:</p>
+
+<p>I added the ""react-native-location"" Library. After i run the Command ""react-native link"", the error ""compileOnly"" was thrown.
+So my first try was, upadate NPM and Node.JS.
+But it wasn´t the right solution for my Problem.</p>
+
+<p>After that, i had google the Error and i want to update grandle with ""react-native-update-gradle"". My main Problem now is, when i run the ""react-native link"" command, i get the following error:</p>
+
+<pre><code>    C:\Computer\Apps\Projects\XXX&gt;react-native link
+Scanning folders for symlinks in C:\Computer\Apps\Projects\XXX\node_modules (70ms)
+rnpm-install info Platform 'ios' module react-native-orientation is already linked
+rnpm-install info Platform 'android' module react-native-orientation is already linked
+internal/validators.js:125
+    throw new ERR_INVALID_ARG_TYPE(name, 'string', value);
+    ^
+
+TypeError [ERR_INVALID_ARG_TYPE]: The ""path"" argument must be of type string. Received type undefined
+    at validateString (internal/validators.js:125:11)
+    at Object.join (path.js:427:7)
+    at getSDKPath (C:\Computer\Apps\Projects\XXX\node_modules\react-native-update-gradle\index.js:13:12)
+    at getPTPath (C:\Computer\Apps\Projects\XXX\node_modules\react-native-update-gradle\index.js:17:20)
+    at Object.activateADB (C:\Computer\Apps\Projects\XXX\node_modules\react-native-update-gradle\index.js:5:42)
+    at Object.&lt;anonymous&gt; (C:\Computer\Apps\Projects\XXX\node_modules\react-native-update-gradle\cli.js:101:6)
+    at Module._compile (internal/modules/cjs/loader.js:734:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:745:10)
+    at Module.load (internal/modules/cjs/loader.js:626:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:566:12)
+C:\Computer\Apps\Projects\XXX\node_modules\react-native\local-cli\core\makeCommand.js:27
+        throw new Error(`Error occurred during executing ""${command}"" command`);
+        ^
+
+Error: Error occurred during executing ""node ./node_modules/react-native-update-gradle/cli.js"" command
+    at ChildProcess.prelink (C:/Computer/Apps/Projects/XXX/node_modules/react-native/local-cli/core/makeCommand.js:27:15)
+    at ChildProcess.emit (events.js:197:13)
+    at maybeClose (internal/child_process.js:978:16)
+    at Process.ChildProcess._handle.onexit (internal/child_process.js:265:5)
+</code></pre>
+
+<p>I tried to fix the Error, but the error is still there.</p>
+
+<p>I had the following Environments</p>
+
+<ul>
+<li>Window 10</li>
+<li>React-Native 0.55.4</li>
+<li>React-Native-Cli 2.0.1</li>
+<li>NodeJS v11.9.0</li>
+<li>npm 4.6.0</li>
+</ul>
+
+<p><strong>android/build.gradle</strong></p>
+
+<pre><code>buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.1'
+    }
+}
+
+allprojects {
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven {
+            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+            url ""$rootDir/../node_modules/react-native/android""
+        }
+        maven {
+            url 'https://maven.google.com'
+        }
+    }
+}
+
+ext {
+    compileSdkVersion   = 28
+    targetSdkVersion    = 28
+    buildToolsVersion   = ""28.0.3""
+    supportLibVersion   = ""28.1.1""
+    playServicesVersion = ""15.0.1""
+}
+</code></pre>
+
+<p><strong>package.json</strong></p>
+
+<pre><code> {
+  ""name"": ""XXX"",
+  ""version"": ""1.0.1"",
+  ""private"": true,
+  ""scripts"": {
+    ""start"": ""node node_modules/react-native/local-cli/cli.js start"",
+    ""test"": ""jest"",
+    ""run-android"": ""react-native run-android""
+  },
+  ""dependencies"": {
+    ""react"": ""16.3.1"",
+    ""react-native"": ""0.55.4"",
+    ""react-native-image-slider"": ""^2.0.3"",
+    ""react-native-image-zoom-viewer"": ""^2.2.25"",
+    ""react-native-orientation"": ""^3.1.3"",
+    ""react-native-pinch-zoom-view"": ""^0.1.6"",
+    ""react-native-responsive-image"": ""^2.3.1"",
+    ""react-native-router-flux"": ""^4.0.0-beta.28"",
+    ""react-native-scrolltotop"": ""0.0.6"",
+    ""react-native-slideshow"": ""^1.0.1"",
+    ""react-native-swipe-gestures"": ""^1.0.2"",
+    ""react-native-update-gradle"": ""^1.1.0"",
+    ""react-native-vector-icons"": ""^4.6.0"",
+    ""react-native-zoom-view"": ""^1.0.2""
+  },
+  ""devDependencies"": {
+    ""babel-jest"": ""22.4.3"",
+    ""babel-preset-react-native"": ""4.0.0"",
+    ""jest"": ""22.4.3"",
+    ""react-test-renderer"": ""16.3.1""
+  },
+  ""jest"": {
+    ""preset"": ""react-native""
+  }
+}
+</code></pre>
+
+<p>If you need more information to help me, please tell me that.</p>
+
+<p>Thanks for your help.</p>
+
+<p>Best Regards</p>
+",React-Native - react-native-update-gradle - Error,1,0,0
+198906,"<p>I am trying to implement pact-node using typescript. (<a href=""https://github.com/pact-foundation/pact-node"" rel=""nofollow noreferrer"">https://github.com/pact-foundation/pact-node</a>). I am having some problems and the resulting errors messages are not very descriptive. It's probably something I am doing wrong in the setup, a lot of the documentation and examples available online use pact.js and there are some differences. Below is my code:</p>
+
+<pre><code>   const path = require('path');
+   import { Pact } from '../../../node_modules/@pact-foundation/pact';
+   import { Interaction, InteractionObject } from  '../../../node_modules/@pact-foundation/pact';
+   import { expect } from 'chai';
+   import { afterEach, before, beforeEach, describe, it, after } from 'mocha';
+   import { myService } from '../../main/typescript/service/test-service';
+
+    describe('My Pact Test', () =&gt; {
+    const port = 5428;
+    let service: myService;
+
+
+   const provider = new Pact({
+        port,
+        log: path.resolve(process.cwd(), 'logs', 'pact.log'),
+        dir: path.resolve(process.cwd(), 'pacts'),
+        spec: 2,
+        consumer: 'MyConsumer',
+        provider: 'MyProvider',
+        pactfileWriteMode: 'merge',
+    });
+
+
+    const EXPECTED_BODY = [{
+        'auctionStartTime': 1549652248000,
+        'auctionEndTime': 1549911448000,
+        'resolveTime': 1539670248000,
+        'openTimestamp': 1533496996000,
+        'closeTimestamp': 1547804158000,
+        'previewStartTime': 1549393048000,
+    }];
+
+    before(() =&gt; provider.setup());
+
+    after(() =&gt; provider.finalize());
+
+    afterEach(() =&gt; provider.verify());
+
+        describe ('should get items ', () =&gt; {
+        console.log ('message 1 ');
+
+        before(() =&gt; {
+            console.log ('message 2');
+            return provider.addInteraction({
+                state: 'item present in database,
+                uponReceiving: 'a request for items',
+                withRequest: {
+                    method: 'GET',
+                    path: 'path_to_my_api_endpoint,
+                    headers: {
+                        Accept: 'application/json',
+                    },
+                },
+                willRespondWith: {
+                    status: 200,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: EXPECTED_BODY,
+                },
+            });
+        });
+
+        it('returns the correct response', (done) =&gt; {
+            console.log ('message 3');
+            service.getInfo('123', '123')
+                .then((response: any) =&gt; {
+                    expect(response.data).to.eql(EXPECTED_BODY);
+                    done();
+                });
+        });
+    });
+})
+</code></pre>
+
+<p>However when I try to run this I get the following error:</p>
+
+<pre><code>  1) My Pact Test ""before all"" hook:
+     Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure ""done()"" is called; if returning a Promise, ensure it resolves.
+
+
+  2) My Pact Test ""after all"" hook:
+     Error: Failed to get the current sub/segment from the context.
+      at Object.contextMissingRuntimeError [as contextMissing] (node_modules/aws-xray-sdk-core/lib/context_utils.js:21:15)
+      at Object.getSegment (node_modules/aws-xray-sdk-core/lib/context_utils.js:92:45)
+      at Object.resolveSegment (node_modules/aws-xray-sdk-core/lib/context_utils.js:73:19)
+      at captureOutgoingHTTPs (node_modules/aws-xray-sdk-core/lib/patchers/http_p.js:67:31)
+      at captureHTTPsRequest (node_modules/aws-xray-sdk-core/lib/patchers/http_p.js:152:12)
+      at node_modules/popsicle/src/index.ts:126:30
+      at new WrappedPromise (node_modules/async-listener/es6-wrapped-promise.js:13:18)
+      at node_modules/popsicle/src/index.ts:112:16
+      at propagateAslWrapper (node_modules/async-listener/index.js:502:23)
+      at node_modules/async-listener/glue.js:188:31
+      at node_modules/async-listener/index.js:539:70
+      at node_modules/async-listener/glue.js:188:31
+      at &lt;anonymous&gt;
+</code></pre>
+
+<p>Anybody got any idea what I am doing wrong? Or failing that, does anyone have an example of how they implemented pact using typescript?</p>
+
+<p>Thanks!</p>
+",How to use pact with typescript,0,1,0
+90800,"<p>Using Angular <a href=""https://angular.io/docs/ts/latest/guide/setup.html"" rel=""nofollow noreferrer"">quickstart</a> script is as follows:</p>
+
+<pre><code>git clone https://github.com/angular/quickstart.git quickstart
+cd quickstart
+npm install
+npm start
+</code></pre>
+
+<p>When I do this, everything works fine. However, if I copy this directory to create a new Angular project:</p>
+
+<pre><code>cp -r quickstart angular-project
+cd angular-project
+npm install
+npm start
+</code></pre>
+
+<p>an error occurs:</p>
+
+<pre><code>module.js:472
+    throw err;
+    ^
+
+Error: Cannot find module '../lib/tsc.js'
+    at Function.Module._resolveFilename (module.js:470:15)
+    at Function.Module._load (module.js:418:25)
+    at Module.require (module.js:498:17)
+    at require (internal/module.js:20:19)
+    at Object.&lt;anonymous&gt; (/Users/username/src/angular/quickstart-test1/node_modules/.bin/tsc:2:1)
+    at Module._compile (module.js:571:32)
+    at Object.Module._extensions..js (module.js:580:10)
+    at Module.load (module.js:488:32)
+    at tryModuleLoad (module.js:447:12)
+    at Function.Module._load (module.js:439:3)
+</code></pre>
+
+<p>even though <code>tsc.js</code> exists under <code>lib/</code> in new directory.</p>
+
+<p>Why does this error occur?</p>
+",Copying Angular project directory does not work,1,0,0
+131774,"<pre><code>export interface Candidate {
+  name: string;
+  surname: string;
+  gender: boolean;
+  dateOfBirth: Date;
+  placeOfBirth: string;
+  originRegion: string;
+  originDivision: string;
+  originSubDivision: string;
+  employmentSituation: string;
+  typeHandicap: string;
+  nationality: string;
+  cardID: string;
+  cardIDIssueDate: string;
+  language1: string;
+  language2: string;
+  MaritalStatus: string;
+  numberOfChildren: number;
+  specialityDiploma: number;
+  seriesDiploma: string;
+  avgDiploma: string;
+  diplomaObtainYear: string;
+  degreeDiploma: string;
+  obtainingInstitution: string;
+  examCenter: string;
+  depositPlace: string;
+  optionOfTraining: string;
+  admissionMode: string;
+  cycle: string;
+  department: string;
+  option: string;
+  session: string;
+  residenceCity: string;
+  tel1: string;
+  tel2: string;
+  email: string;
+  bp: string;
+  fax: string;
+  address: string
+  practicedSport: string;
+  othersActivities: string;
+  dateFirstRegistration: Date;
+  dateModification: Date;
+  dateValidation: Date;
+  orderNumber: number;
+  dateForDeposit: number;
+  isValid: boolean;
+  periodModification: number;
+  //users_id;
+}
+
+registration.component.html
+ &lt;div class=""innerElt""&gt;
+                    &lt;input type=""text"" name=""name"" placeholder=""name"" [(ngModel)]=""candidate.name"" (click)=""updatenameLabel('name' )"" (focusout)=""updatenameLabel(''); updateprogressbar(1)""  required &gt;
+                  &lt;/div&gt;
+registration.component.ts
+
+import { Candidate } from ""../candidate.interface"";
+export class RegistrationComponent implements OnInit {
+...
+candidate: Candidate;
+
+ngOnInit() {}
+...
+}
+</code></pre>
+
+<p>When I run this I always have the error: </p>
+
+<p>ERROR TypeError: Cannot read property 'name' of undefined
+    at Object.View_RegistrationComponent_1.co [as updateDirectives] (RegistrationComponent.html:23)
+    at Object.debugUpdateDirectives [as updateDirectives] (core.es5.js:12806)
+    at checkAndUpdateView (core.es5.js:12144)
+    at callViewAction (core.es5.js:12507)
+    at execEmbeddedViewsAction (core.es5.js:12465)
+    at checkAndUpdateView (core.es5.js:12145)
+    at callViewAction (core.es5.js:12507)
+    at execComponentViewsAction (core.es5.js:12439)
+    at checkAndUpdateView (core.es5.js:12150)
+    at callViewAction (core.es5.js:12507)</p>
+",angular 2 accessing interface filed in html template always gives error,1,0,0
+430649,"<p>We just upgraded our API from .NET Framework to .NET Core. We migrated to SignalR Core. So, we had to upgrade our SignalR client on our Angular front as well. No problem. Everything works on local. But when we deploy on our Azure App Service, we get this error :</p>
+
+<pre><code>Error: Cannot find module 'request'
+    at Function.Module._resolveFilename (module.js:469:15)
+    at Function.Module._load (module.js:417:25)
+    at Module.require (module.js:497:17)
+    at require (internal/module.js:20:19)
+    at Object.&lt;anonymous&gt; (D:\home\site\wwwroot\server.js:276222:21)
+    at webpack_require (D:\home\site\wwwroot\server.js:20:30)
+    at Object.@microsoft/signalr (D:\home\site\wwwroot\server.js:264546:18)
+    at webpack_require (D:\home\site\wwwroot\server.js:248813:30)
+    at Object../src/app/shared/services/signalR/signarRService.ts (D:\home\site\wwwroot\server.js:263030:17)
+    at webpack_require (D:\home\site\wwwroot\server.js:248813:30)
+</code></pre>
+
+<p>I checked and we can find signalr.js files in dist/browser. We're on the last package version. Everything related found on internet didn't help even a bit.</p>
+
+<p>With SignalR Framework version, everything worked just fine.</p>
+
+<p>It has been one week we're working on it. But still, we don't understand why it keeps happening. 
+What we tried :</p>
+
+<ul>
+<li>To downgrade signalR package to a lower version</li>
+<li>When uninstalled, everything works.</li>
+<li>Upgrade npm and node version</li>
+<li>Copy signalr.js in assets and use it instead (of course a bad idea)</li>
+<li>I checked dotnet/signalr github for every issues but nothing did a thing</li>
+<li>and I stopped counting...</li>
+</ul>
+
+<p>Maybe there is something special with Azure. We can't say. So we need help.</p>
+
+<p>Thanks !</p>
+
+<p>Our angular service</p>
+
+<pre><code>import ...;
+import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class SignalRService {
+
+    private readonly frontHub: string = 'FrontHub';
+    private readonly BroadCastAuditStatus: string = 'BroadCastAuditStatus';
+    private readonly SubscribeToAuditStatutUpdate: string = 'SubscribeToAuditStatutUpdate';
+
+    private hubConnection: HubConnection;
+
+    constructor(private store: Store&lt;AppState&gt;) {}
+
+    public listenToAuditedAccountStatus(accountIds: Array&lt;string&gt;, userId: number) {
+        const subscribeAccountStatusUpdateRequest = new SubscribeAccountStatusUpdateRequestDto(userId, accountIds);
+        if (this.hubConnection &amp;&amp;
+            this.hubConnection.state === HubConnectionState.Connected) {
+            this.subscribeToAuditStatutUpdate(subscribeAccountStatusUpdateRequest);
+        } else {
+            this.startConnection().then(() =&gt; {
+                this.subscribeToAuditStatutUpdate(subscribeAccountStatusUpdateRequest);
+            });
+        }
+    }
+
+    private startConnection() {
+        this.hubConnection = new HubConnectionBuilder()
+          .withUrl(environment.webSignalR + '/' + this.frontHub)
+          .build();
+
+        this.hubConnection.on(this.BroadCastAuditStatus, (googleAdsAccountDto: GoogleAdsAccountDTO) =&gt; {
+            this.store.dispatch(DoUpdateStatusAccountAuditedAction({ payload: googleAdsAccountDto }));
+        });
+
+        return this.hubConnection.start()
+        .then(() =&gt; console.log('Connection started!'))
+        .catch(err =&gt; console.log('Error while establishing connection :('));
+    }
+
+    private subscribeToAuditStatutUpdate = (subscribeAccountStatusUpdateRequest: SubscribeAccountStatusUpdateRequestDto) =&gt; {
+        this.hubConnection.invoke(this.SubscribeToAuditStatutUpdate, subscribeAccountStatusUpdateRequest);
+    }
+}
+</code></pre>
+
+<p>Package.json</p>
+
+<pre><code>{
+  ""name"": ""seiso"",
+  ""version"": ""1.0.0"",
+  ""private"": true,
+  ""description"": """",
+  ""scripts"": {
+    ""ng"": ""ng"",
+    ""build"": ""ng build --prod"",
+    ""start"": ""ng serve"",
+    ""test"": ""ng test"",
+    ""lint"": ""tslint ./src/**/*.ts -t verbose"",
+    ""e2e"": ""ng e2e"",
+    ""start:fr"": ""ng serve --aot --i18nFile=src/locale/messages.fr.xlf --i18nFormat=xlf --locale=fr"",
+    ""build:fr"": ""ng build --prod --i18nFile=src/locale/messages.fr.xlf --i18nFormat=xlf --locale=fr"",
+    ""extract"": ""ng xi18n --outputPath=src/locale"",
+    ""build:ssr"": ""npm run build:client-and-server-bundles &amp;&amp; npm run webpack:server"",
+    ""build:ssr:staging"": ""npm run build:client-and-server-bundles-staging &amp;&amp; npm run webpack:server"",
+    ""build:ssr:testing"": ""npm run build:client-and-server-bundles-testing &amp;&amp; npm run webpack:server"",
+    ""serve:ssr"": ""node dist/server"",
+    ""build:client-and-server-bundles"": ""ng build --prod &amp;&amp; ng run seiso:server:production"",
+    ""build:client-and-server-bundles-staging"": ""ng build --configuration=staging &amp;&amp; ng run seiso:server:staging"",
+    ""build:client-and-server-bundles-testing"": ""ng build --configuration=testing &amp;&amp; ng run seiso:server:testing"",
+    ""webpack:server"": ""webpack --config webpack.server.config.js --progress --colors"",
+    ""prepare-azure-app"": ""copy web.config dist &amp;&amp; cd dist &amp;&amp; mkdir dist &amp;&amp; mv browser server ./dist""
+  },
+  ""keywords"": [],
+  ""author"": """",
+  ""license"": ""MIT"",
+  ""dependencies"": {
+    ""@angular/animations"": ""^8.1.1"",
+    ""@angular/cdk"": ""^8.0.2"",
+    ""@angular/common"": ""^8.1.1"",
+    ""@angular/compiler"": ""^8.1.1"",
+    ""@angular/core"": ""^8.1.1"",
+    ""@angular/forms"": ""^8.1.1"",
+    ""@angular/material"": ""^8.0.2"",
+    ""@angular/platform-browser"": ""^8.1.1"",
+    ""@angular/platform-browser-dynamic"": ""^8.1.1"",
+    ""@angular/platform-server"": ""^8.1.1"",
+    ""@angular/router"": ""^8.1.1"",
+    ""@gilsdav/ngx-translate-router"": ""~2.0.1"",
+    ""@gilsdav/ngx-translate-router-http-loader"": ""~1.0.0"",
+    ""@microsoft/signalr"": ""^3.1.2"",
+    ""@ngrx/effects"": ""^8.2.0"",
+    ""@ngrx/store"": ""^8.2.0"",
+    ""@ngrx/store-devtools"": ""^6.0.0"",
+    ""@nguniversal/express-engine"": ""~8.1.1"",
+    ""@nguniversal/module-map-ngfactory-loader"": ""~8.1.1"",
+    ""@ngx-cache/core"": ""~7.0.0"",
+    ""@ngx-translate/core"": ""~11.0.1"",
+    ""@ngx-translate/http-loader"": ""~4.0.0"",
+    ""@nicky-lenaers/ngx-scroll-to"": ""^2.0.0"",
+    ""angular-in-memory-web-api"": ""~0.8.0"",
+    ""core-js"": ""~2.5.7"",
+    ""express"": ""^4.15.2"",
+    ""hammerjs"": ""^2.0.8"",
+    ""localize-router-lazy-universal-module-loader"": ""1.0.0-ntr"",
+    ""moment"": ""^2.24.0"",
+    ""ngx-clipboard"": ""^12.2.0"",
+    ""ngx-countdown"": ""^8.0.3"",
+    ""ngx-custom-validators"": ""^8.0.0"",
+    ""ngx-device-detector"": ""^1.3.9"",
+    ""roboto-fontface"": ""^0.10.0"",
+    ""rxjs"": ""~6.4.0"",
+    ""ts-loader"": ""~5.3.0"",
+    ""tslib"": ""^1.9.0"",
+    ""zone.js"": ""~0.9.1""
+  },
+  ""devDependencies"": {
+    ""@angular-devkit/build-angular"": ""~0.800.0"",
+    ""@angular/cli"": ""~8.0.1"",
+    ""@angular/compiler-cli"": ""^8.1.1"",
+    ""@angular/language-service"": ""^8.1.1"",
+    ""@types/jasmine"": ""~3.3.8"",
+    ""@types/jasminewd2"": ""~2.0.3"",
+    ""@types/node"": ""~8.9.4"",
+    ""codelyzer"": ""^5.0.0"",
+    ""jasmine-core"": ""~3.4.0"",
+    ""jasmine-spec-reporter"": ""~4.2.1"",
+    ""karma"": ""~4.1.0"",
+    ""karma-chrome-launcher"": ""~2.2.0"",
+    ""karma-coverage-istanbul-reporter"": ""~2.0.1"",
+    ""karma-jasmine"": ""~2.0.1"",
+    ""karma-jasmine-html-reporter"": ""^1.4.0"",
+    ""karma-phantomjs-launcher"": ""~1.0.2"",
+    ""lodash"": ""^4.17.14"",
+    ""phantomjs-prebuilt"": ""^2.1.7"",
+    ""protractor"": ""~5.4.0"",
+    ""ts-loader"": ""^5.2.0"",
+    ""ts-node"": ""~7.0.1"",
+    ""tslint"": ""~5.15.0"",
+    ""typescript"": ""~3.4.3"",
+    ""webpack-cli"": ""^3.3.6""
+  },
+  ""repository"": {}
+}
+</code></pre>
+",SignalR Core Angular SSR - Cannot find module 'request',1,0,0
+128067,"<p>I saw it is already asked but it didn't help in my problem. I am using <code>componentDidUpdate</code> method to update my state. I am executing 5 patch calls, 5 get call to update my data. when I checked my network it is showing all the data call is executed properly except one call which was executing 3 times first 2 time with 301 status and last with 200, now I don't know why I am getting this error</p>
+
+<pre><code>  componentDidMount() {
+    this.props.overallMixData.map(data =&gt; {
+      let filtereddata = this.props.VolumeGraph.filter(
+        dataWorld =&gt; dataWorld.world_name === data.world_name
+      );
+      data.world_volume = filtereddata[0].world_volume;
+    });
+    this.setState({ minMaxgraphData: this.props.overallData });
+  }
+  componentDidUpdate(prevProps, prevState) {
+    let newoverallData = prevProps.overallMixData;
+    let Graph = prevProps.VolumeGraph;
+
+    const newOverallData =overallData.map(data =&gt;{
+    let GraphData= Graph.filter(worldData =&gt; worldData.name === data.name);
+      data.world_volume=worldGraphData[0].world_volume;
+    })
+
+      this.setState({ minMaxgraphData: newoverallData });
+
+  }
+</code></pre>
+
+<p>this is my saga which executes the call</p>
+
+<pre><code> try {
+    const updateMixData = yield worldMixData.map(data =&gt; {
+      return call(updateWorldMixDetail, data);
+    });
+
+    yield [put({ type: types.UPDATE_MIX_VALUES, updateWorldMixData })];
+    const updateDetails = yield call(fetchData);
+    const updateMixDetails = yield call(worldMixDetail);
+     yield [put({ type: types.COM_DATAS, companyData:updateDetails })];
+    yield [
+      put({
+        type: types.MIX_DETAILS,
+        MixDetails: updateMixData 
+      })
+    ];
+
+    const year = Math.max.apply(
+      Math,
+      updateMixDetails.map(function(data) {
+        return data.year;
+      })
+    );
+    const chnAggregData = yield call(channelAggregation, year);
+    const volAggregateData = yield call(volAggregation, year);
+    const MixAgg = yield call(MixAggregation, year);
+    yield [
+      put({
+        type: types.FETCH_CHN_AGGREGATEDS,
+        channelAggregationData: chnAggregData
+      })
+    ];
+    yield [
+      put({
+        type: types.FETCH_VOL_AGGREGATEDS,
+        volAggregationData: volAggregateData
+      })
+    ];
+    yield [
+      put({
+        type: types.FETCH_MIX_AGGREGATEDS,
+        MixAggregationData: MixAgg
+      })
+    ];
+  } catch (error) {
+    yield put({
+      type: 'FETCH_MIX_UPDATE_ERROR',
+      error
+    });
+  }
+</code></pre>
+
+<p>this is my console</p>
+
+<pre><code> RangeError: Maximum call stack size exceeded
+    at MinMaxGraph.render (minMaxGraph.js:239)
+    at ReactCompositeComponent.js:795
+    at measureLifeCyclePerf (ReactCompositeComponent.js:75)
+    at ReactCompositeComponentWrapper._renderValidatedComponentWithoutOwnerOrContext (ReactCompositeComponent.js:794)
+    at ReactCompositeComponentWrapper._renderValidatedComponent (ReactCompositeComponent.js:821)
+    at ReactCompositeComponentWrapper._updateRenderedComponent (ReactCompositeComponent.js:745)
+    at ReactCompositeComponentWrapper._performComponentUpdate (ReactCompositeComponent.js:723)
+    at ReactCompositeComponentWrapper.updateComponent (ReactCompositeComponent.js:644)
+    at ReactCompositeComponentWrapper.receiveComponent (ReactCompositeComponent.js:546)
+    at Object.receiveComponent (ReactReconciler.js:124)
+    at ReactCompositeComponentWrapper._updateRenderedComponent (ReactCompositeComponent.js:753)
+    at ReactCompositeComponentWrapper._performComponentUpdate (ReactCompositeComponent.js:723)
+    at ReactCompositeComponentWrapper.updateComponent (ReactCompositeComponent.js:644)
+    at ReactCompositeComponentWrapper.performUpdateIfNecessary (ReactCompositeComponent.js:560)
+    at Object.performUpdateIfNecessary (ReactReconciler.js:156)
+    at runBatchedUpdates (ReactUpdates.js:150)
+    at ReactReconcileTransaction.perform (Transaction.js:143)
+    at ReactUpdatesFlushTransaction.perform (
+</code></pre>
+",Maximum call stack exceeded error in React,1,0,0
+2059,"<p>So I'm trying to write a very basic module that I can use in node. It is producing an instantiation error that I'm not quite sure how to solve. Please forgive the naming, I'm just hacking this example together in order to get my head around the problem.</p>
+
+<p>The module in use:</p>
+
+<pre><code>module Server {
+  export interface iCalc {
+    add(x : number, y : number) : number;
+    mul(x : number, y : number) : number;
+    div(x : number, y : number) : number;
+    sub(x : number, y : number) : number;
+  }
+
+  export class ServerCalc implements iCalc {
+    constructor() {}
+    add( x : number, y : number) {
+      return x + y;
+    }
+    mul( x : number, y : number) {
+      return x * y;
+    }
+    div( x : number, y : number) {
+      return x/y;
+    }
+    sub( x : number, y : number) {
+      return x-y;
+    }
+  }
+}
+</code></pre>
+
+<p>The very basic test-bed:</p>
+
+<pre><code>/// &lt;reference path='node.d.ts' /&gt;
+/// &lt;reference path='Server.ts' /&gt;
+var serve = require(""./Server.js"");
+
+
+var tmp = new serve.ServerCalc();
+console.log(tmp.add(1,1));
+</code></pre>
+
+<p>Note I've used the above method to try and make the object reachable by node. I've also tried the below, following what should be a more TypeScript idiomatic approach (but it produces the same error):</p>
+
+<pre><code>/// &lt;reference path='Server.ts' /&gt;
+
+
+var tmp = new Server.ServerCalc();
+console.log(tmp.add(1,1));
+</code></pre>
+
+<p>And the error it produces:</p>
+
+<pre><code>.../test.js:5
+var tmp = new serve.ServerCalc();
+      ^
+      TypeError: undefined is not a function
+      at Object.&lt;anonymous&gt; (.../test.js:5:11)
+  at Module._compile (module.js:456:26)
+  at Object.Module._extensions..js (module.js:474:10)
+  at Module.load (module.js:356:32)
+  at Function.Module._load (module.js:312:12)
+  at Function.Module.runMain (module.js:497:10)
+  at startup (node.js:119:16)
+  at node.js:901:3
+</code></pre>
+
+<p>The module is being compiled with the <code>--module commonjs</code> option.</p>
+","Unable to instantiate object from an imported module, using node + TypeScript?",0,0,1
+202497,"<p>I was just setting up a vue project using the webpack template like stated here: <a href=""http://vuejs-templates.github.io/webpack/"" rel=""noreferrer"">http://vuejs-templates.github.io/webpack/</a></p>
+
+<p>However after running npm run dev just to test that the template is working, I get this error:</p>
+
+<pre><code>Failed to compile with 2 errors                                                                                                                                                                                                                                                           21:49:02
+ error  in ./src/App.vue
+
+Module build failed: Error: No parser and no file path given, couldn't infer a parser.
+    at normalize (path\node_modules\prettier\index.js:7051:13)
+    at formatWithCursor (path\node_modules\prettier\index.js:10370:12)
+    at path\node_modules\prettier\index.js:31115:15
+    at Object.format (path\node_modules\prettier\index.js:31134:12)
+    at Object.module.exports (path\node_modules\vue-loader\lib\template-compiler\index.js:80:23)
+
+ @ ./src/App.vue 11:0-354
+ @ ./src/main.js
+ @ multi (webpack)-dev-server/client?http://localhost:8080 webpack/hot/dev-server ./src/main.js
+
+ error  in ./src/components/HelloWorld.vue
+
+Module build failed: Error: No parser and no file path given, couldn't infer a parser.
+    at normalize (path\node_modules\prettier\index.js:7051:13)
+    at formatWithCursor (path\node_modules\prettier\index.js:10370:12)
+    at path\node_modules\prettier\index.js:31115:15
+    at Object.format (path\node_modules\prettier\index.js:31134:12)
+    at Object.module.exports (path\node_modules\vue-loader\lib\template-compiler\index.js:80:23)
+</code></pre>
+
+<p>What am I doing wrong?</p>
+",vue webpack template missing parser,0,1,0
+363258,"<p>im getting this error (trying to learn redux/react) , not sure where the error comes from...</p>
+
+<p>I did try finding the answer here and on google but everything i tried did not fix the issue.</p>
+
+<p>Im still learning so if you can provide a comprehensive solution it will be greatly appreciated :)</p>
+
+<p><strong><em>index.js</em></strong></p>
+
+<pre><code>import React from 'react';
+import ReactDOM from 'react-dom';
+
+import { Provider } from 'react-redux'
+import { store } from './redux/store'
+
+import './index.css';
+import App from './App';
+import * as serviceWorker from './serviceWorker';
+
+ReactDOM.render(
+  &lt;Provider store={store}&gt;
+    &lt;App /&gt;
+  &lt;/Provider&gt;,
+  document.getElementById(""root"")
+);
+</code></pre>
+
+<p><strong>*App.js</strong></p>
+
+<pre><code>import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import { toggle } from ""./redux/action"";
+import './App.css';
+
+class App extends Component {
+
+  render() {
+    return (
+      &lt;div&gt;
+         {this.props.toggle ? &lt;h1&gt;Hi&lt;/h1&gt; : &lt;h1&gt;Bye&lt;/h1&gt;}
+        &lt;button onClick={this.props.onToggle}&gt;Click Me&lt;/button&gt;
+      &lt;/div&gt;
+    )
+  }
+}
+
+
+const mapStateToProps = state =&gt; {
+  return {
+    toggle: state.isCorrect
+  };
+}
+
+const mapsDispatchToProps = dispatch =&gt; {
+  return {
+    onToggle: (bool) =&gt; dispatch(toggle(bool))
+  };
+}
+
+export default connect(mapStateToProps, mapsDispatchToProps)(App)
+</code></pre>
+
+<p><strong><em>store.js</em></strong></p>
+
+<pre><code>import {createStore, applyMiddleware, compose} from 'redux'
+import thunk from 'react-thunk'
+
+const INITIAL_STATE = {
+    isCorrect: false
+}
+
+const reducer = (state = INITIAL_STATE, action) =&gt; {
+  switch (action.type) {
+    case 'IS_CORRECT':
+      return {
+          ...state,
+        isCorrect: state.isCorrect = !state.isCorrect
+      }
+  }
+  return state;
+};
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+export const store = createStore(
+         reducer,
+         composeEnhancers(applyMiddleware(thunk))
+       );
+</code></pre>
+
+<p><strong><em>action.js</em></strong></p>
+
+<pre><code>export const toggle = (bool) =&gt; {
+    return {
+      type: ""IS_CORRECT"",
+      state: bool
+    };
+}
+</code></pre>
+
+<p><strong><em>error</em></strong></p>
+
+<pre><code>index.js:37 Uncaught TypeError: Cannot call a class as a function
+    at _classCallCheck (index.js:37)
+    at ReactThunk[Component] (index.js:80)
+    at redux.js:644
+    at &lt;anonymous&gt;:1:28399
+    at createStore (redux.js:79)
+    at Module../src/redux/store.js (store.js:21)
+    at __webpack_require__ (bootstrap:785)
+    at fn (bootstrap:150)
+    at Module../src/index.js (index.css?e32c:37)
+    at __webpack_require__ (bootstrap:785)
+    at fn (bootstrap:150)
+    at Object.0 (serviceWorker.js:135)
+    at __webpack_require__ (bootstrap:785)
+    at checkDeferredModules (bootstrap:45)
+    at Array.webpackJsonpCallback [as push] (bootstrap:32)
+    at main.chunk.js:1
+</code></pre>
+",React / Redux TypeError: Cannot call a class as a function,0,0,1

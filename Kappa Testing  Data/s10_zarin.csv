@@ -1,0 +1,2526 @@
+,QId,QTitle,QBody,Why,What,How,Other
+2407,74921782,JSON.parse : Bad control character in string literal,"<p>I think this is a basic question, but I can't understand the reason. in JSON, it's valid to has a special character like &quot;asdfadf\tadfadf&quot;, but when try parse it, it's shown error.
+eg. code:</p>
+<pre><code>let s = '{&quot;adf&quot;:&quot;asdf\tasdfdaf&quot;}';
+JSON.parse(s);
+</code></pre>
+<p>Error:</p>
+<pre><code>Uncaught SyntaxError: Bad control character in string literal in JSON at position 12
+    at JSON.parse (&lt;anonymous&gt;)
+    at &lt;anonymous&gt;:1:6
+</code></pre>
+<p>I need to understand what is the issue, and solution.</p>
+",0,1,0,0
+1651,73528377,How I can resolved the angular scss compilation error?,"<p>I am facing an issue when I compile the angular project.below I attached the error which I am getting in terminal</p>
+<pre><code>Error: ./src/scss/main.scss
+Module build failed (from ./node_modules/mini-css-extract-plugin/dist/loader.js):
+ModuleError: Module Error (from ./node_modules/postcss-loader/dist/cjs.js):
+(Emitted value instead of an instance of Error) CssSyntaxError: /home/Documents/main.scss:82:4: Can't resolve '../assets/Nairobi2x.jpg' in '/home/Documents/projects/prd-name/src/scss'
+
+  80 | 
+  81 | .login-body {
+&gt; 82 |     background-image: url(&quot;../assets/Nairobi2x.jpg&quot;);
+     |    ^
+  83 |     background-size: cover;
+  84 |     background-position: 100% 100%;
+
+    at Object.emitError (/home/Documents/projects/prd-name/node_modules/webpack/lib/NormalModule.js:173:6)
+    at /home/Documents/projects/prd-name/node_modules/@angular-devkit/build-angular/src/webpack/plugins/postcss-cli-resources.js:125:28
+    at runMicrotasks (&lt;anonymous&gt;)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async Promise.all (index 18)
+</code></pre>
+",1,0,0,0
+3936,76851841,npm run asbuild ERR,"<p>how to fix the bug of asbuild</p>
+<p><a href=""https://i.stack.imgur.com/HwxaT.png"" rel=""nofollow noreferrer""><img src=""https://i.stack.imgur.com/HwxaT.png"" alt=""enter image description here"" /></a></p>
+<blockquote>
+<pre class=""lang-none prettyprint-override""><code>SyntaxError: missing ) after argument list
+   at Loader.moduleStrategy (internal/modules/esm/translators.js:149:18)
+</code></pre>
+</blockquote>
+<pre class=""lang-bash prettyprint-override""><code>npm install --save-dev assemblyscript
+npx asinit .
+Y
+npm run asbuild
+</code></pre>
+<p>here is the .log</p>
+<pre class=""lang-none prettyprint-override""><code>0 info it worked if it ends with ok
+1 verbose cli [
+1 verbose cli   'C:\\Users\\NoIdea_C\\AppData\\Local\\nvs\\default\\node.exe',
+1 verbose cli   'C:\\Users\\NoIdea_C\\AppData\\Local\\nvs\\default\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'run',
+1 verbose cli   'asbuild'
+1 verbose cli ]
+2 info using npm@6.14.18
+3 info using node@v14.21.3
+4 verbose run-script [ 'preasbuild', 'asbuild', 'postasbuild' ]
+5 info lifecycle @~preasbuild: @
+6 info lifecycle @~asbuild: @
+7 verbose lifecycle @~asbuild: unsafe-perm in lifecycle true
+8 verbose lifecycle @~asbuild: PATH: C:\Users\NoIdea_C\AppData\Local\nvs\node\14.21.3\x64\node_modules\npm\node_modules\npm-lifecycle\node-gyp-bin;C:\Users\NoIdea_C\Desktop\AssemblyScript\node_modules\.bin;C:\Program Files\PowerShell\7;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\Git\cmd;C:\Program Files\TortoiseSVN\bin;C:\Program Files\TortoiseGit\bin;D:\Bandizip\Bandizip;C:\Program Files\dotnet\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\NoIdea_C\AppData\Local\Microsoft\WindowsApps\Microsoft.WindowsTerminal_8wekyb3d8bbwe;D:\??web?????\dll;C:\Program Files (x86)\ZeroTier\One\;C:\Users\NoIdea_C\scoop\shims;C:\Users\NoIdea_C\AppData\Local\Programs\Python\Python38\Scripts\;C:\Users\NoIdea_C\AppData\Local\Programs\Python\Python38\;C:\Users\NoIdea_C\AppData\Local\Microsoft\WindowsApps;C:\Users\NoIdea_C\AppData\Local\nvs\default;C:\Users\NoIdea_C\AppData\Local\nvs\;C:\Users\NoIdea_C\.dotnet\tools;C:\Users\NoIdea_C\.npm_global;D:\Microsoft VS Code\bin;c:\Users\NoIdea_C\AppData\Local\Programs\Cursor\resources\app\bin;C:\Program Files\Java\jdk1.8.0_191\bin;C:\Program Files\Java\jdk1.8.0_191\jre\bin;D:\platform-tools;F:\ffmpeg-master-latest-win64-gpl-shared\bin;C:\Users\NoIdea_C\AppData\Local\Android\Sdk\ndk-bundle\android-ndk-r18b;C:\Program Files\PowerShell\7\;
+9 verbose lifecycle @~asbuild: CWD: C:\Users\NoIdea_C\Desktop\AssemblyScript
+10 silly lifecycle @~asbuild: Args: [ '/d /s /c', 'npm run asbuild:debug &amp;&amp; npm run asbuild:release' ]
+11 silly lifecycle @~asbuild: Returned: code: 1  signal: null
+12 info lifecycle @~asbuild: Failed to exec asbuild script
+13 verbose stack Error: @ asbuild: `npm run asbuild:debug &amp;&amp; npm run asbuild:release`
+13 verbose stack Exit status 1
+13 verbose stack     at EventEmitter.&lt;anonymous&gt; (C:\Users\NoIdea_C\AppData\Local\nvs\node\14.21.3\x64\node_modules\npm\node_modules\npm-lifecycle\index.js:332:16)
+13 verbose stack     at EventEmitter.emit (events.js:400:28)
+13 verbose stack     at ChildProcess.&lt;anonymous&gt; (C:\Users\NoIdea_C\AppData\Local\nvs\node\14.21.3\x64\node_modules\npm\node_modules\npm-lifecycle\lib\spawn.js:55:14)
+13 verbose stack     at ChildProcess.emit (events.js:400:28)
+13 verbose stack     at maybeClose (internal/child_process.js:1088:16)
+13 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:296:5)
+14 verbose pkgid @
+15 verbose cwd C:\Users\NoIdea_C\Desktop\AssemblyScript
+16 verbose Windows_NT 10.0.19044
+17 verbose argv &quot;C:\\Users\\NoIdea_C\\AppData\\Local\\nvs\\default\\node.exe&quot; &quot;C:\\Users\\NoIdea_C\\AppData\\Local\\nvs\\default\\node_modules\\npm\\bin\\npm-cli.js&quot; &quot;run&quot; &quot;asbuild&quot;
+18 verbose node v14.21.3
+19 verbose npm  v6.14.18
+20 error code ELIFECYCLE
+21 error errno 1
+22 error @ asbuild: `npm run asbuild:debug &amp;&amp; npm run asbuild:release`
+22 error Exit status 1
+23 error Failed at the @ asbuild script.
+23 error This is probably not a problem with npm. There is likely additional logging output above.
+24 verbose exit [ 1, true ]
+
+</code></pre>
+",0,0,1,0
+2918,75601782,"Ionic Capacitor Google Maps plugin not working for Android, but works on iOS and Web","<p>I’m having issues using Google Maps on Android, it works fine on web and iOS but on Android i keep getting the same error which is:</p>
+<pre><code>W/DynamiteModule: Local module descriptor class for com.google.android.gms.googlecertificates not found.
+I/DynamiteModule: Considering local module com.google.android.gms.googlecertificates:0 and remote module com.google.android.gms.googlecertificates:7
+I/DynamiteModule: Selected remote version of com.google.android.gms.googlecertificates, version &gt;= 7
+W/ziparchive: Unable to open '/data/user_de/0/com.google.android.gms/app_chimera/m/00000014/GoogleCertificates.dm': No such file or directory
+W/ziparchive: Unable to open '/data/user_de/0/com.google.android.gms/app_chimera/m/00000014/GoogleCertificates.dm': No such file or directory
+I/SnapshotHandler: Unable to retrieve flag snapshot for com.google.android.libraries.consentverifier#com.x.x, using defaults.
+W/MobStoreFlagStore: Unable to update local snapshot for com.google.android.libraries.consentverifier#com.x.x, may result in stale flags.
+    java.util.concurrent.ExecutionException: java.lang.SecurityException: GoogleCertificatesRslt: not allowed: pkg=com.x.x, sha256=[x], atk=false, ver=230514044.true (go/gsrlt)
+        at ajq.s(:com.google.android.gms.dynamite_mapsdynamite@230514044@23.05.14 (190400-0):3)
+        at ajq.get(:com.google.android.gms.dynamite_mapsdynamite@230514044@23.05.14 (190400-0):2)
+        at ala.g(:com.google.android.gms.dynamite_mapsdynamite@230514044@23.05.14 (190400-0):2)
+        at ys.d(:com.google.android.gms.dynamite_mapsdynamite@230514044@23.05.14 (190400-0):1)
+        at yu.run(:com.google.android.gms.dynamite_mapsdynamite@230514044@23.05.14 (190400-0):0)
+        at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:463)
+        at java.util.concurrent.FutureTask.run(FutureTask.java:264)
+        at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:307)
+        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
+        at java.lang.Thread.run(Thread.java:1012)
+     Caused by: java.lang.SecurityException: GoogleCertificatesRslt: not allowed: pkg=com.x.x, sha256=[x], atk=false, ver=230514044.true (go/gsrlt)
+</code></pre>
+<p>The map does not show at all, it even crashes my app when i attempt to open the map aswell sometimes, but i always get this error.</p>
+<p>The google maps plugin im using is the official one provided by Capacitor</p>
+<p>I’ve bee looking at different websites looking for solutions, like downgrading com.android.tools.build:gradle: to a version that worked for them and so on.
+But none of these suggestions have worked.</p>
+<p>I'd like to add that im new to mobile development, so things that might seem obvious to experienced people are not so obvious to me!</p>
+<p>Hope anyone has a solution for this</p>
+<p>I have set up the API keys correctly, i think i have placed everything correctly in the manifest aswell.
+This is how my Android Manifest looks like currently:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;manifest
+  xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+  package=&quot;com.x.x&quot;
+&gt;
+
+  &lt;!-- Permissions --&gt;
+  &lt;uses-permission android:name=&quot;android.permission.INTERNET&quot; /&gt;
+  &lt;uses-permission android:name=&quot;android.permission.ACCESS_COARSE_LOCATION&quot; /&gt;
+  &lt;uses-permission android:name=&quot;android.permission.ACCESS_FINE_LOCATION&quot; /&gt;
+  &lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot; /&gt;
+
+    &lt;application
+    android:allowBackup=&quot;true&quot;
+    android:icon=&quot;@mipmap/ic_launcher&quot;
+    android:label=&quot;@string/app_name&quot;
+    android:roundIcon=&quot;@mipmap/ic_launcher_round&quot;
+    android:supportsRtl=&quot;true&quot;
+    android:theme=&quot;@style/AppTheme&quot;
+  &gt;
+      &lt;meta-data
+      android:name=&quot;com.google.android.geo.API_KEY&quot;
+      android:value=&quot;xxx&quot;
+    /&gt;
+        &lt;activity
+      android:configChanges=&quot;orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode&quot;
+      android:name=&quot;com.x.x.MainActivity&quot;
+      android:label=&quot;@string/title_activity_main&quot;
+      android:theme=&quot;@style/AppTheme.NoActionBarLaunch&quot;
+      android:launchMode=&quot;singleTask&quot;
+      android:exported=&quot;true&quot;
+    &gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+                &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+            &lt;/intent-filter&gt;
+        &lt;/activity&gt;
+
+      &lt;provider
+      android:name=&quot;androidx.core.content.FileProvider&quot;
+      android:authorities=&quot;${applicationId}.fileprovider&quot;
+      android:exported=&quot;false&quot;
+      android:grantUriPermissions=&quot;true&quot;
+    &gt;
+      &lt;meta-data
+        android:name=&quot;android.support.FILE_PROVIDER_PATHS&quot;
+        android:resource=&quot;@xml/file_paths&quot;
+      /&gt;
+      &lt;/provider&gt;
+    &lt;/application&gt;
+&lt;/manifest&gt;
+</code></pre>
+<p>I hope everything is explained well enough, if not please let me know and i'll try to edit it to make more sense</p>
+",0,0,0,1
+1214,72747120,I am trying to clear typeorm mysql database on server shutdown (NestJS),"<p>How do I delete all entries in my database on server shutdown?</p>
+<pre><code>export class RoomsService {
+  async onApplicationShutdown() {
+    await this.roomService.deleteAll()
+  }
+</code></pre>
+<pre><code>async deleteAll(): Promise&lt;DeleteResult&gt; {
+    const res = await this.roomRepository.delete('*');
+    return res;
+  } 
+</code></pre>
+<p>On shutdown I get this error (even when I don't use async await)</p>
+<pre><code>Error: Pool is closed.
+at C:\Users\Admin\Desktop\sites\UltimatePartyRoom\upr-server\node_modules\mysql2\lib\pool.js:39:40
+at processTicksAndRejections (node:internal/process/task_queues:77:11)
+</code></pre>
+",0,0,1,0
+3864,76776680,ReactDOM.render throws "Uncaught TypeError: react__WEBPACK_IMPORTED_MODULE_0___default(...).render","<p>I've an react project.</p>
+<p>The package.json contents are -</p>
+<pre class=""lang-json prettyprint-override""><code>{
+  &quot;name&quot;: &quot;my-app&quot;,
+  &quot;version&quot;: &quot;0.1.0&quot;,
+  &quot;private&quot;: true,
+  &quot;dependencies&quot;: {
+    &quot;react&quot;: &quot;^18.2.0&quot;,
+    &quot;react-dom&quot;: &quot;^18.2.0&quot;,
+    &quot;react-scripts&quot;: &quot;5.0.1&quot;,
+    &quot;web-vitals&quot;: &quot;^2.1.4&quot;
+  },
+  &quot;scripts&quot;: {
+    &quot;start&quot;: &quot;react-scripts start&quot;,
+    &quot;build&quot;: &quot;react-scripts build&quot;,
+    &quot;test&quot;: &quot;react-scripts test&quot;,
+    &quot;eject&quot;: &quot;react-scripts eject&quot;
+  },
+  &quot;eslintConfig&quot;: {
+    &quot;extends&quot;: [
+      &quot;react-app&quot;,
+      &quot;react-app/jest&quot;
+    ]
+  }
+}
+
+</code></pre>
+<p>index.html</p>
+<pre class=""lang-html prettyprint-override""><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot; /&gt;
+    &lt;link rel=&quot;icon&quot; href=&quot;%PUBLIC_URL%/favicon.ico&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot; /&gt;
+    &lt;meta name=&quot;theme-color&quot; content=&quot;#000000&quot; /&gt;
+    &lt;meta
+      name=&quot;description&quot;
+      content=&quot;Web site created using create-react-app&quot;
+    /&gt;
+    &lt;link rel=&quot;apple-touch-icon&quot; href=&quot;%PUBLIC_URL%/logo192.png&quot; /&gt;
+    
+    &lt;link rel=&quot;manifest&quot; href=&quot;%PUBLIC_URL%/manifest.json&quot; /&gt;
+    
+    &lt;title&gt;React App&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;noscript&gt;You need to enable JavaScript to run this app.&lt;/noscript&gt;
+    &lt;div id=&quot;root&quot;&gt;&lt;/div&gt;
+    
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>The <code>index.js</code> file -</p>
+<pre class=""lang-js prettyprint-override""><code>import React from &quot;react&quot;;
+import ReactDOM from &quot;react&quot;;
+
+var reactElement = React.createElement('p', { id: 'param1' }, 'Hello from React');
+ReactDOM.render(reactElement, document.getElementById('root'));
+</code></pre>
+<p>When I run the application with the command <code>npm start</code>, I'm expecting to see test <code>Hello from react</code>. But I'm getting error -</p>
+<pre><code>index.js:5 Uncaught TypeError: react__WEBPACK_IMPORTED_MODULE_0___default(...).render is not a function
+    at ./src/index.js (index.js:5:1)
+    at options.factory (react refresh:6:1)
+    at __webpack_require__ (bootstrap:24:1)
+    at startup:7:1
+    at startup:7:1
+</code></pre>
+<p>Any idea how to fix this error?</p>
+<p>The complete code is <a href=""https://github.com/rajcspsg/react-ssr/tree/main/c2/my-app"" rel=""nofollow noreferrer"">here</a></p>
+",0,0,1,0
+2832,75486384,Vue 3 Vite SPA Served on NGINX at Sub Root Location - Filter is Not a Function Error,"<p>I successfully served my Vue 3 SPA application at the base root, at http://localhost and the files were at C:/test/display/outbound. I had no issues and everything worked as expected.</p>
+<p>I have now changed it to what I actually want, which is the Vue 3 app to be served at http://localhost/display/outbound.</p>
+<p>To do this, I had to change the base path to the below in my Vite.config.ts</p>
+<blockquote>
+<p>base: '/display/outbound/',</p>
+</blockquote>
+<p>After doing so, I am now getting a console error</p>
+<blockquote>
+<p>Uncaught (in promise) TypeError: se.filter is not a function
+at index.3a3bff19.js:29:7519</p>
+</blockquote>
+<p>The frontend loads fine, the routing works etc. it just this issue preventing it from working.</p>
+<p>It occurs twice, and it comes from these functions.</p>
+<pre><code>//Gets current scheduled appointment based on location, type and stage
+function getCurrent(): void
+{
+    store.getCurrentAppointments()
+    .then(() =&gt; 
+    {
+        currentAppts.value = appointmentsCurrent.value?.filter(
+            x =&gt; 
+            x.bookedLocation == dockDoorMap.value.get(dockDoorRoute.value) &amp;&amp; 
+            (x.appointmentStage == 'Due' || x.appointmentStage == 'Arrived' || x.appointmentStage == 'Parked' || x.appointmentStage == 'Docked'));
+    })
+}
+
+//Gets next scheduled appointment based on location, type and stage
+function getNext(): void
+{
+    store.getNextAppointments()
+    .then(() =&gt; 
+    {
+        nextAppts.value = appointmentsNext.value?.filter(
+            x =&gt; 
+            x.bookedLocation == dockDoorMap.value.get(dockDoorRoute.value) &amp;&amp; 
+            (x.appointmentStage == 'Due' || x.appointmentStage == 'Arrived' || x.appointmentStage == 'Parked' || x.appointmentStage == 'Docked'));
+    })
+}
+</code></pre>
+<p>Here is the built JS running in the browser for those two functions.</p>
+<pre><code>function Q() {
+    t.getCurrentAppointments().then(()=&gt;{
+        var se;
+        l.value = (se = z.value) == null ? void 0 : se.filter(oe=&gt;oe.bookedLocation == R.value.get(r.value) &amp;&amp; (oe.appointmentStage == &quot;Due&quot; || oe.appointmentStage == &quot;Arrived&quot; || oe.appointmentStage == &quot;Parked&quot; || oe.appointmentStage == &quot;Docked&quot;))
+    }
+    )
+}
+function ce() {
+    t.getNextAppointments().then(()=&gt;{
+        var se;
+        s.value = (se = J.value) == null ? void 0 : se.filter(oe=&gt;oe.bookedLocation == R.value.get(r.value) &amp;&amp; (oe.appointmentStage == &quot;Due&quot; || oe.appointmentStage == &quot;Arrived&quot; || oe.appointmentStage == &quot;Parked&quot; || oe.appointmentStage == &quot;Docked&quot;))
+    }
+    )
+}
+</code></pre>
+<p>I have also included my NGINX config just for reference. (I now have a static HTML file served at http://localhost/ too (that also works fine))</p>
+<pre><code>events {
+    worker_connections  1024;
+}
+
+http {
+    include mime.types;
+    
+    server {
+        listen 80;
+        server_name localhost;
+
+        location / {
+            root C:/test;
+            index index.html;
+            try_files $uri $uri/ /index.html =404;
+        }
+
+        location /display/outbound {
+            alias C:/test/display/outbound;
+            index index.html;
+            try_files $uri $uri/ /index.html =404;
+            
+        }
+
+        location /display/outbound/api/ {
+            proxy_pass http://localhost:52000/api/;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+    }
+}
+</code></pre>
+<p>I am unsure why this happens, as it works in dev and it also works when built, but served at http://localhost. Does anybody know why this is happening, or explain how I may be able to resolve?</p>
+",0,0,1,0
+1752,73692258,Dart-Sass Compilation Issue in React,"<p>I'm getting the following error when trying to compile my react project after upgrading some npm packages (getting latest and mainly upgrading carbon). I'v been stuck on this and can't seem to find what's wrong but seems sass failing to compile:</p>
+<p><strong>The error im getting:</strong></p>
+<pre><code>    ERROR in ./app/styles/index.scss (./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./node_modules/fast-sass-loader/lib/index.js??ruleSet[1].rules[2].use[3]!./app/styles/index.scss)
+Module build failed (from ./node_modules/fast-sass-loader/lib/index.js):
+Error: expected &quot;{&quot;.
+...
+...
+  app\styles\index.scss 3:392  root stylesheet
+    at Object.wrapException (E:\MyProject.FrontEnd\node_modules\sass\sass.dart.js:1247:17)
+    at SpanScanner.error$3$length$position (E:\MyProject.FrontEnd\node_modules\sass\sass.dart.js:67792:15)
+    at SpanScanner.expectChar$2$name (E:\MyProject.FrontEnd\node_modules\sass\sass.dart.js:67856:12)
+    at SpanScanner.expectChar$1 (E:\MyProject.FrontEnd\node_modules\sass\sass.dart.js:67859:19)
+</code></pre>
+<p><strong>Here are my packages in package.json</strong></p>
+<pre><code>&quot;dependencies&quot;: {
+&quot;@babel/core&quot;: &quot;7.9.6&quot;,
+&quot;@babel/helper-compilation-targets&quot;: &quot;7.14.5&quot;,
+&quot;@babel/plugin-proposal-async-generator-functions&quot;: &quot;7.14.7&quot;,
+&quot;@babel/plugin-proposal-class-properties&quot;: &quot;7.14.5&quot;,
+&quot;@babel/plugin-proposal-dynamic-import&quot;: &quot;7.14.5&quot;,
+&quot;@babel/plugin-proposal-json-strings&quot;: &quot;7.14.5&quot;,
+&quot;@babel/plugin-syntax-dynamic-import&quot;: &quot;7.8.3&quot;,
+&quot;@babel/polyfill&quot;: &quot;7.8.7&quot;,
+&quot;@babel/preset-env&quot;: &quot;7.9.6&quot;,
+&quot;@babel/preset-react&quot;: &quot;7.9.4&quot;,
+&quot;@carbon/charts&quot;: &quot;^1.5.2&quot;,
+&quot;@carbon/charts-react&quot;: &quot;^1.5.2&quot;,
+&quot;@carbon/colors&quot;: &quot;^11.4.0&quot;,
+&quot;@carbon/pictograms-react&quot;: &quot;^11.31.0&quot;,
+&quot;@carbon/react&quot;: &quot;^1.12.0&quot;,
+&quot;@carbon/themes&quot;: &quot;^11.8.0&quot;,
+&quot;@carbon/type&quot;: &quot;^11.8.0&quot;,
+&quot;async-lock&quot;: &quot;1.3.2&quot;,
+&quot;autoprefixer&quot;: &quot;9.7.6&quot;,
+&quot;axios&quot;: &quot;0.20.0&quot;,
+&quot;babel-loader&quot;: &quot;8.1.0&quot;,
+&quot;circular-dependency-plugin&quot;: &quot;5.2.2&quot;,
+&quot;classnames&quot;: &quot;2.2.6&quot;,
+&quot;clean-webpack-plugin&quot;: &quot;3.0.0&quot;,
+&quot;core-js&quot;: &quot;3.6.5&quot;,
+&quot;css-loader&quot;: &quot;^6.7.1&quot;,
+&quot;d3&quot;: &quot;^7.6.1&quot;,
+&quot;downloadjs&quot;: &quot;1.4.7&quot;,
+&quot;eslint&quot;: &quot;6.8.0&quot;,
+&quot;eslint-config-google&quot;: &quot;0.14.0&quot;,
+&quot;eslint-loader&quot;: &quot;4.0.2&quot;,
+&quot;fast-async&quot;: &quot;7.0.6&quot;,
+&quot;fast-sass-loader&quot;: &quot;^2.0.1&quot;,
+&quot;file-loader&quot;: &quot;6.0.0&quot;,
+&quot;history&quot;: &quot;4.10.1&quot;,
+&quot;html-webpack-plugin&quot;: &quot;5.3.2&quot;,
+&quot;is_js&quot;: &quot;0.9.0&quot;,
+&quot;jest&quot;: &quot;26.1.0&quot;,
+&quot;jest-editor-support&quot;: &quot;27.2.0&quot;,
+&quot;jest-trx-results-processor&quot;: &quot;2.0.3&quot;,
+&quot;jwt-decode&quot;: &quot;2.2.0&quot;,
+&quot;mini-css-extract-plugin&quot;: &quot;1.6.0&quot;,
+&quot;moment&quot;: &quot;2.26.0&quot;,
+&quot;postcss-custom-properties&quot;: &quot;^12.1.8&quot;,
+&quot;postcss-loader&quot;: &quot;^7.0.1&quot;,
+&quot;process&quot;: &quot;0.11.10&quot;,
+&quot;prop-types&quot;: &quot;15.7.2&quot;,
+&quot;react&quot;: &quot;16.13.1&quot;,
+&quot;react-countdown&quot;: &quot;2.3.2&quot;,
+&quot;react-dom&quot;: &quot;16.13.1&quot;,
+&quot;react-idle-timer&quot;: &quot;4.6.4&quot;,
+&quot;react-input-mask&quot;: &quot;2.0.4&quot;,
+&quot;react-intl&quot;: &quot;5.10.0&quot;,
+&quot;react-jsx-parser&quot;: &quot;1.25.1&quot;,
+&quot;react-redux&quot;: &quot;7.2.0&quot;,
+&quot;react-router-dom&quot;: &quot;5.1.2&quot;,
+&quot;react-sanitized-html&quot;: &quot;2.0.0&quot;,
+&quot;redux&quot;: &quot;4.0.5&quot;,
+&quot;redux-state-sync&quot;: &quot;3.1.2&quot;,
+&quot;sanitize-html&quot;: &quot;1.27.4&quot;,
+&quot;sass&quot;: &quot;^1.54.9&quot;,
+&quot;sass-loader&quot;: &quot;^13.0.2&quot;,
+&quot;style-loader&quot;: &quot;1.2.1&quot;,
+&quot;uuid&quot;: &quot;8.3.0&quot;,
+&quot;webpack&quot;: &quot;^5.74.0&quot;,
+&quot;webpack-cli&quot;: &quot;^4.10.0&quot;
+</code></pre>
+<p>}</p>
+",0,1,0,0
+2295,74750749,Can't call Google Cloud Function from a react app. I get googleauth.js:17 Uncaught Error: Cannot find module 'child_process' in my browser's console,"<p>I have this app here: <a href=""https://github.com/ChristianOConnor/google-cloudfunction-callfromreactapp"" rel=""nofollow noreferrer"">https://github.com/ChristianOConnor/google-cloudfunction-callfromreactapp</a>. It is literally just the output of <code>npx create-react-app google-cloudfunction-callfromreactapp --template typescript</code> and making a few changes. I added <code>src/api/google.ts</code> which looks like this:</p>
+<pre><code>import { JWT } from &quot;google-auth-library&quot;;
+import keys from 'PATH TO KEYS HERE';
+
+async function BasicTest() {
+  const client = new JWT({
+    email: keys.client_email,
+    key: keys.private_key
+  });
+  const url = '&lt;FUNCTION URL&gt;';
+  const res = await client.request({url});
+  return res.data
+  //return 'does this work'
+}
+
+export default BasicTest;
+</code></pre>
+<p>Obviously you would replace 'PATH TO KEYS HERE' with the path to your relevant service account and '&lt;FUNCTION URL&gt;' with the url to trigger your Google cloud function.</p>
+<p>This is my simple Google cloud function that outputs a simple string:</p>
+<pre><code>import functions_framework
+
+@functions_framework.http
+def hello_http(request):
+   &quot;&quot;&quot;HTTP Cloud Function.
+   Args:
+       request (flask.Request): The request object.
+       &lt;https://flask.palletsprojects.com/en/1.1.x/api/#incoming-request-data&gt;
+   Returns:
+       The response text, or any set of values that can be turned into a
+       Response object using `make_response`
+       &lt;https://flask.palletsprojects.com/en/1.1.x/api/#flask.make_response&gt;.
+   &quot;&quot;&quot;
+   request_json = request.get_json(silent=True)
+   request_args = request.args
+
+   if request_json and 'name' in request_json:
+       name = request_json['name']
+   elif request_args and 'name' in request_args:
+       name = request_args['name']
+   else:
+       name = 'World'
+   return 'Hello {}!'.format(name)
+</code></pre>
+<p>It's a simple defualt python function that outputs a string.</p>
+<p>I also changed the App.tsx file to this:</p>
+<pre><code>import logo from './logo.svg';
+import './App.css';
+import React, { useState } from 'react';
+import BasicTest from './api/google';
+
+function App() {
+  const [resp, setResp] = useState('');
+  
+  async function callApi() {
+    const calledData = await BasicTest().catch(console.error);
+    setResp(calledData as string);
+  }
+
+  return (
+    &lt;div className=&quot;App&quot;&gt;
+      &lt;header className=&quot;App-header&quot;&gt;
+        &lt;img src={logo} className=&quot;App-logo&quot; alt=&quot;logo&quot; /&gt;
+        &lt;p&gt;
+          Edit &lt;code&gt;src/App.tsx&lt;/code&gt; and save to reload.
+        &lt;/p&gt;
+        &lt;a
+          className=&quot;App-link&quot;
+          href=&quot;https://reactjs.org&quot;
+          target=&quot;_blank&quot;
+          rel=&quot;noopener noreferrer&quot;
+        &gt;
+          Learn React
+        &lt;/a&gt;
+      &lt;/header&gt;
+      &lt;div className=&quot;card&quot;&gt;
+        &lt;button onClick={() =&gt; callApi()}&gt;
+          click this to call API
+        &lt;/button&gt;
+        &lt;p&gt;
+          {resp}
+        &lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;
+</code></pre>
+<p>This app works perfectly when I remove all of the google cloud function stuff and simply have <code>google.ts</code> return &quot;the function ran&quot;:<br />
+<a href=""https://i.stack.imgur.com/pX6kW.gif"" rel=""nofollow noreferrer""><img src=""https://i.stack.imgur.com/pX6kW.gif"" alt=""enter image description here"" /></a></p>
+<p>But when I put the Google cloud function stuff back in, it fails with this error in my browser.</p>
+<pre><code>googleauth.js:17 Uncaught Error: Cannot find module 'child_process'
+    at webpackMissingModule (googleauth.js:17:1)
+    at ./node_modules/google-auth-library/build/src/auth/googleauth.js (googleauth.js:17:1)
+    at options.factory (react refresh:6:1)
+    at __webpack_require__ (bootstrap:24:1)
+    at fn (hot module replacement:62:1)
+    at ./node_modules/google-auth-library/build/src/index.js (index.js:17:1)
+    at options.factory (react refresh:6:1)
+    at __webpack_require__ (bootstrap:24:1)
+    at fn (hot module replacement:62:1)
+    at ./src/api/google.ts (App.tsx:42:1)
+</code></pre>
+<p>If it helps to debug this, lines 15 through 20 in <code>googleauth.js</code> looks like this:</p>
+<pre><code>Object.defineProperty(exports, &quot;__esModule&quot;, { value: true });
+exports.GoogleAuth = exports.CLOUD_SDK_CLIENT_ID = void 0;
+const child_process_1 = require(&quot;child_process&quot;);
+const fs = require(&quot;fs&quot;);
+const gcpMetadata = require(&quot;gcp-metadata&quot;);
+</code></pre>
+<p>The error is this line <code>const child_process_1 = require(&quot;child_process&quot;);</code></p>
+<p>So how can I fix this?</p>
+",0,0,1,0
+3761,76663442,Not being able to use querySelector in react,"<p>I have this component and I need to make a few changes on it's html structure depending on what type of button is clicked. I need to remove a couple of divs and create a brand new one depending on which button is clicked. The easiest way I found to do so is by using <code>queryselector</code>. I know it is possible cause I've seen people using it before but, for some reason, I couldn't.</p>
+<p>Here's the component I've been struggling with:</p>
+<pre><code>
+import { useContext, useEffect, useState } from &quot;react&quot;;
+import { HomeContext } from &quot;../../contexts/contexHome&quot;;
+import { Api } from &quot;../../services/api&quot;;
+import { NotificationPopUpComponentStyle } from &quot;../../styles/NotificationPopUpComponent&quot;;
+
+export const NotificationPopUpComponent = () =&gt; {
+  const { userSave }:any = useContext(HomeContext);
+
+  const [foundRequests, setFoundRequests] = useState&lt;any&gt;([]);
+
+  const handleInvitationClick = (data: any) =&gt; {
+    let token: any = localStorage.getItem('access')
+    token = JSON.parse(token)
+
+    if(data.target.classList.value == 'accept') {
+      
+      const acceptFriend = async () =&gt; {
+        const accepted = {accepted: true, pendding: false}
+        const result = await Api.patch(`/users/friend/${data.target.id}/`, accepted, {headers: {Authorization: `Bearer ${token}`}})
+
+        const userWantedToFollow = { user_id: Number(data.target.id) };
+
+        const followFriend = await Api.post(&quot;/users/follow/&quot;, userWantedToFollow, {
+          headers: { Authorization: `Bearer ${token}` },
+      })
+      }
+      acceptFriend()
+
+      const acceptBtn = document.querySelectorAll(`#${data.target.id}`)
+      acceptBtn.forEach(e =&gt; {
+        e.remove()
+      })
+    }
+  }
+
+  useEffect(() =&gt; {
+    if (userSave &amp;&amp; userSave.pendding_requests &amp;&amp; userSave.pendding_requests.length &gt; 0) {
+      const getEachUserInfo = async () =&gt; {
+        const userInfo = userSave.pendding_requests.map(async (e: any) =&gt; {
+          const result = await Api.get(`http://127.0.0.1:8000/api/users/${e.friend}/`);
+          return result;
+        });
+
+        const resolvedPromises: any = await Promise.all(userInfo);
+        setFoundRequests(resolvedPromises);
+        // console.log(resolvedPromises)
+      };
+
+      getEachUserInfo();
+    }
+  }, [userSave]);
+
+  return (
+    &lt;NotificationPopUpComponentStyle&gt;
+      {foundRequests.length &gt; 0 &amp;&amp;
+        foundRequests.map((e: any) =&gt; {
+            return &lt;div className=&quot;userRequestContainer&quot;&gt;
+                        
+                        &lt;img src={e.data.perfil} alt=&quot;&quot; /&gt;                           
+                        
+                        &lt;div className=&quot;buttonsContainer&quot;&gt;
+                            &lt;span id={e.data.id} className=&quot;accept&quot; onClick={(event) =&gt; handleInvitationClick(event)}&gt;Aceitar&lt;/span&gt;
+                            &lt;span id={e.data.id} className=&quot;deny&quot; onClick={(event) =&gt; handleInvitationClick(event)}&gt;Recusar&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+          
+      })}
+    &lt;/NotificationPopUpComponentStyle&gt;
+  );
+};
+
+
+</code></pre>
+<p>If the button I click has the class 'accept', after doing it's requests, it should select both of my spans by their 'id' then delete 'em.</p>
+<p>But when I try to so, it display this message:</p>
+<blockquote>
+<p>ERROR Failed to execute 'querySelectorAll' on 'Document': '#5' is not
+a valid selector.
+at handleInvitationClick (http://localhost:3000/main.df85e04188aaf6d4ee96.hot-update.js:60:34)
+at onClick (http://localhost:3000/main.df85e04188aaf6d4ee96.hot-update.js:97:31)
+at HTMLUnknownElement.callCallback (http://localhost:3000/static/js/bundle.js:19657:18)
+at Object.invokeGuardedCallbackDev (http://localhost:3000/static/js/bundle.js:19701:20)
+at invokeGuardedCallback (http://localhost:3000/static/js/bundle.js:19758:35)
+at invokeGuardedCallbackAndCatchFirstError (http://localhost:3000/static/js/bundle.js:19772:29)
+at executeDispatch (http://localhost:3000/static/js/bundle.js:23916:7)
+at processDispatchQueueItemsInOrder (http://localhost:3000/static/js/bundle.js:23942:11)
+at processDispatchQueue (http://localhost:3000/static/js/bundle.js:23953:9)
+at dispatchEventsForPlugins (http://localhost:3000/static/js/bundle.js:23962:7) ERROR Failed to
+execute 'querySelectorAll' on 'Document': '#5' is not a valid
+selector.
+at handleInvitationClick (http://localhost:3000/main.df85e04188aaf6d4ee96.hot-update.js:60:34)
+at onClick (http://localhost:3000/main.df85e04188aaf6d4ee96.hot-update.js:97:31)
+at HTMLUnknownElement.callCallback (http://localhost:3000/static/js/bundle.js:19657:18)
+at Object.invokeGuardedCallbackDev (http://localhost:3000/static/js/bundle.js:19701:20)
+at invokeGuardedCallback (http://localhost:3000/static/js/bundle.js:19758:35)
+at invokeGuardedCallbackAndCatchFirstError (http://localhost:3000/static/js/bundle.js:19772:29)
+at executeDispatch (http://localhost:3000/static/js/bundle.js:23916:7)
+at processDispatchQueueItemsInOrder (http://localhost:3000/static/js/bundle.js:23942:11)
+at processDispatchQueue (http://localhost:3000/static/js/bundle.js:23953:9)
+at dispatchEventsForPlugins (http://localhost:3000/static/js/bundle.js:23962:7)</p>
+</blockquote>
+",1,0,0,0
+2391,74901446,SOLVED - blank react page when trying to render an image,"<p>I am getting a blank react page when trying to render an image. I am using the @material-ui/core package and it installed correctly.</p>
+<p>Here is the code I am using.</p>
+<p>Any help would be appreciated.</p>
+<p>Thanks!</p>
+<p>Here is the code:</p>
+<p><div class=""snippet"" data-lang=""js"" data-hide=""false"" data-console=""true"" data-babel=""false"">
+<div class=""snippet-code"">
+<pre class=""snippet-code-js lang-js prettyprint-override""><code>import React from 'react';
+import { Container, AppBar, Typography, Grow, Grid } from '@material-ui/core';
+import memories from './images/memories.png';
+
+const App = () =&gt; {
+    return (
+        &lt;Container maxWidth=""lg""&gt;
+            &lt;AppBar position=""static"" color=""inherit""&gt;
+                &lt;Typography variant=""h2"" align=""center""&gt;Memories&lt;/Typography&gt;
+                &lt;img src={memories} alt =""memories"" heigth=""60""/&gt;
+            &lt;/AppBar&gt;
+        &lt;/Container&gt;
+       
+    );
+}
+
+export default App;</code></pre>
+</div>
+</div>
+</p>
+<p>Here is what I am getting in the debugging console:</p>
+<p>SyntaxError: Cannot use import statement outside a module
+at compileFunction (vm:360:18)
+at wrapSafe (internal/modules/cjs/loader:1088:15)
+at Module._compile (internal/modules/cjs/loader:1123:27)
+at Module._extensions..js (internal/modules/cjs/loader:1213:10)
+at Module.load (internal/modules/cjs/loader:1037:32)
+at Module._load (internal/modules/cjs/loader:878:12)
+at executeUserEntryPoint (internal/modules/run_main:81:12)
+at  (internal/main/run_main_module:23:47)</p>
+<p>I tried to uninstall and reinstall the material-ui package, checked the syntax and made sure the &quot;memories.png&quot; image is in the right location.</p>
+",0,0,1,0
+2489,75031553,"Collection has more than one element (error), React-native, Andorid-studio","<p>I'm trying to open a brand new rn project in android studio, and getting <code>Collection has more than one element.</code> error on Gradle build every time.
+Running <code>./gradle clean</code> or <code>npm run android</code> or any other command via the terminal works without any issue.</p>
+<p><a href=""https://i.stack.imgur.com/zCUB5.png"" rel=""nofollow noreferrer""><img src=""https://i.stack.imgur.com/zCUB5.png"" alt=""studio"" /></a></p>
+<p>Relevant info:</p>
+<pre><code>package.json
+
+   &quot;react&quot;: &quot;18.1.0&quot;,
+   &quot;react-native&quot;: &quot;0.70.4&quot;,
+</code></pre>
+<pre><code>build.gradle
+
+    ext {
+        buildToolsVersion = &quot;31.0.0&quot;
+        minSdkVersion = 21
+        compileSdkVersion = 31
+        targetSdkVersion = 31
+        googlePlayServicesVersion = &quot;17.0.0&quot;
+
+        if (System.properties['os.arch'] == &quot;aarch64&quot;) {
+            // For M1 Users we need to use the NDK 24 which added support for aarch64
+            ndkVersion = &quot;24.0.8215888&quot;
+        } else {
+            // Otherwise we default to the side-by-side NDK version from AGP.
+            ndkVersion = &quot;21.4.7075529&quot;
+        }
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath(&quot;com.android.tools.build:gradle:7.2.1&quot;)
+        classpath(&quot;com.facebook.react:react-native-gradle-plugin&quot;)
+        classpath(&quot;de.undercouch:gradle-download-task:5.0.1&quot;)
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+        classpath 'com.google.gms:google-services:4.3.14'
+    }
+</code></pre>
+<pre><code>gradle-wrapper.properties
+
+   distributionUrl=https\://services.gradle.org/distributions/gradle-7.5.1-all.zip
+</code></pre>
+<p>What I've tried:</p>
+<ol>
+<li>delete the <code>build</code> and <code>.idea</code> folders and invalidate the cache</li>
+<li>change version to <code>distributionUrl=https\://services.gradle.org/distributions/gradle-7.3.3-all.zip</code> and <code>classpath(&quot;com.android.tools.build:gradle:7.1.1&quot;)</code></li>
+<li>add the following to <code>gradle.properties</code></li>
+</ol>
+<pre><code>    org.gradle.daemon=true
+    org.gradle.parallel=true
+    org.gradle.configureondemand=true
+</code></pre>
+<p>In the full log file, this error occurs no less than 178 (!!) times, so adding the first one but feel free to ask for more parts of this file</p>
+<pre><code>org.gradle.tooling.BuildActionFailureException: The supplied phased action failed with an exception.
+    at org.gradle.tooling.internal.consumer.connection.PhasedActionAwareConsumerConnection.run(PhasedActionAwareConsumerConnection.java:58)
+    at org.gradle.tooling.internal.consumer.connection.ParameterValidatingConsumerConnection.run(ParameterValidatingConsumerConnection.java:62)
+    at org.gradle.tooling.internal.consumer.DefaultPhasedBuildActionExecuter$1.run(DefaultPhasedBuildActionExecuter.java:78)
+    at org.gradle.tooling.internal.consumer.DefaultPhasedBuildActionExecuter$1.run(DefaultPhasedBuildActionExecuter.java:70)
+    at org.gradle.tooling.internal.consumer.connection.LazyConsumerActionExecutor.run(LazyConsumerActionExecutor.java:143)
+    at org.gradle.tooling.internal.consumer.connection.CancellableConsumerActionExecutor.run(CancellableConsumerActionExecutor.java:45)
+    at org.gradle.tooling.internal.consumer.connection.ProgressLoggingConsumerActionExecutor.run(ProgressLoggingConsumerActionExecutor.java:61)
+    at org.gradle.tooling.internal.consumer.connection.RethrowingErrorsConsumerActionExecutor.run(RethrowingErrorsConsumerActionExecutor.java:38)
+    at org.gradle.tooling.internal.consumer.async.DefaultAsyncConsumerActionExecutor$1$1.run(DefaultAsyncConsumerActionExecutor.java:67)
+    at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+    at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)
+    at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+    at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+    at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)
+    at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: com.intellij.openapi.externalSystem.model.ExternalSystemException: Collection has more than one element.
+    at org.jetbrains.plugins.gradle.model.ProjectImportAction.addBuildModels(ProjectImportAction.java:346)
+    at org.jetbrains.plugins.gradle.model.ProjectImportAction.access$500(ProjectImportAction.java:42)
+    at org.jetbrains.plugins.gradle.model.ProjectImportAction$1.accept(ProjectImportAction.java:137)
+    at org.jetbrains.plugins.gradle.model.ProjectImportAction.forEachNestedBuild(ProjectImportAction.java:192)
+    at org.jetbrains.plugins.gradle.model.ProjectImportAction.execute(ProjectImportAction.java:130)
+    at org.jetbrains.plugins.gradle.model.ProjectImportAction.execute(ProjectImportAction.java:42)
+    at org.gradle.tooling.internal.consumer.connection.InternalBuildActionAdapter.execute(InternalBuildActionAdapter.java:64)
+    at org.gradle.tooling.internal.provider.runner.AbstractClientProvidedBuildActionRunner$ActionAdapter.runAction(AbstractClientProvidedBuildActionRunner.java:131)
+    at org.gradle.tooling.internal.provider.runner.AbstractClientProvidedBuildActionRunner$ActionAdapter.fromBuildModel(AbstractClientProvidedBuildActionRunner.java:104)
+    at org.gradle.tooling.internal.provider.runner.AbstractClientProvidedBuildActionRunner$ActionAdapter.fromBuildModel(AbstractClientProvidedBuildActionRunner.java:84)
+    at org.gradle.internal.buildtree.DefaultBuildTreeModelCreator.fromBuildModel(DefaultBuildTreeModelCreator.java:57)
+    at org.gradle.internal.buildtree.DefaultBuildTreeLifecycleController.lambda$fromBuildModel$1(DefaultBuildTreeLifecycleController.java:82)
+    at org.gradle.internal.buildtree.DefaultBuildTreeLifecycleController.lambda$runBuild$4(DefaultBuildTreeLifecycleController.java:106)
+    at org.gradle.internal.model.StateTransitionController.lambda$transition$5(StateTransitionController.java:166)
+    at org.gradle.internal.model.StateTransitionController.doTransition(StateTransitionController.java:247)
+    at org.gradle.internal.model.StateTransitionController.lambda$transition$6(StateTransitionController.java:166)
+    at org.gradle.internal.work.DefaultSynchronizer.withLock(DefaultSynchronizer.java:44)
+    at org.gradle.internal.model.StateTransitionController.transition(StateTransitionController.java:166)
+    at org.gradle.internal.buildtree.DefaultBuildTreeLifecycleController.runBuild(DefaultBuildTreeLifecycleController.java:103)
+    at org.gradle.internal.buildtree.DefaultBuildTreeLifecycleController.fromBuildModel(DefaultBuildTreeLifecycleController.java:74)
+    at org.gradle.tooling.internal.provider.runner.AbstractClientProvidedBuildActionRunner.runClientAction(AbstractClientProvidedBuildActionRunner.java:43)
+    at org.gradle.tooling.internal.provider.runner.ClientProvidedPhasedActionRunner.run(ClientProvidedPhasedActionRunner.java:53)
+    at org.gradle.launcher.exec.ChainingBuildActionRunner.run(ChainingBuildActionRunner.java:35)
+    at org.gradle.internal.buildtree.ProblemReportingBuildActionRunner.run(ProblemReportingBuildActionRunner.java:49)
+    at org.gradle.launcher.exec.BuildOutcomeReportingBuildActionRunner.run(BuildOutcomeReportingBuildActionRunner.java:65)
+    at org.gradle.tooling.internal.provider.FileSystemWatchingBuildActionRunner.run(FileSystemWatchingBuildActionRunner.java:136)
+    at org.gradle.launcher.exec.BuildCompletionNotifyingBuildActionRunner.run(BuildCompletionNotifyingBuildActionRunner.java:41)
+    at org.gradle.launcher.exec.RootBuildLifecycleBuildActionExecutor.lambda$execute$0(RootBuildLifecycleBuildActionExecutor.java:40)
+    at org.gradle.composite.internal.DefaultRootBuildState.run(DefaultRootBuildState.java:122)
+    at org.gradle.launcher.exec.RootBuildLifecycleBuildActionExecutor.execute(RootBuildLifecycleBuildActionExecutor.java:40)
+    at org.gradle.internal.buildtree.DefaultBuildTreeContext.execute(DefaultBuildTreeContext.java:40)
+    at org.gradle.launcher.exec.BuildTreeLifecycleBuildActionExecutor.lambda$execute$0(BuildTreeLifecycleBuildActionExecutor.java:65)
+    at org.gradle.internal.buildtree.BuildTreeState.run(BuildTreeState.java:53)
+    at org.gradle.launcher.exec.BuildTreeLifecycleBuildActionExecutor.execute(BuildTreeLifecycleBuildActionExecutor.java:65)
+    at org.gradle.launcher.exec.RunAsBuildOperationBuildActionExecutor$3.call(RunAsBuildOperationBuildActionExecutor.java:61)
+    at org.gradle.launcher.exec.RunAsBuildOperationBuildActionExecutor$3.call(RunAsBuildOperationBuildActionExecutor.java:57)
+    at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+    at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:199)
+    at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+    at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+    at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:157)
+    at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+    at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+    at org.gradle.internal.operations.DefaultBuildOperationExecutor.call(DefaultBuildOperationExecutor.java:73)
+    at org.gradle.launcher.exec.RunAsBuildOperationBuildActionExecutor.execute(RunAsBuildOperationBuildActionExecutor.java:57)
+    at org.gradle.launcher.exec.RunAsWorkerThreadBuildActionExecutor.lambda$execute$0(RunAsWorkerThreadBuildActionExecutor.java:36)
+    at org.gradle.internal.work.DefaultWorkerLeaseService.withLocks(DefaultWorkerLeaseService.java:249)
+    at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:109)
+    at org.gradle.launcher.exec.RunAsWorkerThreadBuildActionExecutor.execute(RunAsWorkerThreadBuildActionExecutor.java:36)
+    at org.gradle.tooling.internal.provider.continuous.ContinuousBuildActionExecutor.execute(ContinuousBuildActionExecutor.java:110)
+    at org.gradle.tooling.internal.provider.SubscribableBuildActionExecutor.execute(SubscribableBuildActionExecutor.java:64)
+    at org.gradle.internal.session.DefaultBuildSessionContext.execute(DefaultBuildSessionContext.java:46)
+    at org.gradle.tooling.internal.provider.BuildSessionLifecycleBuildActionExecuter$ActionImpl.apply(BuildSessionLifecycleBuildActionExecuter.java:100)
+    at org.gradle.tooling.internal.provider.BuildSessionLifecycleBuildActionExecuter$ActionImpl.apply(BuildSessionLifecycleBuildActionExecuter.java:88)
+    at org.gradle.internal.session.BuildSessionState.run(BuildSessionState.java:69)
+    at org.gradle.tooling.internal.provider.BuildSessionLifecycleBuildActionExecuter.execute(BuildSessionLifecycleBuildActionExecuter.java:62)
+    at org.gradle.tooling.internal.provider.BuildSessionLifecycleBuildActionExecuter.execute(BuildSessionLifecycleBuildActionExecuter.java:41)
+    at org.gradle.tooling.internal.provider.StartParamsValidatingActionExecuter.execute(StartParamsValidatingActionExecuter.java:63)
+    at org.gradle.tooling.internal.provider.StartParamsValidatingActionExecuter.execute(StartParamsValidatingActionExecuter.java:31)
+    at org.gradle.tooling.internal.provider.SessionFailureReportingActionExecuter.execute(SessionFailureReportingActionExecuter.java:52)
+    at org.gradle.tooling.internal.provider.SessionFailureReportingActionExecuter.execute(SessionFailureReportingActionExecuter.java:40)
+    at org.gradle.tooling.internal.provider.SetupLoggingActionExecuter.execute(SetupLoggingActionExecuter.java:47)
+    at org.gradle.tooling.internal.provider.SetupLoggingActionExecuter.execute(SetupLoggingActionExecuter.java:31)
+    at org.gradle.launcher.daemon.server.exec.ExecuteBuild.doBuild(ExecuteBuild.java:65)
+    at org.gradle.launcher.daemon.server.exec.BuildCommandOnly.execute(BuildCommandOnly.java:37)
+    at org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:104)
+    at org.gradle.launcher.daemon.server.exec.WatchForDisconnection.execute(WatchForDisconnection.java:39)
+    at org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:104)
+    at org.gradle.launcher.daemon.server.exec.ResetDeprecationLogger.execute(ResetDeprecationLogger.java:29)
+    at org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:104)
+    at org.gradle.launcher.daemon.server.exec.RequestStopIfSingleUsedDaemon.execute(RequestStopIfSingleUsedDaemon.java:35)
+    at org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:104)
+    at org.gradle.launcher.daemon.server.exec.ForwardClientInput$2.create(ForwardClientInput.java:78)
+    at org.gradle.launcher.daemon.server.exec.ForwardClientInput$2.create(ForwardClientInput.java:75)
+    at org.gradle.util.internal.Swapper.swap(Swapper.java:38)
+    at org.gradle.launcher.daemon.server.exec.ForwardClientInput.execute(ForwardClientInput.java:75)
+    at org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:104)
+    at org.gradle.launcher.daemon.server.exec.LogAndCheckHealth.execute(LogAndCheckHealth.java:55)
+    at org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:104)
+    at org.gradle.launcher.daemon.server.exec.LogToClient.doBuild(LogToClient.java:63)
+    at org.gradle.launcher.daemon.server.exec.BuildCommandOnly.execute(BuildCommandOnly.java:37)
+    at org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:104)
+    at org.gradle.launcher.daemon.server.exec.EstablishBuildEnvironment.doBuild(EstablishBuildEnvironment.java:84)
+    at org.gradle.launcher.daemon.server.exec.BuildCommandOnly.execute(BuildCommandOnly.java:37)
+    at org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:104)
+    at org.gradle.launcher.daemon.server.exec.StartBuildOrRespondWithBusy$1.run(StartBuildOrRespondWithBusy.java:52)
+    at org.gradle.launcher.daemon.server.DaemonStateCoordinator$1.run(DaemonStateCoordinator.java:297)
+    at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+    at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)
+</code></pre>
+<p>Any help will be very appreciated! Thanks in advance :)</p>
+",0,0,1,0
+424,71288554,Angular 13 NG0301 error does not show module giving error,"<p>Could you please assist me?</p>
+<p>I upgraded my Angular project from v11 to v13:</p>
+<pre><code>Angular: 13.2.4
+... animations, cdk, common, compiler, compiler-cli, core, forms
+... platform-browser, platform-browser-dynamic, router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1302.5
+@angular-devkit/build-angular   13.2.5
+@angular-devkit/core            13.2.5
+@angular-devkit/schematics      13.2.5
+@angular/cli                    13.2.5
+@schematics/angular             9.1.15
+rxjs                            6.6.7
+typescript                      4.5.5
+</code></pre>
+<p>I was able to run my project successfully.</p>
+<p>I then tried the following on a parent controller:</p>
+<pre><code>import { ChangeDetectorRef } from '@angular/core';
+</code></pre>
+<p>I then deleted that import.</p>
+<p>I now get the following console error when I try to run my project:</p>
+<pre><code>ERROR Error: Uncaught (in promise): Error: NG0301
+Error: NG0301
+    at fO (main.js:1:57364)
+    at xm (main.js:1:57397)
+    at TA (main.js:1:69323)
+    at l (main.js:1:69467)
+    at template (main.js:1:444680)
+    at N1 (main.js:1:53378)
+    at Oc (main.js:1:51511)
+    at wO (main.js:1:59577)
+    at tO (main.js:1:51715)
+    at Oc (main.js:1:51726)
+    at ue (polyfills.js:1:137893)
+    at ue (polyfills.js:1:137404)
+    at polyfills.js:1:138755
+    at S.invokeTask (polyfills.js:1:128526)
+    at Object.onInvokeTask (main.js:1:105006)
+    at S.invokeTask (polyfills.js:1:128447)
+    at S.runTask (polyfills.js:1:123566)
+    at P (polyfills.js:1:130871)
+</code></pre>
+<p>I have checked online and most NG0301 errors usually mention the module that is giving the issue.  But in my case, I do not get this.</p>
+<p>Does anybody know how to solve this issue?</p>
+",0,0,1,0
+1990,74153910,In VS Code I get TypeScript Server Error (4.8.4) Debug Failure when using Quick Fix: Install all missing types packages,"<p>After turning on <code>noImplicitAny: true</code> in TS project some of my imports are highlighted with error:</p>
+<pre><code>Could not find a declaration file for module X. X implicitly has an 'any' type.
+</code></pre>
+<p>When I View Problem then VS Code suggests to use <code>Quick Fix: Install all missing types packages</code> in order to fix errors.</p>
+<p>However, that gives following error:</p>
+<pre><code>&lt;semantic&gt; TypeScript Server Error (4.8.4)
+Debug Failure. False expression.
+Error: Debug Failure. False expression.
+    at NodeTypingsInstaller.installPackage (/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/node_modules/typescript/lib/tsserver.js:184082:30)
+    at TypingsCache.installPackage (/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/node_modules/typescript/lib/tsserver.js:171393:39)
+    at Project.installPackage (/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/node_modules/typescript/lib/tsserver.js:171680:42)
+    at applySingleCodeActionCommand (/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/node_modules/typescript/lib/tsserver.js:167662:24)
+    at Object.applyCodeActionCommand (/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/node_modules/typescript/lib/tsserver.js:167656:125)
+    at Session.applyCodeActionCommand (/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/node_modules/typescript/lib/tsserver.js:179894:50)
+    at Session.handlers.ts.Map.ts.getEntries._a.&lt;computed&gt; (/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/node_modules/typescript/lib/tsserver.js:178253:61)
+    at /Applications/Visual Studio Code.app/Contents/Resources/app/extensions/node_modules/typescript/lib/tsserver.js:180174:96
+    at Session.executeWithRequestId (/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/node_modules/typescript/lib/tsserver.js:180165:28)
+    at Session.executeCommand (/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/node_modules/typescript/lib/tsserver.js:180174:41)
+    at Session.onMessage (/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/node_modules/typescript/lib/tsserver.js:180202:35)
+    at process.&lt;anonymous&gt; (/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/node_modules/typescript/lib/tsserver.js:184368:31)
+    at process.emit (node:events:526:28)
+    at emit (node:internal/child_process:938:14)
+    at process.processTicksAndRejections (node:internal/process/task_queues:84:21)
+</code></pre>
+<p>My VS Code:</p>
+<pre><code>Version: 1.72.2
+Commit: d045a5eda657f4d7b676dedbfa7aab8207f8a075
+Date: 2022-10-12T22:16:30.254Z (1 wk ago)
+Electron: 19.0.17
+Chromium: 102.0.5005.167
+Node.js: 16.14.2
+V8: 10.2.154.15-electron.0
+OS: Darwin x64 21.6.0
+Sandboxed: No
+</code></pre>
+",0,0,0,1
+1868,73907029,Why static variable can not be accessed by this keyword in static method if we pass static method in any route's controller(NODEJS)?,"<p>We can access static variables in static method by using 'this' keyword but this statement does not work if we pass that static method in any route. Keyword 'this' has refrence to class but its value is undefined. How?</p>
+<p>Actucal code is big, I have given only problematic code if you want you can run it.</p>
+<p>Router code :-</p>
+<pre><code>import UserController from './user-controller';
+router.post('/register', UserController.register);
+</code></pre>
+<p>/////////////////////////////////////////////////////////</p>
+<p>Controller Code :-</p>
+<pre><code> static someString = 'myString';
+
+ static register() {
+   console.log(this.someString);
+ }
+}
+
+export default UserController;
+</code></pre>
+<p>/////////////////////////////////////////////////////////</p>
+<p>Error :-</p>
+<pre><code>TypeError: Cannot read properties of undefined (reading 'someString')
+  at register (/home/user/Desktop/TS-Pro/src/modules/user/user-controller.ts:5:22)
+  at Layer.handle [as handle_request] (/home/user/Desktop/TS-Pro/node_modules/express/lib/router/layer.js:95:5)
+  at next (/home/user/Desktop/TS-Pro/node_modules/express/lib/router/route.js:144:13)
+  at Function.joiValidation (/home/user/Desktop/TS-Pro/src/utils/validator.ts:41:7)
+  at /home/user/Desktop/TS-Pro/src/modules/user/user-validator.ts:11:22
+  at Generator.next (&lt;anonymous&gt;)
+  at /home/user/Desktop/TS-Pro/src/modules/user/user-validator.ts:8:71
+  at new Promise (&lt;anonymous&gt;)
+  at __awaiter (/home/user/Desktop/TS-Pro/src/modules/user/user-validator.ts:4:12)
+  at register (/home/user/Desktop/TS-Pro/src/modules/user/user-validator.ts:18:16)
+</code></pre>
+",0,0,1,0
+1115,72568524,Promise Error mapping data from backend in React,"<p>So what I want to do is getting an Array from my backend, which is coming from fs reading through a folder on my Server, giving back an Array with the names of the pictures in it.</p>
+<p>Using this Array I want to map through it and creating a Picture Component for every picture.</p>
+<p>I am getting two main errors in the console:</p>
+<p>First:</p>
+<pre><code>Uncaught Error: Objects are not valid as a React child (found: [object Promise]). If you meant to render a collection of children, use an array instead.
+    at throwOnInvalidObjectType (react-dom.development.js:14757:1)
+    at reconcileChildFibers (react-dom.development.js:15698:1)
+    at reconcileChildren (react-dom.development.js:19964:1)
+    at mountIndeterminateComponent (react-dom.development.js:20996:1)
+    at beginWork (react-dom.development.js:22416:1)
+    at beginWork$1 (react-dom.development.js:27381:1)
+    at performUnitOfWork (react-dom.development.js:26513:1)
+    at workLoopSync (react-dom.development.js:26422:1)
+    at renderRootSync (react-dom.development.js:26390:1)
+    at recoverFromConcurrentError (react-dom.development.js:25806:1)
+</code></pre>
+<p>Second:</p>
+<pre><code>Uncaught (in promise) TypeError: Cannot read properties of null (reading 'useState')
+    at useState (react.development.js:1620:1)
+    at Collage (Collage.jsx:14:1)
+    at describeNativeComponentFrame (react-dom.development.js:1089:1)
+    at describeFunctionComponentFrame (react-dom.development.js:1184:1)
+    at describeFiber (react-dom.development.js:1263:1)
+    at getStackByFiberInDevAndProd (react-dom.development.js:1282:1)
+    at createCapturedValue (react-dom.development.js:18510:1)
+    at throwException (react-dom.development.js:18976:1)
+    at handleError (react-dom.development.js:26267:1)
+    at renderRootSync (react-dom.development.js:26393:1)
+</code></pre>
+<p>First I put in my backend code:</p>
+<pre><code>app.get(&quot;/api/getimages&quot;, cors(corsOptions), (req, res)  =&gt; {
+    const getFiles = fs.readdir(&quot;client/public/img/collection&quot;, function (err, files) {
+        if (err) {
+            return console.log('Unable to scan directory: ' + err);
+        } 
+        console.log(files);
+        res.send(files);
+    });
+    
+    });
+</code></pre>
+<p>And here is my frontend code:</p>
+<pre><code>import React, { useEffect, useState } from 'react';
+
+function Picture(props){
+
+    return( &lt;div className=&quot;col-lg-4 col-md-3&quot;&gt;
+        &lt;img alt=&quot;Hi&quot; className=&quot;collageImage img-responsive&quot; src={&quot;/img/&quot; + props.name} /&gt;
+    &lt;/div&gt;
+    )
+
+}
+
+
+async function Collage() {
+const [loading, setLoading] = useState(true);
+const [imageArray, setimageArray] = useState([]);
+
+const getAnswer = async () =&gt; {
+    const res = await fetch(&quot;http://localhost:3001/api/getimages&quot;);
+    const json = await res.json();
+    setimageArray(json.data);
+    console.log(json);
+    setLoading(false);
+    
+  };
+
+  useEffect( () =&gt; {
+    getAnswer();
+  }, []);
+
+if(loading === true){
+    return(&lt;div&gt;Loading....&lt;/div&gt;)
+}else{
+    return(
+        &lt;div className=&quot;imagesSection&quot;&gt;
+        &lt;div className=&quot;container-fluid&quot;&gt;
+        &lt;div className=&quot;row&quot;&gt;
+        {imageArray.map((image) =&gt; (&lt;Picture 
+        key = {image}
+        number = {image}
+        alt = {image} /&gt;)
+        )}
+        &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;/div&gt; 
+    )
+}
+
+}
+
+
+export default Collage
+</code></pre>
+<p>Thank you very much in advance!!!!!!</p>
+<p>The best regards,
+Maggi</p>
+",0,0,0,1
+3871,76788213,After having upgraded an Angular project from 9.1 to 16 I got this error on catch (next.handle(...).catch is not a function),"<p>I've created an Angular 16 project from scratch, copied all the code files and updated npms.. now at smoke tests I got this error on catch for httpClient.</p>
+<p>The interceptor code is</p>
+<pre><code>import { Injectable } from &quot;@angular/core&quot;;
+import {
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor,
+} from &quot;@angular/common/http&quot;;
+
+import {Observable} from 'rxjs/Rx';
+import { throwError } from &quot;rxjs&quot;;
+import { catchError } from 'rxjs/operators';
+import { ErrorService } from &quot;@ttgservices/error/error.service&quot;;
+import { ErrorInfo } from &quot;@ttgdomain/general/errorInfo&quot;;
+
+@Injectable()
+export class ErrorInterceptor implements HttpInterceptor {
+  constructor(private error: ErrorService) {}
+  intercept(
+    request: HttpRequest&lt;any&gt;,
+    next: HttpHandler
+  ): Observable&lt;HttpEvent&lt;any&gt;&gt; {
+    return next.handle(request).catch((response: any) =&gt; {
+      if (response &amp;&amp; response.error) {
+        const errorInfo = response.error as ErrorInfo;
+        if (errorInfo &amp;&amp; errorInfo.message &amp;&amp; errorInfo.status) {
+          let msg = `An error ocurred. ${errorInfo.message} (error code: ${errorInfo.status})`;
+          if (errorInfo.details) {
+            msg = `${errorInfo.message}: ${errorInfo.details} (error code: ${errorInfo.status})`;
+          }
+          this.error.setError(msg);
+        }
+      }
+      return throwError(response);
+    });
+  }
+}
+</code></pre>
+<p>With this stacktrace :</p>
+<pre><code>component-load-base.ts:43 TypeError: next.handle(...).catch is not a function
+    at ErrorInterceptor.intercept (error.interceptor.ts:22:38)
+    at http.mjs:1614:60
+    at Object.handle (http.mjs:1615:40)
+    at TokenInterceptor.intercept (token.interceptor.ts:29:17)
+    at http.mjs:1614:60
+    at http.mjs:1659:16
+    at http.mjs:1624:76
+    at R3Injector.runInContext (core.mjs:9152:20)
+    at http.mjs:1624:57
+    at http.mjs:1624:127
+</code></pre>
+<p>But the strange thing is that if I do a CTRL+click on catch method is loads the code of the method...</p>
+<p>Any suggestion?</p>
+<p>Here's my package.json</p>
+<pre><code>{
+  &quot;name&quot;: &quot;moonshine&quot;,
+  &quot;version&quot;: &quot;0.0.0&quot;,
+  &quot;scripts&quot;: {
+    &quot;ci&quot;: &quot;yarn install --frozen-lockfile&quot;,
+    &quot;ng&quot;: &quot;ng&quot;,
+    &quot;start&quot;: &quot;ng serve&quot;,
+    &quot;start:docker&quot;: &quot;ng serve --host=0.0.0.0 --disable-host-check --base-href=/&quot;,
+    &quot;build&quot;: &quot;ng build --configuration production --extract-licenses=true &amp;&amp; xcopy web.config dist\\ttg-crm&quot;,
+    &quot;build:linux&quot;: &quot;ng build --configuration production --extract-licenses=true &amp;&amp; cp web.config dist/ttg-crm&quot;,
+    &quot;build:staging&quot;: &quot;ng build --configuration=staging --extract-licenses=true &amp;&amp; xcopy web.config dist\\ttg-crm&quot;,
+    &quot;test&quot;: &quot;ng test&quot;,
+    &quot;lint&quot;: &quot;ng lint&quot;,
+    &quot;e2e&quot;: &quot;ng e2e&quot;
+  },
+  &quot;private&quot;: true,
+  &quot;dependencies&quot;: {
+    &quot;@angular/animations&quot;: &quot;^16.1.0&quot;,
+    &quot;@angular/cdk&quot;: &quot;^16.1.5&quot;,
+    &quot;@angular/common&quot;: &quot;^16.1.0&quot;,
+    &quot;@angular/compiler&quot;: &quot;^16.1.0&quot;,
+    &quot;@angular/core&quot;: &quot;^16.1.0&quot;,
+    &quot;@angular/forms&quot;: &quot;^16.1.6&quot;,
+    &quot;@angular/localize&quot;: &quot;^16.1.0&quot;,
+    &quot;@angular/material&quot;: &quot;^16.1.5&quot;,
+    &quot;@angular/platform-browser&quot;: &quot;^16.1.0&quot;,
+    &quot;@angular/platform-browser-dynamic&quot;: &quot;^16.1.0&quot;,
+    &quot;@angular/router&quot;: &quot;^16.1.0&quot;,
+    &quot;@material/checkbox&quot;: &quot;^15.0.0-canary.b994146f6.0&quot;,
+    &quot;@ng-bootstrap/ng-bootstrap&quot;: &quot;^15.1.0&quot;,
+    &quot;@ngrx/effects&quot;: &quot;^16.1.0&quot;,
+    &quot;@ngrx/store&quot;: &quot;^16.1.0&quot;,
+    &quot;@popperjs/core&quot;: &quot;^2.11.8&quot;,
+    &quot;@progress/kendo-angular-buttons&quot;: &quot;13.2.0&quot;,
+    &quot;@progress/kendo-angular-charts&quot;: &quot;^13.2.0&quot;,
+    &quot;@progress/kendo-angular-common&quot;: &quot;13.2.0&quot;,
+    &quot;@progress/kendo-angular-dateinputs&quot;: &quot;13.2.0&quot;,
+    &quot;@progress/kendo-angular-dialog&quot;: &quot;13.2.0&quot;,
+    &quot;@progress/kendo-angular-dropdowns&quot;: &quot;13.2.0&quot;,
+    &quot;@progress/kendo-angular-editor&quot;: &quot;^13.2.0&quot;,
+    &quot;@progress/kendo-angular-excel-export&quot;: &quot;13.2.0&quot;,
+    &quot;@progress/kendo-angular-grid&quot;: &quot;^13.2.0&quot;,
+    &quot;@progress/kendo-angular-icons&quot;: &quot;13.2.0&quot;,
+    &quot;@progress/kendo-angular-inputs&quot;: &quot;13.2.0&quot;,
+    &quot;@progress/kendo-angular-intl&quot;: &quot;13.2.0&quot;,
+    &quot;@progress/kendo-angular-l10n&quot;: &quot;13.2.0&quot;,
+    &quot;@progress/kendo-angular-label&quot;: &quot;13.2.0&quot;,
+    &quot;@progress/kendo-angular-layout&quot;: &quot;13.2.0&quot;,
+    &quot;@progress/kendo-angular-navigation&quot;: &quot;13.2.0&quot;,
+    &quot;@progress/kendo-angular-notification&quot;: &quot;^13.2.0&quot;,
+    &quot;@progress/kendo-angular-pdf-export&quot;: &quot;13.2.0&quot;,
+    &quot;@progress/kendo-angular-popup&quot;: &quot;13.2.0&quot;,
+    &quot;@progress/kendo-angular-progressbar&quot;: &quot;13.2.0&quot;,
+    &quot;@progress/kendo-angular-scheduler&quot;: &quot;^13.2.0&quot;,
+    &quot;@progress/kendo-angular-toolbar&quot;: &quot;13.2.0&quot;,
+    &quot;@progress/kendo-angular-treeview&quot;: &quot;13.2.0&quot;,
+    &quot;@progress/kendo-angular-upload&quot;: &quot;13.2.0&quot;,
+    &quot;@progress/kendo-angular-utils&quot;: &quot;13.2.0&quot;,
+    &quot;@progress/kendo-data-query&quot;: &quot;^1.0.0&quot;,
+    &quot;@progress/kendo-drawing&quot;: &quot;^1.17.2&quot;,
+    &quot;@progress/kendo-licensing&quot;: &quot;^1.0.2&quot;,
+    &quot;@progress/kendo-svg-icons&quot;: &quot;^1.0.0&quot;,
+    &quot;@progress/kendo-theme-bootstrap&quot;: &quot;^6.6.0&quot;,
+    &quot;@progress/kendo-theme-default&quot;: &quot;^6.6.0&quot;,
+    &quot;@types/crypto-js&quot;: &quot;^4.1.1&quot;,
+    &quot;crypto-js&quot;: &quot;^4.1.1&quot;,
+    &quot;hammerjs&quot;: &quot;^2.0.0&quot;,
+    &quot;jsencrypt&quot;: &quot;^3.3.2&quot;,
+    &quot;lodash&quot;: &quot;^4.17.21&quot;,
+    &quot;moment&quot;: &quot;^2.29.4&quot;,
+    &quot;ngx-scanner-qrcode&quot;: &quot;^1.5.8&quot;,
+    &quot;rxjs&quot;: &quot;^6.5.3&quot;,
+    &quot;rxjs-compat&quot;: &quot;^6.6.7&quot;,
+    &quot;sweetalert2&quot;: &quot;^11.7.20&quot;,
+    &quot;tslib&quot;: &quot;^2.3.0&quot;,
+    &quot;zone.js&quot;: &quot;~0.13.0&quot;
+  },
+  &quot;devDependencies&quot;: {
+    &quot;@angular-devkit/build-angular&quot;: &quot;^16.1.4&quot;,
+    &quot;@angular/cli&quot;: &quot;~16.1.4&quot;,
+    &quot;@angular/compiler-cli&quot;: &quot;^16.1.0&quot;,
+    &quot;@types/jasmine&quot;: &quot;~4.3.0&quot;,
+    &quot;@types/lodash&quot;: &quot;^4.14.196&quot;,
+    &quot;jasmine-core&quot;: &quot;~4.6.0&quot;,
+    &quot;karma&quot;: &quot;~6.4.0&quot;,
+    &quot;karma-chrome-launcher&quot;: &quot;~3.2.0&quot;,
+    &quot;karma-coverage&quot;: &quot;~2.2.0&quot;,
+    &quot;karma-jasmine&quot;: &quot;~5.1.0&quot;,
+    &quot;karma-jasmine-html-reporter&quot;: &quot;~2.1.0&quot;,
+    &quot;typescript&quot;: &quot;~5.1.3&quot;
+  }
+}
+
+</code></pre>
+",0,0,1,0
+789,71940735,How to compile ES6 code to ES5 using babeljs?,"<p>I wanted to use <a href=""https://github.com/uber/react-vis"" rel=""nofollow noreferrer""><code>react-vis</code></a> library in my ES5 project. The library itself is written in ES6. So, I was getting errors such as <a href=""https://stackoverflow.com/questions/71914546/getting-js-error-cannot-call-a-class-as-a-function?noredirect=1#comment127077693_71914546"">this</a>.</p>
+<p>I was thinking to do ES6 to ES5 conversion of react-vis library using babel as explained <a href=""https://medium.com/@SunnyB/how-to-convert-es6-into-es5-using-babel-1b533d31a169"" rel=""nofollow noreferrer"">here</a>. So I cloned the react-vis repo and executed below command:</p>
+<pre><code>~/workspaces/react-vis/packages/react-vis$ yarn add babel-cli babel-preset-env
+</code></pre>
+<p>Then, created <code>.babelrc</code> file at <code>packages/react-vis/.babelrc</code>:</p>
+<pre><code>// .babelrc
+{
+    &quot;presets&quot;: [
+        &quot;env&quot;
+    ]
+}
+</code></pre>
+<p>Then I added:</p>
+<pre><code>&quot;build2&quot;: &quot;babel src -d build&quot;,
+</code></pre>
+<p>to <a href=""https://github.com/uber/react-vis/blob/master/packages/react-vis/package.json"" rel=""nofollow noreferrer""><code>packages/react-vis/package.json</code></a></p>
+<p>and finally executed following command:</p>
+<pre><code>~/workspaces/react-vis/packages/react-vis$ npm run build2
+
+&gt; react-vis@1.11.7 build2
+&gt; babel src -d build
+
+SyntaxError: src/animation.js: Unexpected token (34:4)
+  32 |   const {damping, stiffness} = animationStyle;
+  33 |   return {
+&gt; 34 |     ...animationStyle,
+     |     ^
+  35 |     damping: damping || presets.noWobble.damping,
+  36 |     stiffness: stiffness || presets.noWobble.stiffness
+  37 |   };
+</code></pre>
+<p>But then as you can see, am getting unexpected token at destructuring. Where did I go wrong? Also, is there any better solution to use react-vis library in ES5 project?</p>
+<p><strong>Update</strong></p>
+<p>It seems that my <code>yarn add</code> failed:</p>
+<pre><code>~/workspaces/react-vis/packages/react-vis$ yarn add babel-cli babel-preset-env
+yarn add v1.22.17
+[1/5] Validating package.json...
+[2/5] Resolving packages...
+warning babel-cli &gt; chokidar@1.7.0: Chokidar 2 will break on node v14+. Upgrade to chokidar 3 with 15x less dependencies.
+warning babel-cli &gt; chokidar &gt; fsevents@1.2.13: fsevents 1 will break on node v14+ and could be using insecure binaries. Upgrade to fsevents 2.
+[3/5] Fetching packages...
+[4/5] Linking dependencies...
+warning &quot; &gt; react-vis@1.11.7&quot; has unmet peer dependency &quot;react@^16.8.3&quot;.
+warning &quot; &gt; react-vis@1.11.7&quot; has unmet peer dependency &quot;react-dom@^16.8.3&quot;.
+warning &quot;workspace-aggregator-49cd9a63-a8d6-41e5-85ad-166e966bfd2e &gt; eslint-plugin-prettier@3.1.3&quot; has unmet peer dependency &quot;prettier@&gt;= 1.13.0&quot;.
+warning &quot;workspace-aggregator-49cd9a63-a8d6-41e5-85ad-166e966bfd2e &gt; react-vis-showcase &gt; babel-loader@8.1.0&quot; has unmet peer dependency &quot;@babel/core@^7.0.0&quot;.
+warning &quot;workspace-aggregator-49cd9a63-a8d6-41e5-85ad-166e966bfd2e &gt; react-vis &gt; react-addons-test-utils@15.6.2&quot; has incorrect peer dependency &quot;react-dom@^15.4.2&quot;.
+warning &quot;workspace-aggregator-49cd9a63-a8d6-41e5-85ad-166e966bfd2e &gt; react-vis-website &gt; @storybook/react@5.3.19&quot; has unmet peer dependency &quot;@babel/core@^7.0.1&quot;.
+warning &quot;workspace-aggregator-49cd9a63-a8d6-41e5-85ad-166e966bfd2e &gt; react-vis-website &gt; @storybook/react@5.3.19&quot; has unmet peer dependency &quot;babel-loader@^7.0.0 || ^8.0.0&quot;.
+warning &quot;workspace-aggregator-49cd9a63-a8d6-41e5-85ad-166e966bfd2e &gt; react-vis-website &gt; storybook-addon-jsx@7.2.3&quot; has unmet peer dependency &quot;@storybook/addons@&gt;= 5.x&quot;.
+warning &quot;workspace-aggregator-49cd9a63-a8d6-41e5-85ad-166e966bfd2e &gt; react-vis-website &gt; storybook-addon-jsx@7.2.3&quot; has unmet peer dependency &quot;@storybook/channels@&gt;= 5.x&quot;.
+warning &quot;workspace-aggregator-49cd9a63-a8d6-41e5-85ad-166e966bfd2e &gt; react-vis-website &gt; storybook-addon-jsx@7.2.3&quot; has unmet peer dependency &quot;@storybook/theming@&gt;= 5.x&quot;.
+warning &quot;workspace-aggregator-49cd9a63-a8d6-41e5-85ad-166e966bfd2e &gt; react-vis-website &gt; storybook-addon-jsx@7.2.3&quot; has unmet peer dependency &quot;@storybook/components@&gt;= 5.x&quot;.
+warning &quot;workspace-aggregator-49cd9a63-a8d6-41e5-85ad-166e966bfd2e &gt; react-vis-website &gt; storybook-addon-jsx@7.2.3&quot; has unmet peer dependency &quot;@storybook/core-events@&gt;= 5.x&quot;.
+warning &quot;workspace-aggregator-49cd9a63-a8d6-41e5-85ad-166e966bfd2e &gt; react-vis-website &gt; ocular &gt; react-ga@2.7.0&quot; has unmet peer dependency &quot;prop-types@^15.6.0&quot;.
+warning &quot;workspace-aggregator-49cd9a63-a8d6-41e5-85ad-166e966bfd2e &gt; react-vis-website &gt; @storybook/addon-knobs &gt; @storybook/api@5.3.19&quot; has unmet peer dependency &quot;regenerator-runtime@*&quot;.
+warning &quot;workspace-aggregator-49cd9a63-a8d6-41e5-85ad-166e966bfd2e &gt; react-vis-website &gt; @storybook/react &gt; @babel/plugin-transform-react-constant-elements@7.9.0&quot; has unmet peer dependency &quot;@babel/core@^7.0.0-0&quot;.
+warning &quot;workspace-aggregator-49cd9a63-a8d6-41e5-85ad-166e966bfd2e &gt; react-vis-website &gt; @storybook/react &gt; @babel/preset-flow@7.9.0&quot; has unmet peer dependency &quot;@babel/core@^7.0.0-0&quot;.
+warning &quot;workspace-aggregator-49cd9a63-a8d6-41e5-85ad-166e966bfd2e &gt; react-vis-website &gt; @storybook/react &gt; @storybook/core@5.3.19&quot; has unmet peer dependency &quot;@babel/core@*&quot;.
+warning &quot;workspace-aggregator-49cd9a63-a8d6-41e5-85ad-166e966bfd2e &gt; react-vis-website &gt; @storybook/react &gt; @storybook/core@5.3.19&quot; has unmet peer dependency &quot;babel-loader@^7.0.0 || ^8.0.0&quot;.
+warning &quot;workspace-aggregator-49cd9a63-a8d6-41e5-85ad-166e966bfd2e &gt; react-vis-website &gt; @storybook/react &gt; babel-plugin-named-asset-import@0.3.6&quot; has unmet peer dependency &quot;@babel/core@^7.1.0&quot;.
+warning &quot;workspace-aggregator-49cd9a63-a8d6-41e5-85ad-166e966bfd2e &gt; react-vis-website &gt; ocular &gt; eslint-config-uber-jsx &gt; eslint-plugin-react@6.10.3&quot; has incorrect peer dependency &quot;eslint@^2.0.0 || ^3.0.0&quot;.
+warning &quot;workspace-aggregator-49cd9a63-a8d6-41e5-85ad-166e966bfd2e &gt; react-vis-website &gt; ocular &gt; react-icons &gt; react-icon-base@2.1.0&quot; has unmet peer dependency &quot;prop-types@*&quot;.
+warning &quot;workspace-aggregator-49cd9a63-a8d6-41e5-85ad-166e966bfd2e &gt; react-vis-website &gt; @storybook/react &gt; @babel/preset-flow &gt; @babel/plugin-transform-flow-strip-types@7.9.0&quot; has unmet peer dependency &quot;@babel/core@^7.0.0-0&quot;.
+warning &quot;workspace-aggregator-49cd9a63-a8d6-41e5-85ad-166e966bfd2e &gt; react-vis &gt; eslint-plugin-jest &gt; @typescript-eslint/experimental-utils &gt; @typescript-eslint/typescript-estree &gt; tsutils@3.17.1&quot; has unmet peer dependency &quot;typescript@&gt;=2.8.0 || &gt;= 3.2.0-dev || &gt;= 3.3.0-dev || &gt;= 3.4.0-dev || &gt;= 3.5.0-dev || &gt;= 3.6.0-dev || &gt;= 3.6.0-beta || &gt;= 3.7.0-dev || &gt;= 3.7.0-beta&quot;.
+warning &quot;workspace-aggregator-49cd9a63-a8d6-41e5-85ad-166e966bfd2e &gt; react-vis-website &gt; @storybook/react &gt; @babel/preset-flow &gt; @babel/plugin-transform-flow-strip-types &gt; @babel/plugin-syntax-flow@7.8.3&quot; has unmet peer dependency &quot;@babel/core@^7.0.0-0&quot;.
+[5/5] Building fresh packages...
+[-/12] ? waiting...
+[2/12] ? canvas-prebuilt
+[3/12] ? node-sass
+[-/12] ? waiting...
+error /home/oem/workspaces/react-vis/node_modules/canvas-prebuilt: Command failed.
+Exit code: 1
+Command: node_modules/.bin/node-pre-gyp install
+Arguments: 
+Directory: /home/oem/workspaces/react-vis/node_modules/canvas-prebuilt
+Output:
+node-pre-gyp info it worked if it ends with ok
+node-pre-gyp info using node-pre-gyp@0.10.3
+node-pre-gyp info using node@16.14.0 | linux | x64
+node-pre-gyp WARN Using request for node-pre-gyp https download 
+node-pre-gyp info check checked for &quot;/home/oem/workspaces/react-vis/node_modules/canvas-prebuilt/canvas/build/Release/canvas-prebuilt.node&quot; (not found)
+node-pre-gyp http GET https://github.com/chearon/node-canvas-prebuilt/releases/download/v1.6.11/canvas-prebuilt-v1.6.11-node-v93-linux-x64.tar.gz
+node-pre-gyp http 404 https://github.com/chearon/node-canvas-prebuilt/releases/download/v1.6.11/canvas-prebuilt-v1.6.11-node-v93-linux-x64.tar.gz
+node-pre-gyp ERR! install error 
+node-pre-gyp ERR! stack Error: 404 status code downloading tarball https://github.com/chearon/node-canvas-prebuilt/releases/download/v1.6.11/canvas-prebuilt-v1.6.11-node-v93-linux-x64.tar.gz
+node-pre-gyp ERR! stack     at Request.&lt;anonymous&gt; (/home/oem/workspaces/react-vis/node_modules/node-pre-gyp/lib/install.js:137:27)
+node-pre-gyp ERR! stack     at Request.emit (node:events:532:35)
+node-pre-gyp ERR! stack     at Request.onRequestResponse (/home/oem/workspaces/react-vis/node_modules/request/request.js:1059:10)
+node-pre-gyp ERR! stack     at ClientRequest.emit (node:events:520:28)
+node-pre-gyp ERR! stack     at HTTPParser.parserOnIncomingClient [as onIncoming] (node:_http_client:618:27)
+node-pre-gyp ERR! stack     at HTTPParser.parserOnHeadersComplete (node:_http_common:128:17)
+node-pre-gyp ERR! stack     at TLSSocket.socketOnData (node:_http_client:482:22)
+node-pre-gyp ERR! stack     at TLSSocket.emit (node:events:520:28)
+node-pre-gyp ERR! stack     at addChunk (node:internal/streams/readable:315:12)
+node-pre-gyp ERR! stack     at readableAddChunk (node:internal/streams/readable:289:9)
+node-pre-gyp ERR! System Linux 5.13.0-39-generic
+node-pre-gyp ERR! command &quot;/home/oem/.nvm/versions/node/v16.14.0/bin/node&quot; &quot;/home/oem/workspaces/react-vis/node_modules/canvas-prebuilt/node_modules/.bin/node-pre-gyp&quot; &quot;install&quot;
+node-pre-gyp ERR! cwd /home/oem/workspaces/react-vis/node_modules/canvas-prebuilt
+node-pre-gyp ERR! node -v v16.14.0
+node-pre-gyp ERR! node-pre-gyp -v v0.10.3
+</code></pre>
+<p>So tried <code>npm install</code>, but that too failed:</p>
+<pre><code>~/workspaces/react-vis/packages/react-vis$ npm install babel-cli babel-preset-env
+npm notice 
+npm notice New minor version of npm available! 8.3.1 -&gt; 8.7.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v8.7.0
+npm notice Run npm install -g npm@8.7.0 to update!
+npm notice 
+npm ERR! code ERESOLVE
+npm ERR! ERESOLVE unable to resolve dependency tree
+npm ERR! 
+npm ERR! While resolving: react-vis@1.11.7
+npm ERR! Found: react-dom@16.14.0
+npm ERR! node_modules/react-dom
+npm ERR!   dev react-dom@&quot;^16.0.0&quot; from the root project
+npm ERR! 
+npm ERR! Could not resolve dependency:
+npm ERR! peer react-dom@&quot;^15.4.2&quot; from react-addons-test-utils@15.6.2
+npm ERR! node_modules/react-addons-test-utils
+npm ERR!   dev react-addons-test-utils@&quot;&gt;=15.4.2&quot; from the root project
+npm ERR! 
+npm ERR! Fix the upstream dependency conflict, or retry
+npm ERR! this command with --force, or --legacy-peer-deps
+npm ERR! to accept an incorrect (and potentially broken) dependency resolution.
+npm ERR! 
+npm ERR! See /home/oem/.npm/eresolve-report.txt for a full report.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /home/oem/.npm/_logs/2022-04-20T14_03_52_627Z-debug-0.log
+</code></pre>
+<p><strong>Update 2</strong></p>
+<p>I upgaded my npm version to <code>8.7.0</code> and now able to do <code>npm install</code> for latest versions <code>@babel/cli</code> and <code>@babel/preset-env</code>. But now running <code>build2</code> gives following error:</p>
+<pre><code>~/workspaces/react-vis/packages/react-vis$ npm run build2
+
+&gt; react-vis@1.11.7 build2
+&gt; babel src -d build
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'babel-preset-env' imported from /home/oem/workspaces/react-vis/packages/react-vis/babel-virtual-resolve-base.js
+    at new NodeError (/home/oem/workspaces/react-vis/node_modules/@babel/core/lib/vendor/import-meta-resolve.js:2552:5)
+    at packageResolve (/home/oem/workspaces/react-vis/node_modules/@babel/core/lib/vendor/import-meta-resolve.js:3208:9)
+    at moduleResolve (/home/oem/workspaces/react-vis/node_modules/@babel/core/lib/vendor/import-meta-resolve.js:3242:18)
+    at defaultResolve (/home/oem/workspaces/react-vis/node_modules/@babel/core/lib/vendor/import-meta-resolve.js:3281:13)
+    at /home/oem/workspaces/react-vis/node_modules/@babel/core/lib/vendor/import-meta-resolve.js:3304:14
+    at Generator.next (&lt;anonymous&gt;)
+    at asyncGeneratorStep (/home/oem/workspaces/react-vis/node_modules/@babel/core/lib/vendor/import-meta-resolve.js:63:103)
+    at _next (/home/oem/workspaces/react-vis/node_modules/@babel/core/lib/vendor/import-meta-resolve.js:65:194)
+    at /home/oem/workspaces/react-vis/node_modules/@babel/core/lib/vendor/import-meta-resolve.js:65:364
+    at new Promise (&lt;anonymous&gt;) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+npm ERR! Lifecycle script `build2` failed with error: 
+npm ERR! Error: command failed 
+npm ERR!   in workspace: react-vis@1.11.7 
+npm ERR!   at location: /home/oem/workspaces/react-vis/packages/react-vis 
+</code></pre>
+",0,0,1,0
+3002,75704919,"My React-native android app failed to build after uninstall to make permission work, now it wont install app on android the emulator","<p>FAILURE: Build failed with an exception.</p>
+<ul>
+<li>What went wrong:
+A problem occurred configuring root project 'akoi'.</li>
+</ul>
+<blockquote>
+<p>Could not determine the dependencies of null.
+Could not resolve all task dependencies for configuration ':classpath'.
+&gt; Could not resolve com.bugsnag:bugsnag-android-gradle-plugin:8.0.0.
+Required by:
+project :
+&gt; Could not resolve com.bugsnag:bugsnag-android-gradle-plugin:8.0.0.
+&gt; Could not get resource 'https://repo.maven.apache.org/maven2/com/bugsnag/bugsnag-android-gradle-plugin/8.0
+.0/bugsnag-android-gradle-plugin-8.0.0.pom'.
+&gt; Could not GET 'https://repo.maven.apache.org/maven2/com/bugsnag/bugsnag-android-gradle-plugin/8.0.0/bug
+snag-android-gradle-plugin-8.0.0.pom'.
+&gt; This is usually a temporary error during hostname resolution and means that the local server did not
+receive a response from an authoritative server (repo.maven.apache.org)</p>
+</blockquote>
+<ul>
+<li>Try:</li>
+</ul>
+<blockquote>
+<p>Run with --stacktrace option to get the stack trace.
+Run with --info or --debug option to get more log output.
+Run with --scan to get full insights.</p>
+</blockquote>
+<ul>
+<li>Get more help at <a href=""https://help.gradle.org"" rel=""nofollow noreferrer"">https://help.gradle.org</a></li>
+</ul>
+<p>BUILD FAILED in 11s</p>
+<p>error Failed to install the app. Make sure you have the Android development environment set up: <a href=""https://reactnative.dev/"" rel=""nofollow noreferrer"">https://reactnative.dev/</a>
+docs/environment-setup.
+Error: Command failed: gradlew.bat app:installDebug -PreactNativeDevServerPort=8081</p>
+<p>FAILURE: Build failed with an exception.</p>
+<ul>
+<li>What went wrong:
+A problem occurred configuring root project 'akoi'.</li>
+</ul>
+<blockquote>
+<p>Could not determine the dependencies of null.
+Could not resolve all task dependencies for configuration ':classpath'.
+&gt; Could not resolve com.bugsnag:bugsnag-android-gradle-plugin:8.0.0.
+Required by:
+project :
+&gt; Could not resolve com.bugsnag:bugsnag-android-gradle-plugin:8.0.0.
+&gt; Could not get resource 'https://repo.maven.apache.org/maven2/com/bugsnag/bugsnag-android-gradle-plugin/8.0
+.0/bugsnag-android-gradle-plugin-8.0.0.pom'.
+&gt; Could not GET 'https://repo.maven.apache.org/maven2/com/bugsnag/bugsnag-android-gradle-plugin/8.0.0/bug
+snag-android-gradle-plugin-8.0.0.pom'.
+&gt; This is usually a temporary error during hostname resolution and means that the local server did not
+receive a response from an authoritative server (repo.maven.apache.org)</p>
+</blockquote>
+<ul>
+<li>Try:</li>
+</ul>
+<blockquote>
+<p>Run with --stacktrace option to get the stack trace.
+Run with --info or --debug option to get more log output.
+Run with --scan to get full insights.</p>
+</blockquote>
+<ul>
+<li>Get more help at <a href=""https://help.gradle.org"" rel=""nofollow noreferrer"">https://help.gradle.org</a></li>
+</ul>
+<p>BUILD FAILED in 11s</p>
+<pre><code>at makeError (C:\Users\PHANZ\Desktop\project\akoi\node_modules\execa\index.js:174:9)
+at C:\Users\PHANZ\Desktop\project\akoi\node_modules\execa\index.js:278:16
+at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+at async runOnAllDevices (C:\Users\PHANZ\Desktop\project\akoi\node_modules\@react-native-community\cli-platform-andr
+</code></pre>
+<p>oid\build\commands\runAndroid\runOnAllDevices.js:82:7)
+at async Command.handleAction (C:\Users\PHANZ\Desktop\project\akoi\node_modules@react-native-community\cli\build\in
+dex.js:108:9)</p>
+<p>i removed the + sign from all the versions in the bulid.gradle</p>
+",0,1,0,0
+1522,73268373,Vite build failed on cloudflare pages,"<p>I'm trying to deploy my vite+react application on cloudflare pages, and it shows</p>
+<pre><code>(node:1365) ExperimentalWarning: The ESM module loader is experimental.
+file:///opt/buildhome/repo/node_modules/vite/bin/vite.js:7
+    await import('source-map-support').then((r) =&gt; r.default.install())
+    ^^^^^
+SyntaxError: Unexpected reserved word
+    at Loader.moduleStrategy (internal/modules/esm/translators.js:81:18)
+    at async link (internal/modules/esm/module_job.js:37:21)
+</code></pre>
+",0,0,0,1
+1133,72614653,Expo React Native application cannot start after upgrading expo SDK from 42 to 43,"<p>I just upgraded the expo SDK in my react native app from 42 to 43 using &quot;expo upgrade 43&quot; and I've been getting an error that says:</p>
+<p><div class=""snippet"" data-lang=""js"" data-hide=""false"" data-console=""true"" data-babel=""false"">
+<div class=""snippet-code"">
+<pre class=""snippet-code-js lang-js prettyprint-override""><code>AsyncStorage has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-async-storage/async-storage' instead of 'react-native'. See https://github.com/react-native-async-storage/async-storage
+at node_modules/react-native/Libraries/Utilities/warnOnce.js:27:2 in warnOnce
+at node_modules/react-native/index.js:300:12 in module.exports.get__AsyncStorage
+at node_modules/@firebase/app/dist/index.rn.cjs.js:615:0 in &lt;global&gt;
+at node_modules/metro-runtime/src/polyfills/require.js:349:11 in loadModuleImplementation
+at node_modules/@firebase/firestore/dist/rn/index.js:1:0 in &lt;global&gt;
+at node_modules/metro-runtime/src/polyfills/require.js:349:11 in loadModuleImplementation
+at node_modules/firebase/firestore/dist/index.node.cjs.js:3:7 in &lt;global&gt;
+at node_modules/metro-runtime/src/polyfills/require.js:349:11 in loadModuleImplementation
+at App.js:1:0 in &lt;global&gt;
+at node_modules/metro-runtime/src/polyfills/require.js:349:11 in loadModuleImplementation
+at node_modules/expo/AppEntry.js:3:0 in &lt;global&gt;
+at node_modules/metro-runtime/src/polyfills/require.js:349:11 in loadModuleImplementation
+at node_modules/metro-runtime/src/polyfills/require.js:201:44 in guardedLoadModule
+at http://192.168.100.149:19000/node_modules/expo/AppEntry.bundle?platform=ios&amp;dev=true&amp;hot=false&amp;strict=false&amp;minify=false:624639:3 in global code
+
+TypeError: (0, _expoModulesCore.requireNativeModule) is not a function. (In '(0, _expoModulesCore.requireNativeModule)('ExpoCrypto')', '(0, _expoModulesCore.requireNativeModule)' is undefined)
+at node_modules/react-native/Libraries/Core/ExceptionsManager.js:104:6 in reportException
+at node_modules/react-native/Libraries/Core/ExceptionsManager.js:172:19 in handleException
+at node_modules/react-native/Libraries/Core/setUpErrorHandling.js:24:6 in handleError
+at node_modules/@react-native/polyfills/error-guard.js:49:36 in ErrorUtils.reportFatalError
+at node_modules/metro-runtime/src/polyfills/require.js:204:6 in guardedLoadModule
+at http://192.168.100.149:19000/node_modules/expo/AppEntry.bundle?platform=ios&amp;dev=true&amp;hot=false&amp;strict=false&amp;minify=false:624639:3 in global code
+
+Invariant Violation: ""main"" has not been registered. This can happen if:
+* Metro (the local dev server) is run from the wrong folder. Check if Metro is running, stop it and restart it in the current project.
+* A module failed to load due to an error and `AppRegistry.registerComponent` wasn't called.
+at node_modules/react-native/Libraries/Core/ExceptionsManager.js:104:6 in reportException
+at node_modules/react-native/Libraries/Core/ExceptionsManager.js:172:19 in handleException
+at node_modules/react-native/Libraries/Core/setUpErrorHandling.js:24:6 in handleError
+at node_modules/@react-native/polyfills/error-guard.js:49:36 in ErrorUtils.reportFatalError</code></pre>
+</div>
+</div>
+</p>
+<p>I don't know what is actually causing the error. Whether it's expo-modules-core or AsyncStorage. I have searched for solutions online where some suggested that I delete the node_modules folder and package-lock.json and reinstall all the packages again but still getting the same errors.</p>
+<p>My project environment:</p>
+<ul>
+<li>node v16.15.1</li>
+<li>yarn v1.22.19</li>
+<li>expo-cli v5.4.6</li>
+<li>Expo Go latest version</li>
+</ul>
+<p>My package.json:</p>
+<p><div class=""snippet"" data-lang=""js"" data-hide=""false"" data-console=""true"" data-babel=""false"">
+<div class=""snippet-code"">
+<pre class=""snippet-code-js lang-js prettyprint-override""><code>{
+  ""main"": ""node_modules/expo/AppEntry.js"",
+  ""scripts"": {
+    ""start"": ""expo start"",
+    ""start:sandbox"": ""MY_ENVIRONMENT=sandbox expo start"",
+    ""android"": ""expo start --android"",
+    ""ios"": ""expo start --ios"",
+    ""web"": ""expo start --web"",
+    ""eject"": ""expo eject"",
+    ""storybook"": ""start-storybook -p 7007"",
+    ""build-storybook"": ""build-storybook"",
+    ""prestorybook"": ""rnstl"",
+    ""lint"": ""eslint --fix ."",
+    ""format"": ""prettier --write './**/*.{js,jsx,ts,tsx,css,md}' --config ./.prettierrc"",
+    ""test:android"": ""cavy run-android --skipbuild"",
+    ""build:sandbox:android"": ""MY_ENVIRONMENT=sandbox expo build:android --release-channel sandbox"",
+    ""build:sandbox:ios"": ""MY_ENVIRONMENT=sandbox expo build:ios --release-channel sandbox"",
+    ""publish:sandbox"": ""MY_ENVIRONMENT=sandbox expo publish --release-channel sandbox"",
+    ""build:prod:android"": ""expo build:android --release-channel v1.1.5"",
+    ""build:prod:ios"": ""expo build:ios --release-channel v1.1.5"",
+    ""publish:prod"": ""expo publish --release-channel v1.1.5""
+  },
+  ""dependencies"": {
+    ""@eva-design/eva"": ""^2.0.0"",
+    ""@expo-google-fonts/signika"": ""^0.1.0"",
+    ""@expo/vector-icons"": ""^12.0.0"",
+    ""@expo/webpack-config"": ""^0.16.2"",
+    ""@gorhom/bottom-sheet"": ""3.6.5"",
+    ""@react-native-async-storage/async-storage"": ""~1.15.0"",
+    ""@react-native-community/checkbox"": ""^0.5.7"",
+    ""@react-native-community/datetimepicker"": ""3.5.2"",
+    ""@react-native-community/masked-view"": ""0.1.10"",
+    ""@react-native-community/picker"": ""^1.8.1"",
+    ""@react-native-community/segmented-control"": ""2.2.1"",
+    ""@react-native-community/viewpager"": ""5.0.11"",
+    ""@react-navigation/bottom-tabs"": ""^5.11.2"",
+    ""@react-navigation/material-top-tabs"": ""^5.3.13"",
+    ""@react-navigation/native"": ""^5.8.10"",
+    ""@react-navigation/stack"": ""^5.12.8"",
+    ""date-fns"": ""^2.16.1"",
+    ""expo"": ""^43.0.0"",
+    ""expo-app-loading"": ""~1.2.1"",
+    ""expo-asset"": ""~8.4.3"",
+    ""expo-camera"": ""~12.0.3"",
+    ""expo-cellular"": ""~4.0.0"",
+    ""expo-constants"": ""~12.1.3"",
+    ""expo-device"": ""~4.0.3"",
+    ""expo-facebook"": ""~12.0.3"",
+    ""expo-firebase-analytics"": ""~5.0.3"",
+    ""expo-firebase-core"": ""~4.0.3"",
+    ""expo-firebase-recaptcha"": ""~2.0.2"",
+    ""expo-firestore-offline-persistence"": ""^0.1.0"",
+    ""expo-font"": ""~10.0.3"",
+    ""expo-image-manipulator"": ""~10.1.2"",
+    ""expo-image-picker"": ""~11.0.3"",
+    ""expo-linking"": ""~2.4.2"",
+    ""expo-media-library"": ""~13.0.3"",
+    ""expo-network"": ""~4.0.3"",
+    ""expo-notifications"": ""~0.13.3"",
+    ""expo-permissions"": ""~13.0.3"",
+    ""expo-screen-orientation"": ""~4.0.3"",
+    ""expo-secure-store"": ""~11.0.3"",
+    ""expo-splash-screen"": ""~0.13.5"",
+    ""expo-sqlite"": ""~10.0.3"",
+    ""expo-status-bar"": ""~1.1.0"",
+    ""expo-store-review"": ""~5.0.3"",
+    ""expo-task-manager"": ""~10.0.3"",
+    ""expo-tracking-transparency"": ""~2.0.3"",
+    ""expo-updates"": ""~0.10.15"",
+    ""expo-web-browser"": ""~10.0.3"",
+    ""firebase"": ""8.2.3"",
+    ""formik"": ""^2.2.6"",
+    ""indexeddbshim"": ""6.6.0"",
+    ""lodash"": ""^4.17.20"",
+    ""p-iteration"": ""^1.1.8"",
+    ""prop-types"": ""^15.7.2"",
+    ""qs"": ""^6.9.6"",
+    ""react"": ""17.0.1"",
+    ""react-dom"": ""17.0.1"",
+    ""react-hot-toast"": ""^1.0.2"",
+    ""react-native"": ""0.64.3"",
+    ""react-native-background-actions"": ""^2.6.7"",
+    ""react-native-calendars"": ""^1.1129.0"",
+    ""react-native-expo-cached-image"": ""^1.3.1"",
+    ""react-native-gesture-handler"": ""~1.10.2"",
+    ""react-native-gifted-chat"": ""^0.16.3"",
+    ""react-native-google-places-autocomplete"": ""^2.1.2"",
+    ""react-native-image-gallery"": ""^2.1.5"",
+    ""react-native-keyboard-avoiding-scroll-view"": ""^1.0.1"",
+    ""react-native-modal-datetime-picker"": ""^9.1.0"",
+    ""react-native-modal-dropdown"": ""https://github.com/siemiatj/react-native-modal-dropdown"",
+    ""react-native-onboarding-swiper"": ""^1.1.4"",
+    ""react-native-phone-number-input"": ""^2.0.0"",
+    ""react-native-ratings"": ""^7.4.0"",
+    ""react-native-reanimated"": ""~2.2.0"",
+    ""react-native-redash"": ""^16.0.11"",
+    ""react-native-safe-area-context"": ""3.3.2"",
+    ""react-native-screens"": ""~3.8.0"",
+    ""react-native-search-filter"": ""^0.1.5"",
+    ""react-native-svg"": ""12.1.1"",
+    ""react-native-tab-view"": ""^2.15.2"",
+    ""react-native-tailwindcss"": ""^1.1.11"",
+    ""react-native-url-polyfill"": ""^1.2.0"",
+    ""react-native-web"": ""0.17.1"",
+    ""react-native-webview"": ""11.13.0"",
+    ""react-native-woodpicker"": ""^0.2.8"",
+    ""react-redux"": ""^7.2.2"",
+    ""react-redux-firebase"": ""^3.10.0"",
+    ""redux"": ""^4.0.5"",
+    ""redux-firestore"": ""https://bitbucket.org/handytradiegh/redux-firestore"",
+    ""redux-persist"": ""^6.0.0"",
+    ""rxjs"": ""^6.6.6"",
+    ""sentry-expo"": ""^4.0.0"",
+    ""yup"": ""^0.32.8""
+  },
+  ""devDependencies"": {
+    ""@babel/core"": ""~7.9.0"",
+    ""@babel/plugin-syntax-class-properties"": ""^7.12.13"",
+    ""@babel/plugin-transform-react-jsx-source"": ""^7.12.1"",
+    ""@storybook/addon-actions"": ""^5.3"",
+    ""@storybook/addon-knobs"": ""^5.3"",
+    ""@storybook/addon-links"": ""^5.3"",
+    ""@storybook/addon-ondevice-actions"": ""^5.3.23"",
+    ""@storybook/addon-ondevice-knobs"": ""^5.3.23"",
+    ""@storybook/react-native"": ""^5.3.23"",
+    ""@storybook/react-native-server"": ""^5.3.23"",
+    ""babel-eslint"": ""^10.1.0"",
+    ""babel-loader"": ""^8.2.2"",
+    ""babel-plugin-module-resolver"": ""^4.1.0"",
+    ""cavy"": ""^4.0.1"",
+    ""eslint"": ""^7.18.0"",
+    ""eslint-config-prettier"": ""^7.1.0"",
+    ""eslint-plugin-import"": ""^2.22.1"",
+    ""eslint-plugin-jsx-a11y"": ""^6.4.1"",
+    ""eslint-plugin-prettier"": ""^3.3.1"",
+    ""eslint-plugin-react"": ""^7.22.0"",
+    ""eslint-plugin-react-hooks"": ""^4.2.0"",
+    ""eslint-plugin-react-native"": ""^3.10.0"",
+    ""eslint-plugin-simple-import-sort"": ""^7.0.0"",
+    ""prettier"": ""^2.2.1"",
+    ""prettier-plugin-organize-imports"": ""^1.1.1"",
+    ""react-native-storybook-loader"": ""^2.0.2"",
+    ""typescript"": ""~4.3.5""
+  },
+  ""jest"": {
+    ""preset"": ""jest-expo"",
+    ""transformIgnorePatterns"": [
+      ""node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base)""
+    ],
+    ""setupFilesAfterEnv"": [
+      ""&lt;rootDir&gt;/__mocks__/globalMock.js""
+    ]
+  },
+  ""config"": {
+    ""react-native-storybook-loader"": {
+      ""searchDir"": [
+        ""./src""
+      ],
+      ""pattern"": ""**/*.stories.js"",
+      ""outputFile"": ""./storybook/storyLoader.js""
+    }
+  },
+  ""private"": true,
+  ""resolutions"": {
+    ""@react-native-community/picker"": ""^1.8.1""
+  }
+}</code></pre>
+</div>
+</div>
+</p>
+<p>Please help me out!!!</p>
+",0,1,0,0
+1983,74144485,Why isn't ContentChild in Angular working as expected?,"<p>I have tried different versions of this code, but still get an undefined error.</p>
+<p>My component:</p>
+<pre><code>
+import { Component, ElementRef, AfterContentInit, OnInit, ContentChild, Renderer2 } from '@angular/core';
+
+@Component({
+  selector: 'app-content-projection',
+  templateUrl: './content-projection.component.html',
+  styleUrls: ['./content-projection.component.less']
+})
+export class ContentProjectionComponent implements AfterContentInit, OnInit {
+
+  @ContentChild('appHeader') headerElem : ElementRef;
+
+  constructor(private renderer: Renderer2) { }
+
+  ngOnInit(): void {
+  }
+
+  ngAfterContentInit() {
+    this.renderer.setStyle(this.headerElem.nativeElement,&quot;font-size&quot;,&quot;120px&quot;)
+  }
+}
+</code></pre>
+<p>My template that projects content:</p>
+<pre><code>&lt;h1&gt;Content Children - Work With Projected Content&lt;/h1&gt;
+&lt;app-card&gt;
+  &lt;h1 header #appHeader&gt;My Damn Header&lt;/h1&gt;
+&lt;/app-card&gt;
+</code></pre>
+<p>The component that is projected into:</p>
+<pre><code>&lt;div&gt;
+  &lt;ng-content select=&quot;[header]&quot;&gt;&lt;/ng-content&gt;
+&lt;/div&gt;
+</code></pre>
+<p>The error:</p>
+<pre><code>core.js:6210 ERROR TypeError: Cannot read properties of undefined (reading 'nativeElement')
+    at ContentProjectionComponent.ngAfterContentInit
+</code></pre>
+",1,0,0,0
+3380,76226125,Angular 14 showing error Uncaught (in promise): NullInjectorError,"<p>I was trying to run my app but it just directly hit the error in the title. I am not sure what functions it even hit before coming out with that error.
+Below is my app.modules.ts and also the error.</p>
+<pre><code>import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
+import { RouterModule } from '@angular/router'
+import { BrowserModule } from '@angular/platform-browser'
+
+import { ComponentsModule } from './components/components.module'
+import { AppComponent } from './app.component'
+import { HttpClientModule } from '@angular/common/http'
+import { CommonModule } from '@angular/common'
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, RouterModule.forRoot(routes), ComponentsModule, HttpClientModule, CommonModule],
+  providers: [],
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
+export class AppModule {}
+</code></pre>
+<p>The error shown inside the console</p>
+<pre><code>ERROR Error: Uncaught (in promise): NullInjectorError: R3InjectorError(n)[n -&gt; n -&gt; n -&gt; n -&gt; n]: 
+  NullInjectorError: No provider for n!
+NullInjectorError: R3InjectorError(n)[n -&gt; n -&gt; n -&gt; n -&gt; n]: 
+  NullInjectorError: No provider for n!
+    at zd.get (:1:287700)
+    at Yd.get (:1:290380)
+    at Yd.get (:1:290380)
+    at Yd.get (:1:290380)
+    at sm (:1:274936)
+    at Object.Hn (:1:275037)
+    at n.?fac [as factory] (:1:172431)
+    at Yd.hydrate (:1:291761)
+    at Yd.get (:1:290332)
+    at Yd.get (:1:290380)
+    at Fe (:1:138605)
+    at Fe (:1:138097)
+    at :1:139488
+    at q.invokeTask (:1:129092)
+    at Object.onInvokeTask (:1:343929)
+    at q.invokeTask (:1:129012)
+    at q.runTask (:1:124085)
+    at xe (http://localhost:4200/polyfills.js:1:131522) {rejection: NullInjectorError: R3InjectorError(n)[n -&gt; n…&gt; n]: 
+  NullInjectorError: No provider for…, promise: N, zone: q, task: q, stack: 'Error: Uncaught (in promise): NullInjectorErr…(http://localhost:4200/polyfills.js:1:131522)', …}
+</code></pre>
+",0,1,0,0
+2867,75523189,bare React Native build failed after installing expo package,"<p>I was building bare React Native app  but build failed after installing expo and expo modules package with :</p>
+<pre><code> npx install-expo-modules@latest
+</code></pre>
+<p>build errors after running <code>npm run android</code></p>
+<pre><code>The Kotlin Gradle plugin was loaded multiple times in different subprojects, which is not supported and may break the build.
+This might happen in subprojects that apply the Kotlin plugins with the Gradle 'plugins { ... }' DSL if they specify explicit versions, even if the versions are equal.
+Please add the Kotlin plugin to the common parent project or the root project, then remove the versions in the subprojects.
+If the parent project does not need the plugin, add 'apply false' to the plugin line.
+See: https://docs.gradle.org/current/userguide/plugins.html#sec:subprojects_plugins_dsl
+The Kotlin plugin was loaded in the following projects: ':expo', ':expo-modules-core'
+
+&gt; Task :app:compileDebugJavaWithJavac FAILED
+147 actionable tasks: 3 executed, 144 up-to-date
+C:\Users\matea\Desktop\react-native\projects\instagram\android\app\src\main\java\com\instagram\MainActivity.java:2: error: class, interface, or enum expected
+package com.instagram;
+^
+C:\Users\matea\Desktop\react-native\projects\instagram\android\app\src\main\java\com\instagram\MainApplication.java:4: error: class, interface, or enum expected
+package com.instagram;
+^
+2 errors
+
+FAILURE: Build completed with 2 failures.
+
+1: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':app:compileDebugJavaWithJavac'.
+&gt; Compilation failed; see the compiler error output for details.
+
+* Try:
+&gt; Run with --stacktrace option to get the stack trace.
+&gt; Run with --info or --debug option to get more log output.
+&gt; Run with --scan to get full insights.
+==============================================================================
+
+2: Task failed with an exception.
+-----------
+* What went wrong:
+java.lang.StackOverflowError (no error message)
+
+* Try:
+&gt; Run with --stacktrace option to get the stack trace.
+&gt; Run with --info or --debug option to get more log output.
+&gt; Run with --scan to get full insights.
+==============================================================================
+
+* Get more help at https://help.gradle.org
+
+BUILD FAILED in 35s
+
+error Failed to install the app. Make sure you have the Android development environment set up: https://reactnative.dev/docs/environment-setup.
+Error: Command failed: gradlew.bat app:installDebug -PreactNativeDevServerPort=8081
+C:\Users\matea\Desktop\react-native\projects\instagram\android\app\src\main\java\com\instagram\MainActivity.java:2: error: class, interface, or enum expected
+package com.instagram;
+^
+C:\Users\matea\Desktop\react-native\projects\instagram\android\app\src\main\java\com\instagram\MainApplication.java:4: error: class, interface, or enum expected
+package com.instagram;
+^
+2 errors
+
+FAILURE: Build completed with 2 failures.
+
+1: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':app:compileDebugJavaWithJavac'.
+&gt; Compilation failed; see the compiler error output for details.
+
+* Try:
+&gt; Run with --stacktrace option to get the stack trace.
+&gt; Run with --info or --debug option to get more log output.
+&gt; Run with --scan to get full insights.
+==============================================================================
+
+2: Task failed with an exception.
+-----------
+* What went wrong:
+java.lang.StackOverflowError (no error message)
+
+* Try:
+&gt; Run with --stacktrace option to get the stack trace.
+&gt; Run with --info or --debug option to get more log output.
+&gt; Run with --scan to get full insights.
+==============================================================================
+
+* Get more help at https://help.gradle.org
+
+BUILD FAILED in 35s
+
+    at makeError (C:\Users\matea\Desktop\react-native\projects\instagram\node_modules\@react-native-community\cli-platform-android\node_modules\execa\index.js:174:9)
+    at C:\Users\matea\Desktop\react-native\projects\instagram\node_modules\@react-native-community\cli-platform-android\node_modules\execa\index.js:278:16
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async runOnAllDevices (C:\Users\matea\Desktop\react-native\projects\instagram\node_modules\@react-native-community\cli-platform-android\build\commands\runAndroid\runOnAllDevices.js:82:7)
+    at async Command.handleAction (C:\Users\matea\Desktop\react-native\projects\instagram\node_modules\@react-native-community\cli\build\index.js:108:9)
+info Run CLI with --verbose flag for more details.
+npm verb exit 1
+npm verb code 1
+</code></pre>
+<p>changes: <a href=""https://i.stack.imgur.com/1Mm8O.png"" rel=""nofollow noreferrer"">changes before latest commit </a></p>
+<p><code>android/settings.gradle</code>:</p>
+<pre><code>rootProject.name = 'instagram'
+apply from: file(&quot;../node_modules/@react-native-community/cli-platform-android/native_modules.gradle&quot;); applyNativeModulesSettingsGradle(settings)
+include ':app'
+includeBuild('../node_modules/react-native-gradle-plugin')
+
+apply from: new File([&quot;node&quot;, &quot;--print&quot;, &quot;require.resolve('expo/package.json')&quot;].execute(null, rootDir).text.trim(), &quot;../scripts/autolinking.gradle&quot;)
+useExpoModules()
+</code></pre>
+<p><code>android/build.gradle</code></p>
+<pre><code>// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext {
+        buildToolsVersion = &quot;33.0.0&quot;
+        minSdkVersion = 21
+        compileSdkVersion = 33
+        targetSdkVersion = 33
+
+        // We use NDK 23 which has both M1 support and is the side-by-side NDK version from AGP.
+        ndkVersion = &quot;23.1.7779620&quot;
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath(&quot;com.android.tools.build:gradle:7.3.1&quot;)
+        classpath(&quot;com.facebook.react:react-native-gradle-plugin&quot;)
+    }
+}
+</code></pre>
+<p><code>MainActivity.java</code></p>
+<pre><code>import expo.modules.ReactActivityDelegateWrapper;
+package com.instagram;
+
+import com.facebook.react.ReactActivity;
+import com.facebook.react.ReactActivityDelegate;
+import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
+import com.facebook.react.defaults.DefaultReactActivityDelegate;
+
+public class MainActivity extends ReactActivity {
+
+  /**
+   * Returns the name of the main component registered from JavaScript. This is used to schedule
+   * rendering of the component.
+   */
+  @Override
+  protected String getMainComponentName() {
+    return &quot;instagram&quot;;
+  }
+
+  /**
+   * Returns the instance of the {@link ReactActivityDelegate}. Here we use a util class {@link
+   * DefaultReactActivityDelegate} which allows you to easily enable Fabric and Concurrent React
+   * (aka React 18) with two boolean flags.
+   */
+  @Override
+  protected ReactActivityDelegate createReactActivityDelegate() {
+    return new ReactActivityDelegateWrapper(this, BuildConfig.IS_NEW_ARCHITECTURE_ENABLED, new DefaultReactActivityDelegate(
+        this,
+        getMainComponentName(),
+        // If you opted-in for the New Architecture, we enable the Fabric Renderer.
+        DefaultNewArchitectureEntryPoint.getFabricEnabled(), // fabricEnabled
+        // If you opted-in for the New Architecture, we enable Concurrent React (i.e. React 18).
+        DefaultNewArchitectureEntryPoint.getConcurrentReactEnabled() // concurrentRootEnabled
+        ));
+  }
+}
+
+</code></pre>
+<p><code>MainApplication.java</code></p>
+<pre><code>import android.content.res.Configuration;
+import expo.modules.ApplicationLifecycleDispatcher;
+import expo.modules.ReactNativeHostWrapper;
+package com.instagram;
+
+import android.app.Application;
+import com.facebook.react.PackageList;
+import com.facebook.react.ReactApplication;
+import com.facebook.react.ReactNativeHost;
+import com.facebook.react.ReactPackage;
+import com.facebooak.react.defaults.DefaultNewArchitectureEntryPoint;
+import com.facebook.react.defaults.DefaultReactNativeHost;
+import com.facebook.soloader.SoLoader;
+import java.util.List;
+
+public class MainApplication extends Application implements ReactApplication {
+
+  private final ReactNativeHost mReactNativeHost =
+      new ReactNativeHostWrapper(this, new DefaultReactNativeHost(this) {
+        @Override
+        public boolean getUseDeveloperSupport() {
+          return BuildConfig.DEBUG;
+        }
+
+        @Override
+        protected List&lt;ReactPackage&gt; getPackages() {
+          @SuppressWarnings(&quot;UnnecessaryLocalVariable&quot;)
+          List&lt;ReactPackage&gt; packages = new PackageList(this).getPackages();
+          // Packages that cannot be autolinked yet can be added manually here, for example:
+          // packages.add(new MyReactNativePackage());
+          return packages;
+        }
+
+        @Override
+        protected String getJSMainModuleName() {
+          return &quot;index&quot;;
+        }
+
+        @Override
+        protected boolean isNewArchEnabled() {
+          return BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
+        }
+
+        @Override
+        protected Boolean isHermesEnabled() {
+          return BuildConfig.IS_HERMES_ENABLED;
+        }
+      });
+
+  @Override
+  public ReactNativeHost getReactNativeHost() {
+    return mReactNativeHost;
+  }
+
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    SoLoader.init(this, /* native exopackage */ false);
+    if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
+      // If you opted-in for the New Architecture, we load the native entry point for this app.
+      DefaultNewArchitectureEntryPoint.load();
+    }
+    ReactNativeFlipper.initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+    ApplicationLifecycleDispatcher.onApplicationCreate(this);
+  }
+
+  @Override
+  public void onConfigurationChanged(Configuration newConfig) {
+    super.onConfigurationChanged(newConfig);
+    ApplicationLifecycleDispatcher.onConfigurationChanged(this, newConfig);
+  }
+}
+</code></pre>
+<p>it's only been 3 weeks since started react-native and spend 3 days on this bug.
+please tell me if i should include anything else too, thanks</p>
+<p>I tried:</p>
+<ol>
+<li>delating node_modules and installing again</li>
+<li>cleaning and rebuilding ./gradlew</li>
+<li>deleting and rebuilding .gradle file</li>
+<li>I tried adding:</li>
+</ol>
+<pre><code>def REACT_NATIVE_VERSION = new File(['node', '--print',&quot;JSON.parse(require('fs').readFileSync(require.resolve('react-native/package.json'), 'utf-8')).version&quot;].execute(null, rootDir).text.trim())
+
+allprojects {
+   
+  configurations.all {
+      resolutionStrategy {
+          force &quot;com.facebook.react:react-native:&quot; + REACT_NATIVE_VERSION
+      }
+  }
+ // other code
+}
+</code></pre>
+<p>to <code>android/build.gradle</code></p>
+<p>based on solution from this stackoverflow <a href=""https://stackoverflow.com/questions/74346206/task-appcompiledebugjavawithjavac-failed"">post</a></p>
+<ol start=""5"">
+<li>i added kotlin plugin to root <code>build.gradle</code> file <code>classpath('org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10')</code></li>
+</ol>
+<p>new error:</p>
+<pre><code>Task :app:compileDebugJavaWithJavac FAILED
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 8.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+See https://docs.gradle.org/7.5.1/userguide/command_line_interface.html#sec:command_line_warnings
+
+Execution optimizations have been disabled for 1 invalid unit(s) of work during this build to ensure correctness.
+Please consult deprecation warnings for more details.
+214 actionable tasks: 208 executed, 6 up-to-date
+Note: C:\Users\matea\Desktop\react-native\projects\instagram\node_modules\react-native-image-picker\android\src\main\java\com\imagepicker\Utils.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: C:\Users\matea\Desktop\react-native\projects\instagram\node_modules\react-native-video\android\src\main\java\com\brentvatne\react\ReactVideoViewManager.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+C:\Users\matea\Desktop\react-native\projects\instagram\android\app\src\main\java\com\instagram\MainActivity.java:2: error: class, interface, or enum expected
+package com.instagram;
+^
+C:\Users\matea\Desktop\react-native\projects\instagram\android\app\src\main\java\com\instagram\MainApplication.java:4: error: class, interface, or enum expected
+package com.instagram;
+^
+2 errors
+
+FAILURE: Build completed with 2 failures.
+
+1: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':app:compileDebugJavaWithJavac'.
+&gt; Compilation failed; see the compiler error output for details.
+
+* Try:
+&gt; Run with --stacktrace option to get the stack trace.
+&gt; Run with --info or --debug option to get more log output.
+&gt; Run with --scan to get full insights.
+==============================================================================
+
+2: Task failed with an exception.
+-----------
+* What went wrong:
+java.lang.StackOverflowError (no error message)
+
+* Try:
+&gt; Run with --stacktrace option to get the stack trace.
+&gt; Run with --info or --debug option to get more log output.
+&gt; Run with --scan to get full insights.
+==============================================================================
+
+* Get more help at https://help.gradle.org
+
+BUILD FAILED in 3m 2s
+
+error Failed to install the app. Make sure you have the Android development environment set up: https://reactnative.dev/docs/environment-setup.
+Error: Command failed: gradlew.bat app:installDebug -PreactNativeDevServerPort=8081
+Note: C:\Users\matea\Desktop\react-native\projects\instagram\node_modules\react-native-image-picker\android\src\main\java\com\imagepicker\Utils.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: C:\Users\matea\Desktop\react-native\projects\instagram\node_modules\react-native-video\android\src\main\java\com\brentvatne\react\ReactVideoViewManager.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+C:\Users\matea\Desktop\react-native\projects\instagram\android\app\src\main\java\com\instagram\MainActivity.java:2: error: class, interface, or enum expected
+package com.instagram;
+^
+C:\Users\matea\Desktop\react-native\projects\instagram\android\app\src\main\java\com\instagram\MainApplication.java:4: error: class, interface, or enum expected
+package com.instagram;
+^
+2 errors
+
+FAILURE: Build completed with 2 failures.
+
+1: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':app:compileDebugJavaWithJavac'.
+&gt; Compilation failed; see the compiler error output for details.
+
+* Try:
+&gt; Run with --stacktrace option to get the stack trace.
+&gt; Run with --info or --debug option to get more log output.
+&gt; Run with --scan to get full insights.
+==============================================================================
+
+2: Task failed with an exception.
+-----------
+* What went wrong:
+java.lang.StackOverflowError (no error message)
+
+* Try:
+&gt; Run with --stacktrace option to get the stack trace.
+&gt; Run with --info or --debug option to get more log output.
+&gt; Run with --scan to get full insights.
+==============================================================================
+
+* Get more help at https://help.gradle.org
+
+BUILD FAILED in 3m 2s
+
+    at makeError (C:\Users\matea\Desktop\react-native\projects\instagram\node_modules\@react-native-community\cli-platform-android\node_modules\execa\index.js:174:9)
+    at C:\Users\matea\Desktop\react-native\projects\instagram\node_modules\@react-native-community\cli-platform-android\node_modules\execa\index.js:278:16
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async runOnAllDevices (C:\Users\matea\Desktop\react-native\projects\instagram\node_modules\@react-native-community\cli-platform-android\build\commands\runAndroid\runOnAllDevices.js:82:7)
+    at async Command.handleAction (C:\Users\matea\Desktop\react-native\projects\instagram\node_modules\@react-native-community\cli\build\index.js:108:9)
+info Run CLI with --verbose flag for more details.
+</code></pre>
+<p>Nothing worked</p>
+<p><em>os: Windows</em></p>
+",0,0,1,0
+3115,75894907,> Task :react-native-gradle-plugin:compileKotlin FAILED,"<p>I have moved to New architecture and upgraded gradle version as well as react-native-gradle plugin, and since then I am getting issues. Not able to proceed further with this. There is some compatibility issue. Can someone help me with this?
+This is the complete stack trace :</p>
+<pre><code> Task :react-native-gradle-plugin:compileKotlin FAILED
+
+FAILURE: Build failed with an exception.
+
+* Exception is:
+org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':react-native-gradle-plugin:compileKotlin'.
+        at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.lambda$executeIfValid$1(ExecuteActionsTaskExecuter.java:149)
+        at org.gradle.internal.Try$Failure.ifSuccessfulOrElse(Try.java:282)
+        at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:147)
+        at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:135)
+        at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
+        at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
+        at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
+        at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
+        at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+        at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
+        at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
+        at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:199)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:157)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+        at org.gradle.internal.operations.DefaultBuildOperationExecutor.call(DefaultBuildOperationExecutor.java:73)
+        at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
+        at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:42)
+        at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:338)
+        at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:325)
+        at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:318)
+        at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:304)
+        at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:463)
+        at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:380)
+        at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+        at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:49)
+Caused by: org.gradle.api.GradleException: Compilation error. See log for more details
+        at org.jetbrains.kotlin.gradle.tasks.TasksUtilsKt.throwGradleExceptionIfError(tasksUtils.kt:17)
+        at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.run(GradleKotlinCompilerWork.kt:140)
+        at org.jetbrains.kotlin.compilerRunner.GradleCompilerRunner.runCompilerAsync(GradleKotlinCompilerRunner.kt:207)
+        at org.jetbrains.kotlin.compilerRunner.GradleCompilerRunner.runCompilerAsync(GradleKotlinCompilerRunner.kt:198)
+        at org.jetbrains.kotlin.compilerRunner.GradleCompilerRunner.runJvmCompilerAsync(GradleKotlinCompilerRunner.kt:97)
+        at org.jetbrains.kotlin.gradle.tasks.KotlinCompile.callCompilerAsync$kotlin_gradle_plugin(Tasks.kt:735)
+        at org.jetbrains.kotlin.gradle.tasks.KotlinCompile.callCompilerAsync$kotlin_gradle_plugin(Tasks.kt:491)
+        at org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile.executeImpl(Tasks.kt:404)
+        at org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile.execute(Tasks.kt:357)
+        at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+        at org.gradle.internal.reflect.JavaMethod.invoke(JavaMethod.java:125)
+        at org.gradle.api.internal.project.taskfactory.IncrementalTaskAction.doExecute(IncrementalTaskAction.java:45)
+        at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:51)
+        at org.gradle.api.internal.project.taskfactory.IncrementalTaskAction.execute(IncrementalTaskAction.java:26)
+        at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:29)
+        at org.gradle.api.internal.tasks.execution.TaskExecution$3.run(TaskExecution.java:242)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:29)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:26)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:157)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner.run(DefaultBuildOperationRunner.java:47)
+        at org.gradle.internal.operations.DefaultBuildOperationExecutor.run(DefaultBuildOperationExecutor.java:68)
+        at org.gradle.api.internal.tasks.execution.TaskExecution.executeAction(TaskExecution.java:227)
+        at org.gradle.api.internal.tasks.execution.TaskExecution.executeActions(TaskExecution.java:210)
+        at org.gradle.api.internal.tasks.execution.TaskExecution.executeWithPreviousOutputFiles(TaskExecution.java:193)
+        at org.gradle.api.internal.tasks.execution.TaskExecution.execute(TaskExecution.java:166)
+        at org.gradle.internal.execution.steps.ExecuteStep.executeInternal(ExecuteStep.java:93)
+        at org.gradle.internal.execution.steps.ExecuteStep.access$000(ExecuteStep.java:44)
+        at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:57)
+        at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:54)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:199)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:157)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+        at org.gradle.internal.operations.DefaultBuildOperationExecutor.call(DefaultBuildOperationExecutor.java:73)
+        at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:54)
+        at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:44)
+        at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(RemovePreviousOutputsStep.java:67)
+        at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(RemovePreviousOutputsStep.java:37)
+        at org.gradle.internal.execution.steps.CancelExecutionStep.execute(CancelExecutionStep.java:41)
+        at org.gradle.internal.execution.steps.TimeoutStep.executeWithoutTimeout(TimeoutStep.java:74)
+        at org.gradle.internal.execution.steps.TimeoutStep.execute(TimeoutStep.java:55)
+        at org.gradle.internal.execution.steps.CreateOutputsStep.execute(CreateOutputsStep.java:50)
+        at org.gradle.internal.execution.steps.CreateOutputsStep.execute(CreateOutputsStep.java:28)
+        at org.gradle.internal.execution.steps.CaptureStateAfterExecutionStep.executeDelegateBroadcastingChanges(CaptureStateAfterExecutionStep.java:100)
+        at org.gradle.internal.execution.steps.CaptureStateAfterExecutionStep.execute(CaptureStateAfterExecutionStep.java:72)
+        at org.gradle.internal.execution.steps.CaptureStateAfterExecutionStep.execute(CaptureStateAfterExecutionStep.java:50)
+        at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:40)
+        at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:29)
+        at org.gradle.internal.execution.steps.BuildCacheStep.executeWithoutCache(BuildCacheStep.java:166)
+        at org.gradle.internal.execution.steps.BuildCacheStep.lambda$execute$1(BuildCacheStep.java:70)
+        at org.gradle.internal.Either$Right.fold(Either.java:175)
+        at org.gradle.internal.execution.caching.CachingState.fold(CachingState.java:59)
+        at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:68)
+        at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:46)
+        at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:36)
+        at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:25)
+        at org.gradle.internal.execution.steps.RecordOutputsStep.execute(RecordOutputsStep.java:36)
+        at org.gradle.internal.execution.steps.RecordOutputsStep.execute(RecordOutputsStep.java:22)
+        at org.gradle.internal.execution.steps.SkipUpToDateStep.executeBecause(SkipUpToDateStep.java:91)
+        at org.gradle.internal.execution.steps.SkipUpToDateStep.lambda$execute$2(SkipUpToDateStep.java:55)
+        at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:55)
+        at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:37)
+        at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:65)
+        at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:36)
+        at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:37)
+        at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:27)
+        at org.gradle.internal.execution.steps.ResolveCachingStateStep.execute(ResolveCachingStateStep.java:76)
+        at org.gradle.internal.execution.steps.ResolveCachingStateStep.execute(ResolveCachingStateStep.java:37)
+        at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:94)
+        at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:49)
+        at org.gradle.internal.execution.steps.CaptureStateBeforeExecutionStep.execute(CaptureStateBeforeExecutionStep.java:71)
+        at org.gradle.internal.execution.steps.CaptureStateBeforeExecutionStep.execute(CaptureStateBeforeExecutionStep.java:45)
+        at org.gradle.internal.execution.steps.SkipEmptyWorkStep.executeWithNonEmptySources(SkipEmptyWorkStep.java:177)
+        at org.gradle.internal.execution.steps.SkipEmptyWorkStep.execute(SkipEmptyWorkStep.java:86)
+        at org.gradle.internal.execution.steps.SkipEmptyWorkStep.execute(SkipEmptyWorkStep.java:53)
+        at org.gradle.internal.execution.steps.RemoveUntrackedExecutionStateStep.execute(RemoveUntrackedExecutionStateStep.java:32)
+        at org.gradle.internal.execution.steps.RemoveUntrackedExecutionStateStep.execute(RemoveUntrackedExecutionStateStep.java:21)
+        at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)
+        at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:36)
+        at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:23)
+        at org.gradle.internal.execution.steps.CleanupStaleOutputsStep.execute(CleanupStaleOutputsStep.java:75)
+        at org.gradle.internal.execution.steps.CleanupStaleOutputsStep.execute(CleanupStaleOutputsStep.java:41)
+        at org.gradle.internal.execution.steps.AssignWorkspaceStep.lambda$execute$0(AssignWorkspaceStep.java:32)
+        at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:287)
+        at org.gradle.internal.execution.steps.AssignWorkspaceStep.execute(AssignWorkspaceStep.java:30)
+        at org.gradle.internal.execution.steps.AssignWorkspaceStep.execute(AssignWorkspaceStep.java:21)
+        at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:37)
+        at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:27)
+        at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:42)
+        at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:31)
+        at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:64)
+        at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:146)
+        at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:135)
+        at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
+        at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
+        at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
+        at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
+        at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+        at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
+        at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
+        at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:199)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:157)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+        at org.gradle.internal.operations.DefaultBuildOperationExecutor.call(DefaultBuildOperationExecutor.java:73)
+        at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
+        at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:42)
+        at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:338)
+        at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:325)
+        at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:318)
+        at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:304)
+        at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:463)
+        at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:380)
+        at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+        at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:49)
+</code></pre>
+<p>Here is my build.gradle for reference:</p>
+<pre><code>
+
+buildscript {
+    ext {
+        buildToolsVersion = findProperty('android.buildToolsVersion') ?: '33.0.0'
+        minSdkVersion = Integer.parseInt(findProperty('android.minSdkVersion') ?: '21')
+        compileSdkVersion = Integer.parseInt(findProperty('android.compileSdkVersion') ?: '33')
+        targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '33')
+        // if (findProperty('android.kotlinVersion')) {
+            kotlinVersion = &quot;1.8.0&quot;//findProperty('android.kotlinVersion')
+        // }
+        frescoVersion = findProperty('expo.frescoVersion') ?: '2.5.0'
+
+      
+        ndkVersion = &quot;23.1.7779620&quot;
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.gms:google-services:4.3.3'
+        classpath('com.android.tools.build:gradle:7.4.2')
+        classpath('com.facebook.react:react-native-gradle-plugin')
+        classpath &quot;org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0&quot;
+    }
+}
+
+allprojects {
+    repositories {
+        maven {
+            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+            url(new File(['node', '--print', &quot;require.resolve('react-native/package.json')&quot;].execute(null, rootDir).text.trim(), '../android'))
+        }
+        maven {
+            // Android JSC is installed from npm
+            url(new File(['node', '--print', &quot;require.resolve('jsc-android/package.json')&quot;].execute(null, rootDir).text.trim(), '../dist'))
+        }
+        google()
+        mavenCentral()
+        maven { url 'https://www.jitpack.io' }
+    }
+}
+
+</code></pre>
+<p>and my app/build.gradle</p>
+<pre><code>apply plugin: &quot;com.android.application&quot;
+apply plugin: &quot;com.facebook.react&quot;
+
+import com.android.build.OutputFile
+
+def projectRoot = rootDir.getAbsoluteFile().getParentFile().getAbsolutePath()
+def expoDebuggableVariants = ['debug']
+// Override `debuggableVariants` for expo-updates debugging
+if (System.getenv('EX_UPDATES_NATIVE_DEBUG') == &quot;1&quot;) {
+  react {
+    expoDebuggableVariants = []
+  }
+}
+
+
+react {
+    entryFile = file([&quot;node&quot;, &quot;-e&quot;, &quot;require('expo/scripts/resolveAppEntry')&quot;, projectRoot, &quot;android&quot;, &quot;absolute&quot;].execute(null, rootDir).text.trim())
+    reactNativeDir = new File([&quot;node&quot;, &quot;--print&quot;, &quot;require.resolve('react-native/package.json')&quot;].execute(null, rootDir).text.trim()).getParentFile().getAbsoluteFile()
+    hermesCommand = new File([&quot;node&quot;, &quot;--print&quot;, &quot;require.resolve('react-native/package.json')&quot;].execute(null, rootDir).text.trim()).getParentFile().getAbsolutePath() + &quot;/sdks/hermesc/%OS-BIN%/hermesc&quot;
+    debuggableVariants = expoDebuggableVariants
+}
+
+ext {
+  hermesEnabled = (findProperty('expo.jsEngine') ?: &quot;hermes&quot;) == &quot;hermes&quot;
+}
+
+def enableSeparateBuildPerCPUArchitecture = false
+
+def enableProguardInReleaseBuilds = (findProperty('android.enableProguardInReleaseBuilds') ?: false).toBoolean()
+
+def jscFlavor = 'org.webkit:android-jsc:+'
+
+
+def reactNativeArchitectures() {
+    def value = project.getProperties().get(&quot;reactNativeArchitectures&quot;)
+    return value ? value.split(&quot;,&quot;) : [&quot;armeabi-v7a&quot;, &quot;x86&quot;, &quot;x86_64&quot;, &quot;arm64-v8a&quot;]
+}
+
+android {
+    ndkVersion rootProject.ext.ndkVersion
+
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    namespace ‘XXXX’
+    defaultConfig {
+        applicationId ‘XXXX’
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 9
+        versionName &quot;1.0.2&quot;
+    }
+
+    splits {
+        abi {
+            reset()
+            enable enableSeparateBuildPerCPUArchitecture
+            universalApk false  // If true, also generate a universal APK
+            include (*reactNativeArchitectures())
+        }
+    }
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            
+            signingConfig signingConfigs.debug
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile(&quot;proguard-android.txt&quot;), &quot;proguard-rules.pro&quot;
+        }
+    }
+
+    applicationVariants.all { variant -&gt;
+        variant.outputs.each { output -&gt;
+            def versionCodes = [&quot;armeabi-v7a&quot;: 1, &quot;x86&quot;: 2, &quot;arm64-v8a&quot;: 3, &quot;x86_64&quot;: 4]
+            def abi = output.getFilter(OutputFile.ABI)
+            if (abi != null) {  // null for the universal-debug, universal-release variants
+                output.versionCodeOverride =
+                        defaultConfig.versionCode * 1000 + versionCodes.get(abi)
+            }
+
+        }
+    }
+}
+
+[&quot;pickFirsts&quot;, &quot;excludes&quot;, &quot;merges&quot;, &quot;doNotStrip&quot;].each { prop -&gt;
+    
+    def options = (findProperty(&quot;android.packagingOptions.$prop&quot;) ?: &quot;&quot;).split(&quot;,&quot;);
+   
+    for (i in 0..&lt;options.size()) options[i] = options[i].trim();
+    // `[] - &quot;&quot;` is essentially `[&quot;&quot;].filter(Boolean)` removing all empty strings.
+    options -= &quot;&quot;
+
+    if (options.length &gt; 0) {
+        println &quot;android.packagingOptions.$prop += $options ($options.length)&quot;
+       
+        options.each {
+            android.packagingOptions[prop] += it
+        }
+    }
+}
+
+dependencies {
+    
+    implementation(&quot;com.facebook.react:react-android&quot;)
+    implementation 'com.github.mwiede:jsch:0.1.62'
+
+    def isGifEnabled = (findProperty('expo.gif.enabled') ?: &quot;&quot;) == &quot;true&quot;;
+    def isWebpEnabled = (findProperty('expo.webp.enabled') ?: &quot;&quot;) == &quot;true&quot;;
+    def isWebpAnimatedEnabled = (findProperty('expo.webp.animated') ?: &quot;&quot;) == &quot;true&quot;;
+    def frescoVersion = rootProject.ext.frescoVersion
+
+   
+    if (isGifEnabled || isWebpEnabled) {
+        implementation(&quot;com.facebook.fresco:fresco:${frescoVersion}&quot;)
+        implementation(&quot;com.facebook.fresco:imagepipeline-okhttp3:${frescoVersion}&quot;)
+    }
+
+    if (isGifEnabled) {
+       
+        implementation(&quot;com.facebook.fresco:animated-gif:${frescoVersion}&quot;)
+    }
+
+    if (isWebpEnabled) {
+       
+        implementation(&quot;com.facebook.fresco:webpsupport:${frescoVersion}&quot;)
+        if (isWebpAnimatedEnabled) {
+           
+            implementation(&quot;com.facebook.fresco:animated-webp:${frescoVersion}&quot;)
+        }
+    }
+
+    implementation(&quot;androidx.swiperefreshlayout:swiperefreshlayout:1.0.0&quot;)
+
+    debugImplementation(&quot;com.facebook.flipper:flipper:${FLIPPER_VERSION}&quot;)
+    debugImplementation(&quot;com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}&quot;) {
+        exclude group:'com.squareup.okhttp3', module:'okhttp'
+    }
+    debugImplementation(&quot;com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}&quot;)
+
+    if (hermesEnabled.toBoolean()) {
+        implementation(&quot;com.facebook.react:hermes-android&quot;)
+    } else {
+        implementation jscFlavor
+    }
+}
+
+apply from: new File([&quot;node&quot;, &quot;--print&quot;, &quot;require.resolve('@react-native-community/cli-platform-android/package.json')&quot;].execute(null, rootDir).text.trim(), &quot;../native_modules.gradle&quot;);
+applyNativeModulesAppBuildGradle(project)
+
+apply plugin: 'com.google.gms.google-services'
+</code></pre>
+",0,0,1,0
